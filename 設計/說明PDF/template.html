@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>底色 遊戲概念說明</title>
+<style>
+@font-face { font-family: "WB"; src: url("{{FONT_WB}}") format("opentype"); font-weight: 700; }
+@page { size: A4; margin: 0; }
+
+/* 版面：A4 直式，每頁固定 210×297mm；章節以胭脂方印標號，像戲園的水牌 */
+:root {
+  --paper: #f7f2f1;   /* 油彩白：底妝 */
+  --card: #fbf8f7;    /* 乾淨的卸妝布 */
+  --ink: #211c1f;     /* 墨：水牌、門、夜 */
+  --ink-2: #564d52;
+  --ink-3: #8b7f84;
+  --rouge: #a8243a;   /* 胭脂：戲台紅，也是漏出的顏色 */
+  --rouge-2: #ecd0d3;
+  --gold: #a8843a;    /* 金箔 */
+  --gold-2: #efe2c2;
+  --indigo: #2e4256;  /* 黛青：夜晚與家 */
+  --indigo-2: #d9e0e7;
+  --line: #ddd1d1;
+  --display: "WB", "Weibei TC", "Source Han Serif TC", serif;
+  --body: "Source Han Serif TC", "Songti TC", serif;
+  --hand: "Kaiti TC", "Source Han Serif TC", serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: var(--body); color: var(--ink); font-size: 10.7pt; line-height: 1.78; font-weight: 400; }
+p { margin: 0; }
+b, strong { font-weight: 700; }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; padding: 20mm 20mm 24mm; background: var(--paper); break-after: page; page-break-after: always; }
+.page:last-child { break-after: auto; page-break-after: auto; }
+@media screen {
+  body { background: #b9b0b2; }
+  .page { margin: 8mm auto; box-shadow: 0 2px 14px rgba(0,0,0,.18); }
+}
+
+/* 頁尾 */
+.foot { position: absolute; left: 20mm; right: 20mm; bottom: 11mm; display: flex; justify-content: space-between; align-items: baseline; font-size: 7.6pt; color: var(--ink-3); letter-spacing: .18em; border-top: .2mm solid var(--line); padding-top: 2mm; }
+.foot .pn { font-family: var(--display); font-size: 10pt; color: var(--ink-2); letter-spacing: .05em; }
+
+/* 章節標題 */
+.sec { display: flex; align-items: flex-end; gap: 5mm; margin-bottom: 7mm; padding-bottom: 4mm; border-bottom: .3mm solid var(--ink); position: relative; }
+.sec::after { content: ""; position: absolute; left: 0; bottom: -.9mm; width: 18mm; height: 1.5mm; background: var(--rouge); }
+.seal { flex: none; width: 12mm; min-height: 16mm; padding: 1.5mm 0; background: var(--rouge); color: var(--card); font-family: var(--display); font-size: 16pt; line-height: 1.05; writing-mode: vertical-rl; text-orientation: upright; display: flex; align-items: center; justify-content: center; letter-spacing: .05em; }
+.sec h2 { font-family: var(--display); font-weight: 700; font-size: 25pt; line-height: 1.15; margin: 0; letter-spacing: .06em; }
+.sec .sub { font-family: var(--hand); font-size: 11.5pt; color: var(--ink-2); margin-top: 1.2mm; letter-spacing: .02em; }
+
+h3 { font-family: var(--display); font-weight: 700; font-size: 13.5pt; margin: 0 0 2mm; letter-spacing: .05em; line-height: 1.3; }
+.lead { font-size: 12.8pt; line-height: 1.85; }
+.hand { font-family: var(--hand); letter-spacing: -.02em; }
+.muted { color: var(--ink-2); }
+.small { font-size: 9.2pt; line-height: 1.7; }
+.rouge { color: var(--rouge); }
+.gold { color: var(--gold); }
+.indigo { color: var(--indigo); }
+.stack > * + * { margin-top: 3.2mm; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; }
+
+/* 表格 */
+.tbl { width: 100%; border-collapse: collapse; font-size: 9.9pt; line-height: 1.6; }
+.tbl th { text-align: left; font-weight: 700; color: var(--ink-2); font-size: 8.4pt; letter-spacing: .12em; border-bottom: .35mm solid var(--ink); padding: 0 2.5mm 1.8mm; }
+.tbl td { border-bottom: .2mm solid var(--line); padding: 2.6mm 2.5mm; vertical-align: top; }
+.tbl td:first-child { font-weight: 700; white-space: nowrap; }
+.tbl.center td, .tbl.center th { text-align: center; }
+.tbl.tight td { padding: 1.7mm 2.5mm; }
+.tbl.center td:first-child, .tbl.center th:first-child { text-align: left; }
+
+/* 色塊與提示框 */
+.note { background: var(--card); border-left: 1.4mm solid var(--rouge); padding: 5mm 6mm; }
+.note.gold { border-left-color: var(--gold); color: inherit; }
+.note.indigo { border-left-color: var(--indigo); color: inherit; }
+.big-line { font-family: var(--display); font-size: 21pt; letter-spacing: .1em; text-align: center; padding: 10mm 0; }
+.kicker { font-size: 8pt; letter-spacing: .3em; color: var(--ink-3); }
+
+/* ── 封面 ── */
+.cover { padding: 0; }
+.cover-kicker { position: absolute; left: 22mm; top: 20mm; font-size: 8.5pt; letter-spacing: .5em; color: var(--ink-2); }
+.cover-art { position: absolute; left: 10mm; top: 34mm; width: 132mm; }
+.cover-art svg { width: 100%; height: auto; display: block; }
+.cover-board { position: absolute; right: 20mm; top: 30mm; width: 42mm; height: 176mm; background: var(--ink); color: var(--card); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 12mm 0 9mm; }
+.cover-board::before { content: ""; position: absolute; inset: 2.6mm; border: .3mm solid var(--gold); pointer-events: none; }
+.board-title { writing-mode: vertical-rl; font-family: var(--display); font-size: 84pt; line-height: 1; letter-spacing: .12em; }
+.board-sub { writing-mode: vertical-rl; font-family: var(--hand); font-size: 12pt; color: var(--gold-2); letter-spacing: .3em; }
+.cover-tag { position: absolute; left: 22mm; top: 222mm; font-family: var(--hand); font-size: 16.5pt; line-height: 1.75; letter-spacing: .02em; }
+.cover-tag .mark { color: var(--rouge); }
+.cover-meta { position: absolute; left: 22mm; right: 20mm; bottom: 18mm; display: flex; justify-content: space-between; font-size: 8.6pt; letter-spacing: .25em; color: var(--ink-2); border-top: .3mm solid var(--ink); padding-top: 3mm; }
+
+/* ── 開場與目錄 ── */
+.opening { margin-top: 28mm; padding-left: 8mm; border-left: 1.4mm solid var(--rouge); }
+.opening-q { font-family: var(--hand); font-size: 18.5pt; line-height: 1.85; letter-spacing: -.01em; }
+.opening-why { margin-top: 7mm; font-size: 10.5pt; color: var(--ink-2); max-width: 140mm; }
+.toc { margin-top: 26mm; }
+.toc-h { font-family: var(--display); font-size: 15pt; letter-spacing: .4em; margin-bottom: 4mm; }
+.toc-list { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 12mm; }
+.toc-list li { display: flex; align-items: baseline; gap: 3mm; padding: 3.3mm 0; border-bottom: .2mm solid var(--line); break-inside: avoid; }
+.toc-list .n { font-family: var(--display); color: var(--rouge); width: 9mm; flex: none; font-size: 11pt; }
+.toc-list .t { flex: 1; font-size: 10.5pt; }
+.toc-list .p { font-family: var(--display); color: var(--ink-3); font-size: 10pt; }
+
+/* ── 術語格 ── */
+.terms { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: .3mm solid var(--ink); }
+.term { padding: 6mm 5mm 6mm 0; border-bottom: .2mm solid var(--line); }
+.term:nth-child(odd) { padding-right: 6mm; border-right: .2mm solid var(--line); }
+.term:nth-child(even) { padding-left: 6mm; }
+.term .w { font-family: var(--display); font-size: 17pt; letter-spacing: .1em; }
+.term .eq { display: inline-block; margin-left: 2mm; font-size: 8.4pt; color: var(--rouge); letter-spacing: .1em; border: .25mm solid var(--rouge); padding: 0 1.6mm; vertical-align: middle; }
+
+/* ── 一天的時間軸 ── */
+.day { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin: 2mm 0 5mm; position: relative; }
+.day::before { content: ""; position: absolute; left: 6mm; right: 6mm; top: 5.2mm; height: .4mm; background: var(--ink); }
+.step { position: relative; padding: 0 2mm; }
+.step .dot { width: 10.5mm; height: 10.5mm; border-radius: 50%; background: var(--paper); border: .45mm solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 12pt; position: relative; z-index: 1; }
+.step.stage .dot { background: var(--gold); border-color: var(--gold); color: var(--card); }
+.step.home .dot { background: var(--indigo); border-color: var(--indigo); color: var(--card); }
+.step.night .dot { background: var(--ink); color: var(--card); }
+.step .nm { font-family: var(--display); font-size: 11.5pt; margin: 2.5mm 0 1mm; letter-spacing: .04em; line-height: 1.3; }
+.step .ds { font-size: 9pt; line-height: 1.6; color: var(--ink-2); }
+
+/* ── 人物卡 ── */
+.people { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.person { background: var(--card); padding: 5.5mm 6mm 6mm; position: relative; border-top: 1.4mm solid var(--indigo); }
+.person.work { border-top-color: var(--gold); }
+.person.night { border-top-color: var(--ink); grid-column: 1 / -1; }
+.person .nm { font-family: var(--display); font-size: 16pt; letter-spacing: .08em; }
+.person .role { font-size: 8.2pt; letter-spacing: .25em; color: var(--ink-3); margin-left: 2mm; }
+.person p { font-size: 9.9pt; line-height: 1.68; margin-top: 1.6mm; }
+.person .sig { display: grid; grid-template-columns: auto 1fr; column-gap: 2.5mm; row-gap: .6mm; margin-top: 2.4mm; font-size: 9.4pt; line-height: 1.62; }
+.person .sig dt { font-weight: 700; color: var(--ink-2); }
+.person .sig dd { margin: 0; }
+
+/* ── 四齣戲 ── */
+.acts { position: relative; padding-left: 0; }
+.act { display: grid; grid-template-columns: 30mm 1fr; gap: 6mm; padding: 6.4mm 0; border-bottom: .2mm solid var(--line); }
+.act:first-child { border-top: .3mm solid var(--ink); }
+.act .ttl { font-family: var(--display); }
+.act .no { font-size: 8.4pt; letter-spacing: .3em; color: var(--ink-3); display: block; }
+.act .nm { font-size: 24pt; letter-spacing: .12em; line-height: 1.25; }
+.act .clash { margin-top: 1.6mm; font-size: 8.6pt; color: var(--rouge); letter-spacing: .05em; }
+.feel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin-top: 10mm; }
+.feel div { border-top: .9mm solid var(--ink); padding-top: 2.5mm; font-size: 9.6pt; line-height: 1.68; }
+.feel div:nth-child(2) { border-top-color: var(--ink-3); }
+.feel div:nth-child(3) { border-top-color: var(--rouge); }
+.feel div:nth-child(4) { border-top-color: var(--indigo); }
+.feel b { display: block; font-family: var(--display); font-weight: 700; font-size: 11pt; margin-bottom: .8mm; }
+
+/* ── 結局矩陣 ── */
+.matrix { display: grid; grid-template-columns: 16mm 1fr 1fr; grid-template-rows: 9mm 1fr 1fr; gap: 3mm; height: 184mm; }
+.matrix .ax { font-size: 8.6pt; letter-spacing: .25em; color: var(--ink-2); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.matrix .ax.row { writing-mode: vertical-rl; }
+.ending { padding: 5mm 5.5mm; position: relative; display: flex; flex-direction: column; }
+.ending .nm { font-family: var(--display); font-size: 25pt; letter-spacing: .14em; line-height: 1.2; }
+.ending .cond { font-size: 8.8pt; letter-spacing: .12em; margin: 1mm 0 3mm; opacity: .8; }
+.ending .scene { font-family: var(--hand); font-size: 12.6pt; line-height: 1.75; }
+.ending .mean { margin-top: auto; padding-top: 3mm; font-size: 9.4pt; line-height: 1.6; }
+.e-liubai { background: var(--card); border: .3mm solid var(--line); }
+.e-suian { background: var(--indigo-2); }
+.e-toupai { background: var(--gold-2); }
+.e-gengfu { background: var(--ink); color: var(--card); }
+.e-gengfu .mean { color: var(--gold-2); }
+
+/* ── 更夫 ── */
+.watch { display: grid; grid-template-columns: 1fr; gap: 0; border-top: .3mm solid var(--ink); }
+.watch .row { display: grid; grid-template-columns: 16mm 1fr; gap: 5mm; padding: 6.6mm 0; border-bottom: .2mm solid var(--line); align-items: start; }
+.watch .hr { font-family: var(--display); font-size: 13pt; color: var(--rouge); writing-mode: vertical-rl; letter-spacing: .2em; justify-self: center; }
+.watch .line { font-family: var(--hand); font-size: 16.5pt; line-height: 1.6; letter-spacing: -.01em; }
+.watch .read { font-size: 9.9pt; color: var(--ink-2); margin-top: 1.4mm; }
+.watch .read::before { content: "→ "; color: var(--rouge); }
+
+/* ── 揭曉 ── */
+.reveal-steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 3.4mm; }
+.reveal-steps li { display: grid; grid-template-columns: 9mm 1fr; gap: 3mm; font-size: 9.9pt; line-height: 1.68; }
+.reveal-steps li::before { counter-increment: s; content: counter(s); font-family: var(--display); font-size: 13pt; color: var(--card); background: var(--rouge); width: 7mm; height: 7mm; display: flex; align-items: center; justify-content: center; margin-top: .4mm; }
+.reveal-steps b { font-family: var(--display); font-weight: 700; font-size: 11pt; letter-spacing: .04em; }
+.cloth-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 5mm; }
+.cloth-wrap figure { margin: 0; }
+.cloth-wrap figcaption { font-family: var(--display); font-size: 11pt; letter-spacing: .2em; margin-bottom: 1.5mm; }
+.cloth-wrap svg { width: 100%; height: auto; display: block; }
+.legend { display: flex; gap: 6mm; flex-wrap: wrap; font-size: 8.9pt; color: var(--ink-2); margin-top: 2.5mm; }
+.legend span { display: inline-flex; align-items: center; gap: 1.6mm; }
+.legend i { display: inline-block; width: 4mm; height: 4mm; }
+.legend .c { background: var(--card); border: .25mm solid var(--ink-3); }
+.legend .s { background: linear-gradient(135deg, var(--card) 35%, var(--rouge) 36%, var(--rouge) 70%, var(--gold) 71%); border: .25mm solid var(--ink-3); }
+.legend .e { border: .3mm dashed var(--ink-3); }
+
+/* ── 圖表 ── */
+.chart svg { width: 100%; height: auto; display: block; }
+.findings { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm 8mm; margin-top: 9mm; }
+.findings div { font-size: 9.9pt; line-height: 1.7; }
+.findings b { display: block; font-family: var(--display); font-weight: 700; font-size: 11.5pt; margin-bottom: .8mm; letter-spacing: .03em; }
+.findings .k { color: var(--rouge); font-family: var(--display); margin-right: 1.5mm; }
+
+/* ── 支柱 ── */
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm 7mm; }
+.pillar { border-top: .9mm solid var(--ink); padding-top: 3mm; }
+.pillar .nm { font-family: var(--display); font-size: 15pt; letter-spacing: .08em; }
+.pillar p { font-size: 10pt; margin-top: 1.5mm; }
+.pillar .test { margin-top: 2.5mm; font-size: 9.4pt; color: var(--ink-2); padding-left: 3mm; border-left: .6mm solid var(--rouge); }
+.nots { margin-top: 12mm; background: var(--ink); color: var(--card); padding: 8mm 8mm; }
+.nots h3 { color: var(--gold-2); }
+.nots ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5mm 8mm; }
+.nots li { font-size: 9.7pt; line-height: 1.65; }
+.nots li b { display: block; font-family: var(--display); font-weight: 700; font-size: 11.5pt; letter-spacing: .06em; color: var(--card); }
+
+/* ── 美術 ── */
+.chips svg { width: 100%; height: auto; display: block; }
+.type-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; margin-top: 2mm; }
+.type-row div { background: var(--card); padding: 4mm; }
+.type-row .s1 { font-family: var(--display); font-size: 22pt; line-height: 1.2; }
+.type-row .s2 { font-family: var(--body); font-size: 15pt; line-height: 1.45; }
+.type-row .s3 { font-family: var(--hand); font-size: 17pt; line-height: 1.4; }
+.type-row small { display: block; font-size: 8.8pt; color: var(--ink-2); margin-top: 1.5mm; letter-spacing: .05em; }
+
+/* ── 進度 ── */
+.done li, .next li { font-size: 10pt; line-height: 1.68; margin-bottom: 2mm; }
+.done { list-style: none; padding: 0; margin: 0; }
+.done li { padding-left: 6mm; position: relative; }
+.done li::before { content: ""; position: absolute; left: 0; top: 1.9mm; width: 3mm; height: 3mm; background: var(--indigo); }
+.next { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+.next li { padding-left: 8mm; position: relative; }
+.next li::before { counter-increment: n; content: counter(n); position: absolute; left: 0; top: 0; font-family: var(--display); color: var(--rouge); font-size: 12pt; }
+.closing { position: absolute; left: 20mm; right: 20mm; bottom: 30mm; text-align: center; font-family: var(--hand); font-size: 17pt; letter-spacing: .04em; }
+.closing small { display: block; font-family: var(--body); font-size: 8pt; letter-spacing: .4em; color: var(--ink-3); margin-top: 2mm; }
+</style>
+</head>
+<body>
+
+<!-- 01 封面 -->
+<section class="page cover">
+  <div class="cover-kicker">遊戲概念說明</div>
+  <div class="cover-art">{{COVER}}</div>
+  <div class="cover-board">
+    <div class="board-title">底色</div>
+    <div class="board-sub">一款策略卡牌遊戲</div>
+  </div>
+  <p class="cover-tag">最上面那層妝，決定你得到什麼；<br>最底下那層，<span class="mark">決定你傷害誰。</span></p>
+  <div class="cover-meta"><span>功績主義如何滲進親密關係</span><span>二〇二六年十月　概念階段</span></div>
+</section>
+
+<!-- 02 開場與目錄 -->
+<section class="page">
+  <div class="opening">
+    <p class="opening-q">在一座人人每天上妝演戲的城裡，你是正往上爬的角兒。臉上的油彩一層疊一層，最底下那層，總在你最不想讓人看見的地方透出來。</p>
+    <p class="opening-why">「底色」是畫畫時最底下那層顏色。這款遊戲問的是：你所有的妝底下，真正的你是什麼顏色？</p>
+  </div>
+  <div class="toc">
+    <div class="toc-h">目錄</div>
+    <ol class="toc-list">
+      <li><span class="n">一</span><span class="t">這是一款什麼遊戲</span><span class="p">03</span></li>
+      <li><span class="n">二</span><span class="t">戲城與你</span><span class="p">04</span></li>
+      <li><span class="n">三</span><span class="t">規則就是戲妝</span><span class="p">05</span></li>
+      <li><span class="n">四</span><span class="t">一條核心規則</span><span class="p">06</span></li>
+      <li><span class="n">五</span><span class="t">一天怎麼過</span><span class="p">07</span></li>
+      <li><span class="n">六</span><span class="t">身邊的人</span><span class="p">08</span></li>
+      <li><span class="n">七</span><span class="t">四齣戲</span><span class="p">09</span></li>
+      <li><span class="n">八</span><span class="t">四種結局</span><span class="p">10</span></li>
+      <li><span class="n">九</span><span class="t">更夫報更</span><span class="p">11</span></li>
+      <li><span class="n">十</span><span class="t">最後的揭曉</span><span class="p">12</span></li>
+      <li><span class="n">十一</span><span class="t">批判從機制裡長出來</span><span class="p">13</span></li>
+      <li><span class="n">十二</span><span class="t">設計支柱</span><span class="p">14</span></li>
+      <li><span class="n">十三</span><span class="t">美術方向</span><span class="p">15</span></li>
+      <li><span class="n">十四</span><span class="t">進度與下一步</span><span class="p">16</span></li>
+    </ol>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">02</span></div>
+</section>
+
+<!-- 03 一、這是一款什麼遊戲 -->
+<section class="page">
+  <header class="sec"><div class="seal">一</div><div><h2>這是一款什麼遊戲</h2><div class="sub">一座戲城，兩本賬，一個想往上爬的人</div></div></header>
+  <p class="lead">這是一款單人策略卡牌遊戲。你在戲台、母親和伴侶之間換妝、搶時間、衝名次。名次是公開的，家人和伴侶的心情是隱藏的，要等你贏了才翻開。</p>
+
+  <div class="grid3" style="margin-top:11mm">
+    <div class="stack">
+      <h3>想談的問題</h3>
+      <p>功績主義怎麼被我們帶回家。很多人在工作上被量化慣了，回到家也用同一套方式對待家人：講求效率、只做到及格、把陪伴當成待辦事項。</p>
+    </div>
+    <div class="stack">
+      <h3>怎麼談</h3>
+      <p>不說教，遊戲裡沒有一句話評價玩家。玩家越想有效率，就越會省掉「卸妝」這一步，而最有效率的打法，本身就會傷人。我們把這叫做<b>「批判只能從機制裡長出來」</b>。</p>
+    </div>
+    <div class="stack">
+      <h3>兩本賬</h3>
+      <p><b class="gold">金箔</b>（名次）公開，全城都看得到。<b class="rouge">卸妝布</b>（家人和伴侶的安心）藏起來，玩家只能從兩個模糊的訊號感覺到它，直到結局才翻開。</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:13mm">基本資料</h3>
+  <table class="tbl">
+    <tr><td>類型</td><td>單人策略卡牌，加上由玩家行為長出來的故事</td></tr>
+    <tr><td>平台</td><td>先做網頁版；規則保留回到實體桌遊加 App 的可能</td></tr>
+    <tr><td>長度</td><td>一齣戲（一週）約 30 到 60 分鐘，全劇四齣</td></tr>
+    <tr><td>對象</td><td>工作被量化、又夾在家人和伴侶之間的年輕上班族；喜歡策略與經營遊戲的玩家最容易掉進陷阱</td></tr>
+    <tr><td>參考作品</td><td>《Papers, Please》的工作節奏與每晚結算；《Florence》用操作手感表達關係；《Frostpunk》的結局回放</td></tr>
+  </table>
+
+  <div class="note indigo" style="margin-top:13mm">
+    <p class="small"><b>這個專案怎麼來的。</b>最初是一個「實體桌遊結合電子端」的構想：桌上用實體面具疊放，隱藏的那本賬交給電子端保管。為了先驗證核心玩法，現階段先做電腦網頁的單人版，規則仍保持能在桌上玩的簡潔度。</p>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">03</span></div>
+</section>
+
+<!-- 04 二、戲城與你 -->
+<section class="page">
+  <header class="sec"><div class="seal">二</div><div><h2>戲城與你</h2><div class="sub">一座不標年代的城，城中央的大戲台從不落幕</div></div></header>
+  <p class="lead">全城都靠戲台吃飯。城裡有四件事，決定了每個人的一生：</p>
+
+  <div class="terms" style="margin-top:6mm">
+    <div class="term"><div class="w">金箔<span class="eq">＝業績</span></div><p>觀眾叫好，叫好聲落下來變成金箔。散戲後，班主把台上的金箔掃起來秤重。</p></div>
+    <div class="term"><div class="w">水牌<span class="eq">＝排行榜</span></div><p>戲園門口寫演員名字的牌子。每天依金箔重量重寫，名字掛得越高越紅，路過的人都看得到。</p></div>
+    <div class="term"><div class="w">摘牌<span class="eq">＝被淘汰</span></div><p>季末水牌大改一次，掉下去就叫「摘牌」。</p></div>
+    <div class="term"><div class="w">上妝<span class="eq">＝面具</span></div><p>出門一定要上妝。要給誰看，就畫給誰看的那張臉。</p></div>
+  </div>
+
+  <p class="big-line">家裡沒有金箔，只有人。</p>
+
+  <div class="grid2" style="grid-template-columns: 1.15fr 1fr; gap: 9mm">
+    <div class="stack">
+      <h3>你是誰</h3>
+      <p>你小時候被母親送進戲班，現在唱<b>「二路」</b>，也就是第二線的角色，離<b>「頭牌」</b>（最紅的主角）只差一步。</p>
+      <p>開場由你自己選行當：生（男角）、旦（女角）、淨（花臉）、丑（丑角），也可以反串，演和自己性別相反的角色。遊戲不替你決定你是誰。</p>
+    </div>
+    <div class="stack">
+      <div class="note gold"><p><b>你想要：</b>把名字寫上水牌的最高處。</p></div>
+      <div class="note"><p><b>你害怕：</b>被摘牌；更怕哪天卸完妝，才發現底下已經沒有自己的臉了。</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">04</span></div>
+</section>
+
+<!-- 05 三、規則就是戲妝 -->
+<section class="page">
+  <header class="sec"><div class="seal">三</div><div><h2>規則就是戲妝</h2><div class="sub">每一條規則，在戲城裡都是一個看得見的動作</div></div></header>
+  <table class="tbl">
+    <tr><th style="width:36mm">遊戲規則</th><th>在戲城裡</th></tr>
+    <tr><td>戴面具</td><td>上妝。你有三張臉：戲台上的、給母親看的乖臉、只給阿檀看的臉</td></tr>
+    <tr><td>面具疊起來</td><td>油彩一層疊一層。畫面中央就是你的臉，會越畫越厚</td></tr>
+    <tr><td>漏出</td><td>底色透上來。母親看見你髮際線有一抹戲台紅；你在飯桌上對阿檀擺出台上的身段，窗外還真有鄰居叫好、落下一片金箔</td></tr>
+    <tr><td>卸下面具</td><td>卸妝。自己卸要花時間</td></tr>
+    <tr><td>在安心的人面前<br>卸下免費</td><td>對方接過熱毛巾，替你擦臉，一下就好</td></tr>
+    <tr><td>不卸就睡</td><td>帶妝睡。油彩乾在臉上，醒來時最底下那層已經和皮膚長在一起</td></tr>
+    <tr><td>每天的時間</td><td>枕邊一炷香。燒多久，今天就有多長；沒人解釋為什麼有時長、有時短</td></tr>
+    <tr><td>績效（公開）</td><td>金箔重量和水牌名次，全城都看得到</td></tr>
+    <tr><td>關係（隱藏）</td><td>他們替你卸妝用過的布，默默收著，你看不到</td></tr>
+    <tr><td>關係崩盤</td><td>對方開門看著你：「你找誰？」那扇門從此變成一片畫上去的布景，再也推不開</td></tr>
+    <tr><td>每晚回放</td><td>更夫打更經過窗下，報的不是時辰，是你今天做了什麼</td></tr>
+  </table>
+  <div class="note" style="margin-top:8mm">
+    <h3>最關鍵的一個畫面</h3>
+    <p>對方願意替你擦臉，代表他還安心。哪天他不再伸手，你不用看任何數字，就知道出事了。規則裡最難察覺的一條，變成了一個人人都看得懂的動作。</p>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">05</span></div>
+</section>
+
+<!-- 06 四、一條核心規則 -->
+<section class="page">
+  <header class="sec"><div class="seal">四</div><div><h2>一條核心規則</h2><div class="sub">整個遊戲只靠這一條規則運轉</div></div></header>
+  <p class="hand" style="font-size:17pt; line-height:1.7; margin-bottom:6mm">臉上不止一層妝時，最底下那層如果不屬於眼前這一場，<span class="rouge" style="white-space:nowrap">就會透出來。</span></p>
+  <div class="chart">{{STACK}}</div>
+
+  <h3 style="margin-top:7mm">透出來的代價，刻意不對稱</h3>
+  <table class="tbl center">
+    <tr><th>最底層＼眼前這一場</th><th>戲台</th><th>母親</th><th>阿檀</th></tr>
+    <tr><td>戲台臉</td><td>—</td><td><span class="gold">金箔 +1</span>；母親 −2；這次陪伴打折</td><td><span class="gold">金箔 +1</span>；阿檀 −2；這次陪伴打折</td></tr>
+    <tr><td>乖臉</td><td>金箔 −1</td><td>—</td><td>阿檀 −1</td></tr>
+    <tr><td>阿檀的臉</td><td>金箔 −2</td><td>母親 −1</td><td>—</td></tr>
+  </table>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="note"><p><b>戲台紅透進家裡：</b>金箔還多給你一點，對方的安心掉了，而你看不到。<br><b>家裡的臉透上戲台：</b>直接扣金箔，你當場就看到。<br>結果是，不用任何提示，玩家自然會把戲台臉留在最底層。批判就是從這裡長出來的。</p></div>
+    <div class="note indigo"><p><b>你只有兩個模糊的訊號：</b><br>一、<b>香的長短</b>：今天的香變短了，代表有人不安心了，但不知道是誰。<br>二、<b>卸妝要不要時間</b>：上週對方還會替你擦臉，現在得自己卸。</p></div>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">06</span></div>
+</section>
+
+<!-- 07 五、一天怎麼過 -->
+<section class="page">
+  <header class="sec"><div class="seal">五</div><div><h2>一天怎麼過</h2><div class="sub">一寸光陰一寸金：在戲城，這句話是字面意思</div></div></header>
+  <div class="day">
+    <div class="step"><div class="dot">晨</div><div class="nm">點香</div><div class="ds">枕邊的香有 6 到 8 寸，每做一件事燒掉一寸。安心的人越多，香越長。</div></div>
+    <div class="step stage"><div class="dot">台</div><div class="nm">戲台</div><div class="ds">至少唱 3 寸，最多 5 寸。每唱一寸，金箔 +2。</div></div>
+    <div class="step home"><div class="dot">母</div><div class="nm">豆花攤</div><div class="ds">換上乖臉陪母親：第一寸安心 +2，之後每寸 +1。沒陪她，安心 −1。</div></div>
+    <div class="step home"><div class="dot">檀</div><div class="nm">燈坊</div><div class="ds">換上只給阿檀的臉陪阿檀，規則同上。</div></div>
+    <div class="step night"><div class="dot">寢</div><div class="nm">睡前</div><div class="ds">可以把妝全部卸乾淨。不卸就帶妝睡，醒來最底下那層還在臉上。</div></div>
+    <div class="step night"><div class="dot">更</div><div class="nm">更夫報更</div><div class="ds">窗外一句話，說你今天做了什麼。</div></div>
+  </div>
+
+  <h3>換妝的規則</h3>
+  <table class="tbl">
+    <tr><td>上妝</td><td>不花香。每一場最多上一張，上了就要用。</td></tr>
+    <tr><td>卸妝</td><td>一次一層，只能從最上面卸，每層燒一寸香。在安心的人面前，對方替你擦，不花香；戲台後台永遠沒人替你擦。</td></tr>
+    <tr><td>做事</td><td>只能用最上面那張臉做事。戲台臉到哪裡都能用：回到家還戴著它，也能對鏡練戲賺金箔，但對方每次 −1。陪伴卻只能在對方面前，用對方的那張臉。</td></tr>
+    <tr><td>安心</td><td>從 5 開始，範圍 0 到 10，玩家看不到。5 以上算安心；掉到 0，對方開門問「你找誰？」，那一場從此消失。</td></tr>
+  </table>
+
+  <h3 style="margin-top:6mm">同一天，兩種過法</h3>
+  <p class="small muted" style="margin-bottom:2mm">開局第一天，香有 8 寸，母親和阿檀的安心都是 5。兩種做法都在戲台唱 5 寸，晚上各陪一寸。</p>
+  <table class="tbl center tight">
+    <tr><th></th><th>省掉卸妝</th><th>每次都卸</th></tr>
+    <tr><td>怎麼做</td><td>直接把下一張臉疊上去，睡前也不卸</td><td>每換一處先卸乾淨（對方安心，所以免費）</td></tr>
+    <tr><td>金箔（看得到）</td><td><b class="gold">12</b>　戲台臉透出兩次，各 +1</td><td>10</td></tr>
+    <tr><td>母親（看不到）</td><td class="rouge">5 → 4</td><td>5 → 7</td></tr>
+    <tr><td>阿檀（看不到）</td><td class="rouge">5 → 4</td><td>5 → 7</td></tr>
+    <tr><td>隔天的香</td><td class="rouge">6 寸，醒來臉上還有戲台妝</td><td>8 寸，素著臉醒來</td></tr>
+  </table>
+  <div class="note gold" style="margin-top:5mm">
+    <p class="small"><b>為什麼省略卸妝這麼誘人：</b>玩家當下只看到多了 2 片金箔，代價藏在另一本賬裡，要到隔天香變短才隱約感覺到。而且前幾天對方都安心，卸妝本來就免費，這個習慣養成得毫無代價。</p>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">07</span></div>
+</section>
+
+<!-- 08 六、身邊的人 -->
+<section class="page">
+  <header class="sec"><div class="seal">六</div><div><h2>身邊的人</h2><div class="sub">沒有壞人。每個人都有自己的妝，也有自己的生活</div></div></header>
+  <div class="people">
+    <div class="person">
+      <div><span class="nm">素娘</span><span class="role">母親</span></div>
+      <p>在街口賣豆花，年輕時在戲班跑過龍套。說自己從不化妝，其實每天都畫一層薄薄的「不累」。</p>
+      <dl class="sig">
+        <dt>好的時候</dt><dd>拿熱毛巾替你擦臉，再多舀一碗豆花給你。</dd>
+        <dt>不好的時候</dt><dd>毛巾留在桌上，她背過身去洗碗。</dd>
+        <dt>她自己的戲</dt><dd>想被邀去看你唱一場，但從不開口；偷偷加入業餘戲社，要演一場沒有金箔的戲。</dd>
+      </dl>
+    </div>
+    <div class="person">
+      <div><span class="nm">阿檀</span><span class="role">伴侶</span></div>
+      <p>糊燈籠的手藝人，不靠戲台吃飯，賺得少。嘴上說不在乎，鄰居議論時還是會難受。</p>
+      <dl class="sig">
+        <dt>好的時候</dt><dd>一邊替你卸妝，一邊說燈做到哪了。</dd>
+        <dt>不好的時候</dt><dd>你回家時阿檀已經睡了，燈的骨架擺在桌上，紙還沒糊。</dd>
+        <dt>自己的戲</dt><dd>一盞元宵要放的大燈。燈做到哪，你們大概就走到哪。</dd>
+      </dl>
+    </div>
+    <div class="person work">
+      <div><span class="nm">魏老闆</span><span class="role">班主</span></div>
+      <p>當年的頭牌，臉上的妝已經卸不掉了，因為幾十年沒有人替他擦過。他獎勵散戲後留下來對戲的人，說的每句話都有道理。</p>
+      <p>他就是你一路衝到底之後的樣子。第四齣戲時，他半夜來敲你的門，問你會不會卸妝。</p>
+    </div>
+    <div class="person work">
+      <div><span class="nm">小鳳</span><span class="role">師姊</span></div>
+      <p>天分比你好，和你搶同一個位子，賺到的金箔全拿去給病重的弟弟買藥。</p>
+      <p>水牌上的位置有限：你爬上去，她就得掉下來。你前面怎麼做，決定她最後還剩幾條路。</p>
+    </div>
+    <div class="person night">
+      <div><span class="nm">更夫</span><span class="role">報更的人</span></div>
+      <p>全城唯一不上妝的人，小孩都怕他。每晚經過你的窗下，報的不是時辰，是你今天的回放。這個人是怎麼變成更夫的，要走到其中一個結局才會知道。</p>
+    </div>
+  </div>
+  <div class="legend" style="margin-top:5mm">
+    <span><i style="background:var(--indigo)"></i>家裡的人：藏在另一本賬裡</span>
+    <span><i style="background:var(--gold)"></i>戲台上的人：和金箔綁在一起</span>
+    <span><i style="background:var(--ink)"></i>夜裡的人：替你說出今天</span>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">08</span></div>
+</section>
+
+<!-- 09 七、四齣戲 -->
+<section class="page">
+  <header class="sec"><div class="seal">七</div><div><h2>四齣戲</h2><div class="sub">一個戲季，一齣一週，季末是元宵</div></div></header>
+  <p style="margin-bottom:5mm">水牌的及格線一齣比一齣高。四週裡所有狀態都會延續下去：關係、還沒卸的妝、離開的人。</p>
+  <div class="acts">
+    <div class="act"><div class="ttl"><span class="no">第一齣</span><span class="nm">開鑼</span></div><div><p>你剛升上二路，學怎麼上妝、怎麼卸妝。壓力最小，香最長，對方都還會替你擦臉。</p><p class="clash">教學週：先讓你感受到一切順暢是什麼樣子</p></div></div>
+    <div class="act"><div class="ttl"><span class="no">第二齣</span><span class="nm">借妝</span></div><div><p>小鳳病倒，你得替她加演夜場，戲台的時間一下變多。同一週是母親的生日。</p><p class="clash">戲台與家第一次正面撞上</p></div></div>
+    <div class="act"><div class="ttl"><span class="no">第三齣</span><span class="nm">對鏡</span></div><div><p>班主要選新的頭牌，這是你最大的機會。阿檀的燈只剩糊紙這一步；母親第一次說，她在排戲。「對鏡」就是照鏡子，你得看清楚自己。</p><p class="clash">最大的機會，和最需要你的人，在同一週</p></div></div>
+    <div class="act"><div class="ttl"><span class="no">第四齣</span><span class="nm">元宵</span></div><div><p>最後一場戲、母親的業餘首演、阿檀放燈，全撞在同一晚。</p><p class="clash">你只有一個晚上，只能選</p></div></div>
+  </div>
+
+  <h3 style="margin-top:9mm">玩家一路上會感受到什麼</h3>
+  <div class="feel">
+    <div><b>開頭</b>勝任，而且溫暖。發現「疊著妝能省時間」，有點得意。</div>
+    <div><b>中段</b>鞋裡的小石頭。香變短了，卸妝開始要花時間，但名次還在漲。「元宵再補吧。」</div>
+    <div><b>元宵</b>所有事撞在同一晚，只能選一個。</div>
+    <div><b>揭曉之後</b>不是內疚，而是認出自己。</div>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">09</span></div>
+</section>
+
+<!-- 10 八、四種結局 -->
+<section class="page">
+  <header class="sec"><div class="seal">八</div><div><h2>四種結局</h2><div class="sub">由季末的狀態算出來，不靠選項分支</div></div></header>
+  <div class="matrix">
+    <div></div>
+    <div class="ax">名次過線</div>
+    <div class="ax">名次沒過線</div>
+    <div class="ax row">關係守住</div>
+    <div class="ending e-liubai">
+      <div class="nm">留白</div><div class="cond">過線，兩段關係都守住</div>
+      <p class="scene">元宵夜回家，有人伸手接過你的毛巾。</p>
+      <p class="mean">「留白」是畫裡刻意不畫的空白。最好的結局很安靜，不放煙火。</p>
+    </div>
+    <div class="ending e-suian">
+      <div class="nm">素臉</div><div class="cond">沒過線，至少守住一段關係</div>
+      <p class="scene">你被摘牌了，素著臉坐在業餘戲社台下看母親唱戲。散場時，她認出了你。</p>
+      <p class="mean">輸了排行榜，終於用自己的臉見她。</p>
+    </div>
+    <div class="ax row">關係斷了</div>
+    <div class="ending e-toupai">
+      <div class="nm">頭牌</div><div class="cond">過線，兩段關係都斷了</div>
+      <p class="scene">名字掛上最高處。回到家，母親開門：「你找誰？」你對著鏡子擦臉，露出來的是戲台上那張。</p>
+      <p class="mean">你贏了，但台上那張臉已經變成你的底色。</p>
+    </div>
+    <div class="ending e-gengfu">
+      <div class="nm">更夫</div><div class="cond">沒過線，兩段關係都斷了</div>
+      <p class="scene">春天，城裡多了一個不上妝的更夫。你接過梆子，發現上面刻著一長串名字。</p>
+      <p class="mean">那些名字，都是之前的更夫。最常走到這裡的，是每晚都回家、卻從不卸妝的人。</p>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:5mm">介於之間的情況，由每個人的狀態組合出不同的收尾段落。遊戲沒有 Game Over：名次輸了，戲還是會唱完；只有關係斷了，是回不來的。</p>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">10</span></div>
+</section>
+
+<!-- 11 九、更夫報更 -->
+<section class="page">
+  <header class="sec"><div class="seal">九</div><div><h2>更夫報更</h2><div class="sub">每晚一句話，不說數字，也不說誰難過</div></div></header>
+  <p style="margin-bottom:6mm">每晚睡前，更夫經過你的窗下，說一句話。只描述一個小畫面，你得自己聽懂。</p>
+  <div class="watch">
+    <div class="row"><div class="hr">二更</div><div><p class="line">二更天，有戶人家的熱毛巾，在桌上放涼了。</p><p class="read">有人等著替你擦臉，你沒讓他擦。</p></div></div>
+    <div class="row"><div class="hr">三更</div><div><p class="line">三更天，有人帶著戲臉睡了，枕頭一片紅。</p><p class="read">你沒卸妝就睡了，台上那張臉還在。</p></div></div>
+    <div class="row"><div class="hr">四更</div><div><p class="line">四更天，賣豆花的說，今天看見孩子小時候的臉。</p><p class="read">好的一晚：你在母親面前是你自己。</p></div></div>
+    <div class="row"><div class="hr">五更</div><div><p class="line">五更天，糊燈的人等到燈油都乾了。</p><p class="read">阿檀等了你一整晚。</p></div></div>
+  </div>
+
+  <h3 style="margin-top:8mm">更夫說話的規矩</h3>
+  <div class="grid3">
+    <div class="note indigo"><p class="small"><b>只說看見的。</b>只描述你的行為和場景細節，不寫情緒，不出現數字。</p></div>
+    <div class="note indigo"><p class="small"><b>重複會變短。</b>同一件事第三次發生，句子會變短：「又是戲臉。」重複本身就是訊號。</p></div>
+    <div class="note indigo"><p class="small"><b>算計也看得見。</b>如果你每次都在對方快撐不住時才回來，更夫只說：「有人每次回來，都剛好在對方快要放棄的那天。」</p></div>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">11</span></div>
+</section>
+
+<!-- 12 十、最後的揭曉 -->
+<section class="page">
+  <header class="sec"><div class="seal">十</div><div><h2>最後的揭曉</h2><div class="sub">整個遊戲最關鍵的時刻，沒有一句評語</div></div></header>
+  <ol class="reveal-steps">
+    <li><div><b>先讓你贏。</b>季末，全城圍在戲園門口看水牌重寫，你的名次當眾揭曉。過線的話，鑼鼓、金箔、喝采，一樣都不少。</div></li>
+    <li><div><b>親手卸下最後一張臉。</b>人散了，你走回家，桌上擺著兩個木匣，一個是母親的，一個是阿檀的。要打開它們，你得先親手卸下臉上的戲台妝，也就是這四週一直省掉的那個動作。</div></li>
+    <li><div><b>攤開卸妝布。</b>四週來他們替你卸妝用過的布，按日子攤滿一地。</div></li>
+    <li><div><b>每塊布旁邊一行小字。</b>寫著你當時看到的訊號，例如「第三齣週三，香只有七寸；卸妝要一寸。你選了直接上妝。」這行字把「遊戲騙我」變成「我當時知道」。</div></li>
+    <li><div><b>水牌翻到背面。</b>浮出兩行字，是你的另一本賬。窗外，更夫報最後一更，喊的是你的小名。</div></li>
+  </ol>
+  <div class="cloth-wrap">
+    <figure><figcaption>母親的木匣<span class="small muted">（示意）</span></figcaption>{{CLOTH_MOTHER}}</figure>
+    <figure><figcaption>阿檀的木匣<span class="small muted">（示意）</span></figcaption>{{CLOTH_TAN}}</figure>
+  </div>
+  <div class="legend">
+    <span><i class="c"></i>乾淨的布：那天你只帶著該帶的臉回家</span>
+    <span><i class="s"></i>沾紅帶金：你把戲台那張臉帶回了家</span>
+    <span><i class="e"></i>空著：那天他們沒有伸手</span>
+  </div>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="note"><p class="small"><b>揭曉不做的事：</b>不打分數、不附標準答案、不寫判詞。想知道「最好的走法」的玩家，可以自己去日記裡找。</p></div>
+    <div class="note gold"><p class="small"><b>怎麼知道做對了：</b>聽玩家揭曉後說的第一句話。「我被騙了」或「下次我要全部拿滿」都算失敗；「其實那時候我就知道了」才算成功。</p></div>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">12</span></div>
+</section>
+
+<!-- 13 十一、批判從機制裡長出來 -->
+<section class="page">
+  <header class="sec"><div class="seal">十一</div><div><h2>批判從機制裡長出來</h2><div class="sub">用程式窮舉一週裡所有可能的走法，檢查規則會不會自己說出想說的話</div></div></header>
+  <div class="chart">{{CHART}}</div>
+  <p class="small muted" style="margin-top:2mm">數據來源：v0.1 規則，一週五天，以動態規劃窮舉每一種換妝與行動組合；「最會算」指在完美資訊下，限制季末關係下限時能拿到的最高金箔。</p>
+  <div class="findings">
+    <div><b><span class="k">一</span>最會算的打法會傷人</b>不管關係，最多拿 68 片金箔，母親和阿檀都歸零。它把關係當存款提領，最後幾天全部掏空，像年底衝業績。</div>
+    <div><b><span class="k">二</span>只顧名次並不是最好</b>只算金箔拿 60 片，輸給照顧關係的 63 片。關係在規則上真的有用（香變長、卸妝免費），所以這是一個真的遊戲，不是說教。</div>
+    <div><b><span class="k">三</span>「陪但不卸」是最大的陷阱</b>每晚都回家，卻從不卸妝：時間花了，關係照樣歸零，金箔還比只算金箔少 8 片。人在心不在的陪伴，在規則上等於沒陪。</div>
+    <div><b><span class="k">四</span>會算的人把愛當成維護排程</b>想保住兩段關係的最優解，會讓兩邊輪流被犧牲：今天好好陪母親，晚上在阿檀面前練戲；每段一碰到及格線就補回來。</div>
+  </div>
+  <div class="note indigo" style="margin-top:6mm"><p class="small">在完美資訊下，60 片金箔和兩段好關係可以兼得。但玩家看不到另一本賬，只能憑香的長短和卸妝的代價去猜，很容易落進陷阱。這正是隱藏的那本賬存在的理由。</p></div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">13</span></div>
+</section>
+
+<!-- 14 十二、設計支柱 -->
+<section class="page">
+  <header class="sec"><div class="seal">十二</div><div><h2>設計支柱</h2><div class="sub">兩個做法起衝突時，用這四條來決定</div></div></header>
+  <div class="pillars">
+    <div class="pillar"><div class="nm">規則就是論點</div><p>遊戲對功績主義的每一個看法，都要能還原成一條規則或一個數值。文字只負責引述，不負責評論。</p><p class="test">取捨時：寧可調一個數值讓問題自己浮現，也不加一句旁白點明。</p></div>
+    <div class="pillar"><div class="nm">誘惑必須是真的</div><p>上戲台要真的好玩、有快感。玩家傷人，是因為他想贏，不是因為規則笨。</p><p class="test">取捨時：金箔落下的那一刻，要是全遊戲最亮的畫面。</p></div>
+    <div class="pillar"><div class="nm">每道傷口都有你的簽名</div><p>每次傷害發生時，玩家手上都有訊號，眼前也都有一條不傷人的路。</p><p class="test">取捨時：突發事件只能施壓，不能直接扣關係。</p></div>
+    <div class="pillar"><div class="nm">卸妝是儀式，不是選單</div><p>陪伴沒辦法批次處理。卸妝要親手做，這份摩擦本身就是內容。</p><p class="test">取捨時：不做一鍵卸妝。其他操作都要順，摩擦只留給卸妝。</p></div>
+  </div>
+  <div class="nots">
+    <h3>我們不做的事</h3>
+    <ul>
+      <li><b>不寫判詞</b>沒有任何一行字評價玩家，更夫只說看見的。</li>
+      <li><b>不做反派</b>班主講道理，師姊也很辛苦，母親也會說「你要爭氣」。功績主義是大家一起帶進家門的。</li>
+      <li><b>不做虐心</b>關係斷了不哭不吵，那扇門只是安靜地變成布景。好好陪伴的時刻，要真的溫暖。</li>
+      <li><b>不做 Game Over</b>「選家人、不選名次」必須是一條活得下去的路，否則玩家只是被規則逼著傷人。</li>
+    </ul>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">14</span></div>
+</section>
+
+<!-- 15 十三、美術方向 -->
+<section class="page">
+  <header class="sec"><div class="seal">十三</div><div><h2>美術方向</h2><div class="sub">構想階段：戲偶後台的舞台調度，紙片拼貼的做法</div></div></header>
+  <div class="grid2" style="gap:8mm">
+    <div class="stack">
+      <h3>戲偶後台</h3>
+      <p>玩家永遠站在後台，看得到自己手上套了幾層戲偶頭；家人和伴侶坐在台前。揭曉時，鏡頭轉到台前，你第一次從觀眾席看自己的演出。</p>
+    </div>
+    <div class="stack">
+      <h3>紙片拼貼</h3>
+      <p>油彩用紙片一層層貼上去，不追求精緻的戲曲寫實。一個人做得出來，「疊」這件事本身也看得見：漏出，就是底下那層紙的顏色從邊緣露出來。</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:11mm">五種顏色</h3>
+  <div class="chips">{{CHIPS}}</div>
+
+  <h3 style="margin-top:9mm">三種字</h3>
+  <div class="type-row">
+    <div><div class="s1">水牌</div><small>魏碑：標題與水牌，像戲園門口的招牌</small></div>
+    <div><div class="s2">家裡沒有金箔</div><small>宋體：內文，清楚好讀</small></div>
+    <div><div class="s3">三更天</div><small>楷體：更夫與人物說的話</small></div>
+  </div>
+
+  <div class="grid2" style="margin-top:11mm">
+    <div class="note indigo"><p class="small"><b>聲音：</b>以環境音為主。鑼鼓只出現在戲台；家裡是碗、水聲、紙張。不用悲傷的配樂暗示「你做錯了」。</p></div>
+    <div class="note"><p class="small"><b>要小心的地方：</b>戲曲美術畫不好會顯得廉價，所以用拼貼避開寫實；寓言有距離，要靠豆花、熱毛巾、沒糊完的燈這些生活細節拉近。</p></div>
+  </div>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">15</span></div>
+</section>
+
+<!-- 16 十四、進度與下一步 -->
+<section class="page">
+  <header class="sec"><div class="seal">十四</div><div><h2>進度與下一步</h2><div class="sub">目前在概念階段，核心規則已用程式驗證</div></div></header>
+  <div class="grid2" style="gap:9mm">
+    <div>
+      <h3>已經完成</h3>
+      <ul class="done">
+        <li><b>最小規則集 v0.1：</b>三張臉、三個場景、一條漏出規則、兩本賬。</li>
+        <li><b>數值驗證：</b>程式窮舉一週所有走法，確認「最優解會傷人，但只顧名次不是最優」。</li>
+        <li><b>世界觀：</b>從三個方向（當代寫實《輸入中》、寓言《底色》、思辨架空《開賬日》）中選定《底色》。</li>
+        <li><b>完整玩法草案：</b>新的臉（朋友、照顧者等）、12 張突發事件、人物個性、結局的判定方式。</li>
+      </ul>
+    </div>
+    <div>
+      <h3>下一步</h3>
+      <ol class="next">
+        <li><b>對齊章數：</b>故事是四齣戲，玩法草案是序章加六章，要合併成一個結構。</li>
+        <li><b>美術聖經：</b>定下拼貼的做法、人物造型和配色。</li>
+        <li><b>擴充模擬：</b>加入更多關係和事件後，重新確認陷阱還在、照顧關係仍然划算。</li>
+        <li><b>網頁原型：</b>序章加第一齣，驗證三件事：玩家會不會注意到香變短；揭曉時有沒有「我贏了，但我輸了」的感覺；第二輪會不會改變打法。</li>
+      </ol>
+    </div>
+  </div>
+  <div class="note" style="margin-top:9mm">
+    <h3>目前最大的風險</h3>
+    <p>揭曉變成第二張成績單：在批判功績主義的最高潮，反而用分數替愛打分、再附上標準答案。對策是揭曉以人和畫面為主，數字放最後，不附最佳解，並用「維護排程」式的回放，讓最會算的玩家也被看見。</p>
+  </div>
+  <p class="closing">五更天，有人卸了妝，回家了。<small>底色</small></p>
+  <div class="foot"><span>底色　遊戲概念說明</span><span class="pn">16</span></div>
+</section>
+
+</body>
+</html>

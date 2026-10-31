@@ -1,0 +1,1118 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>底色</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+<style>
+/* 版面：一張梳妝桌。左邊是你的臉（拖卡上妝、按住擦臉卸妝），右邊是眼前這一場，底下是妝奩和香。紙本油彩的單一風格，夜裡轉成墨色。 */
+:root {
+  color-scheme: light;
+  --paper: #f7f2f1;   /* 油彩白 */
+  --card: #fbf8f7;    /* 乾淨的卸妝布 */
+  --ink: #211c1f;     /* 墨 */
+  --ink-2: #5a5156;
+  --ink-3: #8b7f84;
+  --rouge: #a8243a;   /* 胭脂：戲台紅 */
+  --gold: #a8843a;    /* 金箔 */
+  --gold-2: #efe2c2;
+  --indigo: #2e4256;  /* 黛青 */
+  --indigo-2: #d9e0e7;
+  --line: #ddd1d1;
+  --night: #19161b;
+  --ash: #cfc6c6;
+  --display: "Ma Shan Zheng", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  --body: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.7; }
+button { font: inherit; color: inherit; }
+p { margin: 0; }
+.app { max-width: 1120px; margin: 0 auto; padding-block: 16px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body.is-dragging { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+
+/* 頂欄與水牌 */
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+.brand { font-family: var(--display); font-size: 26px; line-height: 1; background: var(--ink); color: var(--card); padding: 7px 10px 5px; letter-spacing: .12em; }
+.when { display: flex; flex-direction: column; line-height: 1.25; }
+.when b { font-family: var(--display); font-size: 24px; font-weight: 400; }
+.when span { font-size: 12px; color: var(--ink-2); letter-spacing: .2em; }
+.board { margin-left: auto; display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.board b { font-family: var(--display); font-size: 24px; font-weight: 400; color: var(--gold); font-variant-numeric: tabular-nums; }
+.board .rival b { color: var(--ink-2); }
+.board .pass { border: 1px solid var(--rouge); color: var(--rouge); padding: 0 7px; font-size: 12px; letter-spacing: .1em; }
+.tools { display: flex; gap: 8px; }
+.tool { background: none; border: 1px solid var(--ink-3); padding: 4px 12px; font-size: 13px; cursor: pointer; min-height: 34px; }
+
+/* 梳妝桌 */
+.table { display: grid; grid-template-columns: minmax(250px, 330px) minmax(0, 1fr); grid-template-areas: "face head" "face target" "tray tray" "rest rest"; gap: 14px 22px; align-items: start; }
+.facezone { grid-area: face; background: var(--card); padding: 14px 16px 14px; border-top: 6px solid var(--ink); min-height: var(--face-h, 484px); }
+.head { grid-area: head; background: var(--card); padding: 18px 22px; border-top: 6px solid var(--rouge); min-width: 0; }
+.head.home { border-top-color: var(--indigo); }
+.head.night { background: var(--night); color: var(--card); border-top-color: var(--gold); }
+.target { grid-area: target; }
+.tray { grid-area: tray; background: var(--night); color: var(--card); padding: 14px 18px 16px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 32px; align-items: end; }
+.rest { grid-area: rest; min-width: 0; }
+.tray h3 { font-size: 12px; font-weight: 400; letter-spacing: .3em; color: var(--gold-2); margin: 0 0 8px; display: flex; justify-content: space-between; gap: 10px; }
+.tray h3 b { font-family: var(--display); font-weight: 400; font-size: 20px; letter-spacing: .05em; color: var(--card); }
+
+/* 臉：拖卡的落點，也是擦臉的地方 */
+.face { position: relative; width: 100%; max-width: 236px; margin: 0 auto; touch-action: none; user-select: none; -webkit-user-select: none; outline: none; }
+.face .portrait { width: 100%; height: auto; display: block; }
+.face.wipeable { cursor: pointer; }
+.face .ring { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.face .ring ellipse { transition: stroke-dasharray .12s linear; }
+.face.helping .ring ellipse { transition: stroke-dasharray .75s ease-in-out; }
+.face::after { content: ""; position: absolute; inset: 2% 3% 0; border: 2px dashed transparent; border-radius: 48% / 44%; pointer-events: none; }
+.face.can::after { border-color: var(--gold); }
+.face.over::after { border-style: solid; border-color: var(--gold); background: rgba(168, 132, 58, .1); }
+.face:focus-visible::after { border-color: var(--gold); border-style: solid; }
+.face.shake { animation: shake .32s; }
+@keyframes shake { 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+.helper { position: absolute; left: 50%; top: 40%; width: 110px; pointer-events: none; transform: translate(-150%, -50%) rotate(-10deg); }
+.helper[hidden] { display: none; }
+.face.helping .helper { animation: helpwipe .75s ease-in-out; }
+@keyframes helpwipe { 0% { transform: translate(-150%, -50%) rotate(-10deg); } 45% { transform: translate(10%, -20%) rotate(8deg); } 70% { transform: translate(-60%, -60%) rotate(-6deg); } 100% { transform: translate(60%, -40%) rotate(10deg); opacity: 0; } }
+#towel { position: fixed; left: 0; top: 0; width: 64px; pointer-events: none; z-index: 60; }
+#towel[hidden] { display: none; }
+.wipe-cap { font-size: 13px; color: var(--ink-2); text-align: center; margin-top: 6px; line-height: 1.55; }
+.wipe-cap b { color: var(--ink); font-weight: 700; }
+.layers { list-style: none; padding: 0; margin: 10px 0 0; }
+.layers li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.chip { width: 14px; height: 14px; flex: none; }
+.tag { margin-left: auto; font-size: 11px; letter-spacing: .06em; padding: 0 6px; border: 1px solid var(--ink-3); color: var(--ink-2); white-space: nowrap; }
+.tag.leak { border-color: var(--rouge); color: var(--rouge); }
+.bare { font-size: 13px; color: var(--ink-2); padding: 5px 0; border-bottom: 1px solid var(--line); margin-top: 10px; }
+
+/* 場景文字 */
+.sh { display: flex; align-items: center; gap: 14px; }
+.sh svg { width: 52px; height: 52px; flex: none; }
+.sh h2 { font-family: var(--display); font-weight: 400; font-size: 34px; margin: 0; line-height: 1.1; letter-spacing: .08em; }
+.sh .who { font-size: 13px; color: var(--ink-2); letter-spacing: .15em; }
+.night .sh .who { color: var(--gold-2); }
+.morning { font-size: 13px; letter-spacing: .1em; color: var(--ink-2); margin-top: 10px; }
+.desc { margin-top: 10px; font-size: 16px; }
+.say { font-family: var(--display); font-size: 22px; color: var(--ink-2); margin-top: 4px; line-height: 1.5; }
+.watch-line { font-family: var(--display); font-size: 25px; line-height: 1.6; margin: 14px 0 0; animation: rise .9s ease both; }
+.watch-line:nth-child(2) { animation-delay: .8s; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* 落點：戲台、鏡子、對方 */
+.zone { width: 100%; background: var(--card); border: 2px dashed var(--ink-3); padding: 14px 18px; min-height: 104px; display: flex; gap: 16px; align-items: center; cursor: pointer; text-align: left; }
+.zone svg { width: 62px; height: 62px; flex: none; }
+.zone .zt { display: block; font-family: var(--display); font-size: 26px; line-height: 1.2; }
+.zone small { display: block; font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+.zone.can { border-color: var(--gold); background: #fffaf0; }
+.zone.over { border-style: solid; border-color: var(--gold); background: var(--gold-2); }
+.zone:disabled { cursor: default; }
+.zone:disabled .zt { color: var(--ink-3); }
+.zone:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* 妝奩：面具卡 */
+.cards { display: flex; gap: 10px; flex-wrap: wrap; }
+.card { width: 78px; height: 112px; border: none; background: var(--card); position: relative; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; box-shadow: 0 3px 0 rgba(0, 0, 0, .45); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 0 2px 6px; color: var(--ink); }
+.card svg { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 60px; height: 72px; }
+.card .cn { font-family: var(--display); font-size: 17px; line-height: 1.1; position: relative; }
+.card small { font-size: 10px; color: var(--ink-2); line-height: 1.3; position: relative; }
+.card:disabled { opacity: .32; cursor: not-allowed; }
+.card.slot { background: none; border: 1px dashed rgba(251, 248, 247, .35); box-shadow: none; cursor: default; justify-content: center; color: var(--ash); font-size: 12px; letter-spacing: .1em; }
+.card.lifted, .token.lifted { opacity: .25; }
+.card:focus-visible, .token:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* 香 */
+.tokens { display: flex; gap: 7px; align-items: flex-end; flex-wrap: wrap; }
+.token { width: 20px; height: 66px; border: none; padding: 0; background: none; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.token svg { width: 100%; height: 100%; display: block; }
+.token.ash { cursor: default; }
+.token.missing { border: 1px dashed rgba(251, 248, 247, .35); height: 58px; }
+.token.flash { animation: burn .9s ease; }
+@keyframes burn { 0% { filter: brightness(2.2); transform: translateY(-4px); } 100% { filter: none; transform: none; } }
+.tray .hint { color: var(--ash); font-size: 12px; margin-top: 8px; }
+
+.ghost { position: fixed; left: 0; top: 0; margin: 0; pointer-events: none; z-index: 50; filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .3)); }
+
+/* 筆記與離開 */
+.notes { padding: 10px 14px; background: var(--card); font-size: 14px; border-left: 4px solid var(--line); }
+.notes p + p { margin-top: 3px; }
+.notes .g { color: var(--gold); }
+.notes .r { color: var(--rouge); }
+.leave { margin-top: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn { border: 1px solid var(--ink); background: var(--card); padding: 9px 14px; cursor: pointer; text-align: left; line-height: 1.35; min-height: 44px; }
+.btn small { display: block; font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+.btn.main { background: var(--ink); color: var(--card); }
+.btn.main small { color: var(--gold-2); }
+.btn.go { background: var(--rouge); border-color: var(--rouge); color: var(--card); }
+.btn.go small { color: #f3d9dc; }
+.btn:disabled { opacity: .36; cursor: not-allowed; }
+.btn:focus-visible, .tool:focus-visible, .pick:focus-visible, .cloth:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.hint { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+
+/* 開場 */
+.start { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 36px; align-items: start; max-width: 960px; margin: 3vh auto 0; }
+.vboard { background: var(--ink); color: var(--card); font-family: var(--display); padding: 30px 22px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.vboard::after { content: ""; position: absolute; inset: 6px; border: 1px solid var(--gold); pointer-events: none; }
+.vboard .t { writing-mode: vertical-rl; font-size: 92px; line-height: 1; letter-spacing: .12em; }
+.vboard .s { writing-mode: vertical-rl; font-size: 17px; color: var(--gold-2); letter-spacing: .3em; }
+.intro { font-family: var(--display); font-size: 25px; line-height: 1.75; }
+.lede { margin-top: 10px; color: var(--ink-2); max-width: 40em; }
+.form { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: flex-end; }
+.field label { display: block; font-size: 13px; letter-spacing: .2em; color: var(--ink-2); margin-bottom: 6px; }
+.field input { font: inherit; font-size: 18px; padding: 7px 12px; border: 1px solid var(--ink); background: var(--card); width: 9em; }
+.picks { display: flex; gap: 6px; }
+.pick { border: 1px solid var(--ink); background: var(--card); padding: 4px 14px; font-family: var(--display); font-size: 24px; cursor: pointer; min-width: 48px; min-height: 44px; }
+.pick[aria-pressed="true"] { background: var(--rouge); border-color: var(--rouge); color: var(--card); }
+.rules-card { background: var(--card); padding: 14px 20px 16px; margin-top: 22px; font-size: 14px; border-left: 5px solid var(--gold); }
+.rules-card h3 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0 0 4px; letter-spacing: .1em; }
+.rules-card ol { margin: 0; padding-left: 1.4em; }
+.rules-card li + li { margin-top: 3px; }
+
+/* 對話框 */
+.backdrop { position: fixed; inset: 0; background: rgba(25, 22, 27, .55); z-index: 20; }
+.modal { position: fixed; z-index: 21; left: 50%; top: 6vh; transform: translateX(-50%); width: min(640px, calc(100% - 32px)); max-height: 86vh; overflow: auto; background: var(--card); padding: 20px 24px 24px; border-top: 6px solid var(--ink); }
+.modal h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0 0 8px; letter-spacing: .1em; }
+.modal .close { position: absolute; right: 12px; top: 10px; }
+.dline { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.dline b { font-family: var(--display); font-weight: 400; font-size: 20px; margin-right: 8px; }
+.dline .w { font-family: var(--display); font-size: 18px; color: var(--ink-2); }
+
+/* 揭曉 */
+.reveal { max-width: 880px; margin: 0 auto; }
+.rv { background: var(--card); padding: 26px 28px 28px; border-top: 6px solid var(--gold); }
+.rv h2 { font-family: var(--display); font-weight: 400; font-size: 40px; line-height: 1.2; margin: 0 0 8px; letter-spacing: .1em; }
+.rv .big { font-family: var(--display); font-size: 24px; line-height: 1.7; }
+.rv .actions { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+.rv .face { margin-top: 14px; max-width: 220px; }
+.wb { margin-top: 16px; border-top: 2px solid var(--ink); }
+.wb div { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 17px; }
+.wb .me { font-weight: 700; }
+.wb .me span::after { content: "（你）"; color: var(--rouge); font-weight: 400; font-size: 14px; }
+.wb b { font-family: var(--display); font-weight: 400; font-size: 28px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.stamp { display: inline-block; margin-top: 14px; font-family: var(--display); font-size: 26px; padding: 4px 16px; border: 3px solid var(--rouge); color: var(--rouge); transform: rotate(-4deg); letter-spacing: .2em; }
+.stamp.fail { border-color: var(--ink-2); color: var(--ink-2); }
+.cloths { display: grid; grid-template-columns: 56px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center; margin-top: 16px; max-width: 600px; }
+.cloths .h { font-size: 12px; color: var(--ink-3); text-align: center; letter-spacing: .1em; }
+.cloths .who { font-family: var(--display); font-size: 20px; }
+.cloth { aspect-ratio: 1; border: none; background: none; padding: 0; cursor: pointer; max-width: 100%; }
+.cloth svg { width: 100%; height: 100%; display: block; }
+.cloth[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); margin-top: 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 14px; height: 14px; }
+.cinfo { margin-top: 14px; min-height: 72px; background: var(--paper); padding: 12px 16px; }
+.facts { margin-top: 14px; font-size: 14px; color: var(--ink-2); }
+.back { margin-top: 14px; }
+.back div { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.back .nm { font-family: var(--display); font-size: 22px; margin-right: 10px; }
+.back .tx { font-family: var(--display); font-size: 22px; }
+.back small { display: block; font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.ending { margin-top: 16px; padding: 24px 26px; }
+.ending h3 { font-family: var(--display); font-weight: 400; font-size: 60px; line-height: 1.1; margin: 0; letter-spacing: .15em; }
+.ending .cond { font-size: 13px; letter-spacing: .12em; opacity: .8; margin-top: 4px; }
+.ending .tx { font-family: var(--display); font-size: 25px; line-height: 1.7; margin-top: 14px; }
+.ending .mean { font-size: 14px; margin-top: 10px; }
+.end-liubai { background: var(--paper); border: 1px solid var(--line); }
+.end-suian { background: var(--indigo-2); }
+.end-toupai { background: var(--gold-2); }
+.end-gengfu { background: var(--night); color: var(--card); }
+.night-line { font-family: var(--display); font-size: 25px; margin-top: 12px; }
+
+/* 金箔 */
+#fx { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 30; }
+.fleck { position: absolute; top: -14px; width: 10px; height: 8px; background: var(--gold); animation: fall 1.7s ease-in forwards; }
+@keyframes fall { to { transform: translateY(105vh) rotate(560deg); opacity: .15; } }
+@media (prefers-reduced-motion: reduce) {
+  .fleck { display: none; }
+  .watch-line, .token.flash, .face.shake, .face.helping .helper { animation: none !important; }
+}
+
+@media (max-width: 780px) {
+  .table { grid-template-columns: 128px minmax(0, 1fr); grid-template-areas: "head head" "face target" "tray tray" "rest rest"; gap: 12px; }
+  .facezone { padding: 10px 8px; border-top-width: 4px; --face-h: 340px; }
+  .wipe-cap { font-size: 11.5px; }
+  .layers li { font-size: 12px; gap: 5px; }
+  .tag { font-size: 10px; padding: 0 3px; }
+  .head { padding: 14px 16px; }
+  .sh h2 { font-size: 28px; }
+  .desc { font-size: 15px; }
+  .say { font-size: 19px; }
+  .zone { flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px; min-height: 0; }
+  .zone svg { width: 46px; height: 46px; }
+  .zone .zt { font-size: 22px; }
+  /* 手機：妝奩固定在螢幕底部，臉、落點和卡片能同時看到 */
+  .tray { position: sticky; bottom: 0; z-index: 5; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 16px rgba(0, 0, 0, .2); }
+  .tray h3 { font-size: 11px; letter-spacing: .15em; margin-bottom: 4px; }
+  .tray h3 b { font-size: 16px; }
+  .tray .hint { display: none; }
+  .cards { gap: 6px; flex-wrap: nowrap; }
+  .card { width: 52px; height: 76px; padding-bottom: 4px; }
+  .card svg { width: 42px; height: 50px; top: 4px; }
+  .card .cn { font-size: 13px; }
+  .card small { display: none; }
+  .tokens { gap: 3px; }
+  .token { width: 14px; height: 50px; }
+  .token.missing { height: 44px; }
+  .layers li { padding: 2px 0; }
+  .sh svg { width: 40px; height: 40px; }
+  .bar { gap: 6px 12px; margin-bottom: 10px; padding-bottom: 8px; }
+  .when b { font-size: 20px; }
+  .board { margin-left: 0; width: 100%; font-size: 12px; }
+  .board b { font-size: 20px; }
+}
+@media (max-width: 620px) {
+  .start { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .vboard { flex-direction: row; justify-content: center; padding: 16px 20px; }
+  .vboard .t { writing-mode: horizontal-tb; font-size: 56px; }
+  .vboard .s { writing-mode: horizontal-tb; font-size: 14px; }
+  .intro { font-size: 21px; }
+  .cloths { grid-template-columns: 40px repeat(5, minmax(0, 1fr)); gap: 5px; }
+  .cloths .who { font-size: 16px; }
+  .ending h3 { font-size: 44px; }
+}
+</style>
+
+<div id="app" class="app"></div>
+<div id="fx" aria-hidden="true"></div>
+<div id="towel" hidden aria-hidden="true"></div>
+
+<script>
+/* ENGINE START */
+// 規則數值與 設計/模擬/sim.py 一致（v0.1）
+const R = { days: 5, base: 6, thr: 5, start: 5, max: 10, workMin: 3, workMax: 5, deliver: 2, homePen: 1, care: 2, careMore: 1, absent: 1, pass: 58 };
+// [底層面具][場景] = [金箔, 對方安心, 本場陪伴折損]
+const LEAK = { W: { F: [1, -2, 1], P: [1, -2, 1] }, F: { W: [-1, 0, 0], P: [0, -1, 0] }, P: { W: [-2, 0, 0], F: [0, -1, 0] } };
+// 週四是素娘的生日：第一次陪伴 +3，缺席 −3
+let EVENTS = { 3: { F: { careFirst: 3, absent: 3 } } };
+const RIVAL = [12, 12, 9, 13, 12];
+const SC = ['W', 'F', 'P'];
+const DAYS = ['周一', '周二', '周三', '周四', '周五'];
+const MASK = { W: { name: '戏台脸' }, F: { name: '乖脸' }, P: { name: '阿檀的脸' } };
+const WHO = { F: '素娘', P: '阿檀' };
+
+const LEAK_NOTE = {
+  WF: ['最底下的戏台脸透了出来。你跟素娘说话，像在台上念白。窗外有人叫好，落下一片金箔。金箔 +1。', 'g'],
+  WP: ['最底下的戏台脸透了出来。你在灯坊里亮了个相，窗外有人叫好，落下一片金箔。金箔 +1。', 'g'],
+  FW: ['最底下的乖脸透了出来。台下有人笑你像个没长大的孩子。金箔 −1。', 'r'],
+  PW: ['最底下那张给阿檀的脸透了出来。你在台上走了神。金箔 −2。', 'r'],
+  FP: ['最底下的乖脸透了出来。', ''],
+  PF: ['最底下那张给阿檀的脸透了出来。', ''],
+};
+const CARE_NOTE = {
+  F: ['你陪素娘收摊，帮她擦桌子。', '你多坐了一会儿，听她说街坊的事。', '你们一起把碗洗完了。', '她又给你舀了一碗。'],
+  P: ['你帮阿檀扶着灯骨。', '你们一起糊了一片灯纸。', '阿檀说起元宵那天要在哪里放灯。', '灯又亮了一点。'],
+};
+const LINES = {
+  goneF: { full: ['有一扇门，变成了画上去的布景。街口的豆花摊，收了。'] },
+  goneP: { full: ['灯坊的门，变成了画上去的布景。'] },
+  leakWF: { full: ['卖豆花的说，你今天跟她说话，像在台上念白。', '有人吃着豆花，还在对口型。'], short: '又是戏脸。' },
+  leakWP: { full: ['灯坊里有人亮了个相，窗外真有人叫好。', '糊灯的人说，你脸上那抹红，一直没擦掉。'], short: '灯坊里，又是戏脸。' },
+  leakFP: { full: ['灯坊里，有人还是一副乖孩子的样子。'], short: '又是那张乖脸。' },
+  leakPF: { full: ['卖豆花的说，你今天的心不在这儿。'], short: '心又不在这儿。' },
+  leakFW: { full: ['台下有人笑，说今天的二路像个没长大的孩子。'], short: '台上又露了孩子气。' },
+  leakPW: { full: ['台上有人走了神，叫好声稀了。'], short: '台上又走神了。' },
+  practiceF: { full: ['有人在豆花摊前，对着镜子练戏。'], short: '又在练戏。' },
+  practiceP: { full: ['灯坊里，有人对着灯影走台步。'], short: '又在走台步。' },
+  absentF: { full: ['有户人家的热毛巾，在桌上放凉了。'], short: '毛巾又凉了。' },
+  absentP: { full: ['糊灯的人等到灯油都干了。'], short: '灯油又干了。' },
+  bdayAbsent: { full: ['豆花摊上，一碗长寿面没人动过。'] },
+  bdayClean: { full: ['素娘过生日，有人陪她把摊子收完。'] },
+  cleanF: { full: ['卖豆花的说，今天看见孩子小时候的脸。', '豆花摊收得晚，有人多吃了一碗。'] },
+  cleanP: { full: ['灯坊的灯亮到很晚，有人一直在说话。', '糊灯的人说，今天的纸糊得特别顺。'] },
+  sleepW: { full: ['有人带着戏脸睡了，枕头一片红。'], short: '又带着戏脸睡了。' },
+  sleepF: { full: ['有人带着那张乖脸睡了。'] },
+  sleepP: { full: ['有人带着给阿檀的那张脸睡了。'] },
+  quiet: { full: ['城里很静，有人睡得很沉。'] },
+};
+const BACK = {
+  F: ['那扇门，已经是布景了。', '毛巾在桌上搁了很久。', '毛巾还在，只是常常等凉了。', '替你擦脸的毛巾，一直是热的。'],
+  P: ['灯坊的门，推不开了。', '灯的骨架摆在桌上，纸还没糊。', '灯还差一点，阿檀说不急。', '灯糊好了，等你一起放。'],
+};
+
+const clamp = v => Math.max(0, Math.min(R.max, v));
+const incense = (F, P) => R.base + (F >= R.thr ? 1 : 0) + (P >= R.thr ? 1 : 0);
+const tierOf = v => (v >= 7 ? 'warm' : v >= R.thr ? 'ok' : 'cold');
+const alive = (S, scene) => scene === 'W' || S[scene] > 0;
+function unmaskCost(S, scene) {
+  return (scene === 'F' && S.F >= R.thr) || (scene === 'P' && S.P >= R.thr) ? 0 : 1;
+}
+
+function newGame(name, role) {
+  const S = { v: 1, name, role, day: 0, si: 0, stack: [], F: R.start, P: R.start, gold: 0, t: 0, dayLen: 0, log: [], seen: {}, sc: null, phase: 'scene', reveal: null };
+  beginDay(S);
+  return S;
+}
+function beginDay(S) {
+  S.t = S.dayLen = incense(S.F, S.P);
+  S.log.push({ incense: S.dayLen, scenes: {}, watch: [], kept: null, F0: S.F, P0: S.P });
+  S.si = 0;
+  S.phase = 'scene';
+  enterScene(S);
+}
+function enterScene(S) {
+  const scene = SC[S.si];
+  S.sc = { scene, acts: 0, cared: false, practiced: 0, pushed: null, unmasked: 0, locked: false, leakChecked: false, leaked: null,
+    dc: 0, gold: 0, cost: unmaskCost(S, scene), before: S.stack.slice(), tier: scene === 'W' ? null : tierOf(S[scene]), notes: [] };
+}
+
+// 換妝只能在這一場開始做事之前；上了妝就要用
+function actionFor(S) {
+  const top = S.stack[S.stack.length - 1], scene = S.sc.scene;
+  if (top === 'W') return scene === 'W' ? 'sing' : 'practice';
+  return top && top === scene ? 'care' : null;
+}
+function canUnmask(S) { const c = S.sc; return !c.locked && !c.pushed && S.stack.length > 0 && S.t >= unmaskCost(S, c.scene); }
+function canPush(S, m) {
+  const c = S.sc;
+  if (c.locked || c.pushed || S.stack.includes(m) || S.t < 1) return false;
+  return c.scene === 'W' ? m === 'W' : m === 'W' || m === c.scene;
+}
+function canAct(S) { return S.t >= 1 && !!actionFor(S) && !(S.sc.scene === 'W' && S.sc.acts >= R.workMax); }
+function canLeave(S) { const c = S.sc; return c.scene === 'W' ? c.acts >= R.workMin : !(c.pushed && c.acts === 0); }
+function willLeak(S) { return S.stack.length >= 2 && S.stack[0] !== S.sc.scene; }
+
+function unmask(S) {
+  if (!canUnmask(S)) return;
+  const c = S.sc, cost = unmaskCost(S, c.scene), m = S.stack.pop();
+  S.t -= cost;
+  c.unmasked += 1;
+  const text = cost === 0 ? `${WHO[c.scene]}接过热毛巾，替你擦掉了${MASK[m].name}。`
+    : c.scene === 'W' ? `你在后台自己卸掉了${MASK[m].name}，烧了一寸香。` : `你自己卸掉了${MASK[m].name}，烧了一寸香。`;
+  c.notes.push([text, '']);
+}
+function push(S, m) {
+  if (!canPush(S, m)) return;
+  S.stack.push(m);
+  S.sc.pushed = m;
+  S.sc.notes.push([`你画上了${MASK[m].name}。`, '']);
+}
+function checkLeak(S) {
+  const c = S.sc;
+  c.leakChecked = true;
+  if (!willLeak(S)) return;
+  c.leaked = S.stack[0];
+  const [dg, dv] = LEAK[c.leaked][c.scene];
+  S.gold += dg; c.gold += dg; c.dc += dv;
+  c.notes.push(LEAK_NOTE[c.leaked + c.scene]);
+}
+function act(S) {
+  if (!canAct(S)) return;
+  const c = S.sc;
+  if (!c.leakChecked) checkLeak(S);
+  c.locked = true;
+  S.t -= 1;
+  c.acts += 1;
+  const a = actionFor(S);
+  if (a === 'sing' || a === 'practice') {
+    S.gold += R.deliver; c.gold += R.deliver;
+    if (a === 'practice') {
+      c.dc -= R.homePen;
+      c.practiced += 1;
+      c.notes.push([`你对着镜子练了一寸戏。金箔 +${R.deliver}。`, 'g']);
+    } else {
+      c.notes.push([`你唱了一寸戏。金箔 +${R.deliver}。`, 'g']);
+    }
+    return;
+  }
+  const ev = (EVENTS[S.day] || {})[c.scene] || {};
+  let g = R.careMore;
+  if (!c.cared) {
+    g = Math.max(0, (ev.careFirst ?? R.care) - (c.leaked ? LEAK[c.leaked][c.scene][2] : 0));
+    c.cared = true;
+  }
+  c.dc += g;
+  const notes = CARE_NOTE[c.scene];
+  c.notes.push([notes[Math.min(c.acts - 1, notes.length - 1)], '']);
+}
+function leave(S) {
+  if (!canLeave(S)) return;
+  const c = S.sc;
+  if (!c.leakChecked) checkLeak(S);
+  const rec = { scene: c.scene, acts: c.acts, cared: c.cared, practiced: c.practiced, pushed: c.pushed, unmasked: c.unmasked, leaked: c.leaked, cost: c.cost, gold: c.gold, before: c.before };
+  if (c.scene !== 'W') {
+    if (!c.cared) {
+      const ev = (EVENTS[S.day] || {})[c.scene] || {};
+      c.dc -= ev.absent ?? R.absent;
+    }
+    const before = S[c.scene];
+    S[c.scene] = clamp(before + c.dc);
+    rec.collapsed = before > 0 && S[c.scene] <= 0;
+  }
+  S.log[S.day].scenes[c.scene] = rec;
+  S.si += 1;
+  while (S.si < 3 && !alive(S, SC[S.si])) S.si += 1;
+  if (S.si >= 3) { S.phase = 'sleep'; S.sc = null; } else enterScene(S);
+}
+const sleepCost = S => S.stack.length * (S.P >= R.thr ? 0 : 1);
+function sleep(S, clear) {
+  if (S.phase !== 'sleep') return;
+  const cost = sleepCost(S);
+  if (clear && S.t < cost) return;
+  const L = S.log[S.day];
+  if (clear) { S.t -= cost; S.stack = []; } else S.stack = S.stack.slice(0, 1);
+  L.kept = S.stack[0] || null;
+  L.F1 = S.F; L.P1 = S.P;
+  L.watch = makeWatch(S, L);
+  S.phase = 'watch';
+}
+function dawn(S) {
+  if (S.phase !== 'watch') return;
+  S.day += 1;
+  if (S.day >= R.days) {
+    S.phase = 'reveal';
+    S.reveal = { step: 0, stack: S.stack.slice(), washed: false, pick: null };
+    return;
+  }
+  beginDay(S);
+}
+
+// 更夫：每晚最多兩句，只說看見的；同一件事第三次會變短
+function makeWatch(S, L) {
+  const c = [];
+  const bday = !!(EVENTS[S.day] || {}).F;
+  for (const who of ['F', 'P']) {
+    const s = L.scenes[who];
+    if (!s) continue;
+    if (s.collapsed) c.push([0, 'gone' + who]);
+    if (s.leaked) c.push([1, 'leak' + s.leaked + who]);
+    if (!s.cared) c.push(s.practiced ? [3, 'practice' + who] : [2, bday && who === 'F' ? 'bdayAbsent' : 'absent' + who]);
+    else if (!s.leaked) c.push([4, bday && who === 'F' ? 'bdayClean' : 'clean' + who]);
+  }
+  const w = L.scenes.W;
+  if (w && w.leaked) c.push([1, 'leak' + w.leaked + 'W']);
+  if (L.kept) c.push([5, 'sleep' + L.kept]);
+  c.sort((a, b) => a[0] - b[0]);
+  const picks = c.slice(0, 2).map(x => x[1]);
+  if (!picks.length) picks.push('quiet');
+  return picks.map((cat, i) => {
+    const n = (S.seen[cat] = (S.seen[cat] || 0) + 1);
+    const def = LINES[cat];
+    const text = n >= 3 && def.short ? def.short : def.full[(n - 1) % def.full.length];
+    return `${i === 0 ? '二更天' : '四更天'}，${text}`;
+  });
+}
+
+function endingOf(S) {
+  const pass = S.gold >= R.pass, okF = S.F >= R.thr, okP = S.P >= R.thr;
+  if (pass) return okF && okP ? 'liubai' : 'toupai';
+  return okF || okP ? 'suian' : 'gengfu';
+}
+function clothOf(S, d, who) {
+  const L = S.log[d], s = L.scenes[who], name = WHO[who];
+  if (!s) return { kind: 'gone', saw: `${DAYS[d]}：那扇门已经是布景了。`, did: '' };
+  const kind = s.leaked || s.practiced ? 'stain' : s.cared ? 'clean' : 'empty';
+  const saw = `${DAYS[d]}：枕边的香有 ${L.incense} 寸；在${name}面前卸妆，${s.cost === 0 ? `${name}会替你擦` : '得自己卸，烧一寸香'}。`;
+  let did;
+  if (s.practiced) did = `你戴着戏台脸，在${name}面前练了 ${s.practiced} 寸戏。`;
+  else if (!s.cared) did = `你没有陪${name}。`;
+  else if (s.leaked) did = s.pushed && !s.unmasked ? `你没有卸妆，直接把${MASK[s.pushed].name}叠了上去，最底下还压着${MASK[s.leaked].name}。` : `你脸上最底下还压着${MASK[s.leaked].name}。`;
+  else did = s.unmasked ? `你先卸了妆，才去陪${name}。` : `你脸上只有给${name}看的那张。`;
+  return { kind, saw, did };
+}
+function factsOf(S) {
+  let drops = 0, paid = 0, lines = 0;
+  S.log.forEach((L, d) => {
+    if (d > 0 && L.incense < S.log[d - 1].incense) drops += 1;
+    for (const w of ['F', 'P']) { const s = L.scenes[w]; if (s && s.cost === 1) paid += 1; }
+    lines += L.watch.length;
+  });
+  return { drops, paid, lines };
+}
+function patternLine(S) {
+  for (const w of ['F', 'P']) {
+    const dips = S.log.filter(L => L[w + '1'] !== undefined && L[w + '1'] < R.thr).length;
+    if (S[w] >= R.thr && S[w] <= 6 && dips >= 2) return '有人每次回来，都刚好在对方快要放弃的那天。';
+  }
+  return null;
+}
+const backTier = v => (v <= 0 ? 0 : v < R.thr ? 1 : v < 7 ? 2 : 3);
+/* ENGINE END */
+
+// ── 圖形 ─────────────────────────────────────────────
+const COL = { W: '#a8243a', F: '#e4b3ba', P: '#b4c3d3', card: '#fbf8f7', ink: '#211c1f', ink2: '#5a5156', ink3: '#8b7f84', gold: '#a8843a', gold2: '#efe2c2', rouge: '#a8243a', indigo: '#2e4256', indigo2: '#d9e0e7', line: '#ddd1d1' };
+function rng(a) {
+  return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+function torn(cx, cy, rx, ry, rot, seed, n = 120, j = 0.035) {
+  const r = rng(seed), a = (rot * Math.PI) / 180, p = [];
+  for (let i = 0; i < n; i++) {
+    const t = (2 * Math.PI * i) / n, k = 1 + (r() - 0.5) * j;
+    const x = rx * Math.cos(t) * k, y = ry * Math.sin(t) * k;
+    p.push(`${(cx + x * Math.cos(a) - y * Math.sin(a)).toFixed(1)},${(cy + x * Math.sin(a) + y * Math.cos(a)).toFixed(1)}`);
+  }
+  return p.join(' ');
+}
+function blob(cx, cy, rad, seed, n = 16, j = 0.28) {
+  const r = rng(seed), p = [];
+  for (let i = 0; i < n; i++) {
+    const t = (2 * Math.PI * i) / n, k = rad * (1 + (r() - 0.5) * 2 * j);
+    p.push(`${(cx + k * Math.cos(t)).toFixed(1)},${(cy + k * Math.sin(t)).toFixed(1)}`);
+  }
+  return p.join(' ');
+}
+function fleck(cx, cy, s, seed) {
+  const r = rng(seed), a = r() * Math.PI;
+  return [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) => {
+    const x = s * (u + (r() - 0.5) * 0.7), y = s * (v + (r() - 0.5) * 0.7);
+    return `${(cx + x * Math.cos(a) - y * Math.sin(a)).toFixed(1)},${(cy + x * Math.sin(a) + y * Math.cos(a)).toFixed(1)}`;
+  }).join(' ');
+}
+function tornRect(x, y, w, h, seed, step = 5, j = 1) {
+  const r = rng(seed), p = [], jit = () => (r() - 0.5) * 2 * j;
+  for (let i = 0; i <= w; i += step) p.push([x + i, y + jit()]);
+  for (let i = step; i <= h; i += step) p.push([x + w + jit(), y + i]);
+  for (let i = w; i >= 0; i -= step) p.push([x + i, y + h + jit()]);
+  for (let i = h - step; i > 0; i -= step) p.push([x + jit(), y + i]);
+  return p.map(([a, b]) => `${a.toFixed(1)},${b.toFixed(1)}`).join(' ');
+}
+const LAYER = { W: { rot: -7, seed: 3 }, F: { rot: 4, seed: 5 }, P: { rot: -2, seed: 8 } };
+function faceSVG(stack, id, stain) {
+  const n = stack.length, cx = 150, cy = 186;
+  let g = '';
+  stack.forEach((m, i) => {
+    const k = n - 1 - i, L = LAYER[m];
+    g += `<polygon points="${torn(cx - k * 15, cy - k * 13, 102, 138, L.rot, L.seed)}" fill="${COL[m]}"/>`;
+    if (m === 'W') {
+      const r = rng(41);
+      for (let q = 0; q < 6; q++) g += `<polygon points="${fleck(cx - k * 15 - 70 + r() * 140, cy - k * 13 - 128 + r() * 26, 4 + r() * 3, 70 + q)}" fill="${COL.gold}"/>`;
+    }
+  });
+  const top = stack[n - 1];
+  const topPts = n ? torn(cx, cy, 102, 138, LAYER[top].rot, LAYER[top].seed) : torn(cx, cy, 102, 138, 0, 21);
+  if (!n) g += `<polygon points="${topPts}" fill="${COL.card}" stroke="${COL.ink3}" stroke-width="1.2"/>`;
+  if (stain && n >= 2) {
+    g += `<clipPath id="${id}c"><polygon points="${topPts}"/></clipPath><g clip-path="url(#${id}c)">`
+      + `<polygon points="${blob(cx - 64, cy - 86, 50, 9)}" fill="${COL[stain]}" opacity=".62"/>`
+      + `<polygon points="${blob(cx - 82, cy - 38, 22, 10)}" fill="${COL[stain]}" opacity=".4"/></g>`;
+  }
+  const brow = top === 'W' ? COL.ink : COL.indigo;
+  const sockets = top === 'W' ? `<ellipse cx="${cx - 36}" cy="${cy - 14}" rx="21" ry="9" fill="${COL.card}"/><ellipse cx="${cx + 36}" cy="${cy - 14}" rx="21" ry="9" fill="${COL.card}"/>` : '';
+  const tilt = n ? LAYER[top].rot / 2 : 0;
+  g += `<g fill="none" stroke-linecap="round" transform="rotate(${tilt} ${cx} ${cy})">${sockets}`
+    + `<path d="M${cx - 62} ${cy - 40} Q${cx - 36} ${cy - 60} ${cx - 12} ${cy - 45}" stroke="${brow}" stroke-width="7"/>`
+    + `<path d="M${cx + 12} ${cy - 45} Q${cx + 36} ${cy - 60} ${cx + 62} ${cy - 40}" stroke="${brow}" stroke-width="7"/>`
+    + `<path d="M${cx - 52} ${cy - 14} Q${cx - 36} ${cy - 24} ${cx - 20} ${cy - 13}" stroke="${COL.ink}" stroke-width="3"/>`
+    + `<path d="M${cx + 20} ${cy - 13} Q${cx + 36} ${cy - 24} ${cx + 52} ${cy - 14}" stroke="${COL.ink}" stroke-width="3"/>`
+    + `<path d="M${cx} ${cy + 2} L${cx - 5} ${cy + 40} Q${cx} ${cy + 46} ${cx + 7} ${cy + 42}" stroke="${COL.ink3}" stroke-width="2"/>`
+    + `<ellipse cx="${cx}" cy="${cy + 80}" rx="16" ry="6.5" fill="${top === 'W' ? COL.ink : COL.rouge}" stroke="none"/></g>`;
+  return `<svg class="portrait" viewBox="0 0 300 340" aria-hidden="true">${g}</svg>`;
+}
+function cardSVG(m) {
+  const L = LAYER[m], W = m === 'W';
+  return `<svg viewBox="0 0 60 72" aria-hidden="true"><polygon points="${torn(30, 37, 23, 30, L.rot, L.seed, 70, 0.06)}" fill="${COL[m]}"/>`
+    + (W ? `<ellipse cx="22" cy="35" rx="6.5" ry="3" fill="${COL.card}"/><ellipse cx="38" cy="35" rx="6.5" ry="3" fill="${COL.card}"/>` : '')
+    + `<path d="M15 29 Q21 24 27 28 M33 28 Q39 24 45 29" stroke="${W ? COL.ink : COL.indigo}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+    + `<path d="M18 35 Q22 32 26 35 M34 35 Q38 32 42 35" stroke="${COL.ink}" stroke-width="1.3" fill="none"/>`
+    + `<ellipse cx="30" cy="53" rx="5" ry="2.2" fill="${W ? COL.ink : COL.rouge}"/></svg>`;
+}
+const TOKEN = `<svg viewBox="0 0 20 66" aria-hidden="true"><circle cx="10" cy="6" r="6" fill="#e0603a" opacity=".25"/><circle cx="10" cy="6" r="3.2" fill="#e8743f"/><rect x="8.2" y="8" width="3.6" height="49" fill="#b48a52"/><rect x="2" y="57" width="16" height="7" rx="1.5" fill="${COL.gold}"/></svg>`;
+const ASH = `<svg viewBox="0 0 20 66" aria-hidden="true"><rect x="8.2" y="45" width="3.6" height="12" fill="#8f8585"/><path d="M3 57 Q10 50 17 57 Z" fill="${COL.ash || '#cfc6c6'}"/><rect x="2" y="57" width="16" height="7" rx="1.5" fill="${COL.gold}" opacity=".55"/></svg>`;
+const TOWEL = `<svg viewBox="0 0 110 70" aria-hidden="true"><path d="M8 18 Q30 6 58 12 Q86 6 102 16 L96 54 Q70 64 44 58 Q22 64 6 56 Z" fill="${COL.card}" stroke="${COL.ink3}" stroke-width="1.5"/><path d="M20 24 Q40 18 60 24 M18 36 Q44 30 70 36 M24 48 Q48 42 80 46" stroke="${COL.line}" stroke-width="2" fill="none"/><path d="M84 30 Q100 22 108 34 Q104 48 90 50" fill="#e9c9a8" stroke="${COL.ink3}" stroke-width="1.2"/></svg>`;
+function emblem(kind, cold) {
+  if (kind === 'W') return `<svg viewBox="0 0 56 56" aria-hidden="true"><rect x="3" y="6" width="50" height="7" fill="${COL.gold}"/><path d="M5 13 Q15 36 9 52 L25 52 Q19 30 28 13 Z" fill="${COL.rouge}"/><path d="M51 13 Q41 36 47 52 L31 52 Q37 30 28 13 Z" fill="${COL.rouge}"/></svg>`;
+  if (kind === 'F') return `<svg viewBox="0 0 56 56" aria-hidden="true"><path d="M20 22 q4 -5 0 -10 M28 22 q4 -5 0 -10 M36 22 q4 -5 0 -10" stroke="${COL.ink3}" fill="none" stroke-width="1.8"/><path d="M6 27 H50 Q48 47 28 47 Q8 47 6 27 Z" fill="${COL.card}" stroke="${COL.ink}" stroke-width="2"/><rect x="20" y="47" width="16" height="4" fill="${COL.ink}"/></svg>`;
+  if (kind === 'P') return cold
+    ? `<svg viewBox="0 0 56 56" aria-hidden="true"><line x1="28" y1="3" x2="28" y2="10" stroke="${COL.ink}" stroke-width="1.5"/><rect x="20" y="10" width="16" height="4" fill="${COL.gold}"/><ellipse cx="28" cy="28" rx="16" ry="14" fill="none" stroke="${COL.ink2}" stroke-width="1.5"/><path d="M28 14 V42 M18 18 Q28 28 18 38 M38 18 Q28 28 38 38" stroke="${COL.ink2}" fill="none" stroke-width="1.2"/><path d="M14 26 Q20 20 26 24 L24 34 Q18 36 14 30 Z" fill="${COL.rouge}" opacity=".8"/><rect x="20" y="42" width="16" height="4" fill="${COL.gold}"/></svg>`
+    : `<svg viewBox="0 0 56 56" aria-hidden="true"><line x1="28" y1="3" x2="28" y2="10" stroke="${COL.ink}" stroke-width="1.5"/><rect x="20" y="10" width="16" height="4" fill="${COL.gold}"/><ellipse cx="28" cy="28" rx="16" ry="14" fill="${COL.rouge}"/><path d="M28 14 V42" stroke="#c8495d" stroke-width="1.2"/><rect x="20" y="42" width="16" height="4" fill="${COL.gold}"/><line x1="28" y1="46" x2="28" y2="54" stroke="${COL.gold}" stroke-width="2"/></svg>`;
+  if (kind === 'mirror') return `<svg viewBox="0 0 56 56" aria-hidden="true"><ellipse cx="28" cy="24" rx="15" ry="19" fill="${COL.indigo2}" stroke="${COL.gold}" stroke-width="3"/><path d="M20 15 L26 11" stroke="${COL.card}" stroke-width="2.5" stroke-linecap="round"/><path d="M28 43 V51 M18 52 H38" stroke="${COL.ink}" stroke-width="2.4"/></svg>`;
+  if (kind === 'sleep') return `<svg viewBox="0 0 56 56" aria-hidden="true"><path d="M36 8 A20 20 0 1 0 48 40 A16 16 0 1 1 36 8 Z" fill="${COL.gold2}"/></svg>`;
+  return `<svg viewBox="0 0 56 56" aria-hidden="true"><rect x="22" y="6" width="12" height="44" rx="5" fill="${COL.gold}"/><line x1="12" y1="18" x2="22" y2="22" stroke="${COL.gold2}" stroke-width="2"/><line x1="44" y1="18" x2="34" y2="22" stroke="${COL.gold2}" stroke-width="2"/></svg>`;
+}
+function clothSVG(kind, seed) {
+  if (kind === 'empty') return `<svg viewBox="0 0 60 60" aria-hidden="true"><rect x="4" y="4" width="52" height="52" fill="none" stroke="${COL.ink3}" stroke-width="1.4" stroke-dasharray="4 4"/></svg>`;
+  if (kind === 'gone') return `<svg viewBox="0 0 60 60" aria-hidden="true"><rect x="4" y="4" width="52" height="52" fill="${COL.ink}"/><path d="M12 48 L48 12" stroke="${COL.ink3}" stroke-width="1.4"/></svg>`;
+  let s = `<polygon points="${tornRect(4, 4, 52, 52, seed)}" fill="${COL.card}" stroke="${COL.ink3}" stroke-width="1"/>`;
+  if (kind === 'stain') {
+    const r = rng(seed + 5), bx = 22 + r() * 16, by = 22 + r() * 16;
+    s += `<polygon points="${blob(bx, by, 13, seed + 1)}" fill="${COL.rouge}" opacity=".86"/><polygon points="${fleck(bx + (r() - 0.5) * 14, by + (r() - 0.5) * 14, 4, seed + 2)}" fill="${COL.gold}"/>`;
+  }
+  return `<svg viewBox="0 0 60 60" aria-hidden="true">${s}</svg>`;
+}
+const RING = `<svg class="ring" viewBox="0 0 300 340" aria-hidden="true"><ellipse cx="150" cy="186" rx="118" ry="152" pathLength="100" fill="none" stroke="${COL.gold}" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 100" transform="rotate(-90 150 186)"/></svg>`;
+
+// ── 文字 ─────────────────────────────────────────────
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const ROLES = ['生', '旦', '净', '丑'];
+const RULES = [
+  '每天枕边有一炷香，6 到 8 寸，就是桌上那几根香。做一件事，就把一根香拖过去。',
+  '把香拖上戏台，唱一寸戏，金箔 +2。每天至少唱 3 寸、最多 5 寸。周五结束时，金箔要到 58 才不会被摘牌。',
+  '回到母亲素娘的豆花摊、伴侣阿檀的灯坊，要先把给他们看的那张脸（卡）拖到脸上，才能陪他们。戴着戏台脸回家，也能对镜练戏赚金箔。',
+  '上妆不花香：把卡拖到脸上就画上了。每一场最多画一张，画了就要用。',
+  '卸妆要按住脸来回擦，一次一层，从最上面卸，烧一寸香。在让你安心的人面前，对方会伸手替你擦，不花香。',
+  '脸上不止一层妆时，最底下那层如果不属于眼前这一场，就会透出来。',
+  '不卸妆就睡，醒来时最底下那层还在脸上。换妆要在这一场开始做事之前。他们心里怎么想，你看不到。',
+];
+const STAGE_DESC = [
+  '开锣。今天是你第一次唱二路，台下坐满了人。',
+  '魏老板说，散戏后留下来对戏的，他都记着。',
+  '小凤病了，嗓子哑着，还是上了台。',
+  '魏老板在后台点人：今晚谁的金箔多，谁就站中间。',
+  '这一出的最后一天。明天一早，水牌要重写。',
+];
+const F_DESC = { warm: '素娘拿着热毛巾在等你，锅里还留着一碗豆花。', ok: '素娘在收摊，看见你，把毛巾拧干了。', cold: '毛巾搁在桌上。素娘背过身去洗碗。' };
+const F_SAY = { warm: '「回来啦，先吃一碗。」', ok: '「回来啦。」', cold: '「你忙，就不用过来了。」' };
+const P_DESC = { warm: '阿檀一边糊灯一边等你，灯已经糊了一大半。', ok: '阿檀在糊灯，抬头看了你一眼。', cold: '阿檀背对着你糊灯。灯的骨架上，纸只糊了一角。' };
+const P_SAY = { warm: '「你看，灯快好了。」', ok: '「回来了？」', cold: '「你先忙。」' };
+const USE = { W: '唱戏 · 练戏', F: '陪素娘', P: '陪阿檀' };
+
+let S = null, pickRole = '旦', draftName = '小满', modal = null, flash = null;
+let drag = null, wiping = null, wipeSaved = null, kbd = false;
+document.addEventListener('keydown', () => { kbd = true; }, true);
+document.addEventListener('pointerdown', () => { kbd = false; }, true);
+const app = document.getElementById('app');
+const towelEl = document.getElementById('towel');
+towelEl.innerHTML = TOWEL;
+
+// ── 開場 ─────────────────────────────────────────────
+function viewStart() {
+  return `<div class="start">
+    <div class="vboard"><div class="t">底色</div><div class="s">一款策略卡牌游戏</div></div>
+    <div>
+      <p class="intro">在一座人人每天上妆演戏的城里，你是正往上爬的角儿。脸上的油彩一层叠一层，最底下那层，总在你最不想让人看见的地方透出来。</p>
+      <p class="lede">这是原型版：一出戏，周一到周五。白天上戏台挣金箔，晚上回母亲的豆花摊、伴侣阿檀的灯坊。把面具卡拖到脸上画妆，把香拖过去做事，按住脸来回擦就能卸妆。水牌是公开的，他们的心是藏起来的，要等这一出唱完才翻开。</p>
+      <div class="form">
+        <div class="field"><label for="nm">你的小名</label><input id="nm" maxlength="6" value="${esc(draftName)}" autocomplete="off"></div>
+        <div class="field"><label>行当</label><div class="picks">${ROLES.map(r => `<button class="pick" data-act="role" data-arg="${r}" aria-pressed="${r === pickRole}">${r}</button>`).join('')}</div></div>
+        <button class="btn go" data-act="start">开锣<small>周一，第一次唱二路</small></button>
+      </div>
+      <div class="rules-card"><h3>规矩</h3><ol>${RULES.map(r => `<li>${r}</li>`).join('')}</ol></div>
+    </div>
+  </div>`;
+}
+
+function viewBar() {
+  const rival = RIVAL.slice(0, Math.min(S.day, R.days)).reduce((a, b) => a + b, 0);
+  return `<header class="bar">
+    <div class="brand">底色</div>
+    <div class="when"><b>${DAYS[Math.min(S.day, R.days - 1)]}</b><span>第一出 · 开锣</span></div>
+    <div class="board" aria-label="水牌"><span>水牌</span><span>你 <b>${S.gold}</b></span><span class="rival">小凤 <b>${rival}</b></span><span class="pass">及格 ${R.pass}</span></div>
+    <div class="tools"><button class="tool" data-act="rules">规矩</button><button class="tool" data-act="diary">日记</button></div>
+  </header>`;
+}
+
+// ── 擦臉 ─────────────────────────────────────────────
+function wipeInfo() {
+  if (!S) return { mode: 'none', ok: false };
+  if (S.phase === 'reveal') {
+    const rv = S.reveal;
+    return { mode: 'reveal', ok: rv.step === 1 && !rv.washed, free: false, need: rv.stack.length ? 1100 : 320 };
+  }
+  if (S.phase === 'scene') {
+    const c = S.sc, cost = unmaskCost(S, c.scene), ok = canUnmask(S);
+    let reason = '';
+    if (!S.stack.length) reason = '脸上没有妆。';
+    else if (c.locked) reason = '已经开始做事，妆换不了了。';
+    else if (c.pushed) reason = '这一场画过妆了，卸不了了。';
+    else if (!ok) reason = '香不够了。';
+    return { mode: 'scene', ok, free: cost === 0, need: 900, reason, helper: WHO[c.scene], stage: c.scene === 'W' };
+  }
+  if (S.phase === 'sleep') {
+    const cost = sleepCost(S), n = S.stack.length;
+    return { mode: 'sleep', ok: n > 0 && S.t >= cost, free: cost === 0, cost, need: 900 + 300 * Math.max(0, n - 1), reason: n ? '香不够了。' : '脸上没有妆。', helper: '阿檀' };
+  }
+  return { mode: 'none', ok: false };
+}
+function wipeKey() {
+  return S ? `${S.phase}-${S.day}-${S.si}-${S.stack.length}-${S.reveal ? S.reveal.stack.length : ''}` : '';
+}
+function wipeCaption(wi) {
+  if (wi.mode === 'scene') {
+    const push = S.phase === 'scene' && ['W', 'F', 'P'].some(m => canPush(S, m)) ? '<br>把妆奁里的卡拖到脸上，画上一张。' : '';
+    if (!wi.ok) return (S.stack.length ? wi.reason : '素脸，什么都没画。') + push;
+    return (wi.free ? `按住脸，<b>${wi.helper}会伸手替你擦</b>掉一层，不花香。` : `按住脸来回擦，自己卸下一层，<b>烧一寸香</b>。${wi.stage ? '后台没人替你擦。' : ''}`) + push;
+  }
+  if (wi.mode === 'sleep') {
+    if (!S.stack.length) return '你脸上什么都没有。';
+    if (!wi.ok) return `想把妆擦干净，要 ${wi.cost} 寸香，香不够了。`;
+    return wi.free ? '按住脸，<b>阿檀会替你把妆擦干净</b>，不花香。' : `按住脸来回擦，把 ${S.stack.length} 层妆擦干净，<b>要 ${wi.cost} 寸香</b>。`;
+  }
+  return '';
+}
+function viewFaceBlock(stack, stain, wi, label) {
+  const saved = wipeSaved && wipeSaved.key === wipeKey() ? wipeSaved.got / wi.need : 0;
+  return `<div class="face ${wi.ok ? 'wipeable' : ''}" data-drop="face" data-wipe tabindex="0" role="button" aria-label="${label}">
+      ${faceSVG(stack, 'me', stain)}${RING.replace('stroke-dasharray="0 100"', `stroke-dasharray="${Math.min(100, saved * 100).toFixed(1)} 100"`)}
+      <div class="helper" hidden>${TOWEL}</div>
+    </div>`;
+}
+function setRing(p) {
+  const el = app.querySelector('[data-wipe] .ring ellipse');
+  if (el) el.setAttribute('stroke-dasharray', `${Math.min(100, p * 100).toFixed(1)} 100`);
+}
+function showTowel(x, y) { towelEl.hidden = false; moveTowel(x, y); }
+function moveTowel(x, y) { towelEl.style.transform = `translate(${x - 30}px, ${y - 24}px) rotate(${(Math.sin(x / 30) * 12).toFixed(1)}deg)`; }
+function shake(el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+
+function startWipe(e, face) {
+  const wi = wipeInfo();
+  if (wi.mode === 'none') return;
+  if (!wi.ok) { shake(face); return; }
+  e.preventDefault();
+  const got = wipeSaved && wipeSaved.key === wipeKey() ? wipeSaved.got : 0;
+  wiping = { wi, got, x: e.clientX, y: e.clientY, face, pid: e.pointerId };
+  if (wi.free) { runHelper(); return; }
+  face.setPointerCapture?.(e.pointerId);
+  showTowel(e.clientX, e.clientY);
+}
+function runHelper() {
+  const face = wiping.face;
+  wiping.auto = true;
+  face.classList.add('helping');
+  face.querySelector('.helper').hidden = false;
+  requestAnimationFrame(() => setRing(1));
+  setTimeout(finishWipe, 780);
+}
+function finishWipe() {
+  if (!wiping) return;
+  const wi = wiping.wi, t0 = S.t;
+  towelEl.hidden = true;
+  wiping = null;
+  wipeSaved = null;
+  if (wi.mode === 'scene') unmask(S);
+  else if (wi.mode === 'sleep') sleep(S, true);
+  else if (wi.mode === 'reveal') {
+    if (S.reveal.stack.length) S.reveal.stack.pop();
+    if (!S.reveal.stack.length) S.reveal.washed = true;
+  }
+  flash = S.t < t0 ? { from: S.t, to: t0 } : null;
+  render('[data-wipe]');
+  flash = null;
+}
+
+// ── 拖放 ─────────────────────────────────────────────
+function accepts(zone, kind, arg) {
+  if (!zone || !S || S.phase !== 'scene') return false;
+  if (kind === 'card') return zone.dataset.drop === 'face' && canPush(S, arg);
+  if (kind === 'token') return zone.dataset.drop === 'act' && canAct(S);
+  return false;
+}
+function perform(kind, arg) {
+  const g0 = S.gold;
+  if (kind === 'card') push(S, arg);
+  else if (kind === 'token' || kind === 'zone') act(S);
+  render(kind === 'card' ? '[data-wipe]' : '[data-drop="act"]');
+  if (S.gold > g0) burst((S.gold - g0) * 3);
+}
+function startDrag(e, src) {
+  e.preventDefault();
+  drag = { kind: src.dataset.drag, arg: src.dataset.arg, src, x0: e.clientX, y0: e.clientY, moved: false, ghost: null, pid: e.pointerId, over: null };
+  src.setPointerCapture?.(e.pointerId);
+}
+function dragTo(e) {
+  if (!drag.moved) {
+    if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 6) return;
+    drag.moved = true;
+    const r = drag.src.getBoundingClientRect();
+    const g = drag.src.cloneNode(true);
+    g.classList.add('ghost');
+    g.removeAttribute('data-drag');
+    g.style.width = `${r.width}px`;
+    g.style.height = `${r.height}px`;
+    drag.dx = drag.x0 - r.left;
+    drag.dy = drag.y0 - r.top;
+    document.body.appendChild(g);
+    drag.ghost = g;
+    drag.src.classList.add('lifted');
+    document.body.classList.add('is-dragging');
+    app.querySelectorAll('[data-drop]').forEach(z => z.classList.toggle('can', accepts(z, drag.kind, drag.arg)));
+  }
+  drag.ghost.style.transform = `translate(${e.clientX - drag.dx}px, ${e.clientY - drag.dy}px) rotate(-5deg) scale(1.06)`;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const zone = el && el.closest('[data-drop]');
+  if (drag.over && drag.over !== zone) drag.over.classList.remove('over');
+  drag.over = accepts(zone, drag.kind, drag.arg) ? zone : null;
+  if (drag.over) drag.over.classList.add('over');
+}
+function endDrag(e) {
+  const d = drag;
+  drag = null;
+  if (d.ghost) d.ghost.remove();
+  document.body.classList.remove('is-dragging');
+  app.querySelectorAll('.can, .over, .lifted').forEach(el => el.classList.remove('can', 'over', 'lifted'));
+  if (!d.moved) { perform(d.kind, d.arg); return; }
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const zone = el && el.closest('[data-drop]');
+  if (accepts(zone, d.kind, d.arg)) perform(d.kind, d.arg);
+}
+
+app.addEventListener('pointerdown', e => {
+  if (wiping || drag || e.button > 0) return;
+  const src = e.target.closest('[data-drag]');
+  if (src && !src.disabled) { startDrag(e, src); return; }
+  const face = e.target.closest('[data-wipe]');
+  if (face) startWipe(e, face);
+});
+document.addEventListener('pointermove', e => {
+  if (drag && e.pointerId === drag.pid) { dragTo(e); return; }
+  if (wiping && !wiping.auto && e.pointerId === wiping.pid) {
+    wiping.got += Math.hypot(e.clientX - wiping.x, e.clientY - wiping.y);
+    wiping.x = e.clientX; wiping.y = e.clientY;
+    moveTowel(e.clientX, e.clientY);
+    setRing(wiping.got / wiping.wi.need);
+    if (wiping.got >= wiping.wi.need) finishWipe();
+  }
+});
+const pointerEnd = e => {
+  if (drag && e.pointerId === drag.pid) { endDrag(e); return; }
+  if (wiping && !wiping.auto && e.pointerId === wiping.pid) {
+    wipeSaved = { key: wipeKey(), got: wiping.got };
+    towelEl.hidden = true;
+    wiping = null;
+  }
+};
+document.addEventListener('pointerup', pointerEnd);
+document.addEventListener('pointercancel', pointerEnd);
+
+// 鍵盤：在臉上按住空白鍵或 Enter 擦臉；卡和香按 Enter 直接使用
+app.addEventListener('keydown', e => {
+  const face = e.target.closest && e.target.closest('[data-wipe]');
+  if (!face || (e.key !== ' ' && e.key !== 'Enter')) return;
+  e.preventDefault();
+  if (wiping) return;
+  const wi = wipeInfo();
+  if (wi.mode === 'none') return;
+  if (!wi.ok) { shake(face); return; }
+  if (wi.free) { wiping = { wi, face, got: 0 }; runHelper(); return; }
+  const got = (wipeSaved && wipeSaved.key === wipeKey() ? wipeSaved.got : 0) + 75;
+  wipeSaved = { key: wipeKey(), got };
+  setRing(got / wi.need);
+  if (got >= wi.need) { wiping = { wi, face, got }; finishWipe(); }
+});
+
+// ── 遊戲畫面 ─────────────────────────────────────────
+function viewLayers(c) {
+  const rev = S.stack.slice().reverse();
+  if (!rev.length) return '';
+  return `<ol class="layers">${rev.map((m, i) => {
+    const bottom = i === rev.length - 1 && rev.length >= 2;
+    let tag = i === 0 ? '<span class="tag">眼下这张</span>' : '';
+    if (bottom) {
+      if (c && c.leaked) tag = '<span class="tag leak">透出来了</span>';
+      else if (c && !c.leakChecked && m !== c.scene) tag = '<span class="tag leak">会透出来</span>';
+      else tag = '<span class="tag">底色</span>';
+    }
+    return `<li><span class="chip" style="background:${COL[m]}"></span>${MASK[m].name}${tag}</li>`;
+  }).join('')}</ol>`;
+}
+function viewFace() {
+  const c = S.phase === 'scene' ? S.sc : null;
+  const wi = wipeInfo();
+  const label = S.stack.length ? `你的脸，从上到下：${S.stack.slice().reverse().map(m => MASK[m].name).join('、')}。` : '你的脸，素脸。';
+  return `<section class="facezone" aria-label="你的脸">${viewFaceBlock(S.stack, c && c.leaked, wi, label + (wi.ok ? '按住来回擦可以卸妆。' : ''))}
+    <p class="wipe-cap">${wipeCaption(wi)}</p>${viewLayers(c)}</section>`;
+}
+function viewHead() {
+  if (S.phase === 'sleep') {
+    const n = S.stack.length;
+    return `<section class="head night"><div class="sh">${emblem('sleep')}<div><h2>睡前</h2><div class="who">夜里</div></div></div>
+      <p class="desc">${n ? `脸上还有 ${n} 层妆。要卸干净，就按住脸来回擦；不卸，就带着最底下那层睡。` : '你脸上什么都没有。'}</p></section>`;
+  }
+  if (S.phase === 'watch') {
+    const L = S.log[S.day];
+    return `<section class="head night"><div class="sh">${emblem('watch')}<div><h2>更夫报更</h2><div class="who">窗外</div></div></div>
+      <div>${L.watch.map(l => `<p class="watch-line">${l}</p>`).join('')}</div></section>`;
+  }
+  const c = S.sc, sc = c.scene;
+  if (sc === 'W') {
+    const fresh = !c.acts && !c.unmasked && !c.pushed;
+    return `<section class="head"><div class="sh">${emblem('W')}<div><h2>大戏台</h2><div class="who">班主 · 魏老板</div></div></div>
+      ${fresh ? `<p class="morning">枕边的香有 ${S.dayLen} 寸。</p>` : ''}<p class="desc">${STAGE_DESC[S.day]}</p>
+      <p class="say">${c.acts >= R.workMax ? '魏老板拍了拍你的肩：「留得晚，好。」' : '魏老板：「金箔不会骗人。」'}</p></section>`;
+  }
+  if (sc === 'F') {
+    const bday = (EVENTS[S.day] || {}).F;
+    return `<section class="head home"><div class="sh">${emblem('F')}<div><h2>豆花摊</h2><div class="who">母亲 · 素娘</div></div></div>
+      <p class="desc">${bday ? '今天是素娘的生日，摊子上摆着一碗长寿面。' : ''}${F_DESC[c.tier]}</p><p class="say">${F_SAY[c.tier]}</p></section>`;
+  }
+  return `<section class="head home"><div class="sh">${emblem('P', c.tier === 'cold')}<div><h2>灯坊</h2><div class="who">伴侣 · 阿檀</div></div></div>
+    <p class="desc">${P_DESC[c.tier]}</p><p class="say">${P_SAY[c.tier]}</p></section>`;
+}
+function viewTarget() {
+  if (S.phase !== 'scene') return '<div class="target"></div>';
+  const c = S.sc, sc = c.scene, a = actionFor(S), can = canAct(S);
+  let kind, title, sub;
+  if (sc === 'W') { kind = 'W'; title = '戏台'; sub = `把一根香拖上台，唱一寸戏，金箔 +2。已唱 ${c.acts} 寸（至少 3，最多 5）。`; }
+  else if (a === 'practice') { kind = 'mirror'; title = '对镜练戏'; sub = '把一根香拖到镜子前，练一寸戏，金箔 +2。'; }
+  else { kind = sc; title = `陪${WHO[sc]}`; sub = `把一根香拖过来，陪${WHO[sc]}一寸。`; }
+  if (!can) {
+    if (!a) sub = !S.stack.length ? '先把一张脸拖到脸上。' : sc === 'W' ? '要戴着戏台脸才能唱。' : '最上面这张脸，在这里用不上。';
+    else if (S.t < 1) sub = '香烧完了。';
+    else if (sc === 'W' && c.acts >= R.workMax) sub = '今天最多唱 5 寸。';
+  }
+  return `<button class="zone target" data-drop="act" data-act="zone" ${can ? '' : 'disabled'}>${emblem(kind, c.tier === 'cold')}<span><span class="zt">${title}</span><small>${sub}</small></span></button>`;
+}
+function cardReason(m) {
+  if (S.phase !== 'scene') return '现在不能画妆';
+  const c = S.sc;
+  if (c.locked) return '已经开始做事';
+  if (c.pushed) return '这一场画过了';
+  if (S.t < 1) return '香烧完了';
+  return '这里用不上';
+}
+function viewTray() {
+  if (S.phase === 'watch') return '<div class="tray" hidden></div>';
+  const cards = ['W', 'F', 'P'].map(m => {
+    if (S.stack.includes(m)) return '<div class="card slot" aria-hidden="true">在脸上</div>';
+    const ok = S.phase === 'scene' && canPush(S, m);
+    return `<button class="card" data-drag="card" data-arg="${m}" ${ok ? '' : 'disabled'} title="${ok ? '拖到脸上画上去' : cardReason(m)}" aria-label="${MASK[m].name}，${ok ? '拖到脸上，或按 Enter 画上去' : cardReason(m)}">${cardSVG(m)}<span class="cn">${MASK[m].name}</span><small>${ok ? USE[m] : cardReason(m)}</small></button>`;
+  }).join('');
+  const canUse = S.phase === 'scene' && canAct(S);
+  const tokens = Array.from({ length: 8 }, (_, i) => {
+    if (i >= S.dayLen) return '<span class="token missing" aria-hidden="true"></span>';
+    const fl = flash && i >= flash.from && i < flash.to ? ' flash' : '';
+    if (i >= S.t) return `<span class="token ash${fl}" aria-hidden="true">${ASH}</span>`;
+    return `<button class="token" data-drag="token" ${canUse ? '' : 'disabled'} aria-label="一根香，${canUse ? '拖到落点上，或按 Enter 使用' : '现在用不上'}">${TOKEN}</button>`;
+  }).join('');
+  return `<section class="tray" aria-label="妆奁与香">
+    <div><h3>妆奁</h3><div class="cards">${cards}</div></div>
+    <div><h3><span>枕边的香</span><span>还剩 <b>${S.t}</b> 寸</span></h3><div class="tokens">${tokens}</div>
+      ${S.phase === 'scene' && S.si === 0 && S.day === 0 && !S.sc.acts ? '<p class="hint">把戏台脸拖到脸上，再把香一根一根拖上戏台。</p>' : ''}</div>
+  </section>`;
+}
+function viewRest() {
+  if (S.phase === 'sleep') {
+    return `<div class="rest"><div class="leave"><button class="btn ${S.stack.length ? '' : 'main'}" data-act="sleep">${S.stack.length ? `带妆睡<small>醒来时，${MASK[S.stack[0]].name}还在脸上</small>` : '睡吧'}</button></div></div>`;
+  }
+  if (S.phase === 'watch') {
+    return `<div class="rest"><div class="leave"><button class="btn main" data-act="dawn">${S.day === R.days - 1 ? '天亮了，水牌要重写了' : '天亮了'}</button></div></div>`;
+  }
+  const c = S.sc, sc = c.scene;
+  let next;
+  if (sc === 'W') next = alive(S, 'F') ? '散戏，去豆花摊' : alive(S, 'P') ? '散戏，去灯坊' : '散戏，回房间';
+  else if (sc === 'F') next = alive(S, 'P') ? '离开豆花摊，去灯坊' : '离开豆花摊，回房间';
+  else next = '离开灯坊，回房间';
+  const why = sc === 'W' && c.acts < R.workMin ? `至少要唱 3 寸（已唱 ${c.acts} 寸）` : sc !== 'W' && c.pushed && !c.acts ? '画了的妆要先用' : sc !== 'W' && !c.cared ? `你没有陪${WHO[sc]}` : '';
+  const notes = c.notes.length ? `<div class="notes" aria-live="polite">${c.notes.map(([t, k]) => `<p class="${k}">${t}</p>`).join('')}</div>` : '';
+  return `<div class="rest">${notes}<div class="leave"><button class="btn go" data-act="leave" ${canLeave(S) ? '' : 'disabled'}>${next}${why ? `<small>${why}</small>` : ''}</button></div></div>`;
+}
+function viewPlay() {
+  return `${viewBar()}<div class="table">${viewFace()}${viewHead()}${viewTarget()}${viewTray()}${viewRest()}</div>`;
+}
+
+// ── 揭曉 ─────────────────────────────────────────────
+const ENDINGS = {
+  liubai: { name: '留白', cond: '过线，两段关系都守住', cls: 'end-liubai', text: () => '这一出唱完，你回到家。有人伸手，接过你的毛巾。', mean: '「留白」是画里刻意不画的空白。最好的结局很安静，不放烟火。' },
+  suian: { name: '素脸', cond: '没过线，至少守住一段关系', cls: 'end-suian', text: s => (s.F >= R.thr ? '你被摘了牌。第二天，你素着脸去了豆花摊。素娘看了你一会儿，多舀了一碗。' : '你被摘了牌。第二天，你素着脸去了灯坊。阿檀把糊好的灯举起来给你看。'), mean: '输了水牌，终于用自己的脸见他们。' },
+  toupai: { name: '头牌', cond: '过线，但没守住两段关系', cls: 'end-toupai', text: s => (s.F <= 0 || s.P <= 0 ? '门开了一条缝：「你找谁？」' : '') + '名字挂上了水牌的高处。回到家，你对着镜子擦脸，露出来的，是戏台上那张。', mean: '你赢了，但台上那张脸，已经变成你的底色。' },
+  gengfu: { name: '更夫', cond: '没过线，两段关系也没守住', cls: 'end-gengfu', text: () => '春天，城里多了一个不上妆的更夫。你接过梆子，上面刻着一长串名字。', mean: '那些名字，都是之前的更夫。最常走到这里的，是每晚都回家、却从不卸妆的人。' },
+};
+function viewReveal() {
+  const rv = S.reveal, pass = S.gold >= R.pass;
+  if (rv.step === 0) {
+    const rows = [{ n: `二路 · ${S.role} · ${esc(S.name)}`, g: S.gold, me: true }, { n: '二路 · 旦 · 小凤', g: RIVAL.reduce((a, b) => a + b, 0) }].sort((a, b) => b.g - a.g);
+    return `<div class="reveal"><section class="rv"><h2>水牌重写</h2><p class="big">天刚亮，全城围在戏园门口。班主把这一出的金箔秤完，一个一个名字重新写上去。</p>
+      <div class="wb">${rows.map(r => `<div class="${r.me ? 'me' : ''}"><span>${r.n}</span><b>${r.g}</b></div>`).join('')}</div>
+      <div class="stamp ${pass ? '' : 'fail'}">${pass ? '过线 · 留牌' : '没过线 · 摘牌'}</div>
+      <p class="big" style="margin-top:12px">${pass ? '锣鼓响了，金箔落了一台。所有人都在为你叫好。' : '你的名字，被摘了下来。'}</p>
+      <div class="actions"><button class="btn go" data-act="rv-next">人散了，回家</button></div></section></div>`;
+  }
+  if (rv.step === 1) {
+    const wi = wipeInfo(), done = rv.washed;
+    const cap = done ? '脸上什么都没有了。' : rv.stack.length ? `按住脸来回擦，卸下最上面那层。还有 ${rv.stack.length} 层。` : '你脸上已经没有妆了。按住脸，抹一把。';
+    return `<div class="reveal"><section class="rv"><h2>两个木匣</h2>
+      <p class="big">你走回家。桌上摆着两个木匣，一个是素娘的，一个是阿檀的。要打开它们，你得先亲手把脸上的妆擦下来。这一次，没有人替你擦。</p>
+      ${viewFaceBlock(rv.stack, null, wi, done ? '你的脸，已经擦干净了。' : '你的脸，按住来回擦。')}
+      <p class="wipe-cap">${cap}</p>
+      <div class="actions"><button class="btn go" data-act="rv-next" ${done ? '' : 'disabled'}>打开木匣</button></div></section></div>`;
+  }
+  if (rv.step === 2) {
+    const head = `<span></span>${DAYS.map(d => `<span class="h">${d}</span>`).join('')}`;
+    const rowOf = who => `<span class="who">${WHO[who]}</span>` + DAYS.map((_, d) => {
+      const k = `${d}${who}`, cl = clothOf(S, d, who);
+      return `<button class="cloth" data-act="rv-pick" data-arg="${k}" aria-pressed="${rv.pick === k}" aria-label="${DAYS[d]}，${WHO[who]}的布">${clothSVG(cl.kind, d * 10 + (who === 'F' ? 1 : 2))}</button>`;
+    }).join('');
+    let info = '<p class="hint" style="margin:0">点一块布，看看那天你看见了什么、做了什么。</p>';
+    if (rv.pick) { const cl = clothOf(S, +rv.pick[0], rv.pick[1]); info = `<p>${cl.saw}</p>${cl.did ? `<p><b>${cl.did}</b></p>` : ''}`; }
+    const f = factsOf(S);
+    return `<div class="reveal"><section class="rv"><h2>卸妆布</h2>
+      <p class="big">木匣里，是这五天他们替你卸妆用过的布，按日子摊了一地。</p>
+      <div class="cloths">${head}${rowOf('F')}${rowOf('P')}</div>
+      <div class="legend"><span><i style="background:${COL.card};border:1px solid ${COL.ink3}"></i>干净的布：你只带着该带的脸回家</span><span><i style="background:${COL.rouge}"></i>沾红带金：你把戏台那张脸带回了家</span><span><i style="border:1px dashed ${COL.ink3}"></i>空着：那天你没有陪他们</span></div>
+      <div class="cinfo">${info}</div>
+      <p class="facts">这一出里：香变短了 ${f.drops} 次；回到家时，卸妆得自己烧香的有 ${f.paid} 场；更夫报了 ${f.lines} 句。</p>
+      <div class="actions"><button class="btn go" data-act="rv-next">翻开水牌背面</button></div></section></div>`;
+  }
+  if (rv.step === 3) {
+    const lines = [['F', S.F], ['P', S.P]].map(([w, v]) => `<div><span class="nm">${WHO[w]}</span><span class="tx">${BACK[w][backTier(v)]}</span><small>安心 ${v} / 10</small></div>`).join('');
+    const pat = patternLine(S);
+    return `<div class="reveal"><section class="rv"><h2>水牌背面</h2><p class="big">水牌翻过来，背面浮出两行字。</p><div class="back">${lines}</div>
+      ${pat ? `<p class="night-line">${pat}</p>` : ''}
+      <div class="actions"><button class="btn go" data-act="rv-next">五更天</button></div></section></div>`;
+  }
+  const e = ENDINGS[endingOf(S)];
+  return `<div class="reveal"><section class="rv"><p class="night-line">五更天，窗外有人在喊「${esc(S.name)}」。</p>
+    <div class="ending ${e.cls}"><h3>${e.name}</h3><p class="cond">${e.cond}</p><p class="tx">${e.text(S)}</p><p class="mean">${e.mean}</p></div>
+    <div class="actions"><button class="btn go" data-act="again">再唱一出</button><button class="btn" data-act="diary">翻日记</button><button class="btn" data-act="home">回到开场</button></div></section></div>`;
+}
+
+function viewModal() {
+  let body;
+  if (modal === 'rules') body = `<h2>规矩</h2><ol>${RULES.map(r => `<li>${r}</li>`).join('')}</ol>`;
+  else {
+    const done = S ? S.log.filter(L => L.watch.length) : [];
+    const after = S && S.phase === 'reveal';
+    body = `<h2>日记</h2>${done.length ? done.map((L, d) => `<div class="dline"><b>${DAYS[d]}</b><span class="hint">香 ${L.incense} 寸${after ? ` · 素娘 ${L.F0} → ${L.F1} · 阿檀 ${L.P0} → ${L.P1}` : ''}</span>${L.watch.map(w => `<p class="w">${w}</p>`).join('')}</div>`).join('') : '<p class="hint">还没有过完一天。</p>'}`;
+  }
+  return `<div class="backdrop" data-act="close"></div><div class="modal" role="dialog" aria-modal="true">${body}<button class="tool close" data-act="close">关上</button></div>`;
+}
+
+function render(focusSel) {
+  app.innerHTML = (!S ? viewStart() : S.phase === 'reveal' ? viewReveal() : viewPlay()) + (modal ? viewModal() : '');
+  const el = focusSel && app.querySelector(focusSel);
+  if (kbd && el && !el.disabled && document.activeElement === document.body) el.focus({ preventScroll: true });
+}
+
+function burst(n) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const fx = document.getElementById('fx');
+  for (let i = 0; i < Math.min(n, 40); i++) {
+    const f = document.createElement('span');
+    f.className = 'fleck';
+    f.style.left = `${10 + Math.random() * 80}vw`;
+    f.style.animationDelay = `${Math.random() * 0.4}s`;
+    f.style.background = Math.random() < 0.3 ? COL.gold2 : COL.gold;
+    fx.appendChild(f);
+    setTimeout(() => f.remove(), 2400);
+  }
+}
+
+app.addEventListener('input', e => { if (e.target.id === 'nm') draftName = e.target.value; });
+app.addEventListener('click', e => {
+  const dragSrc = e.target.closest('[data-drag]');
+  if (dragSrc) {
+    // 滑鼠和觸控在 pointerup 已經處理；這裡只接鍵盤的 Enter／空白鍵
+    if (e.detail === 0 && !dragSrc.disabled) perform(dragSrc.dataset.drag, dragSrc.dataset.arg);
+    return;
+  }
+  const b = e.target.closest('[data-act]');
+  if (!b || b.disabled || wiping) return;
+  const a = b.dataset.act, arg = b.dataset.arg;
+  const g0 = S ? S.gold : 0;
+  switch (a) {
+    case 'role': pickRole = arg; break;
+    case 'start': S = newGame((draftName.trim() || '小满').slice(0, 6), pickRole); break;
+    case 'zone': perform('zone'); return;
+    case 'leave': leave(S); window.scrollTo({ top: 0 }); break;
+    case 'sleep': sleep(S, false); break;
+    case 'dawn': dawn(S); window.scrollTo({ top: 0 }); break;
+    case 'rules': case 'diary': modal = a; break;
+    case 'close': modal = null; break;
+    case 'rv-next': S.reveal.step += 1; window.scrollTo({ top: 0 }); break;
+    case 'rv-pick': S.reveal.pick = arg; break;
+    case 'again': S = newGame(S.name, S.role); modal = null; break;
+    case 'home': S = null; modal = null; break;
+  }
+  wipeSaved = null;
+  render(modal ? '.modal .close' : arg ? `[data-act="${a}"][data-arg="${arg}"]` : `[data-act="${a}"]`);
+  if (S && S.gold > g0) burst((S.gold - g0) * 3);
+  if (S && a === 'rv-next' && S.reveal.step === 1 && S.gold >= R.pass) burst(30);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal) { modal = null; render(); } });
+
+window.claude?.hot?.snapshot?.(() => ({ S, pickRole, draftName }));
+const boot = data => {
+  if (data && data.S) { S = data.S; pickRole = data.pickRole || pickRole; draftName = data.draftName || draftName; }
+  render();
+};
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+</script>
