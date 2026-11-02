@@ -1,0 +1,1485 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>底色·妆匣</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+<style>
+/* 版面：一張梳妝桌。左邊是你的臉（台上臉一層層疊上去），右邊是眼前這個時段，底下是今天的妝匣。紙本油彩的單一紙面風格。 */
+:root {
+  color-scheme: light;
+  --paper: #f6f1ef;   /* 油彩白 */
+  --card: #fcf9f7;    /* 乾淨的卸妝布 */
+  --ink: #221c1f;     /* 墨 */
+  --ink-2: #5a5156;
+  --ink-3: #8b7f84;
+  --line: #ddd2d0;
+  --rouge: #a8243a;   /* 唱：戲台紅 */
+  --mo: #3a3236;      /* 念：墨 */
+  --earth: #8f6338;   /* 做：土 */
+  --gold: #a8843a;    /* 打、金箔 */
+  --gold-2: #efe2c2;
+  --su: #ece4dc;      /* 家中牌：素 */
+  --pink: #e4b3ba;    /* 顧家臉 */
+  --indigo: #2e4256;  /* 黛青：家 */
+  --indigo-2: #d9e0e7;
+  --night: #1b171c;
+  --ash: #cfc6c6;
+  --display: "Ma Shan Zheng", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  --body: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.7; }
+button { font: inherit; color: inherit; }
+p { margin: 0; }
+h2, h3 { text-wrap: balance; }
+.app { max-width: 1160px; margin: 0 auto; padding-block: 16px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* 頂欄 */
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+.brand { font-family: var(--display); font-size: 26px; line-height: 1; background: var(--ink); color: var(--card); padding: 7px 10px 5px; letter-spacing: .12em; }
+.when { display: flex; flex-direction: column; line-height: 1.25; }
+.when b { font-family: var(--display); font-size: 24px; font-weight: 400; }
+.when span { font-size: 12px; color: var(--ink-2); letter-spacing: .15em; }
+.board { margin-left: auto; display: flex; gap: 6px 16px; align-items: baseline; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.board b { font-family: var(--display); font-size: 24px; font-weight: 400; color: var(--gold); font-variant-numeric: tabular-nums; }
+.board .flow b { color: var(--ink); }
+.board .line { border: 1px solid var(--rouge); color: var(--rouge); padding: 0 6px; font-size: 12px; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.tool { background: none; border: 1px solid var(--ink-3); padding: 4px 12px; font-size: 13px; cursor: pointer; min-height: 34px; }
+.tool[aria-pressed="true"] { background: var(--ink); color: var(--card); border-color: var(--ink); }
+
+/* 梳妝桌 */
+.table { display: grid; grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); grid-template-areas: "face head" "face main" "tray tray"; gap: 14px 22px; align-items: start; }
+.facezone { grid-area: face; background: var(--card); padding: 14px 16px; border-top: 6px solid var(--ink); }
+.head { grid-area: head; background: var(--card); padding: 16px 22px; border-top: 6px solid var(--rouge); min-width: 0; }
+.head.home { border-top-color: var(--indigo); }
+.head.door { border-top-color: var(--gold); }
+.head.night { background: var(--night); color: var(--card); border-top-color: var(--gold); }
+.main { grid-area: main; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tray { grid-area: tray; background: var(--night); color: var(--card); padding: 12px 16px 14px; }
+.tray h3 { font-size: 12px; font-weight: 400; letter-spacing: .25em; color: var(--gold-2); margin: 0 0 8px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.tray h3 b { font-family: var(--display); font-weight: 400; font-size: 20px; letter-spacing: .05em; color: var(--card); }
+.tray .hint { color: var(--ash); font-size: 12px; margin-top: 8px; }
+
+.sh { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.sh h2 { font-family: var(--display); font-weight: 400; font-size: 34px; margin: 0; line-height: 1.1; letter-spacing: .08em; }
+.sh .who { font-size: 13px; color: var(--ink-2); letter-spacing: .15em; }
+.night .sh .who { color: var(--gold-2); }
+.desc { margin-top: 8px; font-size: 16px; }
+.say { font-family: var(--display); font-size: 22px; color: var(--ink-2); margin-top: 6px; line-height: 1.5; }
+.night .say { color: var(--gold-2); }
+.note { font-size: 13px; color: var(--ink-2); margin-top: 6px; }
+.night .note { color: var(--ash); }
+
+/* 臉 */
+.face { position: relative; width: 100%; max-width: 230px; margin: 0 auto; }
+.face svg { width: 100%; height: auto; display: block; }
+.face .towel { position: absolute; left: 50%; top: 40%; width: 104px; pointer-events: none; opacity: 0; transform: translate(-150%, -50%) rotate(-10deg); }
+.face.helping .towel { animation: helpwipe .8s ease-in-out; }
+@keyframes helpwipe { 0% { opacity: 1; transform: translate(-150%, -50%) rotate(-10deg); } 45% { opacity: 1; transform: translate(10%, -20%) rotate(8deg); } 70% { opacity: 1; transform: translate(-60%, -60%) rotate(-6deg); } 100% { transform: translate(60%, -40%) rotate(10deg); opacity: 0; } }
+.face.rub { animation: rub .45s; }
+@keyframes rub { 30% { transform: translateX(-5px) rotate(-1deg); } 60% { transform: translateX(4px) rotate(1deg); } }
+.facecap { font-size: 13px; color: var(--ink-2); text-align: center; margin-top: 6px; }
+.layers { list-style: none; padding: 0; margin: 10px 0 0; }
+.layers li { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.chip { width: 14px; height: 14px; flex: none; display: inline-block; }
+.tag { margin-left: auto; font-size: 11px; letter-spacing: .06em; padding: 0 6px; border: 1px solid var(--ink-3); color: var(--ink-2); white-space: nowrap; }
+.tag.hot { border-color: var(--rouge); color: var(--rouge); }
+
+/* 卡牌 */
+.cards { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.card { flex: none; width: 76px; height: 108px; border: none; position: relative; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 0 3px 6px; box-shadow: 0 3px 0 rgba(0, 0, 0, .45); text-align: center; }
+.card .cg { position: absolute; top: 8px; left: 0; right: 0; font-family: var(--display); font-size: 34px; line-height: 1; }
+.card .cn { font-family: var(--display); font-size: 16px; line-height: 1.1; }
+.card small { font-size: 10px; line-height: 1.3; opacity: .85; }
+.card .two { position: absolute; top: 4px; right: 4px; font-size: 10px; padding: 0 3px; border: 1px solid currentColor; }
+.card .ex { position: absolute; top: 4px; left: 4px; font-size: 10px; padding: 0 3px; border: 1px solid currentColor; }
+.card .st { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 18px; background: rgba(27, 23, 28, .62); color: var(--card); letter-spacing: .1em; }
+.card:disabled { cursor: default; }
+.card.off { opacity: .4; }
+.card.sel { outline: 3px solid var(--gold); outline-offset: 2px; transform: translateY(-4px); }
+.card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.f-sing { background: var(--rouge); color: var(--card); }
+.f-speak { background: var(--mo); color: var(--card); }
+.f-act { background: var(--earth); color: var(--card); }
+.f-fight { background: var(--gold); color: var(--night); }
+.f-care, .f-comp, .f-listen, .f-labor, .f-gift { background: var(--su); color: var(--indigo); }
+.f-conflict { background: var(--ash); color: var(--night); }
+.empty-tray { color: var(--ash); font-size: 13px; padding: 10px 0; }
+
+/* 面板 */
+.panel { background: var(--card); padding: 14px 18px 16px; }
+.panel h3 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0 0 8px; letter-spacing: .08em; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.panel h3 small { font-family: var(--body); font-size: 13px; color: var(--ink-2); letter-spacing: 0; }
+.row-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.btn { border: 1px solid var(--ink); background: var(--card); padding: 8px 14px; cursor: pointer; text-align: left; line-height: 1.35; min-height: 44px; }
+.btn small { display: block; font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+.btn.main { background: var(--ink); color: var(--card); }
+.btn.main small { color: var(--gold-2); }
+.btn.go { background: var(--rouge); border-color: var(--rouge); color: var(--card); }
+.btn.go small { color: #f3d9dc; }
+.btn.gold { background: var(--gold-2); border-color: var(--gold); }
+.btn:disabled { opacity: .36; cursor: not-allowed; }
+.btn:focus-visible, .tool:focus-visible, .pick:focus-visible, .script:focus-visible, .step:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.hint { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+
+/* 早：劇本與妝匣 */
+.scripts { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.script { border: 1px solid var(--ink-3); background: var(--paper); padding: 10px 12px; text-align: left; cursor: pointer; }
+.script[aria-pressed="true"] { border: 2px solid var(--ink); background: var(--card); padding: 9px 11px; }
+.script b { font-family: var(--display); font-weight: 400; font-size: 22px; }
+.script small { display: block; font-size: 12px; color: var(--ink-2); }
+.segs { display: flex; gap: 4px; margin-top: 6px; }
+.seg-chip { font-size: 12px; padding: 1px 7px; }
+.meter { display: flex; flex-wrap: wrap; gap: 3px; margin: 4px 0 10px; }
+.meter i { width: 16px; height: 22px; border: 1px dashed var(--ink-3); display: block; }
+.meter i.on { border: none; }
+.meter i.res { background: repeating-linear-gradient(45deg, var(--ash), var(--ash) 3px, transparent 3px, transparent 6px); border: none; }
+.deck { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 14px; }
+.drow { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.drow .nm { flex: 1; min-width: 0; line-height: 1.3; }
+.drow .nm b { font-weight: 700; }
+.drow .nm small { display: block; font-size: 11px; color: var(--ink-2); }
+.drow .cnt { font-variant-numeric: tabular-nums; font-size: 14px; min-width: 3.2em; text-align: center; }
+.step { width: 34px; height: 34px; border: 1px solid var(--ink); background: var(--card); cursor: pointer; font-size: 18px; line-height: 1; }
+.step:disabled { opacity: .3; cursor: not-allowed; }
+.picks { display: flex; gap: 6px; flex-wrap: wrap; }
+.pick { border: 1px solid var(--ink); background: var(--card); padding: 6px 14px; cursor: pointer; min-height: 44px; text-align: left; }
+.pick[aria-pressed="true"] { background: var(--rouge); border-color: var(--rouge); color: var(--card); }
+.pick small { display: block; font-size: 12px; opacity: .85; }
+
+/* 白天：三段 */
+.segrow { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.segrow.cur { background: var(--gold-2); margin: 0 -10px; padding: 8px 10px; }
+.segrow .lb { font-family: var(--display); font-size: 22px; line-height: 1.1; }
+.segrow .lb small { display: block; font-family: var(--body); font-size: 12px; color: var(--ink-2); }
+.minis { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-height: 34px; }
+.mini { font-size: 13px; padding: 3px 8px; }
+.mini.bad { outline: 2px dashed var(--ink); outline-offset: -2px; }
+.minis .slot { width: 28px; height: 28px; border: 1px dashed var(--ink-3); }
+.goldline { margin-top: 10px; font-size: 15px; }
+.goldline b { font-family: var(--display); font-size: 26px; font-weight: 400; color: var(--gold); }
+.stamp { display: inline-block; font-family: var(--display); font-size: 20px; padding: 2px 12px; border: 3px solid var(--rouge); color: var(--rouge); transform: rotate(-4deg); letter-spacing: .2em; margin-left: 8px; }
+.stamp.fail { border-color: var(--ink-2); color: var(--ink-2); }
+
+/* 傍晚 */
+.reacts { list-style: none; padding: 0; margin: 0; }
+.reacts li { padding: 8px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.reacts .rk { font-family: var(--display); font-size: 18px; text-align: center; border: 1px solid var(--ink-3); padding: 0 4px; }
+.reacts .rk.up { border-color: var(--indigo); color: var(--indigo); }
+.reacts .rk.down { border-color: var(--rouge); color: var(--rouge); }
+.reacts .rk.none { color: var(--ink-3); }
+.reacts .tx { font-size: 15px; }
+.reacts .gain { display: block; font-size: 13px; color: var(--gold); }
+.lampbox { display: flex; gap: 12px; align-items: center; margin-top: 10px; }
+.lampbox svg { width: 54px; height: 66px; flex: none; }
+
+/* 夜與更夫 */
+.watch-line { font-family: var(--display); font-size: 26px; line-height: 1.6; margin-top: 10px; animation: rise .9s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.daysum { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--ink-2); }
+.daysum b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.rope { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.rope i { width: 18px; height: 22px; display: block; clip-path: polygon(0 0, 100% 0, 92% 100%, 50% 88%, 8% 100%); }
+
+/* 週考核 */
+.grid22 { display: grid; grid-template-columns: auto 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 10px; }
+.grid22 > div { background: var(--card); padding: 8px 10px; font-size: 14px; }
+.grid22 .h { background: var(--paper); font-size: 12px; color: var(--ink-2); letter-spacing: .08em; }
+.grid22 .hit { background: var(--gold-2); outline: 2px solid var(--ink); outline-offset: -2px; font-weight: 700; }
+.wb { margin-top: 12px; border-top: 2px solid var(--ink); max-width: 420px; }
+.wb div { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 2px; border-bottom: 1px solid var(--line); font-size: 16px; }
+.wb .me { font-weight: 700; color: var(--rouge); }
+.wb .last { color: var(--ink-3); }
+
+/* 開場 */
+.start { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 36px; align-items: start; max-width: 980px; margin: 3vh auto 0; }
+.vboard { background: var(--ink); color: var(--card); font-family: var(--display); padding: 30px 22px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.vboard::after { content: ""; position: absolute; inset: 6px; border: 1px solid var(--gold); pointer-events: none; }
+.vboard .t { writing-mode: vertical-rl; font-size: 92px; line-height: 1; letter-spacing: .12em; }
+.vboard .s { writing-mode: vertical-rl; font-size: 17px; color: var(--gold-2); letter-spacing: .3em; }
+.intro { font-family: var(--display); font-size: 25px; line-height: 1.75; }
+.lede { margin-top: 10px; color: var(--ink-2); max-width: 40em; }
+.form { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: flex-end; }
+.field label { display: block; font-size: 13px; letter-spacing: .2em; color: var(--ink-2); margin-bottom: 6px; }
+.field input { font: inherit; font-size: 18px; padding: 7px 12px; border: 1px solid var(--ink); background: var(--card); width: 9em; }
+.roles .pick { font-family: var(--display); font-size: 22px; min-width: 52px; text-align: center; }
+.rules-card { background: var(--card); padding: 14px 20px 16px; margin-top: 22px; font-size: 14px; border-left: 5px solid var(--gold); }
+.rules-card h3 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0 0 4px; letter-spacing: .1em; }
+.rules-card ol { margin: 0; padding-left: 1.4em; }
+.rules-card li + li { margin-top: 3px; }
+
+/* 對話框 */
+.backdrop { position: fixed; inset: 0; background: rgba(27, 23, 28, .55); z-index: 20; }
+.modal { position: fixed; z-index: 21; left: 50%; top: max(5vh, env(safe-area-inset-top, 0px)); transform: translateX(-50%); width: min(680px, calc(100% - 32px)); max-height: 88vh; overflow: auto; background: var(--card); padding: 20px 24px 24px; border-top: 6px solid var(--ink); }
+.modal h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0 0 8px; letter-spacing: .1em; }
+.modal h3 { font-family: var(--display); font-weight: 400; font-size: 20px; margin: 16px 0 6px; }
+.modal ol { padding-left: 1.4em; margin: 0; }
+.modal li + li { margin-top: 4px; }
+.modal .close { position: absolute; right: 12px; top: 10px; }
+.shoprow { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.shoprow .card { width: 60px; height: 84px; cursor: default; box-shadow: none; }
+.shoprow .card .cg { font-size: 26px; top: 6px; }
+.shoprow .card .cn { font-size: 13px; }
+.shoprow .info { flex: 1; min-width: 0; font-size: 14px; }
+.shoprow .info small { display: block; color: var(--ink-2); }
+.ledger { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 14px; }
+.ledger b { font-variant-numeric: tabular-nums; }
+
+/* 揭曉 */
+.reveal { max-width: 900px; margin: 0 auto; }
+.rv { background: var(--card); padding: 26px 28px 28px; border-top: 6px solid var(--gold); }
+.rv h2 { font-family: var(--display); font-weight: 400; font-size: 40px; line-height: 1.2; margin: 0 0 8px; letter-spacing: .1em; }
+.rv .big { font-family: var(--display); font-size: 23px; line-height: 1.7; }
+.rv .actions { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+.rv h3 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 22px 0 6px; letter-spacing: .08em; }
+.days { overflow-x: auto; }
+.days table { border-collapse: collapse; font-size: 12px; min-width: 640px; }
+.days th { font-weight: 400; color: var(--ink-3); padding: 2px; text-align: center; }
+.days th.rh { text-align: left; font-family: var(--display); font-size: 18px; color: var(--ink); padding-right: 10px; white-space: nowrap; }
+.days td { padding: 2px; text-align: center; vertical-align: middle; }
+.days td i { display: block; width: 16px; height: 9px; margin: 2px auto; }
+.days td .none { border: 1px dashed var(--ink-3); height: 16px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 14px; height: 14px; }
+.chart svg { width: 100%; height: auto; display: block; max-width: 640px; }
+.facts { margin-top: 10px; padding-left: 1.2em; font-size: 15px; }
+.facts li + li { margin-top: 3px; }
+.needs { list-style: none; padding: 0; margin: 0; }
+.needs li { padding: 8px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; }
+.needs b { font-family: var(--display); font-weight: 400; font-size: 20px; }
+.needs .ok { color: var(--indigo); }
+.needs .no { color: var(--ink-3); }
+.ending { margin-top: 16px; padding: 24px 26px; }
+.ending h3 { font-family: var(--display); font-weight: 400; font-size: 60px; line-height: 1.1; margin: 0; letter-spacing: .15em; }
+.ending .cond { font-size: 13px; letter-spacing: .12em; opacity: .8; margin-top: 4px; }
+.ending .tx { font-family: var(--display); font-size: 25px; line-height: 1.7; margin-top: 14px; }
+.end-liubai { background: var(--paper); border: 1px solid var(--line); }
+.end-suian { background: var(--indigo-2); }
+.end-toupai { background: var(--gold-2); }
+.end-gengfu { background: var(--night); color: var(--card); }
+.night-line { font-family: var(--display); font-size: 25px; margin-top: 12px; }
+
+#fx { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 30; }
+.fleck { position: absolute; top: -14px; width: 10px; height: 8px; background: var(--gold); animation: fall 1.7s ease-in forwards; }
+@keyframes fall { to { transform: translateY(105vh) rotate(560deg); opacity: .15; } }
+@media (prefers-reduced-motion: reduce) {
+  .fleck { display: none; }
+  .watch-line, .face.helping .towel, .face.rub { animation: none !important; }
+}
+
+@media (max-width: 780px) {
+  .table { grid-template-columns: 124px minmax(0, 1fr); grid-template-areas: "head head" "face main" "tray tray"; gap: 12px; }
+  .facezone { padding: 8px; border-top-width: 4px; position: sticky; top: env(safe-area-inset-top, 0px); }
+  .facecap { font-size: 11px; }
+  .layers li { font-size: 11.5px; gap: 5px; padding: 2px 0; }
+  .layers .tag { display: none; }
+  .head { padding: 12px 16px; }
+  .sh h2 { font-size: 28px; }
+  .desc { font-size: 15px; }
+  .panel { padding: 12px 12px 14px; }
+  .tray { position: sticky; bottom: 0; z-index: 5; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -6px 16px rgba(0, 0, 0, .2); }
+  .tray .hint { display: none; }
+  .card { width: 58px; height: 84px; }
+  .card .cg { font-size: 26px; top: 6px; }
+  .card .cn { font-size: 13px; }
+  .card small { font-size: 9px; }
+  .bar { gap: 6px 12px; margin-bottom: 10px; padding-bottom: 8px; }
+  .when b { font-size: 20px; }
+  .board { margin-left: 0; width: 100%; font-size: 12px; }
+  .board b { font-size: 20px; }
+  .segrow { grid-template-columns: 52px minmax(0, 1fr); }
+  .deck { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) {
+  .start { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .vboard { flex-direction: row; justify-content: center; padding: 16px 20px; }
+  .vboard .t { writing-mode: horizontal-tb; font-size: 56px; }
+  .vboard .s { writing-mode: horizontal-tb; font-size: 14px; }
+  .intro { font-size: 21px; }
+  .ending h3 { font-size: 44px; }
+  .rv { padding: 20px 16px 22px; }
+}
+</style>
+
+<div id="app" class="app"></div>
+<div id="fx" aria-hidden="true"></div>
+
+<script>
+/* ENGINE START */
+// 規則依 設計/v0.3_戲城_妝匣版.md；v0.3 沒寫死的地方用原型自定的占位，列在 ASSUME（規矩頁）裡
+const R = {
+  days: 28, box: 15, stageMax: 9, homeMax: 9, segMax: 3, wipeMax: 2, wipeCalm: 2,
+  calmMax: 5, seenMax: 5, riftMax: 4, riftAlert: 3, seenBonus: 4,
+  start: { calm: 3, seen: 2 }, perfect: 1.5, tagBonus: 1,
+  lines: [30, 50, 70, 90], rank0: 4, ranks: 6, deckCap: 30, perLv: 3, prof: [3, 6, 9],
+  bdayDay: 11, mirrorDay: 18, nightShow: 6, lampPrice: 5,
+};
+const FAM = {
+  sing: { n: '唱', side: 'stage', res: '煽情：下一张家中牌安心 −1' },
+  speak: { n: '念', side: 'stage', res: '汇报口吻：当天被看见 −1' },
+  act: { n: '做', side: 'stage', res: '表演感：底色 +1' },
+  fight: { n: '打', side: 'stage', res: '力：当天裂痕 +1，同天有冲突再 +2' },
+  care: { n: '照顾', side: 'home', eff: '安心 +1', short: '安心 +1', mask: 'gu' },
+  comp: { n: '陪伴', side: 'home', eff: '被看见 +1', short: '被看见 +1', mask: 'zhen' },
+  listen: { n: '倾听', side: 'home', eff: '被看见 +2，当天有念的残留则无效', short: '被看见 +2', mask: 'zhen' },
+  labor: { n: '共劳', side: 'home', eff: '灯进度 +1', short: '灯 +1', mask: 'zhen' },
+  conflict: { n: '冲突', side: 'home', eff: '裂痕 +1，安心 −1，撕掉一层面具', short: '裂痕 +1', mask: null },
+  gift: { n: '礼物', side: 'home', eff: '安心 +2，被看见不变；用一次就没了', short: '安心 +2', mask: 'gu' },
+};
+const GLYPH = { sing: '唱', speak: '念', act: '做', fight: '打', care: '顾', comp: '陪', listen: '听', labor: '劳', conflict: '冲', gift: '礼' };
+// 卡牌：g 台上值（金箔），price 價錢，ex 專屬卡（不能卸下），once 用一次就沒了，sticky 必帶、進門就打出
+const T = {
+  manban: { f: 'sing', n: '慢板', g: 2 },
+  dingchang: { f: 'speak', n: '定场诗', g: 1 },
+  shuixiu: { f: 'act', n: '水袖', g: 1 },
+  fanshen: { f: 'fight', n: '翻身', g: 3 },
+  kutou: { f: 'sing', n: '哭头', g: 3, price: 12 },
+  shuban: { f: 'speak', n: '数板', g: 2, price: 10 },
+  qiba: { f: 'act', n: '起霸', g: 2, price: 10 },
+  fandiao: { f: 'sing', n: '反调', g: 3, price: 14 },
+  guankou: { f: 'speak', n: '贯口', g: 2, price: 12 },
+  gentou: { f: 'fight', n: '跟头', g: 5, price: 18 },
+  gadiao: { f: 'sing', n: '嘎调', g: 4, price: 22 },
+  baikou: { f: 'speak', n: '白口', g: 3, price: 16 },
+  shenduan: { f: 'act', n: '身段', g: 3, price: 16 },
+  mantang: { f: 'sing', n: '满堂彩', g: 4, price: 25 },
+  kuaiban: { f: 'speak', n: '快板', g: 3, price: 18 },
+  dadao: { f: 'fight', n: '大刀', g: 6, price: 25 },
+  raoliang: { f: 'sing', n: '绕梁', g: 3, ex: 1 },
+  tuoqiang: { f: 'sing', n: '拖腔', g: 4, ex: 1 },
+  mangong: { f: 'sing', n: '满宫满调', g: 5, ex: 1 },
+  yunbai: { f: 'speak', n: '韵白', g: 2, ex: 1 },
+  jingbai: { f: 'speak', n: '京白', g: 3, ex: 1 },
+  dingchangbai: { f: 'speak', n: '定场白', g: 4, ex: 1 },
+  woyu: { f: 'act', n: '卧鱼', g: 2, ex: 1 },
+  shuaifa: { f: 'act', n: '甩发', g: 3, ex: 1 },
+  qiangbei: { f: 'act', n: '抢背', g: 4, ex: 1 },
+  dachushou: { f: 'fight', n: '打出手', g: 4, ex: 1 },
+  duiqiang: { f: 'fight', n: '对枪', g: 5, ex: 1 },
+  zoubian: { f: 'fight', n: '走边', g: 6, ex: 1 },
+  maojin: { f: 'care', n: '热毛巾' },
+  zuofan: { f: 'care', n: '做饭' },
+  duancha: { f: 'care', n: '端茶' },
+  liaotian: { f: 'comp', n: '聊天' },
+  sanbu: { f: 'comp', n: '散步' },
+  wanshua: { f: 'comp', n: '玩耍' },
+  chenmo: { f: 'listen', n: '沉默' },
+  fengxian: { f: 'labor', n: '缝线' },
+  nuanshou: { f: 'care', n: '暖手炉', price: 6 },
+  xiaqi: { f: 'comp', n: '下棋', price: 6 },
+  kaozhe: { f: 'listen', n: '靠着坐', price: 8 },
+  pimie: { f: 'labor', n: '劈篾', price: 10 },
+  juanhua: { f: 'gift', n: '绢花', price: 5, once: 1 },
+  retang: { f: 'care', n: '热汤', ex: 1 },
+  xiantan: { f: 'comp', n: '饭后闲聊', ex: 1 },
+  renzhen: { f: 'listen', n: '认真听', ex: 1 },
+  huzhi: { f: 'labor', n: '糊纸', ex: 1 },
+  lengzhan: { f: 'conflict', n: '冷战', sticky: 1, once: 1 },
+};
+const INIT = ['manban', 'manban', 'manban', 'dingchang', 'dingchang', 'dingchang', 'shuixiu', 'shuixiu', 'shuixiu', 'fanshen',
+  'maojin', 'zuofan', 'duancha', 'liaotian', 'sanbu', 'wanshua', 'chenmo', 'fengxian'];
+const SHOP = [['kutou', 'shuban', 'qiba'], ['fandiao', 'guankou', 'gentou'], ['gadiao', 'baikou', 'shenduan'], ['mantang', 'kuaiban', 'dadao']];
+const MARKET = ['nuanshou', 'xiaqi', 'kaozhe', 'pimie', 'juanhua'];
+const EX = { sing: ['raoliang', 'tuoqiang', 'mangong'], speak: ['yunbai', 'jingbai', 'dingchangbai'], act: ['woyu', 'shuaifa', 'qiangbei'], fight: ['dachushou', 'duiqiang', 'zoubian'] };
+const ROLE_FAM = { 生: 'speak', 旦: 'sing', 净: 'fight', 丑: 'act' };
+const TAGN = { sing: '情绪戏', speak: '台词戏', act: '身段戏' };
+const SCRIPTS = [
+  [{ n: '春台喜', segs: ['sing', 'speak', 'act'], tag: 'sing' }, { n: '巧对', segs: ['speak', 'act', 'sing'], tag: 'speak' }],
+  [{ n: '借妆', segs: ['act', 'sing', 'speak'], tag: 'act' }, { n: '夜奔', segs: ['act', 'fight', 'sing'], tag: 'act' }],
+  [{ n: '对镜', segs: ['sing', 'speak', 'sing'], tag: 'sing' }, { n: '三岔口', segs: ['fight', 'act', 'fight'], tag: 'act' }],
+  [{ n: '闹元宵', segs: ['sing', 'act', 'speak'], tag: 'sing' }, { n: '打灯', segs: ['fight', 'sing', 'act'], tag: 'sing' }],
+];
+const YUAN = { n: '灯下', segs: ['speak', 'sing', 'act'], tag: 'speak', yuan: 1 };
+const NEED_MAX = [2, 2, 2, 1];
+const SEG_N = ['起', '承', '转'];
+
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const weekOf = d => Math.ceil(d / 7);
+const dowOf = d => ((d - 1) % 7) + 1;
+const slotsT = t => (T[t].f === 'fight' || T[t].f === 'labor' ? 2 : 1);
+const cardOf = (S, id) => S.deck.find(c => c.id === id);
+const tOf = (S, id) => T[cardOf(S, id).t];
+const fOf = (S, id) => tOf(S, id).f;
+const slotsOf = (S, id) => slotsT(cardOf(S, id).t);
+const sumSlots = (S, ids) => ids.reduce((a, id) => a + slotsOf(S, id), 0);
+const isStage = f => FAM[f].side === 'stage';
+const capFree = S => S.T.cap - S.T.reserved;
+const specialOf = S => (S.day === R.bdayDay ? 'bday' : S.day === R.days ? 'yuan' : null);
+const boxCapOf = S => R.box + (S.seen >= R.seenBonus ? 1 : 0) - (S.rift >= R.riftAlert ? 1 : 0) - (S.pen.minus ? 1 : 0);
+function scriptsOf(S) {
+  const w = SCRIPTS[weekOf(S.day) - 1].slice();
+  if (weekOf(S.day) === 4 && S.frame) w.push(YUAN);
+  return w;
+}
+const scriptNow = S => scriptsOf(S)[S.T.script] || scriptsOf(S)[0];
+
+// 卡組滿 30 張時，最早的一張普通牌退回卡庫
+function addCard(S, t) {
+  if (S.deck.length >= R.deckCap) {
+    const out = S.deck.find(c => !T[c.t].ex && !T[c.t].sticky && !(S.T && S.T.box.includes(c.id)));
+    if (out) { S.deck = S.deck.filter(c => c !== out); S.lib.push(out); }
+  }
+  const c = { id: S.nid++, t };
+  S.deck.push(c);
+  return c;
+}
+
+function newGame(name, role) {
+  const S = { v: 3, name, role, day: 1, phase: 'morning', deck: [], lib: [], nid: 1,
+    calm: R.start.calm, seen: R.start.seen, rift: 0, base: 0, lamp: 0, frame: false, lit: false, gone: false,
+    gold: 0, weekGold: 0, total: 0, rank: R.rank0, prof: { sing: 0, speak: 0, act: 0, fight: 0 },
+    need: [0, 0, 0, 0], lampSold: false, pen: { minus: false, carry: false }, bought: false,
+    lines: {}, rope: [], chest: [], log: [], weeks: [], lastBox: null, choice: {}, T: null };
+  INIT.forEach(t => addCard(S, t));
+  // 行當：開局給一族 +1 級
+  const rf = ROLE_FAM[role];
+  if (rf) S.prof[rf] = R.perLv;
+  beginDay(S);
+  return S;
+}
+
+function beginDay(S) {
+  S.T = { cap: boxCapOf(S), reserved: 0, special: null, box: [], script: 0, segs: [[], [], []], seg: 0, layers: [], used: {},
+    gold: 0, coverGold: 0, perfect: false, door: null, wiped: 0, doorClean: 0, residual: null, singPen: 0, speakRes: false,
+    fightRes: false, conflict: false, home: [], homeSlots: 0, bdayDone: false, reacts: [], empty: false, nightClean: 0,
+    nightBase: 0, enteredClean: false, needHit: false, notes: [], watch: null, wasted: 0, goneNow: false };
+  if (dowOf(S.day) === 1 && S.pen.carry) {
+    S.T.layers.push({ f: 'sing', carry: true });
+    S.pen.carry = false;
+    S.T.notes.push('醒来时，脸上还留着一层上周的戏台红。');
+  }
+  const ids = new Set(S.deck.map(c => c.id));
+  const sticky = S.deck.filter(c => T[c.t].sticky).map(c => c.id);
+  S.T.box = sticky.concat((S.lastBox || []).filter(id => ids.has(id) && !sticky.includes(id)));
+  trimBox(S);
+  S.phase = 'morning';
+}
+function trimBox(S) {
+  const b = S.T.box;
+  while (sumSlots(S, b) > capFree(S)) {
+    const i = b.map(id => !tOf(S, id).sticky).lastIndexOf(true);
+    if (i < 0) break;
+    b.splice(i, 1);
+  }
+}
+
+// ── 早 ──
+function choose(S, key) {
+  const kind = specialOf(S);
+  if (S.phase !== 'morning' || !kind) return;
+  S.T.special = key;
+  S.T.reserved = key === 'night' ? 2 : key === 'bday' ? 1 : 0;
+  S.choice[kind] = key;
+  trimBox(S);
+}
+const canAdd = (S, id) => S.phase === 'morning' && !S.T.box.includes(id) && sumSlots(S, S.T.box) + slotsOf(S, id) <= capFree(S);
+function toggleBox(S, id) {
+  if (S.phase !== 'morning' || !cardOf(S, id)) return;
+  const b = S.T.box, i = b.indexOf(id);
+  if (i >= 0) { if (!tOf(S, id).sticky) b.splice(i, 1); } else if (canAdd(S, id)) b.push(id);
+}
+function stepTpl(S, t, dir) {
+  if (S.phase !== 'morning') return;
+  if (dir > 0) {
+    const c = S.deck.find(x => x.t === t && !S.T.box.includes(x.id));
+    if (c) toggleBox(S, c.id);
+  } else {
+    const ids = S.T.box.filter(id => cardOf(S, id).t === t);
+    if (ids.length) toggleBox(S, ids[ids.length - 1]);
+  }
+}
+function clearBox(S) { if (S.phase === 'morning') S.T.box = S.T.box.filter(id => tOf(S, id).sticky); }
+function boxYesterday(S) {
+  if (S.phase !== 'morning') return;
+  clearBox(S);
+  (S.lastBox || []).forEach(id => { if (cardOf(S, id)) toggleBox(S, id); });
+}
+function pickScript(S, i) { if (S.phase === 'morning' && i >= 0 && i < scriptsOf(S).length) S.T.script = i; }
+function buyShop(S, t) {
+  if (S.phase !== 'morning' || S.bought || !SHOP[weekOf(S.day) - 1].includes(t) || S.gold < T[t].price) return false;
+  S.gold -= T[t].price;
+  S.bought = true;
+  addCard(S, t);
+  return true;
+}
+function buyMarket(S, k) {
+  if (S.phase !== 'morning') return false;
+  if (k === 'lamp') {
+    if (!S.lampSold || S.gold < R.lampPrice) return false;
+    S.gold -= R.lampPrice;
+    S.lamp += 1;
+    return true;
+  }
+  if (!MARKET.includes(k) || S.gold < T[k].price) return false;
+  S.gold -= T[k].price;
+  addCard(S, k);
+  return true;
+}
+function stash(S, id) {
+  const c = cardOf(S, id);
+  if (S.phase !== 'morning' || !c || T[c.t].ex || T[c.t].sticky) return;
+  S.deck = S.deck.filter(x => x !== c);
+  S.lib.push(c);
+  S.T.box = S.T.box.filter(x => x !== id);
+}
+function unstash(S, id) {
+  const c = S.lib.find(x => x.id === id);
+  if (S.phase !== 'morning' || !c || S.deck.length >= R.deckCap) return;
+  S.lib = S.lib.filter(x => x !== c);
+  S.deck.push(c);
+}
+const canDepart = S => S.phase === 'morning' && sumSlots(S, S.T.box) <= capFree(S) && (!specialOf(S) || !!S.T.special);
+function depart(S) {
+  if (!canDepart(S)) return;
+  S.lastBox = S.T.box.filter(id => !tOf(S, id).sticky);
+  if (S.T.special === 'lamp') {
+    S.phase = 'door';
+    S.T.door = doorState(S);
+    return;
+  }
+  S.phase = 'stage';
+}
+
+// ── 白天 ──
+const stageSlots = S => S.T.segs.flat().reduce((a, id) => a + slotsOf(S, id), 0);
+const segSlots = (S, i) => S.T.segs[i].reduce((a, id) => a + slotsOf(S, id), 0);
+function canStage(S, id) {
+  const t = S.T;
+  return S.phase === 'stage' && t.box.includes(id) && !t.used[id] && isStage(fOf(S, id))
+    && segSlots(S, t.seg) + slotsOf(S, id) <= R.segMax && stageSlots(S) + slotsOf(S, id) <= R.stageMax;
+}
+function playStage(S, id) {
+  if (!canStage(S, id)) return;
+  const t = S.T;
+  t.segs[t.seg].push(id);
+  t.used[id] = 'stage';
+  t.layers.push({ f: fOf(S, id) });
+  if (segSlots(S, t.seg) >= R.segMax && t.seg < 2) t.seg += 1;
+}
+function undoStage(S) {
+  if (S.phase !== 'stage') return;
+  const t = S.T;
+  let i = t.seg;
+  while (i > 0 && !t.segs[i].length) i -= 1;
+  const id = t.segs[i].pop();
+  if (id === undefined) return;
+  delete t.used[id];
+  t.layers.pop();
+  t.seg = i;
+}
+function nextSeg(S) { if (S.phase === 'stage' && S.T.seg < 2) S.T.seg += 1; }
+function goldOf(S) {
+  const sc = scriptNow(S), t = S.T;
+  let sum = 0, ok = true;
+  t.segs.forEach((ids, i) => {
+    if (!ids.length) ok = false;
+    ids.forEach(id => {
+      const tp = tOf(S, id);
+      sum += tp.g + (tp.f === sc.tag ? R.tagBonus : 0);
+      if (tp.f !== sc.segs[i]) ok = false;
+    });
+  });
+  let total = ok ? Math.round(sum * R.perfect) : sum;
+  if (t.special === 'stage') total *= 2;
+  return { sum, perfect: ok, total };
+}
+// 熟練度：每打出 3 次升 1 級；到第 3、6、9 級各解鎖一張專屬卡
+const lvOf = (S, f) => Math.floor(S.prof[f] / R.perLv);
+function levelUp(S, f) {
+  const lv0 = lvOf(S, f);
+  S.prof[f] += 1;
+  const lv = lvOf(S, f), i = R.prof.indexOf(lv);
+  if (lv === lv0 || i < 0) return;
+  const c = addCard(S, EX[f][i]);
+  S.T.notes.push(`${FAM[f].n}的功夫到了第 ${lv} 级，多了一张专属卡「${T[c.t].n}」。`);
+}
+function endStage(S) {
+  if (S.phase !== 'stage') return;
+  const t = S.T, g = goldOf(S);
+  t.perfect = g.perfect;
+  if (t.special === 'cover') { t.coverGold = g.total; t.gold = 0; } else t.gold = g.total;
+  S.gold += t.gold;
+  S.weekGold += t.gold;
+  S.total += t.gold;
+  t.segs.flat().forEach(id => levelUp(S, fOf(S, id)));
+  S.phase = 'door';
+  t.door = doorState(S);
+}
+
+// ── 門口 ──
+function doorState(S) {
+  if (S.gone) return 'gone';
+  if (S.T.box.some(id => tOf(S, id).sticky)) return 'conflict';
+  if (S.rift >= R.riftAlert) return 'unwilling';
+  if (S.calm < R.wipeCalm) return 'absent';
+  return 'wipe';
+}
+const canWipe = S => S.phase === 'door' && S.T.door === 'wipe' && S.T.wiped < R.wipeMax && S.T.layers.length > 0;
+function wipe(S) {
+  if (!canWipe(S)) return;
+  const L = S.T.layers.pop();
+  S.chest.push({ day: S.day, f: L.f });
+  S.T.wiped += 1;
+}
+const canClean = (S, id) => (S.phase === 'door' || S.phase === 'night') && S.T.layers.length > 0
+  && S.T.box.includes(id) && !S.T.used[id] && !tOf(S, id).sticky;
+function selfClean(S, id) {
+  if (!canClean(S, id)) return;
+  const t = S.T, f = fOf(S, id);
+  t.layers.pop();
+  t.used[id] = 'clean';
+  S.rope.push({ day: S.day, f: isStage(f) ? f : 'home' });
+  if (S.phase === 'door') t.doorClean += 1; else t.nightClean += 1;
+}
+const addRift = (S, n) => { S.rift = clamp(S.rift + n, 0, R.riftMax); };
+function enterHome(S) {
+  if (S.phase !== 'door') return;
+  const t = S.T;
+  t.enteredClean = t.layers.length === 0;
+  S.phase = 'evening';
+  if (S.gone) return;
+  // 最上層台上臉的殘留，作用在家裡
+  const top = t.layers[t.layers.length - 1];
+  if (top) {
+    t.residual = top.f;
+    if (top.f === 'sing') t.singPen = 1;
+    if (top.f === 'speak') { S.seen = clamp(S.seen - 1, 0, R.seenMax); t.speakRes = true; }
+    if (top.f === 'act') S.base += 1;
+    if (top.f === 'fight') { t.fightRes = true; addRift(S, 1); }
+  }
+  if (t.special === 'bday') {
+    S.seen = clamp(S.seen + 1, 0, R.seenMax);
+    t.homeSlots += 1;
+    t.bdayDone = true;
+    t.reacts.push({ k: 'up', f: 'comp', who: '陪生日', tx: '你陪她过了生日。她许了一个愿，没说是什么。' });
+  }
+  t.box.filter(id => tOf(S, id).sticky && !t.used[id]).forEach(id => playHome(S, id, true));
+}
+
+// ── 傍晚 ──
+const homeCount = S => S.T.home.length + (S.T.bdayDone ? 1 : 0);
+function canHome(S, id) {
+  const t = S.T;
+  return S.phase === 'evening' && !S.gone && t.box.includes(id) && !t.used[id] && !isStage(fOf(S, id))
+    && t.homeSlots + slotsOf(S, id) <= R.homeMax;
+}
+function playHome(S, id, auto) {
+  if (!canHome(S, id)) return;
+  const t = S.T, tp = tOf(S, id), f = tp.f, pen = t.singPen;
+  const c0 = S.calm, s0 = S.seen, l0 = S.lamp;
+  const prev = t.home.length ? fOf(S, t.home[t.home.length - 1]) : null;
+  t.singPen = 0;
+  let valid = true;
+  if (f === 'care') S.calm += 1;
+  if (f === 'comp') S.seen += 1;
+  if (f === 'listen') { if (t.speakRes) valid = false; else S.seen += 2; }
+  if (f === 'labor') S.lamp += 1;
+  if (f === 'gift') S.calm += 2;
+  if (f === 'conflict') {
+    S.calm -= 1;
+    addRift(S, t.fightRes ? 3 : 1);
+    t.conflict = true;
+    if (t.layers.length) t.layers.pop();
+  }
+  S.calm = clamp(S.calm - pen, 0, R.calmMax);
+  S.seen = clamp(S.seen, 0, R.seenMax);
+  t.used[id] = 'home';
+  t.home.push(id);
+  t.homeSlots += slotsOf(S, id);
+  const hit = needHit(S, f, prev, valid);
+  t.reacts.push(reactOf(S, tp, { dc: S.calm - c0, ds: S.seen - s0, dl: S.lamp - l0, valid, pen, auto, hit }));
+}
+// 需求：每幕一個，藏起來；一晚最多達成一次，第一次給第一階段獎勵，另一晚再達成給第二階段
+function needHit(S, f, prev, valid) {
+  const w = weekOf(S.day) - 1, t = S.T;
+  if (S.need[w] >= NEED_MAX[w] || t.needHit) return null;
+  const tonight = g => t.home.filter(id => fOf(S, id) === g).length;
+  const ok = (w === 0 && f === 'comp' && prev === 'care')
+    || (w === 1 && f === 'listen' && valid && tonight('listen') >= 2)
+    || (w === 2 && f === 'labor' && tonight('labor') >= 2);
+  return ok ? grantNeed(S, w) : null;
+}
+function grantNeed(S, w) {
+  const st = ++S.need[w];
+  let c = null;
+  S.T.needHit = true;
+  if (w === 0) c = addCard(S, st === 1 ? 'retang' : 'xiantan');
+  if (w === 1) { if (st === 1) c = addCard(S, 'renzhen'); else { S.lampSold = true; S.lamp += 1; } }
+  if (w === 2) { if (st === 1) c = addCard(S, 'huzhi'); else S.frame = true; }
+  if (w === 3) S.lit = S.frame;
+  return { w, st, card: c ? T[c.t].n : null };
+}
+function endEvening(S) {
+  if (S.phase !== 'evening') return;
+  const t = S.T;
+  if (!S.gone) {
+    if (homeCount(S) === 0) { S.calm = clamp(S.calm - 1, 0, R.calmMax); t.empty = true; }
+    const w = weekOf(S.day) - 1;
+    const near = t.home.some(id => { const f = fOf(S, id); return f === 'comp' || (f === 'listen' && !t.speakRes); });
+    if (w === 3 && S.need[3] < 1 && t.enteredClean && near) {
+      const hit = grantNeed(S, 3);
+      t.reacts.push({ k: 'up', f: 'comp', who: '', tx: S.frame ? '她把灯提到门口，点上了。' : '她看着你干干净净的脸，说灯骨还没扎好。', hit });
+    }
+  }
+  S.phase = 'night';
+}
+
+// ── 夜 ──
+function sleep(S) {
+  if (S.phase !== 'night') return;
+  const t = S.T;
+  t.nightBase = t.layers.length;
+  S.base += t.layers.length;
+  t.layers = [];
+  if (t.special === 'night') {
+    S.gold += R.nightShow; S.weekGold += R.nightShow; S.total += R.nightShow; t.gold += R.nightShow;
+    S.seen = clamp(S.seen - 1, 0, R.seenMax);
+  }
+  t.wasted = t.box.filter(id => !t.used[id]).length;
+  const wasGone = S.gone;
+  if (S.rift >= R.riftMax) S.gone = true;
+  t.goneNow = S.gone && !wasGone;
+  t.watch = watchLine(S);
+  S.log.push({ day: S.day, cap: t.cap, script: scriptNow(S).n, gold: t.gold, perfect: t.perfect, stage: t.segs.flat().length,
+    door: t.door, wiped: t.wiped, doorClean: t.doorClean, nightClean: t.nightClean, residual: t.residual, home: homeCount(S),
+    empty: t.empty, conflict: t.conflict, base: t.nightBase + (t.residual === 'act' ? 1 : 0), wasted: t.wasted, watch: t.watch,
+    calm: S.calm, seen: S.seen, rift: S.rift, lamp: S.lamp, needHit: t.needHit, special: t.special });
+  // 用掉的禮物和冷戰離開卡組；今天的妝匣不再引用它們
+  const drop = t.box.filter(id => t.used[id] === 'home' && tOf(S, id).once);
+  S.deck = S.deck.filter(c => !drop.includes(c.id));
+  t.box = t.box.filter(id => !drop.includes(id));
+  if (t.empty && !S.gone) addCard(S, 'lengzhan');
+  S.phase = 'watch';
+}
+function dawn(S) {
+  if (S.phase !== 'watch') return;
+  if (S.day % 7 === 0) { weekEval(S); return; }
+  S.day += 1;
+  beginDay(S);
+}
+// 週考核：業績線 × 關係線；守住＝裂痕未到警戒且安心 ≥1
+function weekEval(S) {
+  const w = weekOf(S.day) - 1, perf = S.weekGold >= R.lines[w];
+  const rel = !S.gone && S.rift < R.riftAlert && S.calm >= 1;
+  const delta = perf ? (rel ? 2 : 1) : (rel ? -1 : -2);
+  const r0 = S.rank;
+  S.rank = clamp(S.rank - delta, 1, R.ranks);
+  S.pen = { minus: !perf && !rel, carry: perf && !rel };
+  S.weeks.push({ w: w + 1, flow: S.weekGold, line: R.lines[w], perf, rel, delta, r0, r1: S.rank });
+  S.weekGold = 0;
+  S.bought = false;
+  S.phase = 'week';
+}
+function nextWeek(S) {
+  if (S.phase !== 'week') return;
+  if (S.day >= R.days) { S.phase = 'end'; return; }
+  S.day += 1;
+  beginDay(S);
+}
+// 季末：沒掉到末位＝業績過線；裂痕 4＝崩盤
+function endingOf(S) {
+  const pass = S.rank < R.ranks, broke = S.rift >= R.riftMax;
+  return pass ? (broke ? 'toupai' : 'liubai') : (broke ? 'gengfu' : 'suian');
+}
+
+// 更夫：每晚一句，只說看見的；同一件事第三次起會變短
+const LINES = {
+  gone: { at: '五更天', full: ['有一扇门，变成了画上去的布景。'] },
+  empty: { at: '二更天', full: ['有户人家的饭桌，摆了两副碗筷，凉了一副。', '灯坊里，有人等到灯油都干了。'], short: '碗筷又凉了一副。' },
+  conflict: { at: '三更天', full: ['灯坊的门，关得很重。'], short: '门又关重了。' },
+  sleepRed: { at: '四更天', full: ['有人带着戏脸睡了，枕头一片红。'], short: '又带着戏脸睡了。' },
+  need0: { at: '二更天', full: ['有户人家的汤，喝到见了碗底。'] },
+  need1: { at: '二更天', full: ['糊灯的人说了很久，有人一直在听。'] },
+  need2: { at: '三更天', full: ['灯坊里，两个人糊完了一片纸。'] },
+  need3: { at: '三更天', full: ['门口很干净，灯亮着。'] },
+  res_sing: { at: '一更天', full: ['有人进门时，嗓子里还是台上的哭腔。'], short: '又带着腔进门。' },
+  res_speak: { at: '一更天', full: ['有人在饭桌上说话，像在跟班主报账。'], short: '又在报账。' },
+  res_act: { at: '一更天', full: ['有人在灯坊里亮了个相，窗外真有人叫好。'], short: '又亮相了。' },
+  res_fight: { at: '一更天', full: ['有人进门时，拳头还攥着。'], short: '拳头又攥着。' },
+  wiped: { at: '一更天', full: ['门口有人拧干了一条热毛巾。', '有人在门口替谁擦了脸。'], short: '毛巾又热了一回。' },
+  absent: { at: '一更天', full: ['门口没有人等，屋里的灯亮着。'], short: '门口又没人。' },
+  gift: { at: '三更天', full: ['柜子里多了一样东西，没拆。'] },
+  quiet: { at: '五更天', full: ['城里很静，有人睡得很沉。'] },
+};
+function watchLine(S) {
+  const t = S.T, c = [];
+  if (t.goneNow) c.push('gone');
+  if (t.empty && !S.gone) c.push('empty');
+  if (t.conflict) c.push('conflict');
+  if (t.nightBase > 0) c.push('sleepRed');
+  if (t.needHit) c.push('need' + (weekOf(S.day) - 1));
+  if (t.residual) c.push('res_' + t.residual);
+  if (t.wiped > 0) c.push('wiped');
+  if (t.door === 'absent' || t.door === 'unwilling') c.push('absent');
+  if (t.home.some(id => fOf(S, id) === 'gift')) c.push('gift');
+  const cat = c[0] || 'quiet', def = LINES[cat];
+  const n = (S.lines[cat] = (S.lines[cat] || 0) + 1);
+  const tx = n >= 3 && def.short ? def.short : def.full[(n - 1) % def.full.length];
+  return `${def.at}，${tx}`;
+}
+
+const REACT = {
+  care: { up: ['她接过去，抬眼看你。', '她把碗推到你面前。'], down: ['她接过去，没有抬头。'], none: ['她点点头。'] },
+  comp: { up: ['她笑了一下，说起白天灯坊里的事。', '她走得比平时慢一点。'], down: ['她看了你一眼，又低下头。'], none: ['她听着，没多说什么。'] },
+  listen: { up: ['她说了很久，你一直在听。'], down: ['你回她的话，像在跟班主报账。她不说了。'], none: ['她说了几句，就停了。'] },
+  labor: { up: ['你们一起糊了一片灯纸。', '你扶着灯骨，她一根一根缠线。'], down: ['你扶着灯骨，手一直在抖。'], none: ['你们一起糊了一片灯纸。'] },
+  gift: { up: ['她收下了，放进柜子里。'], down: ['她收下了，放进柜子里。'], none: ['她收下了，放进柜子里。'] },
+  conflict: { up: ['你挑了她一句。'], down: ['你挑了她一句，她没回嘴。'], none: ['你挑了她一句。'] },
+};
+const NEED_TX = [
+  ['「汤还热着。」她说。', '吃完饭，她拉着你多坐了一会儿。'],
+  ['她把今天的事从头说了一遍。', '她说，市集上有卖灯料的了。'],
+  ['灯骨上多了一片纸。', '灯骨扎好了。她说元宵那天，可以提着它去看戏。'],
+  [''],
+];
+function reactOf(S, tp, d) {
+  const f = tp.f;
+  let k;
+  if (f === 'conflict') k = 'down';
+  else if (f === 'gift') k = 'none';
+  else if (f === 'listen' && !d.valid) k = 'down';
+  else if (d.dc < 0 || (d.pen && f === 'care' && d.dc <= 0)) k = 'down';
+  else if (d.dc > 0 || d.ds > 0 || d.dl > 0) k = 'up';
+  else k = 'none';
+  const pool = REACT[f][k];
+  const n = S.T.reacts.filter(r => r.f === f).length;
+  const tx = tp.sticky ? '你们一晚上没说话。' : pool[n % pool.length];
+  return { k, f, who: tp.n, tx, hit: d.hit, auto: !!d.auto };
+}
+function factsOf(S) {
+  const L = S.log;
+  return {
+    small: L.filter(x => x.cap < R.box).length,
+    big: L.filter(x => x.cap > R.box).length,
+    noWipe: L.filter(x => x.door && x.door !== 'wipe').length,
+    res: L.filter(x => x.residual).length,
+    empty: L.filter(x => x.empty).length,
+    red: L.filter(x => x.base > 0).length,
+    relFail: S.weeks.filter(w => !w.rel).length,
+    wasted: L.reduce((a, x) => a + x.wasted, 0),
+  };
+}
+/* ENGINE END */
+
+// ── 圖形 ─────────────────────────────────────────────
+const COL = { card: '#fcf9f7', ink: '#221c1f', ink2: '#5a5156', ink3: '#8b7f84', gold: '#a8843a', gold2: '#efe2c2', rouge: '#a8243a', indigo: '#2e4256', indigo2: '#d9e0e7', line: '#ddd2d0', pink: '#e4b3ba', skin: '#f3e6da', su: '#ece4dc', ash: '#cfc6c6' };
+const FCOL = { sing: '#a8243a', speak: '#3a3236', act: '#8f6338', fight: '#b08a3a', home: '#ece4dc', care: '#ece4dc', comp: '#ece4dc', listen: '#ece4dc', labor: '#ece4dc', gift: '#ece4dc', conflict: '#cfc6c6' };
+const CLOTHN = { sing: '红', speak: '墨', act: '土', fight: '金', home: '素' };
+function rng(a) {
+  return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+function torn(cx, cy, rx, ry, rot, seed, n = 110, j = 0.035) {
+  const r = rng(seed), a = (rot * Math.PI) / 180, p = [];
+  for (let i = 0; i < n; i++) {
+    const t = (2 * Math.PI * i) / n, k = 1 + (r() - 0.5) * j;
+    const x = rx * Math.cos(t) * k, y = ry * Math.sin(t) * k;
+    p.push(`${(cx + x * Math.cos(a) - y * Math.sin(a)).toFixed(1)},${(cy + x * Math.sin(a) + y * Math.cos(a)).toFixed(1)}`);
+  }
+  return p.join(' ');
+}
+function blob(cx, cy, rad, seed, n = 16, j = 0.28) {
+  const r = rng(seed), p = [];
+  for (let i = 0; i < n; i++) {
+    const t = (2 * Math.PI * i) / n, k = rad * (1 + (r() - 0.5) * 2 * j);
+    p.push(`${(cx + k * Math.cos(t)).toFixed(1)},${(cy + k * Math.sin(t)).toFixed(1)}`);
+  }
+  return p.join(' ');
+}
+function fleck(cx, cy, s, seed) {
+  const r = rng(seed), a = r() * Math.PI;
+  return [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) => {
+    const x = s * (u + (r() - 0.5) * 0.7), y = s * (v + (r() - 0.5) * 0.7);
+    return `${(cx + x * Math.cos(a) - y * Math.sin(a)).toFixed(1)},${(cy + x * Math.sin(a) + y * Math.cos(a)).toFixed(1)}`;
+  }).join(' ');
+}
+const ROT = [-7, 4, -2, 6, -4, 2, -6];
+// 臉：layers 由下往上；o.gu 顧家臉層數，o.zhen 露出真臉，o.base 顯示底色（只在對鏡和結局）
+function faceSVG(layers, o = {}) {
+  const cx = 150, cy = 186, shown = layers.slice(-7), n = shown.length;
+  const bare = torn(cx, cy, 102, 138, 0, 21);
+  let g = `<polygon points="${bare}" fill="${o.zhen ? COL.skin : COL.card}" stroke="${COL.ink3}" stroke-width="1.2"/>`;
+  if (o.base) {
+    // 底色從髮際線透上來，只畫在臉的範圍裡
+    const op = Math.min(0.9, 0.18 + o.base * 0.05);
+    g += `<clipPath id="baseclip"><polygon points="${bare}"/></clipPath><g clip-path="url(#baseclip)">`
+      + `<polygon points="${blob(cx - 50, cy - 118, 34 + Math.min(o.base, 14) * 2, 9)}" fill="${COL.rouge}" opacity="${op.toFixed(2)}"/>`
+      + `<polygon points="${blob(cx + 46, cy - 124, 20 + Math.min(o.base, 14) * 2, 12)}" fill="${COL.rouge}" opacity="${(op * 0.8).toFixed(2)}"/>`
+      + (o.base >= 8 ? `<polygon points="${blob(cx - 82, cy - 30, 22, 14)}" fill="${COL.rouge}" opacity="${(op * 0.6).toFixed(2)}"/>` : '')
+      + '</g>';
+  }
+  for (let i = 0; i < Math.min(o.gu || 0, 2); i++) g += `<polygon points="${torn(cx + 5 - i * 5, cy + 5 - i * 4, 98, 132, 3 + i * 3, 30 + i)}" fill="${COL.pink}" opacity=".9"/>`;
+  shown.forEach((L, i) => {
+    const k = n - 1 - i, lx = cx - k * 7, ly = cy - k * 6;
+    g += `<polygon points="${torn(lx, ly, 102, 138, ROT[i % ROT.length], 3 + i * 7)}" fill="${FCOL[L.f]}"/>`;
+    if (L.f === 'sing' || L.f === 'fight') {
+      const r = rng(41 + i);
+      for (let q = 0; q < 5; q++) g += `<polygon points="${fleck(lx - 66 + r() * 132, ly - 124 + r() * 24, 4 + r() * 3, 70 + q + i)}" fill="${L.f === 'fight' ? COL.card : COL.gold}"/>`;
+    }
+  });
+  const top = shown[n - 1], dark = top && top.f !== 'fight';
+  const line = dark ? COL.card : COL.ink;
+  const sockets = top ? `<ellipse cx="${cx - 36}" cy="${cy - 14}" rx="21" ry="9" fill="${COL.card}"/><ellipse cx="${cx + 36}" cy="${cy - 14}" rx="21" ry="9" fill="${COL.card}"/>` : '';
+  const tilt = top ? ROT[(n - 1) % ROT.length] / 2 : 0;
+  g += `<g fill="none" stroke-linecap="round" transform="rotate(${tilt} ${cx} ${cy})">${sockets}`
+    + `<path d="M${cx - 62} ${cy - 40} Q${cx - 36} ${cy - 60} ${cx - 12} ${cy - 45}" stroke="${top ? line : COL.indigo}" stroke-width="7"/>`
+    + `<path d="M${cx + 12} ${cy - 45} Q${cx + 36} ${cy - 60} ${cx + 62} ${cy - 40}" stroke="${top ? line : COL.indigo}" stroke-width="7"/>`
+    + `<path d="M${cx - 52} ${cy - 14} Q${cx - 36} ${cy - 24} ${cx - 20} ${cy - 13}" stroke="${COL.ink}" stroke-width="3"/>`
+    + `<path d="M${cx + 20} ${cy - 13} Q${cx + 36} ${cy - 24} ${cx + 52} ${cy - 14}" stroke="${COL.ink}" stroke-width="3"/>`
+    + `<path d="M${cx} ${cy + 2} L${cx - 5} ${cy + 40} Q${cx} ${cy + 46} ${cx + 7} ${cy + 42}" stroke="${top ? line : COL.ink3}" stroke-width="2"/>`
+    + `<ellipse cx="${cx}" cy="${cy + 80}" rx="16" ry="6.5" fill="${top ? line : COL.rouge}" stroke="none"/></g>`;
+  if (layers.length > shown.length) g += `<text x="262" y="60" text-anchor="end" font-size="26" fill="${COL.ink}" font-family="serif">+${layers.length - shown.length}</text>`;
+  return `<svg viewBox="0 0 300 340" aria-hidden="true">${g}</svg>`;
+}
+const TOWEL = `<svg class="towel" viewBox="0 0 110 70" aria-hidden="true"><path d="M8 18 Q30 6 58 12 Q86 6 102 16 L96 54 Q70 64 44 58 Q22 64 6 56 Z" fill="${COL.card}" stroke="${COL.ink3}" stroke-width="1.5"/><path d="M20 24 Q40 18 60 24 M18 36 Q44 30 70 36 M24 48 Q48 42 80 46" stroke="${COL.line}" stroke-width="2" fill="none"/><path d="M84 30 Q100 22 108 34 Q104 48 90 50" fill="#e9c9a8" stroke="${COL.ink3}" stroke-width="1.2"/></svg>`;
+function lampSVG(S) {
+  const patches = Math.min(S.lamp, 6);
+  let g = `<line x1="27" y1="2" x2="27" y2="9" stroke="${COL.ink}" stroke-width="1.5"/><rect x="19" y="9" width="16" height="4" fill="${COL.gold}"/>`;
+  if (S.lit) g += `<ellipse cx="27" cy="36" rx="25" ry="24" fill="${COL.gold2}"/>`;
+  g += `<ellipse cx="27" cy="36" rx="17" ry="21" fill="${S.lit ? COL.rouge : 'none'}" stroke="${COL.ink2}" stroke-width="1.5" ${S.frame ? '' : 'stroke-dasharray="3 3"'}/>`;
+  if (!S.lit) for (let i = 0; i < patches; i++) {
+    const a = (i / 6) * Math.PI * 2;
+    g += `<polygon points="${blob(27 + Math.cos(a) * 9, 36 + Math.sin(a) * 11, 7, 50 + i, 8, 0.2)}" fill="${COL.rouge}" opacity=".85"/>`;
+  }
+  g += `<path d="M27 15 V57 M17 20 Q27 36 17 52 M37 20 Q27 36 37 52" stroke="${COL.ink3}" fill="none" stroke-width="1"/><rect x="19" y="57" width="16" height="4" fill="${COL.gold}"/>`;
+  return `<svg viewBox="0 0 54 66" aria-hidden="true">${g}</svg>`;
+}
+
+// ── 文字 ─────────────────────────────────────────────
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const ROLES = [['生', '念白开局多一级'], ['旦', '唱功开局多一级'], ['净', '武功开局多一级'], ['丑', '做工开局多一级']];
+const DOW = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+const ACT_N = ['开锣', '借妆', '对镜', '元宵'];
+const NEED_N = ['想有人一起吃饭', '想被听见她的一天', '想一起做事', '想你别带妆进门'];
+const NEED_HOW = ['同一晚：照顾，接着陪伴', '同一晚倾听两次，当天没有念的残留', '同一晚共劳两次', '门口清干净，傍晚有陪伴或倾听'];
+const NEED_GIFT = [['「热汤」照顾卡', '「饭后闲聊」陪伴卡'], ['「认真听」倾听卡', '市集开始卖灯料，灯进度 +1'], ['「糊纸」共劳卡', '灯骨完成，解锁元宵剧本'], ['点亮灯']];
+const OTHERS = ['小凤', '金宝', '月仙', '玉楼', '小桃红'];
+const RULES = [
+  '一个月四周。每周第 7 天晚上考核，第 28 天是元宵，也是季末结算。',
+  '早上从卡组里挑出今天的妆匣：通常 15 张位，白天演戏和晚上回家共用。打、共劳各占 2 张位。妆匣有时多一张、有时少一张，没人解释。',
+  '白天按剧本三段（起、承、转）出演戏牌，每段最多 3 张位，全天最多 9。每出一张演戏牌，脸上就多一层台上脸。三段的族都对上，就是完美折子，金箔 ×1.5。',
+  '门口清层：她愿意的话，会替你擦，每天最多 2 层，不耗牌。自己卸，每层弃 1 张牌，那张牌变成布，挂上晾绳。只能从最上面一层开始清。',
+  '进门时，最上面那层台上脸的残留会带进家里。唱：下一张家中牌安心 −1；念：当天被看见 −1；做：底色 +1；打：裂痕 +1，同天有冲突再 +2。',
+  '傍晚按顺序出家中牌，最多 9 张位。一张都没出就是空宅，安心 −1。',
+  '夜里可以用剩下的牌继续清层。没清的，每层变成 1 点底色。没用上的牌作废，明天还在卡组里。',
+  '她的安心、被看见、裂痕都看不到。看得到的只有：妆匣大小、她在不在门口、她的反应、更夫的一句话，以及每周考核的关系线。',
+  '每周考核看本周金箔流水和关系线，四种结果决定水牌名次和下周的处境。裂痕到 4，那扇门就变成布景，再也推不开。',
+];
+const ASSUME = [
+  '开局：安心 3、被看见 2、裂痕 0；水牌 6 个名字里你排第 4。',
+  '台上值：唱 2、念 1、做 1、打 3；剧本的类型对上的那一族，每张 +1。完美折子 ×1.5 后四舍五入。',
+  '只有最上面那层台上脸的残留会带进门，压在下面的不会。',
+  '空宅的第二天，卡组里会多一张「冷战」（冲突牌）：必须装进妆匣，进门就自动打出，打完离开卡组。那天她也不会在门口替你擦。',
+  '「她愿意」＝裂痕还没到 3。',
+  '关系线守住＝裂痕没到 3，且安心至少 1（待作者确认第 4 条的写法之一）。季末崩盘＝裂痕 4。',
+  '季末「业绩过线」＝没掉到水牌末位；名次每周按考核结果移动。',
+  '熟练度：同一族每打出 3 次升 1 级，到第 3、6、9 级各多一张该族专属卡（卡组满 30 张时，最早的一张普通牌退回卡库）。行当让一族开局就是第 1 级。',
+  '需求每晚最多达成一次：第一次给第一阶段奖励，另一晚再达成给第二阶段。第二幕要同一晚倾听两次、第三幕要同一晚共劳两次（各占 2、4 张位），开局卡组各只有一张，要去市集补。',
+  '礼物用一次就没了；灯料买了直接让灯进度 +1。需求奖励卡和专属卡都不能卸下。',
+  '第二周周四是阿檀生日，要在加演夜场（+6 金箔，占 2 张位，被看见 −1）和陪生日（被看见 +1，占 1 张陪伴位）之间选。',
+  '第四周如果灯骨已经扎好，多一个元宵剧本「灯下」可选。第 28 天三选一：上台（金箔 ×2）、回家点灯（不上台）、替小凤代演（金箔记在她名下）。',
+  '香已删除（待作者确认第 1 条）；重牌用「计两张位」表示（第 3 条）。',
+];
+const MORNING = {
+  1: '开锣。你刚升上二路，今天第一次自己装妆匣。戏箱也是今天第一次开。',
+  8: '小凤病倒了，嗓子哑着。班主说这一周谁肯多唱，他都记着。',
+  11: '今天是阿檀的生日。班主问你，今晚能不能替小凤加演夜场。',
+  15: '班主说，这一周要选新的头牌。',
+  18: '今晚，后台的镜子会擦得很亮。',
+  22: '元宵快到了。阿檀的灯，还差几片纸。',
+  28: '元宵。最后一场戏、阿檀点灯、小凤托你替她上台，都撞在今晚。',
+};
+const MORNING_ROT = ['街口的豆花摊开了，戏园门口的水牌还湿着。', '班主在后台点名，你的名字排在中间。', '阿檀天没亮就去了灯坊。', '戏园门口围了一圈人，在看昨天的水牌。', '你在镜子前坐了一会儿，才开始装妆匣。'];
+const DOOR_TX = {
+  wipe: '阿檀在门口等你，手里拿着热毛巾。',
+  absent: '门口没有人。屋里的灯亮着。',
+  unwilling: '她在门口看了你一眼，转身进去了。',
+  conflict: '门虚掩着。昨晚的话还没说完。',
+  gone: '那扇门变成了画上去的布景，推不开了。',
+};
+const RES_TX = {
+  sing: '你进门时，最上面还是一层唱的红。',
+  speak: '你进门时，最上面还是一层念白的墨。',
+  act: '你进门时，最上面还是一层身段的土色。',
+  fight: '你进门时，最上面还是一层武戏的金。',
+};
+const USED_N = { stage: '已演', home: '已出', clean: '成布' };
+const ENDINGS = {
+  liubai: { name: '留白', cls: 'end-liubai', cond: '业绩过线 · 关系守住', text: S => `元宵夜，你回到家门口。有人伸手接过你的毛巾。${S.lit ? '门口那盏灯亮着，是你们一起糊的。' : '灯骨还搁在桌上，纸没有糊完。'}` },
+  toupai: { name: '头牌', cls: 'end-toupai', cond: '业绩过线 · 关系崩盘', text: () => '你的名字还挂在水牌上。回家，门已经是画上去的布景，推不开。你对着镜子擦脸，露出来的是戏台上那张。' },
+  suian: { name: '素脸', cls: 'end-suian', cond: '末位摘牌 · 关系守住', text: S => `摘牌那天，你素着脸回家。阿檀抬眼看你，认出了你。${S.lit ? '她把灯提到门口点上。' : ''}` },
+  gengfu: { name: '更夫', cls: 'end-gengfu', cond: '末位摘牌 · 关系崩盘', text: () => '春天，城里多了一个不上妆的更夫。你接过梆子，上面刻着一长串名字。' },
+};
+const YUAN_TX = { stage: '最后一场，你站在台中间。', lamp: '最后一晚，你没有上台。', cover: '最后一场，你替小凤上了台，水牌上记的是她的名字。' };
+
+let S = null, pickRole = '旦', draftName = '小满', modal = null, sel = null, flash = null, showLedger = false, reveal = 0, saved = null;
+const app = document.getElementById('app');
+const KEY = 'dise-zhuangxia-v3';
+function save() { try { if (S) localStorage.setItem(KEY, JSON.stringify(S)); else localStorage.removeItem(KEY); } catch (e) { /* 存不了就算了 */ } }
+function load() { try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); return d && d.v === 3 ? d : null; } catch (e) { return null; } }
+
+const famChip = f => `<i class="chip" style="background:${FCOL[f]};${isStage(f) ? '' : `border:1px solid ${COL.ink3}`}"></i>`;
+function cardHTML(id, act, opts = {}) {
+  const c = cardOf(S, id), tp = T[c.t], f = tp.f, st = isStage(f), used = S.T.used[id];
+  const sub = st ? `金 ${tp.g}` : FAM[f].short;
+  const cls = [`f-${f}`, opts.off ? 'off' : '', sel === id ? 'sel' : ''].join(' ');
+  const label = `${tp.n}，${FAM[f].n}，${sub}${slotsT(c.t) === 2 ? '，占 2 张位' : ''}${used ? `，${USED_N[used]}` : ''}`;
+  return `<button class="card ${cls}" ${act && !used && !opts.off ? `data-act="${act}" data-arg="${id}"` : 'disabled'} aria-label="${esc(label)}">`
+    + `<span class="cg">${GLYPH[f]}</span><span class="cn">${tp.n}</span><small>${sub}</small>`
+    + `${slotsT(c.t) === 2 ? '<span class="two">2位</span>' : ''}${tp.ex ? '<span class="ex">专</span>' : ''}${tp.sticky ? '<span class="ex">必带</span>' : ''}`
+    + `${used ? `<span class="st">${USED_N[used]}</span>` : ''}</button>`;
+}
+function miniHTML(id, bad) {
+  const tp = tOf(S, id);
+  return `<span class="mini f-${tp.f} ${bad ? 'bad' : ''}">${tp.n}</span>`;
+}
+
+// ── 開場 ─────────────────────────────────────────────
+function viewStart() {
+  return `<div class="start">
+    <div class="vboard"><div class="t">底色</div><div class="s">妆匣版 · 原型</div></div>
+    <div>
+      <p class="intro">在一座人人每天上妆演戏的城里，你是正往上爬的角儿。每天早上装一只妆匣，白天的戏和晚上的家，都只能从这一匣里拿。</p>
+      <p class="lede">一个月，四周，二十八天。台上每唱一张，脸上就多一层台上脸；门口要清掉它，得弃一张牌，除非她肯替你擦。金箔和水牌是公开的，她心里怎么想，你看不到。</p>
+      ${saved ? `<div class="form"><button class="btn main" data-act="resume">接着唱<small>第 ${saved.day} 天 · ${esc(saved.name)}</small></button></div>` : ''}
+      <div class="form">
+        <div class="field"><label for="nm">你的小名</label><input id="nm" maxlength="6" value="${esc(draftName)}" autocomplete="off"></div>
+        <div class="field"><label>行当</label><div class="picks roles">${ROLES.map(([r, d]) => `<button class="pick" data-act="role" data-arg="${r}" aria-pressed="${r === pickRole}" title="${d}">${r}</button>`).join('')}</div></div>
+        <button class="btn go" data-act="start">开锣<small>第一周，开锣</small></button>
+      </div>
+      <p class="hint">行当：生的念白、旦的唱功、净的武功、丑的做工，开局多一级。</p>
+      <div class="rules-card"><h3>规矩</h3><ol>${RULES.map(r => `<li>${r}</li>`).join('')}</ol></div>
+    </div>
+  </div>`;
+}
+
+// ── 頂欄 ─────────────────────────────────────────────
+function viewBar() {
+  const w = weekOf(S.day);
+  return `<div class="bar">
+    <div class="brand">戏城</div>
+    <div class="when"><b>第 ${S.day} 天</b><span>第 ${w} 周 · ${ACT_N[w - 1]} · ${DOW[dowOf(S.day) - 1]}</span></div>
+    <div class="board">
+      <span>金箔 <b>${S.gold}</b></span>
+      <span class="flow">本周流水 <b>${S.weekGold}</b> <span class="line">业绩线 ${R.lines[w - 1]}</span></span>
+      <span>水牌 <b>${S.rank}</b> / ${R.ranks}</span>
+    </div>
+    <div class="tools">
+      <button class="tool" data-act="rules">规矩</button>
+      <button class="tool" data-act="ledger" aria-pressed="${showLedger}">内账（测试）</button>
+      <button class="tool" data-act="restart">重来</button>
+    </div>
+  </div>`;
+}
+
+// ── 臉 ───────────────────────────────────────────────
+function viewFace() {
+  const t = S.T, ph = S.phase;
+  const evening = ph === 'evening';
+  const gu = evening ? t.home.filter(id => FAM[fOf(S, id)].mask === 'gu').length : 0;
+  const zhen = evening && t.home.some(id => FAM[fOf(S, id)].mask === 'zhen');
+  const mirror = ph === 'watch' && S.day === R.mirrorDay;
+  const layers = t.layers.slice().reverse().map((L, i) => `<li>${famChip(L.f)}${FAM[L.f].n} · 台上脸${L.carry ? '（上周留下）' : ''}${i === 0 ? '<span class="tag hot">最上层</span>' : ''}</li>`).join('');
+  const extra = evening ? `${gu ? `<li>${famChip('care')}顾家脸 ×${gu}</li>` : ''}<li>${famChip('comp')}真脸${zhen ? '<span class="tag">露出来了</span>' : ''}</li>` : '';
+  const cap = t.layers.length ? `脸上 ${t.layers.length} 层台上脸` : mirror ? '镜子里的底色' : '脸上没有台上脸';
+  return `<div class="facezone">
+    <div class="face ${flash === 'wipe' ? 'helping' : flash === 'rub' ? 'rub' : ''}">${faceSVG(t.layers, { gu, zhen, base: mirror ? S.base : 0 })}${TOWEL}</div>
+    <p class="facecap">${cap}</p>
+    <ul class="layers">${layers}${extra}</ul>
+  </div>`;
+}
+
+function viewTray() {
+  const t = S.T, ph = S.phase;
+  const ids = t.box.slice().sort((a, b) => (isStage(fOf(S, a)) === isStage(fOf(S, b)) ? 0 : isStage(fOf(S, a)) ? -1 : 1));
+  const actOf = id => {
+    const f = fOf(S, id);
+    if (ph === 'stage') return isStage(f) ? 'play-stage' : null;
+    if (ph === 'door' || ph === 'night') return canClean(S, id) ? 'sel' : null;
+    if (ph === 'evening') return !isStage(f) ? 'play-home' : null;
+    if (ph === 'morning') return tOf(S, id).sticky ? null : 'unbox';
+    return null;
+  };
+  const offOf = id => (ph === 'stage' && !canStage(S, id)) || (ph === 'evening' && !canHome(S, id)) || ((ph === 'door' || ph === 'night') && !canClean(S, id));
+  const used = sumSlots(S, t.box), free = capFree(S);
+  const hint = { morning: '点牌可以把它拿出妆匣。', stage: '点演戏牌，放进当前这一段。', door: '先点一张牌，再按「用这张卸一层」。', evening: '点家中牌，按顺序打出。', night: '先点一张剩下的牌，再按「用这张卸一层」。' }[ph] || '';
+  return `<div class="tray">
+    <h3><span>今天的妆匣 <b>${used} / ${free}</b> 张位${t.reserved ? `（另有 ${t.reserved} 位留给${t.special === 'night' ? '夜场' : '生日'}）` : ''}</span><span>剩 ${t.box.filter(id => !t.used[id]).length} 张没用</span></h3>
+    ${ids.length ? `<div class="cards">${ids.map(id => cardHTML(id, actOf(id), { off: offOf(id) })).join('')}</div>` : '<p class="empty-tray">妆匣还是空的。</p>'}
+    ${hint ? `<p class="hint">${hint}</p>` : ''}
+  </div>`;
+}
+
+function viewLedger() {
+  if (!showLedger) return '';
+  const nd = S.need.map((n, i) => `${ACT_N[i]} ${n}/${NEED_MAX[i]}`).join('，');
+  return `<div class="panel"><h3>内账 <small>测试用，正式版看不到</small></h3><div class="ledger">
+    <span>安心</span><b>${S.calm} / 5</b><span>被看见</span><b>${S.seen} / 5</b><span>裂痕</span><b>${S.rift} / 4</b>
+    <span>底色</span><b>${S.base}</b><span>灯进度</span><b>${S.lamp}${S.frame ? '（灯骨已扎好）' : ''}${S.lit ? '（已点亮）' : ''}</b>
+    <span>需求</span><b>${nd}</b><span>熟练度</span><b>${['sing', 'speak', 'act', 'fight'].map(f => `${FAM[f].n} ${lvOf(S, f)} 级（${S.prof[f]} 次）`).join(' · ')}</b>
+    <span>下周</span><b>${S.pen.minus ? '妆匣 −1' : ''}${S.pen.carry ? '开局多 1 层残留' : ''}${!S.pen.minus && !S.pen.carry ? '无' : ''}</b>
+  </div></div>`;
+}
+
+// ── 各時段 ───────────────────────────────────────────
+function viewMorning() {
+  const t = S.T, kind = specialOf(S), sc = scriptsOf(S), used = sumSlots(S, t.box), free = capFree(S);
+  const desc = MORNING[S.day] || MORNING_ROT[(S.day - 1) % MORNING_ROT.length];
+  let special = '';
+  if (kind === 'bday') special = `<div class="panel"><h3>阿檀的生日 <small>二选一</small></h3><div class="picks">
+      <button class="pick" data-act="choose" data-arg="night" aria-pressed="${t.special === 'night'}">加演夜场<small>替小凤唱：金箔 +6，占 2 张位</small></button>
+      <button class="pick" data-act="choose" data-arg="bday" aria-pressed="${t.special === 'bday'}">陪她过生日<small>金箔不增，占 1 张陪伴位</small></button></div></div>`;
+  if (kind === 'yuan') special = `<div class="panel"><h3>元宵 <small>三选一</small></h3><div class="picks">
+      <button class="pick" data-act="choose" data-arg="stage" aria-pressed="${t.special === 'stage'}">上台<small>最后一场，金箔 ×2</small></button>
+      <button class="pick" data-act="choose" data-arg="lamp" aria-pressed="${t.special === 'lamp'}">回家点灯<small>今天不上台</small></button>
+      <button class="pick" data-act="choose" data-arg="cover" aria-pressed="${t.special === 'cover'}">替小凤代演<small>金箔记在她名下</small></button></div></div>`;
+  const meter = Array.from({ length: t.cap }, (_, i) => {
+    if (i >= free) return '<i class="res"></i>';
+    return '<i></i>';
+  });
+  let k = 0;
+  t.box.forEach(id => { const s = slotsOf(S, id); for (let j = 0; j < s && k < free; j++, k++) meter[k] = `<i class="on" style="background:${FCOL[fOf(S, id)]};${isStage(fOf(S, id)) ? '' : `outline:1px solid ${COL.ink3};outline-offset:-1px`}"></i>`; });
+  // 卡組按牌名分組
+  const order = ['sing', 'speak', 'act', 'fight', 'care', 'comp', 'listen', 'labor', 'gift', 'conflict'];
+  const groups = [];
+  S.deck.forEach(c => { let g = groups.find(x => x.t === c.t); if (!g) groups.push(g = { t: c.t, ids: [] }); g.ids.push(c.id); });
+  groups.sort((a, b) => order.indexOf(T[a.t].f) - order.indexOf(T[b.t].f));
+  const rows = groups.map(g => {
+    const tp = T[g.t], inBox = g.ids.filter(id => t.box.includes(id)).length, s2 = slotsT(g.t) === 2;
+    const canPlus = inBox < g.ids.length && used + slotsT(g.t) <= free;
+    const sub = isStage(tp.f) ? `${FAM[tp.f].n} · 金 ${tp.g} · 残留：${FAM[tp.f].res.split('：')[0]}` : `${FAM[tp.f].n} · ${FAM[tp.f].eff}`;
+    return `<div class="drow">${famChip(tp.f)}<span class="nm"><b>${tp.n}</b>${s2 ? ' · 2 张位' : ''}${tp.ex ? ' · 专属' : ''}${tp.sticky ? ' · 必带' : ''}<small>${sub}</small></span>
+      <button class="step" data-act="minus" data-arg="${g.t}" ${inBox && !tp.sticky ? '' : 'disabled'} aria-label="${tp.n}少带一张">−</button>
+      <span class="cnt">${inBox} / ${g.ids.length}</span>
+      <button class="step" data-act="plus" data-arg="${g.t}" ${canPlus ? '' : 'disabled'} aria-label="${tp.n}多带一张">＋</button></div>`;
+  }).join('');
+  return `<div class="head"><div class="sh"><h2>早</h2><span class="who">装妆匣 · 选剧本</span></div>
+      <p class="desc">${desc}</p>${t.notes.map(n => `<p class="note">${n}</p>`).join('')}
+      <p class="say">今天的妆匣，装得下 ${t.cap} 张位。</p></div>
+    <div class="main">
+      ${viewLedger()}
+      ${special}
+      <div class="panel"><h3>剧本 <small>本周开放 ${sc.length} 个，选一个</small></h3><div class="scripts">${sc.map((s, i) => `<button class="script" data-act="script" data-arg="${i}" aria-pressed="${t.script === i}">
+          <b>${s.n}</b>${s.yuan ? '<small>元宵剧本</small>' : ''}<small>${TAGN[s.tag]}：${FAM[s.tag].n}每张 +1</small>
+          <span class="segs">${s.segs.map((f, j) => `<span class="seg-chip f-${f}">${SEG_N[j]} · ${FAM[f].n}</span>`).join('')}</span></button>`).join('')}</div>
+        <p class="hint">最后一段的牌在脸上的最上层，没清掉就会把它的残留带进门。</p></div>
+      <div class="panel"><h3>装妆匣 <small>${used} / ${free} 张位</small></h3>
+        <div class="meter" aria-hidden="true">${meter.join('')}</div>
+        <div class="row-btns">
+          <button class="btn" data-act="yesterday" ${S.lastBox ? '' : 'disabled'}>照昨天装</button>
+          <button class="btn" data-act="clear">全部倒出来</button>
+          <button class="btn gold" data-act="shop">戏箱<small>${S.bought ? '本周已买过' : '班主处，本周可买 1 张'}</small></button>
+          <button class="btn gold" data-act="market">市集<small>家中卡、礼物${S.lampSold ? '、灯料' : ''}</small></button>
+          <button class="btn" data-act="lib">卡组 ${S.deck.length} 张<small>收起或取回普通卡</small></button>
+        </div>
+        <div class="deck" style="margin-top:12px">${rows}</div></div>
+      <div class="row-btns"><button class="btn go" data-act="depart" ${canDepart(S) ? '' : 'disabled'}>${t.special === 'lamp' ? '回家' : '出门上戏'}<small>${kind && !t.special ? '先做上面的选择' : `妆匣 ${used} 张位`}</small></button></div>
+    </div>`;
+}
+
+function viewStage() {
+  const t = S.T, sc = scriptNow(S), g = goldOf(S);
+  const rows = sc.segs.map((f, i) => {
+    const ids = t.segs[i], left = R.segMax - segSlots(S, i);
+    return `<div class="segrow ${t.seg === i ? 'cur' : ''}"><div class="lb">${SEG_N[i]}<small>要${FAM[f].n}</small></div>
+      <div class="minis">${ids.map(id => miniHTML(id, fOf(S, id) !== f)).join('')}${Array.from({ length: left }, () => '<span class="slot"></span>').join('')}</div></div>`;
+  }).join('');
+  return `<div class="head"><div class="sh"><h2>白天</h2><span class="who">${sc.n} · ${TAGN[sc.tag]}</span></div>
+      <p class="desc">${t.special === 'cover' ? '你换上小凤的行头，替她上台。' : t.special === 'stage' ? '元宵的最后一场，台下坐满了人。' : '锣鼓点起来了。按剧本的顺序，一段一段唱。'}</p></div>
+    <div class="main">
+      ${viewLedger()}
+      <div class="panel"><h3>三段 <small>已出 ${stageSlots(S)} / ${R.stageMax} 张位</small></h3>${rows}
+        <p class="goldline">这一场：金箔 <b>${t.special === 'cover' ? 0 : g.total}</b>${g.perfect ? '<span class="stamp">完美折子</span>' : ''}</p>
+        <p class="hint">三段都有牌、而且族都对上，金箔 ×1.5。虚线框的牌放错了段。</p></div>
+      <div class="row-btns">
+        <button class="btn" data-act="undo" ${stageSlots(S) ? '' : 'disabled'}>收回一张</button>
+        <button class="btn" data-act="next-seg" ${t.seg < 2 ? '' : 'disabled'}>下一段</button>
+        <button class="btn go" data-act="end-stage">散戏<small>${t.segs.flat().length ? `脸上 ${t.layers.length} 层` : '今天不唱'}</small></button>
+      </div>
+    </div>`;
+}
+
+function viewDoor() {
+  const t = S.T, d = t.door;
+  const selOk = sel !== null && canClean(S, sel);
+  return `<div class="head door"><div class="sh"><h2>门口</h2><span class="who">清层</span></div>
+      <p class="desc">${DOOR_TX[d]}</p>
+      ${t.gold || t.coverGold ? `<p class="note">今天${t.coverGold ? `替小凤挣了 ${t.coverGold} 金箔` : `挣了 ${t.gold} 金箔`}${t.perfect ? '，是完美折子' : ''}。</p>` : ''}
+      ${t.notes.map(n => `<p class="note">${n}</p>`).join('')}</div>
+    <div class="main">
+      ${viewLedger()}
+      <div class="panel"><h3>脸上还有 ${t.layers.length} 层</h3>
+        <div class="row-btns">
+          ${d === 'wipe' ? `<button class="btn main" data-act="wipe" ${canWipe(S) ? '' : 'disabled'}>让她擦一层<small>不耗牌，今天还能擦 ${R.wipeMax - t.wiped} 层</small></button>` : ''}
+          <button class="btn" data-act="clean" ${selOk ? '' : 'disabled'}>用这张卸一层<small>${selOk ? `弃「${tOf(S, sel).n}」，挂上晾绳` : '先在妆匣里点一张牌'}</small></button>
+          <button class="btn go" data-act="enter">进门<small>${t.layers.length ? '带着最上面那层进去' : '脸是干净的'}</small></button>
+        </div>
+        <p class="hint">${t.layers.length ? `最上面那层是${FAM[t.layers[t.layers.length - 1].f].n}：${FAM[t.layers[t.layers.length - 1].f].res}。` : '可以干干净净地进门了。'}</p></div>
+    </div>`;
+}
+
+function viewEvening() {
+  const t = S.T;
+  if (S.gone) return `<div class="head home"><div class="sh"><h2>傍晚</h2><span class="who">灯坊</span></div><p class="desc">${DOOR_TX.gone}</p></div>
+    <div class="main">${viewLedger()}<div class="row-btns"><button class="btn go" data-act="end-evening">回去睡</button></div></div>`;
+  const list = t.reacts.map(r => `<li><span class="rk ${r.k}">${r.k === 'up' ? '抬眼' : r.k === 'down' ? '低头' : '没反应'}</span>
+      <span class="tx">${r.who ? `<b>${esc(r.who)}</b>　` : ''}${r.tx}${r.hit ? `<span class="gain">${NEED_TX[r.hit.w][r.hit.st - 1] || ''}${r.hit.card ? `　你多了一张牌：「${r.hit.card}」` : ''}</span>` : ''}</span></li>`).join('');
+  return `<div class="head home"><div class="sh"><h2>傍晚</h2><span class="who">灯坊 · 阿檀</span></div>
+      <p class="desc">${t.residual ? RES_TX[t.residual] : t.enteredClean ? '你干干净净地进了门。' : '你进了门。'}</p>
+      <div class="lampbox">${lampSVG(S)}<p class="note">${S.lit ? '灯亮着。' : S.frame ? `灯骨扎好了，糊了 ${S.lamp} 片纸。` : S.lamp ? `灯骨上糊了 ${S.lamp} 片纸。` : '桌上摆着灯骨，纸还没糊。'}</p></div></div>
+    <div class="main">
+      ${viewLedger()}
+      <div class="panel"><h3>今晚 <small>已出 ${t.homeSlots} / ${R.homeMax} 张位</small></h3>
+        ${list ? `<ul class="reacts">${list}</ul>` : '<p class="hint" style="margin:0">还没出牌。一张都不出，就是空宅。</p>'}</div>
+      <div class="row-btns"><button class="btn go" data-act="end-evening">吃完了<small>${homeCount(S) ? `出了 ${homeCount(S)} 张` : '今晚空宅'}</small></button></div>
+    </div>`;
+}
+
+function viewNight() {
+  const t = S.T, selOk = sel !== null && canClean(S, sel), left = t.box.filter(id => !t.used[id]).length;
+  return `<div class="head night"><div class="sh"><h2>夜</h2><span class="who">卸妆 · 睡觉</span></div>
+      <p class="desc">${t.layers.length ? `脸上还剩 ${t.layers.length} 层台上脸。没卸掉的，睡一觉就渗进底色里。` : '脸上干净了。'}</p>
+      <p class="note">妆匣里还剩 ${left} 张牌没用。睡着以后，没用的牌就作废了。</p></div>
+    <div class="main">
+      ${viewLedger()}
+      <div class="row-btns">
+        <button class="btn" data-act="clean" ${selOk ? '' : 'disabled'}>用这张卸一层<small>${selOk ? `弃「${tOf(S, sel).n}」，挂上晾绳` : t.layers.length ? '先在妆匣里点一张牌' : '没有要卸的'}</small></button>
+        <button class="btn go" data-act="sleep">睡吧<small>${t.layers.length ? `${t.layers.length} 层会变成底色` : '素着脸睡'}</small></button>
+      </div>
+    </div>`;
+}
+
+function viewWatch() {
+  const t = S.T, L = S.log[S.log.length - 1], mirror = S.day === R.mirrorDay;
+  const depth = S.base <= 3 ? '浅' : S.base <= 8 ? '不浅' : '很深';
+  return `<div class="head night"><div class="sh"><h2>更夫</h2><span class="who">第 ${S.day} 天的夜</span></div>
+      <p class="watch-line">${t.watch}</p>
+      ${mirror ? `<p class="say">后台的镜子擦得很亮。你看见自己的底色，${depth}。</p>` : ''}</div>
+    <div class="main">
+      ${viewLedger()}
+      <div class="panel"><h3>今天</h3><div class="daysum">
+        <span>金箔 <b>${L.gold}</b>${L.perfect ? ' · 完美折子' : ''}</span><span>演了 <b>${L.stage}</b> 张</span>
+        <span>门口${L.wiped ? `她替你擦了 <b>${L.wiped}</b> 层` : '没人替你擦'}</span><span>自己卸了 <b>${L.doorClean + L.nightClean}</b> 层</span>
+        <span>家中出了 <b>${L.home}</b> 张</span><span>作废 <b>${L.wasted}</b> 张</span></div>
+        ${S.rope.length ? `<p class="hint">晾绳上挂着 ${S.rope.length} 块布。</p><div class="rope">${S.rope.slice(-28).map(r => `<i style="background:${FCOL[r.f]};${r.f === 'home' ? `outline:1px solid ${COL.ink3};outline-offset:-1px` : ''}" title="${CLOTHN[r.f]}"></i>`).join('')}</div>` : ''}</div>
+      <div class="row-btns"><button class="btn go" data-act="dawn">${S.day % 7 === 0 ? '周考核' : '天亮'}</button></div>
+    </div>`;
+}
+
+function boardRows(rank) {
+  const rows = OTHERS.slice();
+  rows.splice(rank - 1, 0, '你');
+  return rows;
+}
+function viewWeek() {
+  const w = S.weeks[S.weeks.length - 1];
+  const cell = (p, r) => (w.perf === p && w.rel === r ? 'hit' : '');
+  const next = S.day >= R.days ? '' : w.perf && !w.rel ? '下周开局，脸上会多一层残留。' : !w.perf && !w.rel ? '下周的妆匣，每天少一张位。' : '下周照常。';
+  const rows = boardRows(S.rank);
+  return `<div class="head night"><div class="sh"><h2>周考核</h2><span class="who">第 ${w.w} 周 · ${ACT_N[w.w - 1]}</span></div>
+      <p class="desc">本周金箔流水 ${w.flow}，业绩线 ${w.line}：${w.perf ? '过线' : '没过线'}。关系线：${w.rel ? '守住' : '失守'}。</p>
+      ${w.w === 3 ? `<p class="say">班主选了新的头牌：${rows[0] === '你' ? '是你' : rows[0]}。</p>` : ''}</div>
+    <div class="main">
+      ${viewLedger()}
+      <div class="panel"><div class="grid22">
+        <div class="h"></div><div class="h">关系线守住</div><div class="h">关系线失守</div>
+        <div class="h">业绩过线</div><div class="${cell(true, true)}">排名 +2</div><div class="${cell(true, false)}">排名 +1，下周开局多 1 层残留</div>
+        <div class="h">业绩未过线</div><div class="${cell(false, true)}">排名 −1</div><div class="${cell(false, false)}">排名 −2，下周妆匣 −1 张</div>
+      </div>
+      <p class="hint">水牌：第 ${w.r0} → 第 ${w.r1}。${next}</p>
+      <div class="wb">${rows.map((n, i) => `<div class="${n === '你' ? 'me' : ''} ${i === rows.length - 1 ? 'last' : ''}"><span>${i + 1}　${n === '你' ? `${esc(S.name)}（你）` : n}</span><span>${i === rows.length - 1 ? '末位' : ''}</span></div>`).join('')}</div></div>
+      <div class="row-btns"><button class="btn go" data-act="next-week">${S.day >= R.days ? '季末' : '下一周'}</button></div>
+    </div>`;
+}
+
+function viewPlay() {
+  const ph = S.phase;
+  const body = { morning: viewMorning, stage: viewStage, door: viewDoor, evening: viewEvening, night: viewNight, watch: viewWatch, week: viewWeek }[ph]();
+  const tray = ph === 'watch' || ph === 'week' ? '' : viewTray();
+  return `${viewBar()}<div class="table">${viewFace()}${body}${tray}</div>`;
+}
+
+// ── 季末揭曉 ─────────────────────────────────────────
+function chartSVG() {
+  const L = S.log, W = 600, H = 170, l = 34, r = 10, top = 10, bot = 26;
+  const x = d => l + ((d - 1) / (R.days - 1)) * (W - l - r), y = v => top + (1 - v / 5) * (H - top - bot);
+  let g = '';
+  for (let v = 0; v <= 5; v++) g += `<line x1="${l}" x2="${W - r}" y1="${y(v)}" y2="${y(v)}" stroke="${COL.line}" stroke-width="1"/><text x="${l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="${COL.ink2}">${v}</text>`;
+  [1, 7, 14, 21, 28].forEach(d => { g += `<text x="${x(d)}" y="${H - 8}" text-anchor="${d === R.days ? 'end' : 'middle'}" font-size="11" fill="${COL.ink2}">第${d}天</text>`; });
+  const series = [['calm', COL.indigo, '安心'], ['seen', COL.gold, '被看见'], ['rift', COL.rouge, '裂痕']];
+  series.forEach(([k, c]) => {
+    const pts = L.map(e => `${x(e.day).toFixed(1)},${y(e[k]).toFixed(1)}`).join(' ');
+    if (pts) g += `<polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2.5" stroke-linejoin="round"/>`;
+    const e = L[L.length - 1];
+    if (e) g += `<circle cx="${x(e.day)}" cy="${y(e[k])}" r="4" fill="${c}"/>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="安心、被看见、裂痕每天的变化">${g}</svg>`
+    + `<div class="legend">${series.map(([, c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join('')}<span>（裂痕到 4 就崩盘）</span></div>`;
+}
+function daysTable() {
+  const cell = arr => (arr.length ? arr.map(e => `<i style="background:${FCOL[e.f]};${e.f === 'home' ? `outline:1px solid ${COL.ink3};outline-offset:-1px` : ''}"></i>`).join('') : '<i class="none"></i>');
+  const days = Array.from({ length: R.days }, (_, i) => i + 1);
+  return `<div class="days"><table><tr><th></th>${days.map(d => `<th>${d}</th>`).join('')}</tr>
+    <tr><th class="rh">木匣</th>${days.map(d => `<td>${cell(S.chest.filter(e => e.day === d))}</td>`).join('')}</tr>
+    <tr><th class="rh">晾绳</th>${days.map(d => `<td>${cell(S.rope.filter(e => e.day === d))}</td>`).join('')}</tr></table></div>
+    <div class="legend"><span><i style="background:${FCOL.sing}"></i>红：唱</span><span><i style="background:${FCOL.speak}"></i>墨：念</span><span><i style="background:${FCOL.act}"></i>土：做</span><span><i style="background:${FCOL.fight}"></i>金：打</span><span><i style="background:${FCOL.home};outline:1px solid ${COL.ink3}"></i>素：家中牌</span><span><i style="border:1px dashed ${COL.ink3}"></i>空着</span></div>`;
+}
+function viewEnd() {
+  const pass = S.rank < R.ranks, rows = boardRows(S.rank);
+  if (reveal === 0) {
+    return `<div class="reveal"><section class="rv"><h2>水牌重写</h2>
+      <p class="big">元宵过后，全城围在戏园门口。班主把这一季的名字一个一个重新写上去。</p>
+      <div class="wb">${rows.map((n, i) => `<div class="${n === '你' ? 'me' : ''} ${i === rows.length - 1 ? 'last' : ''}"><span>${i + 1}　${n === '你' ? `${esc(S.name)}（你）` : n}</span><span>${i === rows.length - 1 ? '摘牌' : ''}</span></div>`).join('')}</div>
+      <div class="stamp ${pass ? '' : 'fail'}" style="margin:14px 0 0">${pass ? '留在水牌上' : '末位 · 摘牌'}</div>
+      <p class="big" style="margin-top:12px">这一季你一共挣了 ${S.total} 金箔。${YUAN_TX[S.choice.yuan] || ''}</p>
+      <div class="actions"><button class="btn go" data-act="rv-next">回家</button></div></section></div>`;
+  }
+  if (reveal === 1) {
+    const f = factsOf(S);
+    const needs = NEED_N.map((n, i) => `<li><b>${ACT_N[i]}</b><span>${n}<br><small class="hint">${NEED_HOW[i]}</small></span><span class="${S.need[i] ? 'ok' : 'no'}">${S.need[i] ? `${S.need[i]} / ${NEED_MAX[i]}` : '没做到'}</span></li>`).join('');
+    return `<div class="reveal"><section class="rv"><h2>两样东西</h2>
+      <p class="big">桌上摆着阿檀的木匣，窗外挂着你的晾绳。木匣里是她在门口替你擦脸用过的布；晾绳上是你自己卸妆弃掉的牌。</p>
+      ${daysTable()}
+      <h3>她心里的账</h3><div class="chart">${chartSVG()}</div>
+      <p class="hint">底色一共 ${S.base}。</p>
+      <h3>她每一幕想要的</h3><ul class="needs">${needs}</ul>
+      <h3>你本来可以知道的</h3><ul class="facts">
+        <li>妆匣比 15 张位小的日子有 ${f.small} 天，比 15 大的有 ${f.big} 天。</li>
+        <li>她没有在门口替你擦脸的日子有 ${f.noWipe} 天。</li>
+        <li>带着台上脸进门的日子有 ${f.res} 天，空宅 ${f.empty} 天，带着戏脸睡的夜有 ${f.red} 个。</li>
+        <li>周考核里，关系线失守了 ${f.relFail} 次。</li>
+        <li>一共作废了 ${f.wasted} 张牌。</li></ul>
+      <div class="actions"><button class="btn go" data-act="rv-next">五更天</button></div></section></div>`;
+  }
+  const e = ENDINGS[endingOf(S)];
+  return `<div class="reveal"><section class="rv"><p class="night-line">五更天，窗外有人在喊「${esc(S.name)}」。</p>
+    <div class="face" style="margin-top:12px;max-width:200px">${faceSVG([], { base: S.base })}</div>
+    <div class="ending ${e.cls}"><h3>${e.name}</h3><p class="cond">${e.cond}</p><p class="tx">${e.text(S)}</p></div>
+    <div class="actions"><button class="btn go" data-act="again">再唱一季</button><button class="btn" data-act="home">回到开场</button></div></section></div>`;
+}
+
+// ── 對話框 ───────────────────────────────────────────
+function viewModal() {
+  let body = '';
+  if (modal === 'rules') body = `<h2>规矩</h2><ol>${RULES.map(r => `<li>${r}</li>`).join('')}</ol><h3>原型自定的部分</h3><p class="hint">v0.3 没写死的数值和规则，原型先这样定，方便试玩后再调。</p><ol>${ASSUME.map(r => `<li>${r}</li>`).join('')}</ol>`;
+  if (modal === 'restart') body = `<h2>重来？</h2><p>这一季的进度会清掉，回到开场。</p><div class="row-btns" style="margin-top:14px"><button class="btn go" data-act="restart-yes">重来</button><button class="btn" data-act="close">接着唱</button></div>`;
+  if (modal === 'shop') {
+    const list = SHOP[weekOf(S.day) - 1];
+    body = `<h2>戏箱</h2><p class="hint">班主处。每周开 3 张演戏卡，最多买 1 张。你有 ${S.gold} 金箔。</p>${list.map(t => {
+      const tp = T[t], can = !S.bought && S.gold >= tp.price;
+      return `<div class="shoprow"><div class="card f-${tp.f}"><span class="cg">${GLYPH[tp.f]}</span><span class="cn">${tp.n}</span></div>
+        <div class="info">${tp.n} · ${FAM[tp.f].n}${slotsT(t) === 2 ? ' · 2 张位' : ''}<small>金 ${tp.g} · 残留：${FAM[tp.f].res}</small></div>
+        <button class="btn" data-act="buy-shop" data-arg="${t}" ${can ? '' : 'disabled'}>${tp.price} 金箔</button></div>`;
+    }).join('')}`;
+  }
+  if (modal === 'market') {
+    const items = MARKET.map(t => {
+      const tp = T[t];
+      return `<div class="shoprow"><div class="card f-${tp.f}"><span class="cg">${GLYPH[tp.f]}</span><span class="cn">${tp.n}</span></div>
+        <div class="info">${tp.n} · ${FAM[tp.f].n}${slotsT(t) === 2 ? ' · 2 张位' : ''}<small>${FAM[tp.f].eff}</small></div>
+        <button class="btn" data-act="buy-market" data-arg="${t}" ${S.gold >= tp.price ? '' : 'disabled'}>${tp.price} 金箔</button></div>`;
+    }).join('');
+    const lamp = S.lampSold ? `<div class="shoprow"><div class="card f-labor"><span class="cg">灯</span><span class="cn">灯料</span></div><div class="info">灯料<small>买了直接糊上去：灯进度 +1</small></div><button class="btn" data-act="buy-market" data-arg="lamp" ${S.gold >= R.lampPrice ? '' : 'disabled'}>${R.lampPrice} 金箔</button></div>` : '';
+    body = `<h2>市集</h2><p class="hint">常驻。你有 ${S.gold} 金箔。</p>${items}${lamp}`;
+  }
+  if (modal === 'lib') {
+    const deck = S.deck.map(c => {
+      const tp = T[c.t], lock = tp.ex || tp.sticky;
+      return `<div class="shoprow"><div class="card f-${tp.f}"><span class="cg">${GLYPH[tp.f]}</span><span class="cn">${tp.n}</span></div><div class="info">${tp.n} · ${FAM[tp.f].n}<small>${lock ? (tp.sticky ? '必带，不能收起' : '专属卡，不能卸下') : '普通卡'}</small></div>
+        <button class="btn" data-act="stash" data-arg="${c.id}" ${lock ? 'disabled' : ''}>收进卡库</button></div>`;
+    }).join('');
+    const lib = S.lib.map(c => {
+      const tp = T[c.t];
+      return `<div class="shoprow"><div class="card f-${tp.f}"><span class="cg">${GLYPH[tp.f]}</span><span class="cn">${tp.n}</span></div><div class="info">${tp.n} · ${FAM[tp.f].n}</div>
+        <button class="btn" data-act="unstash" data-arg="${c.id}" ${S.deck.length < R.deckCap ? '' : 'disabled'}>取回卡组</button></div>`;
+    }).join('');
+    body = `<h2>卡组 ${S.deck.length} / ${R.deckCap}</h2>${deck}<h3>卡库 ${S.lib.length}</h3>${lib || '<p class="hint">卡库是空的。</p>'}`;
+  }
+  return `<div class="backdrop" data-act="close"></div><div class="modal" role="dialog" aria-modal="true">${body}<button class="tool close" data-act="close">关上</button></div>`;
+}
+
+function render() {
+  app.innerHTML = (!S ? viewStart() : S.phase === 'end' ? viewEnd() : viewPlay()) + (modal ? viewModal() : '');
+  flash = null;
+}
+
+function burst(n) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const fx = document.getElementById('fx');
+  for (let i = 0; i < Math.min(n, 40); i++) {
+    const f = document.createElement('span');
+    f.className = 'fleck';
+    f.style.left = `${10 + Math.random() * 80}vw`;
+    f.style.animationDelay = `${Math.random() * 0.4}s`;
+    f.style.background = Math.random() < 0.3 ? COL.gold2 : COL.gold;
+    fx.appendChild(f);
+    setTimeout(() => f.remove(), 2400);
+  }
+}
+
+app.addEventListener('input', e => { if (e.target.id === 'nm') draftName = e.target.value; });
+app.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || b.disabled) return;
+  const a = b.dataset.act, arg = b.dataset.arg, id = Number(arg);
+  const g0 = S ? S.gold : 0, ph0 = S ? S.phase : null;
+  switch (a) {
+    case 'role': pickRole = arg; break;
+    case 'start': S = newGame((draftName.trim() || '小满').slice(0, 6), pickRole); reveal = 0; break;
+    case 'resume': S = saved; saved = null; reveal = 0; break;
+    case 'rules': case 'shop': case 'market': case 'lib': case 'restart': modal = a; break;
+    case 'close': modal = null; break;
+    case 'restart-yes': S = null; modal = null; saved = null; break;
+    case 'ledger': showLedger = !showLedger; break;
+    case 'choose': choose(S, arg); break;
+    case 'script': pickScript(S, id); break;
+    case 'plus': stepTpl(S, arg, 1); break;
+    case 'minus': stepTpl(S, arg, -1); break;
+    case 'unbox': toggleBox(S, id); break;
+    case 'clear': clearBox(S); break;
+    case 'yesterday': boxYesterday(S); break;
+    case 'buy-shop': buyShop(S, arg); break;
+    case 'buy-market': buyMarket(S, arg); break;
+    case 'stash': stash(S, id); break;
+    case 'unstash': unstash(S, id); break;
+    case 'depart': depart(S); break;
+    case 'play-stage': playStage(S, id); break;
+    case 'undo': undoStage(S); break;
+    case 'next-seg': nextSeg(S); break;
+    case 'end-stage': endStage(S); break;
+    case 'wipe': wipe(S); flash = 'wipe'; break;
+    case 'sel': sel = sel === id ? null : id; break;
+    case 'clean': selfClean(S, sel); sel = null; flash = 'rub'; break;
+    case 'enter': enterHome(S); break;
+    case 'play-home': playHome(S, id); break;
+    case 'end-evening': endEvening(S); break;
+    case 'sleep': sleep(S); break;
+    case 'dawn': dawn(S); break;
+    case 'next-week': nextWeek(S); reveal = 0; break;
+    case 'rv-next': reveal += 1; break;
+    case 'again': S = newGame(S.name, S.role); reveal = 0; break;
+    case 'home': S = null; reveal = 0; break;
+  }
+  if (S && S.phase !== ph0) { sel = null; window.scrollTo({ top: 0 }); }
+  if (a === 'rv-next') window.scrollTo({ top: 0 });
+  save();
+  render();
+  if (S && S.gold > g0 && a === 'end-stage') burst((S.gold - g0) * 2);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal) { modal = null; render(); } });
+
+// 測試用：在瀏覽器主控台裡跑規則引擎
+window.__dise = { R, T, newGame, choose, toggleBox, stepTpl, pickScript, depart, playStage, endStage, wipe, selfClean, enterHome, playHome, endEvening, sleep, dawn, nextWeek, goldOf, endingOf, buyShop, buyMarket };
+
+window.claude?.hot?.snapshot?.(() => ({ S, pickRole, draftName, reveal }));
+const boot = data => {
+  if (data && data.S) { S = data.S; pickRole = data.pickRole || pickRole; draftName = data.draftName || draftName; reveal = data.reveal || 0; }
+  else saved = load();
+  render();
+};
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+</script>
