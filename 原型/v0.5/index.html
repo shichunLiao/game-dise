@@ -304,6 +304,31 @@ p { margin: 0; }
   #coach .cbox h4 { font-size: 21px; }
   #coach .cbox .tx { font-size: 14px; }
 }
+/* 看牌：放大的卡面＋大字說明，浮在牌的上方，不擋點擊 */
+#peek { position: fixed; z-index: 35; pointer-events: none; display: flex; gap: 12px; align-items: flex-start; filter: drop-shadow(0 14px 30px rgba(0, 0, 0, .7)); animation: peekIn .14s ease-out both; }
+#peek img { width: 200px; height: 300px; flex: none; display: block; border-radius: 12px; }
+#peek .pi { width: 290px; background: #1a1417; color: var(--paper); border: 1px solid rgba(184, 145, 63, .7); border-top: 4px solid var(--red); padding: 10px 14px 12px; font-size: 15px; line-height: 1.6; }
+#peek .pi h5 { font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1.2; margin: 0; }
+#peek .pi .meta { font-size: 12px; letter-spacing: .12em; color: var(--paper-2); margin: 2px 0 8px; }
+#peek .pi p { margin: 0; }
+#peek .pi p + p { margin-top: 6px; }
+#peek .pi small { color: var(--paper-2); font-size: 12px; }
+#peek .pi .k { display: inline-block; color: var(--gold); font-size: 13px; letter-spacing: .1em; margin-right: 8px; }
+#peek .pi .now { margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(236, 227, 212, .3); }
+#peek .pi .now p { margin-top: 4px; padding-left: 14px; position: relative; }
+#peek .pi .now p::before { content: "·"; position: absolute; left: 3px; }
+#peek .pi .now .good { color: var(--gold); }
+#peek .pi .now .bad { color: var(--red-2); }
+.hc img, .dk img { -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
+.dk img[data-t] { cursor: zoom-in; }
+@keyframes peekIn { from { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { #peek { animation: none; } }
+@media (max-width: 760px) {
+  #peek { gap: 8px; }
+  #peek img { width: 112px; height: 168px; border-radius: 8px; }
+  #peek .pi { width: calc(100vw - 32px - 120px); font-size: 13px; padding: 8px 10px 10px; }
+  #peek .pi h5 { font-size: 21px; }
+}
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -329,6 +354,7 @@ p { margin: 0; }
 <div id="fx" aria-hidden="true"></div>
 <div id="dice" hidden></div>
 <div id="coach" hidden></div>
+<div id="peek" hidden aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="70"/></filter></svg>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1804,8 +1830,8 @@ function say(who, tx, gain) {
 function refresh() {
   const on = view !== 'title';
   $('#hud').hidden = !on; $('#title').hidden = on;
-  if (!on) { renderTitle(); $('#coach').hidden = true; return; }
-  renderTop(); renderState(); renderMid(); renderChoices(); renderHand(); renderSmear(); drawPortrait($('#pf'), { who: 'you', layers: S.T.layers });
+  if (!on) { renderTitle(); $('#coach').hidden = true; hidePeek(); return; }
+  renderTop(); renderState(); renderMid(); renderChoices(); renderHand(); peekSync(); renderSmear(); drawPortrait($('#pf'), { who: 'you', layers: S.T.layers });
   const mp = $('#mirrorPf'); if (mp) drawPortrait(mp, { who: 'you', layers: [], base: S.base, bg: ['#8d9396', '#3b4044'] });
   updateLanterns();
   coachUpdate();
@@ -1900,7 +1926,7 @@ function morningPanel() {
   const rows = groups.map(g => {
     const tp = T[g.t], inBox = g.ids.filter(id => t.box.includes(id)).length, free1 = g.ids.find(id => !t.box.includes(id));
     const canPlus = free1 !== undefined && canAdd(S, free1), stashId = g.ids.find(id => !t.box.includes(id)) ?? g.ids[g.ids.length - 1];
-    return `<div class="dk"><img src="${cardArt(g.t).url}" alt=""><div class="nm"><b>${tp.n}</b>${tp.lock ? `<em>${tp.sig ? '招牌' : '专属'}</em>` : ''}<small>${cardSub(g.t)}</small></div>
+    return `<div class="dk"><img src="${cardArt(g.t).url}" alt="" data-t="${g.t}"><div class="nm"><b>${tp.n}</b>${tp.lock ? `<em>${tp.sig ? '招牌' : '专属'}</em>` : ''}<small>${cardSub(g.t)}</small></div>
       <div class="ct">${editDeck && !tp.lock ? `<button class="mini" data-act="stash" data-arg="${stashId}" aria-label="把一张${tp.n}收回卡库">收起</button>` : ''}
       <button class="step" data-act="minus" data-arg="${g.t}" ${inBox ? '' : 'disabled'} aria-label="${tp.n}少带一张">−</button><span>${inBox}/${g.ids.length}</span><button class="step" data-act="plus" data-arg="${g.t}" ${canPlus ? '' : 'disabled'} aria-label="${tp.n}多带一张">＋</button></div></div>`;
   }).join('');
@@ -1912,9 +1938,9 @@ function morningPanel() {
     <p class="hint">三条路的效果待作者确认。这一局只记下你的选择，今天照常过。</p></section>`;
   const shop = shopOf(S).map(t2 => {
     const tp = T[t2], can = !S.bought && S.gold >= tp.price;
-    return `<div class="dk"><img src="${cardArt(t2).url}" alt=""><div class="nm"><b>${tp.n}</b><small>${cardSub(t2)}</small></div><div class="ct"><button class="btn small" data-act="buy" data-arg="${t2}" ${can ? '' : 'disabled'}>${tp.price} 金箔</button></div></div>`;
+    return `<div class="dk"><img src="${cardArt(t2).url}" alt="" data-t="${t2}"><div class="nm"><b>${tp.n}</b><small>${cardSub(t2)}</small></div><div class="ct"><button class="btn small" data-act="buy" data-arg="${t2}" ${can ? '' : 'disabled'}>${tp.price} 金箔</button></div></div>`;
   }).join('');
-  const lib = S.lib.map(c => `<div class="dk"><img src="${cardArt(c.t).url}" alt=""><div class="nm"><b>${T[c.t].n}</b><small>${cardSub(c.t)}</small></div><div class="ct"><button class="mini" data-act="unstash" data-arg="${c.id}" ${S.deck.length < R.deckCap ? '' : 'disabled'}>放回</button></div></div>`).join('');
+  const lib = S.lib.map(c => `<div class="dk"><img src="${cardArt(c.t).url}" alt="" data-t="${c.t}"><div class="nm"><b>${T[c.t].n}</b><small>${cardSub(c.t)}</small></div><div class="ct"><button class="mini" data-act="unstash" data-arg="${c.id}" ${S.deck.length < R.deckCap ? '' : 'disabled'}>放回</button></div></div>`).join('');
   return `<div class="panel">
     ${special}
     <section><h3>戏单<small>今天唱哪一出</small></h3><div class="slips">${scriptsOf(S).map(scriptSlip).join('')}</div></section>
@@ -2272,6 +2298,99 @@ function coachRender() {
 }
 function coachUpdate() { coachTick(); coachRender(); }
 addEventListener('resize', () => { if (coach.lesson) coachRender(); });
+
+// ── 看牌：滑到牌上（手機長按）放大，旁邊用大字寫清楚，還說現在出它會怎樣 ──
+let peekAt = null, peekXY = null, peekHold = null, peekEat = false;
+// 這張牌此刻出下去的後果：只讀遊戲狀態，不改它
+function peekNow(id) {
+  const t = S.T, f = fOf(S, id), segs = scriptNow(S).segs;
+  if (view === 'stage') {
+    if (!isStage(f)) return [['', '家中牌，傍晚回家才出。']];
+    if (!canStage(S, id)) return [['bad', segSlots(S, t.seg) + slotsOf(S, id) > R.segMax ? `${SEG_N[t.seg]}段放不下了：每段最多 3 位` : '台上已经 9 位，放不下了']];
+    const out = [f === segs[t.seg] ? ['good', `出在${SEG_N[t.seg]}段：对上`] : ['bad', `出在${SEG_N[t.seg]}段：这段要${FAM[segs[t.seg]].n}，不算对上`]];
+    if (tOf(S, id).sig) { const b = sigBonus(S, id); out.push(b ? ['good', `招牌：现在出，金 +${b}`] : ['', '招牌：现在出，条件还没满足']); }
+    const P = t.plays.concat({ id, f, seg: t.seg }), c = combosOf(segs, P).find(x => x.at.includes(P.length - 1));
+    if (c) out.push(['good', `会成${COMBO_N[c.k]}，收场时掷骰`]);
+    const s0 = t.plays.filter(p => p.seg === 0), s1 = t.plays.filter(p => p.seg === 1);
+    if (t.seg === 1 && s1.length === 1 && s1[0].f === segs[1] && s0.length && s0[s0.length - 1].f === segs[0]) out.push(['bad', '承段再加一张，就连不成整折了']);
+    if (f === 'sing' || f === 'fight') {
+      const was = t.plays.filter(p => p.f === 'sing' || p.f === 'fight').reduce((a, p) => a + slotsOf(S, p.id), 0), now = was + slotsOf(S, id);
+      if (was < R.handLine && now >= R.handLine) out.push(['bad', `唱和打会到 ${now} 位：收场时手伤 +1`]);
+    }
+    return out;
+  }
+  if (view === 'evening') {
+    if (isStage(f)) return [['', '演戏牌，晚上出不了；留着，夜里能拿来卸妆。']];
+    if (mode === 'tray') return [];
+    if (t.fam[f]) return [['bad', '同族今晚出过了：再出只占位，没有效果']];
+    if (f === 'listen' && t.speakRes) return [['bad', '念的残留：今晚倾听无效']];
+    if (f === 'gift' && S.gold < R.giftCost) return [['bad', `金箔不到 ${R.giftCost}，出不了`]];
+    if (!canHome(S, id)) return [['bad', '家中 9 位满了']];
+    if (FAM[f].match === t.look) return [['good', `对路（她今天「${t.look}」）：主效果 +1，${moodGood(S) ? '她会抬眼' : '她心情差，要再掷 4 以上才抬眼'}`]];
+    return [['', `不对路（她今天「${t.look}」）：只有基础效果`]];
+  }
+  if (view === 'door' || view === 'night') {
+    const L = topLayer(S);
+    if (mode === 'cloth' && canClean(S, id)) return [['good', `弃掉它，卸掉最上面那层${L ? FAM[L.f].n : ''}；成一块${isStage(f) ? FAM[f].col : '素'}布`]];
+    return L ? [['', '自己卸没到抹淡线时，可以弃它卸掉一层。']] : [];
+  }
+  return [];
+}
+function peekHTML(t, id) {
+  const tp = T[t], f = tp.f, used = id !== null && S.T.used[id];
+  const meta = [FAM[f].n, `${slotsT(t)} 位`, tp.sig ? '招牌' : '', tp.ex ? '专属' : '', used ? USED_N[used] : ''].filter(Boolean).join(' · ');
+  const rows = isStage(f)
+    ? [`<span class="k">台上金</span>${gT(t)}　<small>${FAM[f].heavy ? '重层：自卸要掷 6' : '轻层：自卸要掷 5–6'}</small>`,
+      tp.sig ? `<span class="k">招牌</span>${SIG[tp.sig]}` : '',
+      `<span class="k">残留</span>${FAM[f].res}<small>（卸不掉、又在最上层，进门才生效）</small>`]
+    : [`<span class="k">效果</span>${tp.eff || FAM[f].eff}${f === 'gift' ? `（${R.giftCost} 金箔）` : ''}`,
+      `<span class="k">对路</span>${FAM[f].match ? `她的样子是「${FAM[f].match}」时，主效果 +1，她会抬眼` : '没有对路的样子'}`];
+  const now = id !== null && !used ? peekNow(id) : [];
+  return `<img src="${cardArt(t).url}" alt=""><div class="pi"><h5>${tp.n}</h5><div class="meta">${meta}</div>${rows.filter(Boolean).map(r => `<p>${r}</p>`).join('')}
+    ${now.length ? `<div class="now"><span class="k">现在出</span>${now.map(([c, x]) => `<p class="${c}">${x}</p>`).join('')}</div>` : ''}</div>`;
+}
+function showPeek(el) {
+  if (!S || view === 'title') return;
+  const id = el.dataset.id !== undefined ? Number(el.dataset.id) : null, t = id !== null ? cardOf(S, id)?.t : el.dataset.t;
+  if (!t || !T[t]) return;
+  const p = $('#peek');
+  peekAt = el;
+  p.innerHTML = peekHTML(t, id);
+  p.hidden = false;
+  const a = el.getBoundingClientRect(), W = innerWidth, H = innerHeight, pw = p.offsetWidth, ph = p.offsetHeight;
+  let left, top;
+  // 手牌：放在牌的正上方（讓開牌浮起來的那 16px）；匣裡的小圖：放在右邊，放不下就放上面
+  if (el.classList.contains('hc')) { left = a.left + a.width / 2 - pw / 2; top = a.top - 26 - ph; }
+  else { left = a.right + 14; top = a.top + a.height / 2 - ph / 2; if (left + pw > W - 16) { left = a.left + a.width / 2 - pw / 2; top = a.top - 12 - ph; } }
+  p.style.left = `${clamp(left, 16, Math.max(16, W - pw - 16))}px`;
+  p.style.top = `${clamp(top, 8, Math.max(8, H - ph - 8))}px`;
+}
+function hidePeek() { peekAt = null; $('#peek').hidden = true; }
+const peekEl = x => x?.closest?.('.hc, .dk img[data-t]');
+// 手牌每次重畫，舊的牌就換成新元素：滑鼠還停在牌上的話，換到新元素上接著看
+function peekSync() {
+  if (!peekAt || peekAt.isConnected) return;
+  hidePeek();
+  const el = !busy && peekXY ? peekEl(document.elementFromPoint(...peekXY)) : null;
+  if (el) showPeek(el);
+}
+document.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') peekXY = [e.clientX, e.clientY]; }, { passive: true });
+document.addEventListener('pointerover', e => { if (e.pointerType === 'touch') return; const el = peekEl(e.target); if (el && el !== peekAt) showPeek(el); });
+document.addEventListener('pointerout', e => { const el = peekEl(e.target); if (el && el === peekAt && !el.contains(e.relatedTarget)) hidePeek(); });
+document.addEventListener('focusin', e => { const el = e.target.closest?.('.hc'); if (el) showPeek(el); });
+document.addEventListener('focusout', e => { if (e.target === peekAt) hidePeek(); });
+// 手機：長按看牌，放開時不出牌
+document.addEventListener('pointerdown', e => {
+  peekEat = false;
+  if (e.pointerType !== 'touch') return;
+  const el = peekEl(e.target);
+  if (!el) return;
+  clearTimeout(peekHold);
+  peekHold = setTimeout(() => { showPeek(el); peekEat = true; }, 380);
+});
+['pointerup', 'pointercancel'].forEach(k => document.addEventListener(k, e => { if (e.pointerType !== 'touch') return; clearTimeout(peekHold); if (peekAt) setTimeout(hidePeek, 0); }));
+document.addEventListener('click', e => { if (peekEat) { peekEat = false; e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener('contextmenu', e => { if (peekEl(e.target)) e.preventDefault(); });
 
 // ── 一天 ──
 // 依目前時段擺 3D 場景（開局、接著玩都走這裡）
