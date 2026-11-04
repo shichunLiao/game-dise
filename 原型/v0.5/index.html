@@ -274,6 +274,36 @@ p { margin: 0; }
   .panel.sheet { left: 0; transform: none; width: 100%; top: auto; bottom: 0; max-height: 100%; }
   .goldnow { top: 66px; white-space: normal; width: calc(100vw - 32px); }
 }
+/* 教學：遮罩挖洞框住要看的東西，墨框裡講；要玩家動手時只放行洞裡的東西 */
+#coach { position: fixed; inset: 0; z-index: 34; pointer-events: none; }
+#coach .dim { position: absolute; inset: 0; background: rgba(8, 6, 7, .68); }
+#coach .shield { position: absolute; inset: 0; pointer-events: auto; }
+#coach .ring { position: absolute; border: 2px solid var(--gold); border-radius: 8px; box-shadow: 0 0 0 4px rgba(184, 145, 63, .22), 0 0 26px rgba(216, 67, 76, .55); animation: coachPulse 1.6s ease-in-out infinite; }
+#coach .ring[data-tap]::after { content: attr(data-tap); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--red); color: var(--paper); font-size: 13px; letter-spacing: .2em; padding: 2px 10px; white-space: nowrap; }
+@keyframes coachPulse { 50% { box-shadow: 0 0 0 9px rgba(184, 145, 63, .1), 0 0 38px rgba(216, 67, 76, .75); } }
+#coach .cbox { position: absolute; pointer-events: auto; width: min(420px, calc(100vw - 32px)); max-height: min(62vh, 520px); overflow: auto; background: #1a1417; color: var(--paper); border: 1px solid rgba(184, 145, 63, .7); border-top: 4px solid var(--red); padding: 12px 16px 12px; box-shadow: 0 16px 44px rgba(0, 0, 0, .65); animation: rise .35s ease both; }
+#coach .cbox .who { display: inline-block; background: var(--red); color: var(--paper); font-size: 12px; letter-spacing: .3em; padding: 1px 8px 0; }
+#coach .cbox .n { float: right; font-size: 12px; color: var(--paper-2); font-variant-numeric: tabular-nums; }
+#coach .cbox h4 { font-family: var(--display); font-weight: 400; font-size: 25px; line-height: 1.3; margin: 8px 0 4px; }
+#coach .cbox .tx { font-size: 15px; line-height: 1.75; color: #e9e0d2; }
+#coach .cbox .tx b { color: var(--gold); }
+#coach .cbox ul { margin: 2px 0 0; padding-left: 1.2em; }
+#coach .cbox li + li { margin-top: 4px; }
+#coach .fc { font-style: normal; display: inline-flex; width: 22px; height: 22px; border-radius: 50%; align-items: center; justify-content: center; font-family: var(--display); font-size: 15px; line-height: 1; color: var(--paper); border: 1px solid rgba(236, 227, 212, .75); vertical-align: -4px; margin: 0 2px; }
+#coach .cbox .row { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+#coach .cbox .do { font-size: 14px; color: var(--gold); letter-spacing: .1em; }
+#coach .cbox .skip { margin-left: auto; background: none; border: none; color: var(--paper-2); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 40px; padding: 0 4px; }
+#coach .cbox .skip:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+#coach .arrow { position: absolute; width: 14px; height: 14px; background: #1a1417; transform: rotate(45deg); }
+#coach .arrow.up { top: -9px; border-left: 1px solid rgba(184, 145, 63, .7); border-top: 1px solid rgba(184, 145, 63, .7); background: var(--red); }
+#coach .arrow.down { bottom: -8px; border-right: 1px solid rgba(184, 145, 63, .7); border-bottom: 1px solid rgba(184, 145, 63, .7); }
+.title .tg { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; color: var(--paper-2); cursor: pointer; }
+.title .tg input { width: 18px; height: 18px; accent-color: var(--red); }
+@media (prefers-reduced-motion: reduce) { #coach .ring, #coach .cbox { animation: none; } }
+@media (max-width: 760px) {
+  #coach .cbox h4 { font-size: 21px; }
+  #coach .cbox .tx { font-size: 14px; }
+}
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -298,6 +328,7 @@ p { margin: 0; }
 <div id="ink" aria-hidden="true"></div>
 <div id="fx" aria-hidden="true"></div>
 <div id="dice" hidden></div>
+<div id="coach" hidden></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="70"/></filter></svg>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1692,7 +1723,7 @@ const ASSUME = [
   '端盘「占 1 位」算在家中 9 位里。陪生日以一张陪伴牌计，占妆匣 1 位。加演夜场的金箔文件写「待定」，原型用 +6。礼物 5 金箔。',
   '破裂按当下的数值判定：安心回到 1 以上，就不算破裂。',
   '每幕的样子序列是原型自拟的：第一幕多等，第二幕多想说，第三幕多忙，第四幕多累。',
-  '教学日（第十七节）缺失：第一天只在每个时段多一句提示。',
+  '教学日（第十七节）缺失：第一天的引导（说明框加高光）是原型自拟的。开场可以不勾「第一天带教学」，规矩页能重看当前时段的教学。',
 ];
 const PENDING = [
   '【待确认】玩家行当：原型固定唱二路，没有行当加成。',
@@ -1773,10 +1804,11 @@ function say(who, tx, gain) {
 function refresh() {
   const on = view !== 'title';
   $('#hud').hidden = !on; $('#title').hidden = on;
-  if (!on) { renderTitle(); return; }
+  if (!on) { renderTitle(); $('#coach').hidden = true; return; }
   renderTop(); renderState(); renderMid(); renderChoices(); renderHand(); renderSmear(); drawPortrait($('#pf'), { who: 'you', layers: S.T.layers });
   const mp = $('#mirrorPf'); if (mp) drawPortrait(mp, { who: 'you', layers: [], base: S.base, bg: ['#8d9396', '#3b4044'] });
   updateLanterns();
+  coachUpdate();
   save();
 }
 function renderTitle() {
@@ -1787,6 +1819,7 @@ function renderTitle() {
       <p class="lede">台上每出一张演戏牌，脸上就多一层油彩；牌接得好会成配合，散戏时才掷骰见分晓。回到家门口，她心情好才肯替你擦。看她的样子出家中牌，对路她会抬眼。金箔和水牌是公开的，她的心愿藏着。</p>
       <div class="form">
         <div class="field"><label for="nm">你的小名</label><input id="nm" maxlength="6" value="${esc(draftName)}" autocomplete="off"></div>
+        <label class="tg"><input type="checkbox" id="tutChk" ${tutPref() ? 'checked' : ''}>第一天带教学</label>
         <button class="btn go" data-act="start">开锣</button>
         ${saved ? `<button class="btn" data-act="cont">接着玩 · 第 ${saved.day} 天</button>` : ''}
       </div>
@@ -1842,7 +1875,7 @@ function rulesPanel() {
     <h4>原型自拟、沿用的地方</h4><ul>${ASSUME.map(r => `<li>${r}</li>`).join('')}</ul>
     <h4>待作者确认</h4><ul>${PENDING.map(r => `<li>${r}</li>`).join('')}
     <li>倾听对路时裂痕 −1（文件标「待确认」）：<button class="btn small" data-act="opt" aria-pressed="${S.opt.listenRift}">${S.opt.listenRift ? '开着' : '关着'}</button></li></ul>
-    <div class="acts"><button class="btn" data-act="again">重开一局</button></div></div>`;
+    <div class="acts">${LESSONS[sheet && sheet.k === 'combo' ? 'combo' : view] ? '<button class="btn" data-act="coachreplay">重看这一段的教学</button>' : ''}<button class="btn" data-act="again">重开一局</button></div></div>`;
 }
 function scriptSlip(sc, i) {
   const got = S.scripts[scriptKey(S, i)];
@@ -2034,7 +2067,7 @@ function renderHand() {
     const c = cardOf(S, id), used = t.used[id], ok = can(id), tp = T[c.t];
     const rot = (i - mid) * Math.min(3, 30 / Math.max(n, 1)), lift = Math.abs(i - mid) * 1.6;
     const label = `${tp.n}，${cardSub(c.t)}${used ? `，${USED_N[used]}` : ''}`;
-    return `<button class="hc ${ok ? 'play' : ''} ${!ok && !used && view !== 'morning' ? 'off' : ''}" style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'disabled'} aria-label="${esc(label)}"><img src="${cardArt(c.t).url}" alt="">${used ? `<span class="st">${USED_N[used]}</span>` : ''}</button>`;
+    return `<button class="hc ${ok ? 'play' : ''} ${!ok && !used && view !== 'morning' ? 'off' : ''}" data-id="${id}" style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'disabled'} aria-label="${esc(label)}"><img src="${cardArt(c.t).url}" alt="">${used ? `<span class="st">${USED_N[used]}</span>` : ''}</button>`;
   }).join('');
   lb.textContent = {
     morning: t.box.length ? '今天的妆匣 · 点一张拿出来' : '妆匣还是空的',
@@ -2097,6 +2130,149 @@ function stamp(text) { const s = document.createElement('div'); s.className = 's
 async function run(fn) { if (busy) return; busy = true; refresh(); try { await fn(); } finally { busy = false; refresh(); } }
 const sign = v => (v > 0 ? `+${v}` : `−${-v}`);
 
+// ── 教學：第一天的引導 ──
+// 文字框＋高光：遮罩挖一個洞框住要看的東西；要玩家動手的步驟，只放行洞裡的東西，做到了（看遊戲狀態）才往下走
+const TUT_KEY = 'dise-v05-tut';
+const tutPref = () => { try { return localStorage.getItem(TUT_KEY) !== '0'; } catch (e) { return true; } };
+const setTutPref = on => { try { localStorage.setItem(TUT_KEY, on ? '1' : '0'); } catch (e) { /* 存不了就算了 */ } };
+const tip = k => (S.day === 1 && S.tut && S.tut.off ? TUTOR[k] : '');
+const fc = f => `<i class="fc" style="background:${FCOL[f]}">${FAM[f].n}</i>`;
+const handOf = t => { const id = S.T.box.find(x => cardOf(S, x).t === t && !S.T.used[x]); return id === undefined ? null : document.querySelector(`.hc[data-id="${id}"]`); };
+const handSide = side => [...document.querySelectorAll('#hand .hc')].filter(b => FAM[fOf(S, Number(b.dataset.id))].side === side);
+const actBtn = a => document.querySelector(`#choices [data-act="${a}"]`);
+const matchFam = () => Object.keys(FAM).find(f => FAM[f].match === S.T.look);
+const matchCard = () => { const id = S.T.box.find(x => fOf(S, x) === matchFam() && canHome(S, x)); return id === undefined ? null : document.querySelector(`.hc[data-id="${id}"]`); };
+const TEACH_BOX = ['shuaixiu', 'dingchang', 'jingzhun', 'liangxiang', 'dabai', 'manban', 'shuixiu', 'liaotian', 'sanbu', 'retang', 'maojin', 'chenmo', 'fengxian'];
+function teachBox() {
+  pickScript(S, 0);
+  clearBox(S);
+  TEACH_BOX.forEach(t => stepTpl(S, t, 1));
+  setBoxStack(S.T.box.length);
+}
+// 每步：at 回傳要框住的元素；until 是要玩家做到的事；btn 是說明框裡的動作鈕
+const LESSONS = {
+  morning: [
+    { title: '教学日', text: () => '一天分五个时段：<b>早</b>装妆匣、<b>白天</b>上台唱戏、<b>门口</b>卸妆、<b>傍晚</b>回家、<b>夜</b>里收尾。台上挣金箔，家里顾着阿檀，两头都只能从同一只妆匣里拿牌。' },
+    { at: () => [$('.slips')], title: '戏单：起、承、转', text: () => `每出戏分三段。<b>起</b>是开场，把角色立住；<b>承</b>是承接，把戏往下接；<b>转</b>是转折，最后亮出来的那一下。每段写着要哪一族的牌。今天唱《入门一折》：起要${fc('sing')}，承要${fc('speak')}，转要${fc('act')}。` },
+    { at: () => [$('.meter')], title: '妆匣有多少位', text: () => `今天的妆匣 15 位。演戏牌最多 9 位，家中牌最多 9 位；${fc('fight')}和共劳一张占 2 位。台上带得多，家里就少；每多唱一张，回家还得多花一张牌卸一层妆。` },
+    { title: '先照这样装一匣', text: () => '教学这一匣：四张演戏牌上台，三张留着卸妆，六张家中牌回家用。以后怎么装，你自己定。', btn: { label: '照这样装', fn: teachBox } },
+    { at: () => [$('#hand')], title: '这就是今天的牌', text: () => '红色的是演戏牌，白天出；素色的是家中牌，傍晚出。没出的牌也有用：门口和夜里可以弃一张，换一层妆卸掉。一天结束还没用上的作废，明天回到卡组。' },
+    { at: () => [actBtn('depart')], until: () => view === 'stage', title: '出门', text: () => '合上妆匣，去戏园。', tap: '点这里' },
+  ],
+  stage: [
+    { at: () => [$('.stagebar')], title: '这三格就是起、承、转', text: () => '亮金框的是「现在这一段」，每段最多 3 位。段里出了一张对的族，这段就打勾「对上」；出错族不扣钱，但这段不算对上。三段都对上，才可能「完美」：全场金箔 ×1.5。这出戏第一次三段都对上，还送一张专属牌。' },
+    { at: () => handSide('stage'), title: '看懂一张演戏牌', text: () => `左上圆印是族，左边的数字是台上金：${fc('sing')} 2、${fc('speak')} 1、${fc('act')} 1、${fc('fight')} 3。带「招」字的是招牌，满足条件多给金。每出一张，你脸上就多一层油彩。` },
+    { at: () => [handOf('shuaixiu')], until: () => S.T.plays.length > 0, title: '起：先出「甩袖长腔」', text: () => `它是${fc('sing')}的招牌：本折第一张出，金 +1。点它，唱进起段。`, tap: '点这张' },
+    { at: () => [$('.goldnow')], title: '台上金记在这里', text: () => '台上金和招牌加成在这里加总。下面一排是配合提示：白天只告诉你成了什么、还差什么，不掷骰。' },
+    { at: () => [actBtn('nextseg')], until: () => S.T.seg >= 1, title: '想拿大钱：整折', text: () => '整折＝起段<b>最后一张</b>对上、承段<b>只出一张</b>而且对上、转段<b>第一张</b>对上，三张在出牌顺序里挨着。现在点「下一段」进承段。', tap: '点这里' },
+    { at: () => [handOf('dingchang')], until: () => S.T.plays.some(p => p.seg === 1), title: '承：只出一张念', text: () => `点「定场诗」。承段要是再多出一张，整折就断了。`, tap: '点这张' },
+    { at: () => [actBtn('nextseg')], until: () => S.T.seg >= 2, title: '别贪，进转段', text: () => '承段到此为止。点「下一段」。', tap: '点这里' },
+    { at: () => [handOf('jingzhun')], until: () => S.T.plays.some(p => p.seg === 2), title: '转：第一张出做', text: () => `「精准身段」紧接在${fc('speak')}之后，招牌 +1；又刚好跟前两张连成整折。`, tap: '点这张' },
+    { at: () => [$('.goldnow .combos')], title: '整折成了', text: () => '收场时，每个配合掷一颗骰：1–3 落空；4–5 整折 +5、搭档 +4；6 是大成功，整折 +8、搭档 +10。某一族熟练到 6 级，骰点再 +1。' },
+    { at: () => [handOf('liangxiang')], until: () => S.T.plays.some(p => p.f === 'fight'), title: '另一种配合：搭档', text: () => `${fc('sing')}紧接${fc('speak')}是「对唱」，${fc('act')}紧接${fc('fight')}是「武身」。可是每张牌只算进一个配合，而且整折优先：「精准身段」已经算进整折，再接打也不成武身。转段还剩 2 位，放「武戏亮相」——本折已经唱过，招牌 +2。`, tap: '点这张' },
+    { at: () => [$('#pf')], title: '坏情况要心里有数', text: () => `<ul><li>出错族：这段不对上，完美和专属牌都没了。</li><li>出得越多，脸上的层越多（右上角你的小像）。回家要花牌或掷骰去卸，卸不掉的变成底色；底色深了，妆匣会变小。</li><li>${fc('sing')}和${fc('fight')}一场合计 4 位以上，手伤 +1。手伤到 2，妆匣少一位，端盘子也容易失手。</li><li>最后出的那张在最上层，没卸掉，就带着它的「残留」进门。</li></ul>` },
+    { at: () => [actBtn('endstage')], until: () => !!sheet && sheet.k === 'combo', title: '收场', text: () => '四张、四层，见好就收。', tap: '点这里' },
+  ],
+  combo: [
+    { at: () => [$('.panel.sheet')], title: '散戏结算', text: () => '金箔＝台上金＋招牌＋配合。三段都对上，<b>而且</b>至少一个配合掷到 4 以上，就是完美，全部 ×1.5。配合掷空了不扣钱，只是少了这份奖励。' },
+    { at: () => [document.querySelector('[data-act="todoor"]')], until: () => view === 'door', title: '回家', text: () => '卸了妆再进门。', tap: '点这里' },
+  ],
+  door: [
+    { at: () => [$('#state')], title: '她肯不肯替你擦', text: () => '刚才掷的是她的心情骰：3 以上算心情好。心情好、而且安心（右上角叠起的热毛巾）至少 2，她会替你擦：一次清 2 层，不耗牌，但安心 −1。' },
+    { at: () => [$('#choices')], title: '自己卸', text: () => `从最上面一层开始掷骰，掷到「抹淡线」就免费清掉；没到就要弃一张牌。${fc('sing')}${fc('fight')}是重层，要掷 6；${fc('speak')}${fc('act')}是轻层，要 5–6；她安心 ≥3 时各降 1。` },
+    { title: '进门前想一想', text: () => `进门时，最上面那层的残留会生效：${fc('sing')}第一张家中牌之后安心 −1；${fc('speak')}被看见 −1，当晚倾听无效；${fc('act')}底色 +1；${fc('fight')}裂痕 +1。卸干净再进门最稳。` },
+  ],
+  evening: [
+    { at: () => [$('.lookb')], title: '看她的样子', text: () => '这个图标是她今天的样子（点一下能看字）。<b>累</b>→照顾，<b>等</b>→陪伴，<b>忙</b>→共劳，<b>想说</b>→倾听。出对路的牌，主效果 +1，她会抬眼。' },
+    { at: () => [matchCard()], until: () => S.T.home.length > 0, title: '出一张对路的牌', text: () => `她今天的样子是「${S.T.look}」，${FAM[matchFam()].n}对路。点这张，看她抬眼。`, tap: '点这张' },
+    { at: () => handSide('home'), title: '家中牌', text: () => '同一族一晚只算一次，第二张只占位。礼物要花 5 金箔。样子是累，她会端盘子；样子是想说你却没出倾听，她会受伤。一张都不出叫空宅，安心 −1。' },
+    { at: () => [$('#state')], title: '她的状态', text: () => '安心、被看见、裂痕、伤都在这里。安心到 0、裂痕到 3、伤到 3，任一条就是「破裂」，周考核和季末都看它。她每一幕还有一个藏起来的心愿，做到了，她会松一口气。' },
+  ],
+  night: [
+    { at: () => [$('#choices')], title: '夜里收尾', text: () => '剩下的牌还能拿来卸妆，跟门口一样，但她不会再替你擦。没卸掉的层，睡一觉每层变成 1 点底色：底色看不见，却会让妆匣变小。' },
+    { title: '第一天就到这儿', text: () => '之后每天都是这一套。每周第 7 天，看本周流水和关系线排水牌。规矩随时点右上角「规矩」，那里也能重看教学。' },
+  ],
+};
+const coach = { lesson: null, i: 0, replay: false, shown: '' };
+function lessonNow() {
+  if (sheet && sheet.k === 'combo') return 'combo';
+  if (panel || sheet || mode) return null;
+  if (view === 'stage' && S.T.plays.length) return null;
+  if (view === 'evening' && S.T.home.length) return null;
+  return LESSONS[view] ? view : null;
+}
+function coachStart(k, replay) { coach.lesson = k; coach.i = 0; coach.replay = !!replay; coach.shown = ''; }
+function coachNext() {
+  coach.i += 1;
+  if (coach.i < LESSONS[coach.lesson].length) return;
+  if (!coach.replay) S.tut.seen[coach.lesson] = true;
+  coach.lesson = null;
+  if (Object.keys(LESSONS).every(k => S.tut.seen[k])) setTutPref(false);
+}
+function coachSkip() { S.tut.off = true; coach.lesson = null; setTutPref(false); }
+// 狀態一變就看一次：要玩家做的事做到了就往下；這個時段還沒教過就開始教
+function coachTick() {
+  if (busy || !S || view === 'title') return;
+  for (let n = 0; n < 4; n++) {
+    if (coach.lesson) {
+      const st = LESSONS[coach.lesson][coach.i];
+      if (coach.replay || !st.until || !st.until()) return;
+      coachNext();
+    } else {
+      const k = lessonNow();
+      if (!k || S.day !== 1 || S.tut.off || S.tut.seen[k]) return;
+      coachStart(k);
+    }
+  }
+}
+function coachRender() {
+  const el = $('#coach'), on = !!S && !!coach.lesson && !busy && view !== 'title' && panel !== 'rules';
+  $('#hud').inert = false;
+  if (!on) { el.hidden = true; return; }
+  const steps = LESSONS[coach.lesson], st = steps[coach.i], key = `${coach.lesson}:${coach.i}`;
+  const els = st.at ? st.at().filter(x => x && x.getClientRects().length) : [];
+  const act = !coach.replay && !!st.until && els.length > 0;
+  if (coach.shown !== key && els[0]) els[0].scrollIntoView({ block: 'nearest', inline: 'center' });
+  let r = null;
+  els.forEach(x => { const b = x.getBoundingClientRect(); r = r ? { l: Math.min(r.l, b.left), t: Math.min(r.t, b.top), r: Math.max(r.r, b.right), b: Math.max(r.b, b.bottom) } : { l: b.left, t: b.top, r: b.right, b: b.bottom }; });
+  const W = innerWidth, H = innerHeight, pad = act ? 5 : 8;
+  if (r) r = { l: Math.max(4, r.l - pad), t: Math.max(4, r.t - pad), r: Math.min(W - 4, r.r + pad), b: Math.min(H - 4, r.b + pad) };
+  el.hidden = false;
+  const doing = act ? `<span class="do">照着做：${esc(st.tap || '点亮起来的地方')}</span>` : st.btn ? `<button class="btn go" data-act="coachbtn">${st.btn.label}</button>` : `<button class="btn go" data-act="coachnext">${coach.i === steps.length - 1 ? '知道了' : '下一步'}</button>`;
+  el.innerHTML = `<div class="dim"></div><div class="shield"></div>${r ? `<div class="ring" ${act ? `data-tap="${esc(st.tap || '点这里')}"` : ''}></div>` : ''}
+    <div class="cbox" role="dialog" aria-labelledby="coachT" aria-describedby="coachX"><span class="who">教学</span><span class="n">${coach.i + 1} / ${steps.length}</span>
+      <h4 id="coachT">${st.title}</h4><div class="tx" id="coachX">${st.text()}</div>
+      <div class="row">${doing}<button class="skip" data-act="${coach.replay ? 'coachclose' : 'coachskip'}">${coach.replay ? '关掉' : '跳过教学'}</button></div><i class="arrow" aria-hidden="true"></i></div>`;
+  const path = `path(evenodd, 'M0 0H${W}V${H}H0Z${r ? `M${r.l} ${r.t}H${r.r}V${r.b}H${r.l}Z` : ''}')`;
+  el.querySelector('.dim').style.clipPath = path;
+  el.querySelector('.shield').style.clipPath = act ? path : 'none';
+  if (r) Object.assign(el.querySelector('.ring').style, { left: `${r.l}px`, top: `${r.t}px`, width: `${r.r - r.l}px`, height: `${r.b - r.t}px` });
+  // 說明框放在洞上下空間大的一邊，箭頭指著洞
+  const box = el.querySelector('.cbox'), bw = box.offsetWidth, bh = box.offsetHeight, ar = box.querySelector('.arrow');
+  let left = (W - bw) / 2, top = (H - bh) / 2;
+  if (r) {
+    const below = H - r.b >= r.t;
+    // 洞上方掛著「點這裡」的小籤，說明框放上面時要讓開它
+    top = below ? r.b + 16 : r.t - (act ? 46 : 16) - bh;
+    left = (r.l + r.r) / 2 - bw / 2;
+    top = clamp(top, 12, H - bh - 12); left = clamp(left, 16, W - bw - 16);
+    const overlap = top < r.b && top + bh > r.t;
+    ar.hidden = overlap;
+    ar.className = `arrow ${below ? 'up' : 'down'}`;
+    ar.style.left = `${clamp((r.l + r.r) / 2 - left - 7, 14, bw - 28)}px`;
+  } else ar.hidden = true;
+  Object.assign(box.style, { left: `${left}px`, top: `${top}px` });
+  // 只看不做的步驟：底下的介面暫時不能操作，焦點放在「下一步」
+  $('#hud').inert = !act;
+  if (coach.shown !== key) {
+    coach.shown = key;
+    const f = act ? els.find(x => x.matches('button')) : box.querySelector('.btn.go');
+    f?.focus({ preventScroll: true });
+  }
+}
+function coachUpdate() { coachTick(); coachRender(); }
+addEventListener('resize', () => { if (coach.lesson) coachRender(); });
+
 // ── 一天 ──
 // 依目前時段擺 3D 場景（開局、接著玩都走這裡）
 function placeScene() {
@@ -2121,16 +2297,20 @@ function toMorning() {
   if (glOK) { wife.root.visible = false; actor.setLayers([]); }
   placeScene();
   const tx = MORNING[S.day] || MORNING_ROT[S.day % MORNING_ROT.length];
-  say('', tx, S.day === 1 ? TUTOR.morning : S.T.notes.join(''));
+  say('', tx, S.day === 1 ? tip('morning') : S.T.notes.join(''));
   refresh();
 }
 function startGame(name) {
   S = newGame(name, ((Date.now() % 2147483647) ^ Math.floor(Math.random() * 2147483647)) >>> 0);
+  S.tut = { off: !tutPref(), seen: {} };
+  coach.lesson = null;
   saved = null; panel = null;
   toMorning();
 }
 function continueGame() {
   S = saved; saved = null; panel = null; mode = null; lookOpen = false;
+  S.tut = S.tut || { off: true, seen: {} };
+  coach.lesson = null;
   view = S.phase; sheet = view === 'week' ? { k: 'week' } : view === 'end' ? { k: 'end' } : null;
   placeScene();
   if (view === 'watch') showWatch();
@@ -2141,7 +2321,7 @@ const onDepart = () => run(async () => {
   depart(S);
   const sc = scriptNow(S);
   await ink(() => { view = 'stage'; placeScene(); actor?.setLayers([]); actor?.pose('idle'); });
-  say('班主', `今天唱《${sc.n}》。${SEG_N[0]}段要${FAM[sc.segs[0]].n}。`, S.day === 1 ? TUTOR.stage : '');
+  say('班主', `今天唱《${sc.n}》。${SEG_N[0]}段要${FAM[sc.segs[0]].n}。`, tip('stage'));
 });
 const onStage = id => run(async () => {
   const f = fOf(S, id), want = scriptNow(S).segs[S.T.seg], name = tOf(S, id).n;
@@ -2168,7 +2348,7 @@ const onToDoor = () => run(async () => {
   const good = moodGood(S);
   await showDice({ label: '心情骰 · 3 以上心情好', v: S.T.mood, ok: good, result: good ? '心情好' : '心情差' });
   const [who, tx] = DOOR_SAY[S.T.door];
-  say(who, tx, S.day === 1 ? TUTOR.door : S.T.door === 'absent' ? '安心不到 2，她没有出来。' : '');
+  say(who, tx, S.day === 1 && tip('door') ? tip('door') : S.T.door === 'absent' ? '安心不到 2，她没有出来。' : '');
 });
 function doorStage() {
   if (!glOK) return;
@@ -2215,7 +2395,7 @@ const onEnter = () => run(async () => {
   await ink(() => { view = 'evening'; mode = null; lookOpen = false; placeScene(); });
   if (t.residual) { say('', ...RES_SAY[t.residual]); await wait(2000); }
   if (t.bday) { say('陪生日', t.reacts[0].tx, '被看见 +1'); await wait(2000); }
-  say('', LOOK_TX[t.look], S.day === 1 ? TUTOR.evening : '');
+  say('', LOOK_TX[t.look], tip('evening'));
 });
 function gainOf(r) {
   if (r.dup) return `同族一晚一次：只占位${r.pen ? ' · 唱的残留：安心 −1' : ''}`;
@@ -2273,7 +2453,7 @@ async function finishEvening() {
   if (h3) { needMoment(h3); await wait(2400); }
   await ink(() => { view = 'night'; mode = null; placeScene(); if (S.day === R.mirrorDay) sheet = { k: 'mirror' }; });
   if (S.day === R.mirrorDay && glOK) updateMirror(S.base);
-  say('', t.layers.length ? `夜里，镜子里的脸上还有 ${t.layers.length} 层台上脸。没卸掉的，睡一觉就渗进底色里。` : '夜里，镜子里的脸是干净的。', S.day === 1 ? TUTOR.night : '');
+  say('', t.layers.length ? `夜里，镜子里的脸上还有 ${t.layers.length} 层台上脸。没卸掉的，睡一觉就渗进底色里。` : '夜里，镜子里的脸是干净的。', tip('night'));
 }
 function showWatch() {
   const w = $('#watch'); w.hidden = false;
@@ -2303,7 +2483,12 @@ document.addEventListener('click', e => {
   if (!b || b.disabled) return;
   const a = b.dataset.act, arg = b.dataset.arg, id = Number(arg);
   switch (a) {
-    case 'start': startGame((draftName.trim() || '小满').slice(0, 6)); return;
+    case 'start': setTutPref(!!$('#tutChk')?.checked); startGame((draftName.trim() || '小满').slice(0, 6)); return;
+    case 'coachnext': coachNext(); break;
+    case 'coachbtn': LESSONS[coach.lesson][coach.i].btn.fn(); coachNext(); break;
+    case 'coachskip': coachSkip(); say('', '教学关掉了。规矩随时点右上角「规矩」。'); break;
+    case 'coachclose': coach.lesson = null; break;
+    case 'coachreplay': coachStart(sheet && sheet.k === 'combo' ? 'combo' : view, true); panel = null; break;
     case 'cont': continueGame(); return;
     case 'rules': panel = panel === 'rules' ? null : 'rules'; break;
     case 'close': panel = null; break;
@@ -2335,7 +2520,7 @@ document.addEventListener('click', e => {
     case 'dawn': onDawn(); return;
     case 'nextweek': onNextWeek(); return;
     case 'again': startGame(S.name); return;
-    case 'home': saved = load(); S = null; view = 'title'; sheet = null; panel = null; clear3DCards(); camLook = null; if (glOK) { setScene('dress', 'night'); placeWife('dress', V(0.72, 0, -0.62), 'idle', -0.35); } refresh(); return;
+    case 'home': saved = load(); S = null; coach.lesson = null; view = 'title'; sheet = null; panel = null; clear3DCards(); camLook = null; if (glOK) { setScene('dress', 'night'); placeWife('dress', V(0.72, 0, -0.62), 'idle', -0.35); } refresh(); return;
     case 'card':
       if (view === 'morning') { toggleBox(S, id); setBoxStack(S.T.box.length); break; }
       if (view === 'stage') { onStage(id); return; }
