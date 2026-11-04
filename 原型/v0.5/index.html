@@ -1,0 +1,2361 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>底色·戏城 v0.5</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+<style>
+/* 版面：全螢幕 3D 場景墊底，紙、印、手牌、字幕用 2D 浮在上面。淡墨灰、墨黑、朱紅三色，刻意只做一種暗色舞台。 */
+:root {
+  color-scheme: dark;
+  --ink: #120e11;      /* 夜與墨 */
+  --ink-2: #2a2226;
+  --paper: #ece3d4;    /* 宣紙 */
+  --paper-2: #d6cab6;
+  --wash: #8d8487;     /* 淡墨 */
+  --red: #a8202b;      /* 朱紅 */
+  --red-2: #d8434c;
+  --gold: #b8913f;
+  --text: #f1e9dc;
+  --display: "Ma Shan Zheng", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  --body: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--body); font-size: 15px; line-height: 1.6; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; }
+p { margin: 0; }
+#gl, #smear, #vig, #grain { position: fixed; inset: 0; width: 100%; height: 100%; }
+#gl { display: block; }
+#smear, #vig, #grain { pointer-events: none; }
+#vig { background: radial-gradient(ellipse at 50% 42%, transparent 52%, rgba(8, 6, 7, .78) 100%); }
+#grain { opacity: .2; mix-blend-mode: overlay; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .5  0 0 0 0 .45  0 0 0 1 0'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>"); }
+
+/* 浮層 */
+.hud { position: fixed; inset: 0; pointer-events: none; display: flex; flex-direction: column; padding-block: max(12px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { display: flex; align-items: flex-start; gap: 12px; pointer-events: none; }
+.seal { pointer-events: auto; background: var(--red); color: var(--paper); font-family: var(--display); font-size: 30px; line-height: 1; padding: 8px 9px 6px; box-shadow: 0 0 0 2px var(--ink), 0 0 0 3px var(--red); }
+.when { line-height: 1.25; text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
+.when b { font-family: var(--display); font-weight: 400; font-size: 22px; display: block; }
+.when span { font-size: 12px; letter-spacing: .15em; color: var(--paper-2); }
+.stats { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 14px; font-size: 13px; color: var(--paper-2); text-shadow: 0 1px 6px rgba(0, 0, 0, .9); }
+.stats b { font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; pointer-events: auto; }
+.portrait { width: 64px; height: 80px; display: block; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .7)); }
+.tools { display: flex; gap: 6px; }
+.tool { white-space: nowrap; background: rgba(18, 14, 17, .6); border: 1px solid rgba(236, 227, 212, .35); color: var(--paper); padding: 3px 10px; font-size: 12px; cursor: pointer; min-height: 30px; }
+.tool[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+
+.mid { flex: 1; min-height: 0; position: relative; }
+.stagebar { position: absolute; left: 50%; top: 4px; transform: translateX(-50%); display: flex; gap: 10px; pointer-events: none; }
+.seg { background: rgba(18, 14, 17, .72); border: 1px solid rgba(236, 227, 212, .2); padding: 6px 10px 7px; min-width: 96px; text-align: center; }
+.seg.cur { border-color: var(--gold); box-shadow: 0 0 18px rgba(216, 67, 76, .45); }
+.seg b { font-family: var(--display); font-weight: 400; font-size: 20px; }
+.seg small { display: block; font-size: 11px; color: var(--paper-2); }
+.seg .pips { display: flex; gap: 3px; justify-content: center; margin-top: 3px; }
+.seg .pips i { width: 10px; height: 14px; border: 1px dashed rgba(236, 227, 212, .4); }
+.seg .pips i.on { border: none; }
+.seg .pips i.bad { outline: 1px solid var(--paper); outline-offset: -1px; }
+.goldnow { position: absolute; left: 50%; top: 86px; transform: translateX(-50%); font-size: 13px; color: var(--paper-2); text-shadow: 0 1px 6px #000; white-space: nowrap; }
+.goldnow b { font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--gold); }
+
+/* 紙：早上的妝匣、帳 */
+.panel { pointer-events: auto; position: absolute; left: 0; top: 8px; bottom: 8px; width: min(430px, 100%); overflow: auto; background: var(--paper); color: var(--ink); padding: 16px 18px 18px; border-top: 6px solid var(--red); box-shadow: 0 12px 40px rgba(0, 0, 0, .55); }
+.panel h3 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 0 0 6px; letter-spacing: .08em; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.panel h3 small { font-family: var(--body); font-size: 12px; color: #5a5156; letter-spacing: 0; }
+.panel .hint { font-size: 12px; color: #5a5156; margin-top: 6px; }
+.panel section + section { margin-top: 16px; }
+.slips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.slip { position: relative; border: none; background: var(--red); color: var(--paper); padding: 10px 10px 12px; cursor: pointer; text-align: left; min-height: 150px; display: flex; gap: 10px; align-items: stretch; box-shadow: inset 0 0 0 2px var(--red), inset 0 0 0 3px rgba(236, 227, 212, .6); }
+.slip[aria-pressed="false"] { opacity: .55; filter: saturate(.6); }
+.slip[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; }
+.slip .vt { writing-mode: vertical-rl; font-family: var(--display); font-size: 30px; line-height: 1; letter-spacing: .1em; }
+.slip .sg { display: flex; flex-direction: column; gap: 5px; font-size: 13px; justify-content: center; }
+.slip .sg span { display: flex; align-items: center; gap: 6px; }
+.slip .sg i { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-family: var(--display); font-size: 15px; border: 1px solid var(--paper); }
+.slip .tag { position: absolute; right: 8px; bottom: 6px; font-size: 11px; opacity: .85; }
+.meter { display: flex; flex-wrap: wrap; gap: 3px; margin: 2px 0 8px; }
+.meter i { width: 15px; height: 21px; border: 1px dashed #8b7f84; }
+.meter i.on { border: none; }
+.deck { display: flex; flex-direction: column; gap: 6px; }
+.dk { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 4px 0; border-bottom: 1px solid #d3c7b4; }
+.dk img { width: 44px; height: 66px; display: block; border-radius: 4px; }
+.dk .nm { min-width: 0; line-height: 1.3; }
+.dk .nm b { font-family: var(--display); font-weight: 400; font-size: 19px; }
+.dk .nm small { display: block; font-size: 11px; color: #5a5156; }
+.dk .ct { display: flex; align-items: center; gap: 4px; }
+.dk .ct span { min-width: 2.8em; text-align: center; font-variant-numeric: tabular-nums; font-size: 14px; }
+.step { width: 34px; height: 34px; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); cursor: pointer; font-size: 18px; line-height: 1; }
+.step:disabled { opacity: .3; cursor: not-allowed; }
+.btn { border: 1px solid var(--ink); background: var(--paper); color: var(--ink); padding: 8px 14px; cursor: pointer; min-height: 44px; }
+.btn.go { background: var(--red); border-color: var(--red); color: var(--paper); }
+.btn:focus-visible, .step:focus-visible, .slip:focus-visible, .opt:focus-visible, .hc:focus-visible, .tool:focus-visible, .pick:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* 字幕與選項 */
+.talk { pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 4px 10px; }
+.sub { max-width: min(46em, 100%); text-align: center; text-shadow: 0 2px 10px rgba(0, 0, 0, .95), 0 0 2px #000; animation: rise .6s ease both; }
+.sub .who { display: inline-block; font-size: 12px; letter-spacing: .3em; background: var(--red); color: var(--paper); padding: 1px 8px 0; margin-bottom: 6px; text-shadow: none; }
+.sub .tx { font-family: var(--display); font-size: 25px; line-height: 1.55; }
+.sub .gain { display: block; font-size: 14px; color: var(--gold); margin-top: 2px; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.choices { pointer-events: auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; }
+.opt { background: none; border: none; cursor: pointer; padding: 6px 4px; min-height: 44px; text-align: left; font-family: var(--display); font-size: 24px; color: var(--paper); text-shadow: 0 2px 8px rgba(0, 0, 0, .95); position: relative; }
+.opt::before { content: "—"; margin-right: 8px; color: var(--red-2); }
+.opt small { font-family: var(--body); font-size: 12px; color: var(--paper-2); margin-left: 8px; }
+.opt:hover::after, .opt:focus-visible::after { content: ""; position: absolute; left: 30px; right: 0; bottom: 6px; height: 3px; background: var(--red-2); border-radius: 2px; }
+.opt:disabled { opacity: .35; cursor: not-allowed; }
+
+/* 手牌 */
+.hand { pointer-events: auto; display: flex; justify-content: center; align-items: flex-end; overflow-x: auto; overflow-y: visible; padding: 18px 8px 4px; min-height: 0; scrollbar-width: none; }
+.hand.on { min-height: 160px; }
+.hand::-webkit-scrollbar { display: none; }
+.hc { flex: none; border: none; background: none; padding: 0; width: 92px; height: 138px; margin: 0 -10px; position: relative; cursor: default; transition: transform .18s ease, filter .18s ease; transform-origin: 50% 120%; }
+.hc img { width: 100%; height: 100%; display: block; border-radius: 7px; box-shadow: 0 6px 16px rgba(0, 0, 0, .6); }
+.hc.play { cursor: pointer; }
+.hc.play img { box-shadow: 0 0 0 2px var(--gold), 0 8px 22px rgba(216, 67, 76, .45); }
+.hc.play:hover, .hc.play:focus-visible { transform: translateY(-16px) rotate(0deg) !important; z-index: 5; }
+.hc.off { filter: brightness(.45) saturate(.5); }
+.hc .st { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 22px; color: var(--paper); background: rgba(18, 14, 17, .55); border-radius: 7px; letter-spacing: .1em; }
+.hand-label { pointer-events: none; text-align: center; font-size: 12px; letter-spacing: .2em; color: var(--paper-2); text-shadow: 0 1px 4px #000; margin-top: 2px; }
+.ghost { position: fixed; z-index: 40; pointer-events: none; border-radius: 7px; box-shadow: 0 10px 26px rgba(0, 0, 0, .6); }
+
+/* 開場 */
+.title { position: fixed; inset: 0; display: flex; align-items: center; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px; background: linear-gradient(90deg, rgba(12, 9, 11, .88) 0%, rgba(12, 9, 11, .55) 55%, rgba(12, 9, 11, .1) 100%); overflow: auto; }
+.title-in { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 32px; align-items: start; max-width: 860px; margin-left: clamp(0px, 6vw, 80px); }
+.vb { background: var(--red); color: var(--paper); font-family: var(--display); padding: 26px 18px; display: flex; flex-direction: column; align-items: center; gap: 18px; box-shadow: 0 0 0 3px var(--ink), 0 0 0 4px var(--red); }
+.vb .t { writing-mode: vertical-rl; font-size: 88px; line-height: 1; letter-spacing: .12em; }
+.vb .s { writing-mode: vertical-rl; font-size: 15px; letter-spacing: .4em; }
+.intro { font-family: var(--display); font-size: 25px; line-height: 1.75; max-width: 24em; }
+.lede { margin-top: 10px; color: var(--paper-2); max-width: 38em; }
+.form { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; }
+.field label { display: block; font-size: 12px; letter-spacing: .2em; color: var(--paper-2); margin-bottom: 6px; }
+.field input { font: inherit; font-size: 18px; padding: 7px 12px; border: 1px solid var(--paper-2); background: rgba(236, 227, 212, .08); color: var(--paper); width: 8em; }
+.picks { display: flex; gap: 6px; }
+.pick { border: 1px solid var(--paper-2); background: transparent; color: var(--paper); font-family: var(--display); font-size: 22px; min-width: 48px; min-height: 44px; cursor: pointer; }
+.pick[aria-pressed="true"] { background: var(--red); border-color: var(--red); }
+.title .go { font-size: 17px; }
+.title .hint { margin-top: 12px; font-size: 12px; color: var(--paper-2); }
+
+/* 墨染轉場、更夫、印 */
+#ink { position: fixed; inset: -10%; background: #0b0809; pointer-events: none; opacity: 0; clip-path: circle(0% at 50% 58%); filter: url(#rough); z-index: 30; }
+#ink.on { opacity: 1; clip-path: circle(80% at 50% 58%); transition: clip-path .65s cubic-bezier(.6, 0, .4, 1); }
+#ink.off { opacity: 0; transition: opacity .55s ease; clip-path: circle(80% at 50% 58%); }
+.watch { position: fixed; inset: 0; z-index: 25; background: #070506; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 28px; padding: 24px; }
+.watch .w { writing-mode: vertical-rl; font-family: var(--display); font-size: clamp(30px, 6vh, 46px); line-height: 1.5; letter-spacing: .14em; color: var(--paper); max-height: 70vh; animation: rise 1.4s ease both; }
+.watch .knock { font-size: 12px; letter-spacing: .5em; color: var(--wash); }
+.stamp { position: fixed; left: 50%; top: 38%; z-index: 35; transform: translate(-50%, -50%) rotate(-8deg); font-family: var(--display); font-size: 46px; color: var(--red-2); border: 5px solid var(--red-2); padding: 4px 22px; letter-spacing: .2em; pointer-events: none; animation: stampin .5s cubic-bezier(.2, 1.6, .4, 1) both; text-shadow: 0 0 12px rgba(0, 0, 0, .6); }
+@keyframes stampin { from { transform: translate(-50%, -50%) rotate(-8deg) scale(2.2); opacity: 0; } to { transform: translate(-50%, -50%) rotate(-8deg) scale(1); opacity: 1; } }
+#fx { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 32; }
+.fleck { position: absolute; top: -14px; width: 10px; height: 8px; background: var(--gold); animation: fall 1.8s ease-in forwards; }
+@keyframes fall { to { transform: translateY(105vh) rotate(560deg); opacity: .1; } }
+
+/* 帳 */
+.ledger h2 { font-family: var(--display); font-weight: 400; font-size: 34px; margin: 0 0 4px; letter-spacing: .1em; }
+.ledger .rowx { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 4px 12px; font-size: 14px; padding: 8px 0; border-bottom: 1px solid #d3c7b4; }
+.ledger .rowx b { font-variant-numeric: tabular-nums; }
+.ledger .cl { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.ledger .cl i { width: 18px; height: 22px; display: block; clip-path: polygon(0 0, 100% 0, 92% 100%, 50% 88%, 8% 100%); }
+.ledger .w { font-family: var(--display); font-size: 21px; margin-top: 10px; }
+.ledger .acts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.rules ol { padding-left: 1.3em; margin: 0; font-size: 14px; }
+.rules li + li { margin-top: 5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fleck { display: none; }
+  .sub, .watch .w, .stamp { animation: none; }
+  #ink.on { transition-duration: .01s; }
+}
+@media (max-width: 760px) {
+  .hc { width: 66px; height: 99px; margin: 0 -7px; }
+  .hand.on { min-height: 121px; }
+  .panel { top: auto; bottom: 0; height: 58%; width: 100%; padding: 12px 14px 14px; }
+  .sub .tx { font-size: 20px; }
+  .opt { font-size: 21px; }
+  .stats { font-size: 11px; gap: 2px 10px; }
+  .stats b { font-size: 18px; }
+  .seal { font-size: 24px; }
+  .when b { font-size: 16px; white-space: nowrap; }
+  .when span { display: none; }
+  .top { gap: 8px; }
+  .panel { height: 52%; }
+  .seg { min-width: 70px; padding: 4px 6px; }
+  .seg b { font-size: 16px; }
+  .goldnow { top: 70px; }
+  .portrait { width: 48px; height: 60px; }
+  .title-in { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-left: 0; }
+  .vb { flex-direction: row; justify-content: center; padding: 14px; }
+  .vb .t { writing-mode: horizontal-tb; font-size: 54px; }
+  .vb .s { writing-mode: horizontal-tb; letter-spacing: .2em; }
+  .intro { font-size: 20px; }
+  .title { align-items: flex-start; background: rgba(12, 9, 11, .8); }
+}
+/* v0.5：狀態圖示、配合提示、她的樣子、骰子、結算紙 */
+.staterow { display: flex; justify-content: flex-end; pointer-events: none; margin-top: 6px; }
+.state { pointer-events: auto; display: flex; flex-direction: column; gap: 3px; background: rgba(18, 14, 17, .66); border: 1px solid rgba(236, 227, 212, .22); padding: 5px 9px; font-size: 12px; color: var(--paper-2); }
+.state .row { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; }
+.state .who { font-size: 11px; letter-spacing: .2em; color: var(--paper-2); width: 1.4em; }
+.state .gap { width: 4px; }
+.st-i { display: inline-flex; align-items: center; gap: 3px; color: var(--paper); }
+.st-i svg { width: 16px; height: 16px; flex: none; }
+.st-i b { font-weight: 400; font-variant-numeric: tabular-nums; }
+.st-i .pp { display: inline-flex; gap: 2px; }
+.st-i .pp i { width: 5px; height: 10px; border: 1px solid rgba(236, 227, 212, .45); }
+.st-i .pp i.on { background: var(--paper); border-color: var(--paper); }
+.st-i.warn { color: var(--red-2); }
+.st-i.warn .pp i.on { background: var(--red-2); border-color: var(--red-2); }
+.state .broke { align-self: flex-end; font-family: var(--display); font-size: 16px; color: var(--paper); background: var(--red); padding: 0 8px; letter-spacing: .2em; }
+.seg.ok b::after { content: " ✓"; color: var(--gold); font-family: var(--body); font-size: 13px; }
+.goldnow { text-align: center; background: rgba(18, 14, 17, .6); padding: 4px 12px 6px; }
+.panel.sheet h2 { font-size: 28px; }
+.panel.sheet .rowx { padding: 5px 0; }
+.goldnow .combos { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 4px; white-space: normal; }
+.goldnow .cb { background: var(--gold); color: var(--ink); padding: 1px 8px; font-family: var(--display); font-size: 16px; }
+.goldnow .tip { border: 1px dashed rgba(236, 227, 212, .5); padding: 1px 8px; font-size: 12px; }
+.goldnow .none { font-size: 12px; opacity: .7; }
+.lookb { pointer-events: auto; position: absolute; left: 0; top: 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; background: rgba(18, 14, 17, .6); border: 1px solid rgba(236, 227, 212, .3); border-radius: 50%; width: 64px; height: 64px; justify-content: center; color: var(--paper); cursor: zoom-in; transition: transform .2s ease, width .2s ease, height .2s ease; }
+.lookb svg { width: 34px; height: 34px; }
+.lookb .lb { display: none; font-family: var(--display); font-size: 16px; line-height: 1; }
+.lookb:hover, .lookb:focus-visible, .lookb[aria-expanded="true"] { width: 84px; height: 84px; }
+.lookb:hover .lb, .lookb:focus-visible .lb, .lookb[aria-expanded="true"] .lb { display: block; }
+.panel h4 { font-family: var(--display); font-weight: 400; font-size: 19px; margin: 14px 0 4px; }
+.rules ul { padding-left: 1.2em; margin: 0; font-size: 13px; color: #3c3438; }
+.rules ul li + li { margin-top: 4px; }
+.panel .acts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.btn small { display: block; font-size: 11px; color: inherit; opacity: .75; }
+.btn.small { min-height: 34px; padding: 4px 10px; font-size: 13px; }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.btn:disabled { opacity: .35; cursor: not-allowed; }
+.mini { border: 1px solid #8b7f84; background: transparent; color: var(--ink); font-size: 12px; padding: 3px 8px; min-height: 30px; cursor: pointer; }
+.mini[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.mini:disabled { opacity: .35; cursor: not-allowed; }
+.tools2 { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.special .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.special .btn { text-align: left; }
+.dk .nm em { font-style: normal; font-size: 11px; background: var(--red); color: var(--paper); padding: 0 5px; margin-left: 6px; vertical-align: 3px; }
+.meter i.home { outline: 1px solid #8b7f84; outline-offset: -1px; }
+.mini:focus-visible, .lookb:focus-visible, .btn.small:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+#dice { position: fixed; inset: 0; z-index: 36; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+#dice .dbox { background: rgba(18, 14, 17, .92); border: 1px solid var(--gold); padding: 16px 24px 14px; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 12px 40px rgba(0, 0, 0, .6); min-width: 220px; max-width: calc(100vw - 32px); text-align: center; }
+#dice .lb { font-size: 13px; letter-spacing: .12em; color: var(--paper-2); }
+#dice .res { font-family: var(--display); font-size: 26px; min-height: 1.3em; }
+#dice .res.ok { color: var(--gold); }
+#dice .res.bad { color: var(--red-2); }
+.die { display: inline-grid; width: 66px; height: 66px; background: #f4efe6; border-radius: 12px; grid-template: repeat(3, 1fr) / repeat(3, 1fr); padding: 9px; box-shadow: inset 0 -4px 0 #c9bca6, 0 4px 14px rgba(0, 0, 0, .5); vertical-align: middle; }
+.die i { width: 11px; height: 11px; border-radius: 50%; background: var(--ink); place-self: center; visibility: hidden; }
+.die i.on { visibility: visible; }
+.die.red i.on { background: var(--red); }
+.die.spin { transform: rotate(18deg) translateY(-6px); }
+.die.land { animation: land .35s cubic-bezier(.2, 1.6, .4, 1) both; }
+.die.sm { width: 26px; height: 26px; padding: 3px; border-radius: 5px; box-shadow: inset 0 -2px 0 #c9bca6; }
+.die.sm i { width: 4.5px; height: 4.5px; }
+@keyframes land { from { transform: scale(1.4) rotate(-20deg); } to { transform: none; } }
+
+.panel.sheet { left: 50%; transform: translateX(-50%); width: min(520px, 100%); bottom: auto; max-height: calc(100% - 16px); }
+.ledger .rowx > span:first-child small { display: block; font-size: 11px; color: #5a5156; }
+.ledger .dz { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ledger .rowx .dz b { font-family: var(--display); font-weight: 400; font-size: 18px; margin-left: 6px; }
+.ledger .rowx.total b { font-family: var(--display); font-weight: 400; font-size: 26px; color: var(--red); }
+.ledger .note { font-size: 13px; color: #5a5156; margin-top: 8px; }
+.ledger .cond { font-size: 13px; letter-spacing: .2em; color: var(--red); }
+.board { margin: 8px 0 0; padding-left: 1.6em; columns: 2; font-size: 14px; }
+.board li.me { font-weight: 700; color: var(--red); }
+.mirrorpf { display: block; width: 120px; height: 150px; margin: 6px auto 10px; }
+
+@media (max-width: 760px) {
+  .state { font-size: 11px; padding: 4px 7px; }
+  .st-i svg { width: 14px; height: 14px; }
+  .st-i .pp i { width: 4px; height: 8px; }
+  .lookb { width: 52px; height: 52px; }
+  .lookb svg { width: 28px; height: 28px; }
+  .panel { top: 0; bottom: 0; height: auto; }
+  .panel.sheet { left: 0; transform: none; width: 100%; top: auto; bottom: 0; max-height: 100%; }
+  .goldnow { top: 66px; white-space: normal; width: calc(100vw - 32px); }
+}
+</style>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<canvas id="smear" aria-hidden="true"></canvas>
+<div id="vig" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<div class="hud" id="hud" hidden>
+  <div class="top">
+    <div class="seal" id="seal">早</div>
+    <div class="when" id="when"></div>
+    <div class="stats" id="stats"></div>
+    <div class="side"><canvas class="portrait" id="pf" width="128" height="160" aria-label="你的脸"></canvas><div class="tools"><button class="tool" data-act="rules">规矩</button></div></div>
+  </div>
+  <div class="staterow"><div class="state" id="state"></div></div>
+  <div class="mid" id="mid"></div>
+  <div class="talk"><div id="sub"></div><div class="choices" id="choices"></div></div>
+  <div class="hand" id="hand"></div>
+  <div class="hand-label" id="handLabel"></div>
+</div>
+<div id="title" class="title" hidden></div>
+<div id="watch" class="watch" hidden></div>
+<div id="ink" aria-hidden="true"></div>
+<div id="fx" aria-hidden="true"></div>
+<div id="dice" hidden></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="70"/></filter></svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ENGINE START */
+// 規則依《戲城》完整設計文件 v0.5（妝匣・配合・教學版）第一至十節。
+// 文件缺第十一至十七節（周考核、季末、戲箱、熟練、教學日），那些地方沿用 v0.4 原型的占位；占位和未定的地方都列在 ASSUME（規矩頁）。
+const R = {
+  days: 28, box: 15, boxMin: 10, stageMax: 9, homeMax: 9, segMax: 3,
+  calmMax: 5, seenMax: 5, riftMax: 4, riftBreak: 3, hurtMax: 3, handMax: 3, lampMax: 5,
+  start: { calm: 3, seen: 1, rift: 0, hurt: 0, hand: 0, base: 0, lamp: 0, rank: 4 },
+  seenBonus: 4, handPen: 2, basePen: 3,
+  wipeMax: 2, wipeCalm: 2, moodGood: 3, softCalm: 3, eyeRoll: 4,
+  perfect: 1.5, handLine: 4, profLv: 6, perLv: 3,
+  // 配合：依骰點（1–6）查金箔
+  pair: [0, 0, 0, 0, 4, 4, 10], whole: [0, 0, 0, 0, 5, 5, 8],
+  lines: [60, 100, 140, 180], ranks: 6, deckCap: 30, giftCost: 5, nightShow: 6, bdayDay: 11, mirrorDay: 18,
+};
+// 族：g 台上金，slots 位數，heavy 重層（抹淡線 6），match 對路的樣子
+const FAM = {
+  sing: { n: '唱', side: 'stage', g: 2, slots: 1, heavy: true, col: '红', res: '第一张家中牌打出后，安心 −1' },
+  speak: { n: '念', side: 'stage', g: 1, slots: 1, heavy: false, col: '墨', res: '当天被看见 −1；当天倾听无效' },
+  act: { n: '做', side: 'stage', g: 1, slots: 1, heavy: false, col: '土', res: '底色 +1' },
+  fight: { n: '打', side: 'stage', g: 3, slots: 2, heavy: true, col: '金', res: '当天裂痕 +1' },
+  care: { n: '照顾', side: 'home', slots: 1, match: '累', eff: '安心 +1' },
+  gift: { n: '礼物', side: 'home', slots: 1, match: null, eff: '安心 +2，耗金箔' },
+  comp: { n: '陪伴', side: 'home', slots: 1, match: '等', eff: '被看见 +1' },
+  listen: { n: '倾听', side: 'home', slots: 1, match: '想说', eff: '被看见 +1；当天有念的残留则无效' },
+  labor: { n: '共劳', side: 'home', slots: 2, match: '忙', eff: '灯进度 +1' },
+  conflict: { n: '冲突', side: 'home', slots: 1, match: null, eff: '裂痕 +1，安心 −1' },
+};
+const GLYPH = { sing: '唱', speak: '念', act: '做', fight: '打', care: '顾', comp: '陪', listen: '听', labor: '劳', conflict: '冲', gift: '礼' };
+// 招牌特技：不擲骰，每族一張，不可替換
+const SIG = {
+  first: '本折第一张时，金 +1',
+  three: '本折已打出 3 张以上时，金 +1',
+  afterSpeak: '紧接在念之后，金 +1',
+  afterSing: '本折已打出唱时，金 +2',
+};
+// 卡牌：g 台上金（缺省用族的值），price 戲箱價，ex 專屬卡，sig 招牌特技，lock 不能收起，hand 手傷變化
+const T = {
+  manban: { f: 'sing', n: '慢板' },
+  dingchang: { f: 'speak', n: '定场诗' },
+  shuixiu: { f: 'act', n: '水袖' },
+  fanshen: { f: 'fight', n: '翻身' },
+  shuaixiu: { f: 'sing', n: '甩袖长腔', sig: 'first', lock: 1 },
+  dabai: { f: 'speak', n: '大段念白', sig: 'three', lock: 1 },
+  jingzhun: { f: 'act', n: '精准身段', sig: 'afterSpeak', lock: 1 },
+  liangxiang: { f: 'fight', n: '武戏亮相', sig: 'afterSing', lock: 1 },
+  kutou: { f: 'sing', n: '哭头', g: 3, price: 12 },
+  shuban: { f: 'speak', n: '数板', g: 2, price: 10 },
+  qiba: { f: 'act', n: '起霸', g: 2, price: 10 },
+  fandiao: { f: 'sing', n: '反调', g: 3, price: 12 },
+  guankou: { f: 'speak', n: '贯口', g: 2, price: 10 },
+  gentou: { f: 'fight', n: '跟头', g: 4, price: 16 },
+  gadiao: { f: 'sing', n: '嘎调', g: 3, price: 14 },
+  baikou: { f: 'speak', n: '白口', g: 2, price: 12 },
+  tangma: { f: 'act', n: '趟马', g: 2, price: 12 },
+  mantang: { f: 'sing', n: '满堂彩', g: 3, price: 14 },
+  kuaiban: { f: 'speak', n: '快板', g: 2, price: 12 },
+  dadao: { f: 'fight', n: '大刀', g: 4, price: 18 },
+  raoliang: { f: 'sing', n: '绕梁', g: 3, ex: 1, lock: 1 },
+  yunbai: { f: 'speak', n: '韵白', g: 2, ex: 1, lock: 1 },
+  woyu: { f: 'act', n: '卧鱼', g: 2, ex: 1, lock: 1 },
+  dachushou: { f: 'fight', n: '打出手', g: 4, ex: 1, lock: 1 },
+  tuoqiang: { f: 'sing', n: '拖腔', g: 3, ex: 1, lock: 1 },
+  duiqiang: { f: 'fight', n: '对枪', g: 4, ex: 1, lock: 1 },
+  jingbai: { f: 'speak', n: '京白', g: 2, ex: 1, lock: 1 },
+  shuaifa: { f: 'act', n: '甩发', g: 2, ex: 1, lock: 1 },
+  retang: { f: 'care', n: '热汤' },
+  maojin: { f: 'care', n: '热毛巾', hand: -1, eff: '安心 +1，手伤 −1' },
+  juanhua: { f: 'gift', n: '绢花' },
+  liaotian: { f: 'comp', n: '聊天' },
+  sanbu: { f: 'comp', n: '散步' },
+  chenmo: { f: 'listen', n: '沉默' },
+  fengxian: { f: 'labor', n: '缝线' },
+  xiantan: { f: 'comp', n: '饭后闲聊', ex: 1, lock: 1 },
+  renzhen: { f: 'listen', n: '认真听', ex: 1, lock: 1 },
+  huzhi: { f: 'labor', n: '糊纸', ex: 1, lock: 1 },
+};
+const INIT = ['shuaixiu', 'dabai', 'jingzhun', 'liangxiang', 'manban', 'manban', 'dingchang', 'dingchang', 'shuixiu', 'shuixiu', 'fanshen',
+  'retang', 'maojin', 'liaotian', 'sanbu', 'chenmo', 'fengxian', 'juanhua'];
+const SHOP = [['kutou', 'shuban', 'qiba'], ['fandiao', 'guankou', 'gentou'], ['gadiao', 'baikou', 'tangma'], ['mantang', 'kuaiban', 'dadao']];
+// 每週兩個劇本；首次三段皆對上，得到 ex 那張專屬演戲卡
+const SCRIPTS = [
+  [{ n: '入门一折', segs: ['sing', 'speak', 'act'], ex: 'raoliang' }, { n: '春台喜', segs: ['speak', 'act', 'fight'], ex: 'yunbai' }],
+  [{ n: '借妆', segs: ['act', 'sing', 'speak'], ex: 'woyu' }, { n: '夜奔', segs: ['act', 'fight', 'sing'], ex: 'dachushou' }],
+  [{ n: '对镜', segs: ['sing', 'speak', 'sing'], ex: 'tuoqiang' }, { n: '三岔口', segs: ['fight', 'act', 'fight'], ex: 'duiqiang' }],
+  [{ n: '闹元宵', segs: ['sing', 'act', 'speak'], ex: 'jingbai' }, { n: '打灯', segs: ['fight', 'sing', 'act'], ex: 'shuaifa' }],
+];
+const SEG_N = ['起', '承', '转'];
+const COMBO_N = { whole: '整折', duet: '对唱', wushen: '武身' };
+// 樣子：每幕由劇本寫定的序列，每天一種
+const LOOKS = [
+  ['等', '等', '累', '等', '忙', '等', '想说'],
+  ['想说', '等', '想说', '累', '想说', '忙', '想说'],
+  ['忙', '想说', '忙', '累', '忙', '等', '忙'],
+  ['累', '忙', '累', '想说', '累', '等', '累'],
+];
+const NEED_FAM = ['comp', 'listen', 'labor'];
+
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const weekOf = d => Math.ceil(d / 7);
+const dowOf = d => ((d - 1) % 7) + 1;
+const lookOf = d => LOOKS[weekOf(d) - 1][dowOf(d) - 1];
+const slotsT = t => FAM[T[t].f].slots;
+const gT = t => T[t].g ?? FAM[T[t].f].g;
+const cardOf = (S, id) => S.deck.find(c => c.id === id);
+const tOf = (S, id) => T[cardOf(S, id).t];
+const fOf = (S, id) => tOf(S, id).f;
+const slotsOf = (S, id) => slotsT(cardOf(S, id).t);
+const sumSlots = (S, ids) => ids.reduce((a, id) => a + slotsOf(S, id), 0);
+const isStage = f => FAM[f].side === 'stage';
+const sideSlots = (S, ids, side) => ids.filter(id => FAM[fOf(S, id)].side === side).reduce((a, id) => a + slotsOf(S, id), 0);
+const capFree = S => S.T.cap - S.T.reserved;
+const specialOf = S => (S.day === R.bdayDay ? 'bday' : S.day === R.days ? 'yuan' : null);
+const lvOf = (S, f) => Math.floor(S.prof[f] / R.perLv);
+const brokenOf = S => S.calm <= 0 || S.rift >= R.riftBreak || S.hurt >= R.hurtMax;
+const moodGood = S => S.T.mood >= R.moodGood;
+function boxCapOf(S) {
+  const c = R.box + (S.seen >= R.seenBonus ? 1 : 0) - (S.rift >= R.riftBreak ? 1 : 0) - (S.hand >= R.handPen ? 1 : 0)
+    - (S.base >= R.basePen ? 1 : 0) - (S.pen.minus ? 1 : 0);
+  return Math.max(R.boxMin, c);
+}
+const scriptsOf = S => SCRIPTS[weekOf(S.day) - 1];
+const scriptKey = (S, i) => `${weekOf(S.day)}-${i}`;
+const scriptNow = S => scriptsOf(S)[S.T.script] || scriptsOf(S)[0];
+// 骰子：種子存在狀態裡，存檔、重玩、測試都能重現
+function d6(S) {
+  let a = S.seed | 0;
+  a = (a + 0x6D2B79F5) | 0;
+  S.seed = a >>> 0;
+  let t = Math.imul(a ^ (a >>> 15), 1 | a);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return 1 + Math.floor((((t ^ (t >>> 14)) >>> 0) / 4294967296) * 6);
+}
+function roll(S, k, extra) {
+  const v = d6(S), d = { k, v, ...extra };
+  S.T.dice.push(d);
+  return d;
+}
+
+// 卡組滿 30 張時，最早的一張普通牌退回卡庫
+function addCard(S, t) {
+  if (S.deck.length >= R.deckCap) {
+    const out = S.deck.find(c => !T[c.t].lock && !(S.T && S.T.box.includes(c.id)));
+    if (out) { S.deck = S.deck.filter(c => c !== out); S.lib.push(out); }
+  }
+  const c = { id: S.nid++, t };
+  S.deck.push(c);
+  return c;
+}
+
+function newGame(name, seed) {
+  const s0 = R.start;
+  const S = { v: 5, name, seed: (seed >>> 0) || 1, day: 1, phase: 'morning', deck: [], lib: [], nid: 1,
+    calm: s0.calm, seen: s0.seen, rift: s0.rift, hurt: s0.hurt, hand: s0.hand, base: s0.base, lamp: s0.lamp, lit: false, rank: s0.rank,
+    gold: 0, weekGold: 0, total: 0, prof: { sing: 0, speak: 0, act: 0, fight: 0 },
+    need: [0, 0, 0, 0], needDone: [false, false, false, false], scripts: {}, pen: { minus: false, carry: false }, bought: false,
+    opt: { listenRift: true }, lines: {}, rope: [], chest: [], log: [], weeks: [], lastBox: null, choice: {}, T: null };
+  INIT.forEach(t => addCard(S, t));
+  beginDay(S);
+  return S;
+}
+
+function beginDay(S) {
+  S.T = { cap: boxCapOf(S), reserved: 0, special: null, box: [], script: 0, plays: [], seg: 0, layers: [], used: {},
+    stageGold: 0, sigGold: 0, comboGold: 0, gold: 0, combos: [], aligned: false, perfect: false, handHit: false, reward: null,
+    mood: 0, door: null, wiped: 0, doorFree: 0, doorPaid: 0, nightFree: 0, nightPaid: 0,
+    residual: null, singPending: false, speakRes: false, look: lookOf(S.day), enteredClean: false,
+    home: [], homeSlots: 0, fam: {}, bday: false, matched: 0, eyes: 0, reacts: [], tray: null, cold: false, empty: false,
+    needHits: [], nightBase: 0, showGold: 0, lockedNow: false, notes: [], watch: null, wasted: 0, dice: [] };
+  // 上週業績過線、關係失守：這週第一天醒來，臉上還留著一層唱
+  if (dowOf(S.day) === 1 && S.pen.carry) {
+    S.T.layers.push({ f: 'sing', carry: true });
+    S.pen.carry = false;
+    S.T.notes.push('醒来时，脸上还留着一层上周的戏台红。');
+  }
+  const ids = new Set(S.deck.map(c => c.id));
+  S.T.box = (S.lastBox || []).filter(id => ids.has(id));
+  trimBox(S);
+  S.phase = 'morning';
+}
+const boxOK = (S, ids) => sumSlots(S, ids) <= capFree(S) && sideSlots(S, ids, 'stage') <= R.stageMax && sideSlots(S, ids, 'home') <= R.homeMax;
+function trimBox(S) {
+  while (S.T.box.length && !boxOK(S, S.T.box)) S.T.box.pop();
+}
+
+// ── 早 ──
+function choose(S, key) {
+  const kind = specialOf(S);
+  if (S.phase !== 'morning' || !kind) return;
+  const keys = kind === 'bday' ? ['night', 'bday'] : ['stage', 'lamp', 'cover'];
+  if (!keys.includes(key)) return;
+  S.T.special = key;
+  // 加演夜場：當日妝匣預留 2 位；陪生日以一張陪伴牌計，占 1 位
+  S.T.reserved = key === 'night' ? 2 : key === 'bday' ? 1 : 0;
+  S.choice[kind] = key;
+  trimBox(S);
+}
+const canAdd = (S, id) => S.phase === 'morning' && !S.T.box.includes(id) && boxOK(S, S.T.box.concat(id));
+function toggleBox(S, id) {
+  if (S.phase !== 'morning' || !cardOf(S, id)) return;
+  const b = S.T.box, i = b.indexOf(id);
+  if (i >= 0) b.splice(i, 1); else if (canAdd(S, id)) b.push(id);
+}
+function stepTpl(S, t, dir) {
+  if (S.phase !== 'morning') return;
+  if (dir > 0) {
+    const c = S.deck.find(x => x.t === t && !S.T.box.includes(x.id));
+    if (c) toggleBox(S, c.id);
+  } else {
+    const ids = S.T.box.filter(id => cardOf(S, id).t === t);
+    if (ids.length) toggleBox(S, ids[ids.length - 1]);
+  }
+}
+function clearBox(S) { if (S.phase === 'morning') S.T.box = []; }
+function boxYesterday(S) {
+  if (S.phase !== 'morning') return;
+  clearBox(S);
+  (S.lastBox || []).forEach(id => { if (cardOf(S, id)) toggleBox(S, id); });
+}
+function pickScript(S, i) { if (S.phase === 'morning' && i >= 0 && i < scriptsOf(S).length) S.T.script = i; }
+const shopOf = S => SHOP[weekOf(S.day) - 1];
+function buyShop(S, t) {
+  if (S.phase !== 'morning' || S.bought || !shopOf(S).includes(t) || S.gold < T[t].price) return false;
+  S.gold -= T[t].price;
+  S.bought = true;
+  addCard(S, t);
+  return true;
+}
+// 卡組只能在早上裝匣前編輯：普通牌可以收回卡庫，招牌與專屬卡不能
+function stash(S, id) {
+  const c = cardOf(S, id);
+  if (S.phase !== 'morning' || !c || T[c.t].lock) return;
+  S.deck = S.deck.filter(x => x !== c);
+  S.lib.push(c);
+  S.T.box = S.T.box.filter(x => x !== id);
+}
+function unstash(S, id) {
+  const c = S.lib.find(x => x.id === id);
+  if (S.phase !== 'morning' || !c || S.deck.length >= R.deckCap) return;
+  S.lib = S.lib.filter(x => x !== c);
+  S.deck.push(c);
+}
+const canDepart = S => S.phase === 'morning' && boxOK(S, S.T.box) && (!specialOf(S) || !!S.T.special);
+function depart(S) {
+  if (!canDepart(S)) return;
+  S.lastBox = S.T.box.slice();
+  S.phase = 'stage';
+}
+
+// ── 白天 ──
+const segSlots = (S, i) => S.T.plays.filter(p => p.seg === i).reduce((a, p) => a + slotsOf(S, p.id), 0);
+const stageSlots = S => S.T.plays.reduce((a, p) => a + slotsOf(S, p.id), 0);
+function canStage(S, id) {
+  const t = S.T;
+  return S.phase === 'stage' && t.box.includes(id) && !t.used[id] && isStage(fOf(S, id))
+    && segSlots(S, t.seg) + slotsOf(S, id) <= R.segMax && stageSlots(S) + slotsOf(S, id) <= R.stageMax;
+}
+function sigBonus(S, id) {
+  const P = S.T.plays;
+  switch (tOf(S, id).sig) {
+    case 'first': return P.length === 0 ? 1 : 0;
+    case 'three': return P.length >= 3 ? 1 : 0;
+    case 'afterSpeak': return P.length && P[P.length - 1].f === 'speak' ? 1 : 0;
+    case 'afterSing': return P.some(p => p.f === 'sing') ? 2 : 0;
+    default: return 0;
+  }
+}
+function playStage(S, id) {
+  if (!canStage(S, id)) return;
+  const t = S.T, f = fOf(S, id);
+  t.plays.push({ id, f, seg: t.seg, g: gT(cardOf(S, id).t), sig: sigBonus(S, id) });
+  t.used[id] = 'stage';
+  t.layers.push({ f });
+  if (segSlots(S, t.seg) >= R.segMax && t.seg < 2) t.seg += 1;
+}
+function nextSeg(S) { if (S.phase === 'stage' && S.T.seg < 2) S.T.seg += 1; }
+const alignedSeg = (S, i) => S.T.plays.some(p => p.seg === i && p.f === scriptNow(S).segs[i]);
+// 配合：整折優先（三段各一張，出牌順序相鄰、族對上），再從剩下的牌找相鄰的對唱（唱→念）、武身（做→打）；每張牌只計一次
+function combosOf(segs, P) {
+  const used = P.map(() => false), out = [];
+  for (let i = 0; i + 2 < P.length; i++) {
+    if ([0, 1, 2].every(k => P[i + k].seg === k && P[i + k].f === segs[k])) {
+      out.push({ k: 'whole', at: [i, i + 1, i + 2] });
+      used[i] = used[i + 1] = used[i + 2] = true;
+      break;
+    }
+  }
+  for (let i = 0; i + 1 < P.length; i++) {
+    if (used[i] || used[i + 1]) continue;
+    const a = P[i].f, b = P[i + 1].f;
+    const k = a === 'sing' && b === 'speak' ? 'duet' : a === 'act' && b === 'fight' ? 'wushen' : null;
+    if (k) { out.push({ k, at: [i, i + 1] }); used[i] = used[i + 1] = true; i += 1; }
+  }
+  return out;
+}
+const combosNow = S => combosOf(scriptNow(S).segs, S.T.plays);
+const canEndStage = S => S.phase === 'stage' && (S.T.plays.length > 0 || !S.T.box.some(id => canStage(S, id)));
+function endStage(S) {
+  if (!canEndStage(S)) return;
+  const t = S.T, sc = scriptNow(S);
+  t.stageGold = t.plays.reduce((a, p) => a + p.g, 0);
+  t.sigGold = t.plays.reduce((a, p) => a + p.sig, 0);
+  t.combos = combosNow(S).map(c => {
+    const fams = c.at.map(i => t.plays[i].f);
+    const mod = fams.some(f => lvOf(S, f) >= R.profLv) ? 1 : 0;
+    const d = roll(S, 'combo', { combo: c.k });
+    const v = Math.min(6, d.v + mod);
+    const gold = (c.k === 'whole' ? R.whole : R.pair)[v];
+    Object.assign(d, { mod, total: v, gold });
+    return { ...c, fams, die: d.v, mod, v, gold, ok: v >= 4, big: v >= 6 };
+  });
+  t.comboGold = t.combos.reduce((a, c) => a + c.gold, 0);
+  t.aligned = t.plays.length > 0 && [0, 1, 2].every(i => alignedSeg(S, i));
+  t.perfect = t.aligned && t.combos.some(c => c.ok);
+  const sum = t.stageGold + t.sigGold + t.comboGold;
+  t.gold = t.perfect ? Math.floor(sum * R.perfect) : sum;
+  S.gold += t.gold; S.weekGold += t.gold; S.total += t.gold;
+  const heavy = t.plays.filter(p => p.f === 'sing' || p.f === 'fight').reduce((a, p) => a + slotsOf(S, p.id), 0);
+  if (heavy >= R.handLine) { S.hand = clamp(S.hand + 1, 0, R.handMax); t.handHit = true; }
+  t.plays.forEach(p => { S.prof[p.f] += 1; });
+  const key = scriptKey(S, t.script);
+  if (t.aligned && !S.scripts[key]) {
+    S.scripts[key] = true;
+    const c = addCard(S, sc.ex);
+    t.reward = T[c.t].n;
+  }
+  S.phase = 'door';
+  t.mood = roll(S, 'mood').v;
+  t.door = doorState(S);
+}
+
+// ── 門口 ──
+function doorState(S) {
+  if (S.rift >= R.riftMax) return 'locked';
+  if (S.calm < R.wipeCalm) return 'absent';
+  if (!moodGood(S)) return 'unwilling';
+  return 'wipe';
+}
+const topLayer = S => S.T.layers[S.T.layers.length - 1];
+const canWipe = S => S.phase === 'door' && S.T.door === 'wipe' && !S.T.wiped && S.T.layers.length > 0;
+function wipe(S) {
+  if (!canWipe(S)) return 0;
+  const n = Math.min(R.wipeMax, S.T.layers.length);
+  for (let i = 0; i < n; i++) S.chest.push({ day: S.day, f: S.T.layers.pop().f });
+  S.T.wiped = n;
+  S.calm = clamp(S.calm - 1, 0, R.calmMax);
+  return n;
+}
+// 抹淡線：骰點達到它就免費清掉；重層 6、輕層 5，安心 ≥3 時各降 1
+const lineOf = (S, f) => (FAM[f].heavy ? 6 : 5) - (S.calm >= R.softCalm ? 1 : 0);
+const cleaning = S => S.phase === 'door' || S.phase === 'night';
+const canRoll = S => cleaning(S) && !!topLayer(S) && !topLayer(S).rolled;
+function selfRoll(S) {
+  if (!canRoll(S)) return null;
+  const t = S.T, L = topLayer(S), need = lineOf(S, L.f);
+  const d = roll(S, 'clean', { f: L.f, need });
+  L.rolled = true;
+  d.ok = d.v >= need;
+  if (d.ok) {
+    t.layers.pop();
+    S.rope.push({ day: S.day, f: L.f });
+    if (S.phase === 'door') t.doorFree += 1; else t.nightFree += 1;
+  } else L.failed = true;
+  return d;
+}
+const canClean = (S, id) => cleaning(S) && !!topLayer(S) && topLayer(S).failed && S.T.box.includes(id) && !S.T.used[id];
+function selfClean(S, id) {
+  if (!canClean(S, id)) return;
+  const t = S.T, f = fOf(S, id);
+  t.layers.pop();
+  t.used[id] = 'clean';
+  S.rope.push({ day: S.day, f: isStage(f) ? f : 'home' });
+  if (S.phase === 'door') t.doorPaid += 1; else t.nightPaid += 1;
+}
+const addRift = (S, n) => {
+  const r0 = S.rift;
+  S.rift = clamp(S.rift + n, 0, R.riftMax);
+  if (r0 < R.riftMax && S.rift >= R.riftMax) S.T.lockedNow = true;
+};
+function enterHome(S) {
+  if (S.phase !== 'door') return;
+  const t = S.T, top = topLayer(S);
+  t.enteredClean = !top;
+  if (top) {
+    t.residual = top.f;
+    if (top.f === 'sing') t.singPending = true;
+    if (top.f === 'speak') { S.seen = clamp(S.seen - 1, 0, R.seenMax); t.speakRes = true; }
+    if (top.f === 'act') S.base += 1;
+    if (top.f === 'fight') addRift(S, 1);
+  }
+  if (t.special === 'bday') {
+    // 陪生日：以陪伴牌計，基礎效果照算，不計對路
+    S.seen = clamp(S.seen + 1, 0, R.seenMax);
+    t.fam.comp = true; t.bday = true; t.homeSlots += 1;
+    t.reacts.push({ k: 'up', f: 'comp', who: '陪生日', tx: '你陪她过了生日。她许了一个愿，没说是什么。' });
+  }
+  S.phase = 'evening';
+}
+
+// ── 傍晚 ──
+function canHome(S, id) {
+  const t = S.T;
+  return S.phase === 'evening' && t.box.includes(id) && !t.used[id] && !isStage(fOf(S, id))
+    && t.homeSlots + slotsOf(S, id) <= R.homeMax && (fOf(S, id) !== 'gift' || !!t.fam.gift || S.gold >= R.giftCost);
+}
+function playHome(S, id) {
+  if (!canHome(S, id)) return;
+  const t = S.T, tp = tOf(S, id), f = tp.f;
+  const b = { calm: S.calm, seen: S.seen, rift: S.rift, lamp: S.lamp, hand: S.hand };
+  const dup = !!t.fam[f];
+  let valid = !dup, match = false, eye = null, eyeDie = null, hit = null;
+  t.fam[f] = true;
+  if (!dup) {
+    if (f === 'listen' && t.speakRes) valid = false;
+    if (valid) {
+      match = FAM[f].match === t.look;
+      const k = match ? 1 : 0;
+      if (f === 'care') { S.calm += 1 + k; if (tp.hand) S.hand += tp.hand; }
+      if (f === 'gift') { S.gold -= R.giftCost; S.calm += 2; }
+      if (f === 'comp') S.seen += 1 + k;
+      if (f === 'listen') { S.seen += 1 + k; if (match && S.opt.listenRift) S.rift -= 1; }
+      if (f === 'labor') S.lamp += 1 + k;
+      if (f === 'conflict') { S.calm -= 1; addRift(S, 1); }
+      if (match) {
+        t.matched += 1;
+        if (moodGood(S)) eye = true;
+        else { eyeDie = roll(S, 'eye', { need: R.eyeRoll }); eye = eyeDie.v >= R.eyeRoll; eyeDie.ok = eye; }
+        if (eye) t.eyes += 1;
+        hit = needStep(S, f);
+      }
+    }
+  }
+  // 唱的殘留：第一張家中牌打出後，安心 −1
+  const pen = t.singPending ? 1 : 0;
+  t.singPending = false;
+  S.calm = clamp(S.calm - pen, 0, R.calmMax);
+  S.seen = clamp(S.seen, 0, R.seenMax); S.rift = clamp(S.rift, 0, R.riftMax);
+  S.lamp = clamp(S.lamp, 0, R.lampMax); S.hand = clamp(S.hand, 0, R.handMax);
+  t.used[id] = 'home';
+  t.home.push(id);
+  t.homeSlots += slotsOf(S, id);
+  const d = { dc: S.calm - b.calm, ds: S.seen - b.seen, dr: S.rift - b.rift, dl: S.lamp - b.lamp, dh: S.hand - b.hand };
+  t.reacts.push(reactOf(S, tp, { ...d, dup, valid, match, eye, eyeDie, pen, hit }));
+}
+// 需求：每幕一個，藏起來；對路的次數到了就完成（同族一晚一次，所以兩次一定在不同天）
+function needStep(S, f) {
+  const w = weekOf(S.day) - 1;
+  if (w > 2 || S.needDone[w] || NEED_FAM[w] !== f) return null;
+  S.need[w] += 1;
+  return S.need[w] >= 2 ? grantNeed(S, w) : null;
+}
+function grantNeed(S, w) {
+  S.needDone[w] = true;
+  let c = null;
+  if (w === 0) c = addCard(S, 'xiantan');
+  if (w === 1) { c = addCard(S, 'renzhen'); S.lamp = clamp(S.lamp + 1, 0, R.lampMax); }
+  if (w === 2) { c = addCard(S, 'huzhi'); S.lamp = clamp(S.lamp + 1, 0, R.lampMax); }
+  if (w === 3) S.lit = true;
+  const hit = { w, card: c ? T[c.t].n : null };
+  S.T.needHits.push(hit);
+  return hit;
+}
+// 事件（推牌結束後判定）
+const trayDue = S => S.phase === 'evening' && S.T.look === '累' && !S.T.tray;
+const canTray = S => trayDue(S) && S.T.homeSlots + 1 <= R.homeMax;
+function tray(S, accept) {
+  if (!trayDue(S) || (accept && !canTray(S))) return;
+  const t = S.T;
+  if (!accept) { S.calm = clamp(S.calm - 1, 0, R.calmMax); t.tray = { accept: false }; return; }
+  t.homeSlots += 1;
+  const d = roll(S, 'tray', { need: S.hand + 1 });
+  const fail = d.v <= S.hand + 1;
+  d.ok = !fail;
+  if (fail) { S.hurt = clamp(S.hurt + 1, 0, R.hurtMax); S.calm = clamp(S.calm - 2, 0, R.calmMax); addRift(S, 1); }
+  else S.calm = clamp(S.calm + 1, 0, R.calmMax);
+  t.tray = { accept: true, v: d.v, fail };
+}
+const homeCount = S => S.T.home.length + (S.T.bday ? 1 : 0);
+function endEvening(S) {
+  if (S.phase !== 'evening' || trayDue(S)) return;
+  const t = S.T;
+  if (t.look === '想说' && !t.home.some(id => fOf(S, id) === 'listen')) {
+    t.cold = true;
+    S.hurt = clamp(S.hurt + 1, 0, R.hurtMax); S.calm = clamp(S.calm - 1, 0, R.calmMax);
+  }
+  if (homeCount(S) === 0) { t.empty = true; S.calm = clamp(S.calm - 1, 0, R.calmMax); }
+  if (weekOf(S.day) === 4 && !S.needDone[3] && t.enteredClean && t.eyes > 0) grantNeed(S, 3);
+  S.phase = 'night';
+}
+
+// ── 夜 ──
+function sleep(S) {
+  if (S.phase !== 'night') return;
+  const t = S.T;
+  t.nightBase = t.layers.length;
+  S.base += t.layers.length;
+  t.layers = [];
+  if (t.special === 'night') {
+    t.showGold = R.nightShow;
+    S.gold += R.nightShow; S.weekGold += R.nightShow; S.total += R.nightShow;
+    S.seen = clamp(S.seen - 1, 0, R.seenMax);
+  }
+  t.wasted = t.box.filter(id => !t.used[id]).length;
+  t.watch = watchLine(S);
+  S.log.push({ day: S.day, cap: t.cap, script: scriptNow(S).n, gold: t.gold + t.showGold, perfect: t.perfect, aligned: t.aligned,
+    stage: t.plays.length, combos: t.combos.map(c => ({ k: c.k, v: c.v, gold: c.gold })), mood: t.mood, door: t.door, wiped: t.wiped,
+    free: t.doorFree + t.nightFree, paid: t.doorPaid + t.nightPaid, residual: t.residual, look: t.look, home: homeCount(S),
+    matched: t.matched, eyes: t.eyes, tray: t.tray, cold: t.cold, empty: t.empty, base: t.nightBase + (t.residual === 'act' ? 1 : 0),
+    wasted: t.wasted, watch: t.watch, calm: S.calm, seen: S.seen, rift: S.rift, hurt: S.hurt, hand: S.hand, lamp: S.lamp,
+    needHits: t.needHits.map(h => h.w), special: t.special, broken: brokenOf(S) });
+  S.phase = 'watch';
+}
+function dawn(S) {
+  if (S.phase !== 'watch') return;
+  if (S.day % 7 === 0) { weekEval(S); return; }
+  S.day += 1;
+  beginDay(S);
+}
+// 周考核（v0.5 文件缺這一節，沿用 v0.4）：業績線 × 關係線；關係守住＝沒有破裂
+function weekEval(S) {
+  const w = weekOf(S.day) - 1, perf = S.weekGold >= R.lines[w], rel = !brokenOf(S);
+  const delta = perf ? (rel ? 2 : 1) : (rel ? -1 : -2);
+  const r0 = S.rank;
+  S.rank = clamp(S.rank - delta, 1, R.ranks);
+  S.pen = { minus: delta === -2, carry: perf && !rel };
+  S.weeks.push({ w: w + 1, flow: S.weekGold, line: R.lines[w], perf, rel, delta, r0, r1: S.rank });
+  S.weekGold = 0;
+  S.bought = false;
+  S.phase = 'week';
+}
+function nextWeek(S) {
+  if (S.phase !== 'week') return;
+  if (S.day >= R.days) { S.phase = 'end'; return; }
+  S.day += 1;
+  beginDay(S);
+}
+// 季末（缺這一節，沿用 v0.4）：沒掉到末位＝業績過線；破裂＝關係崩盤
+function endingOf(S) {
+  const pass = S.rank < R.ranks, broke = brokenOf(S);
+  return pass ? (broke ? 'toupai' : 'liubai') : (broke ? 'gengfu' : 'suian');
+}
+
+// 更夫：每晚一句，只描述畫面；同一件事第三次起會變短
+const LINES = {
+  locked: { at: '五更天', full: ['有一扇门，从里面闩上了。'] },
+  trayFail: { at: '三更天', full: ['有户人家的碗，碎了一只。'], short: '又碎了一只碗。' },
+  cold: { at: '二更天', full: ['有人说了一半的话，又咽了回去。'], short: '话又咽回去了。' },
+  empty: { at: '二更天', full: ['有户人家的饭桌，摆了两副碗筷，凉了一副。', '灯坊里，有人等到灯油都干了。'], short: '碗筷又凉了一副。' },
+  need0: { at: '二更天', full: ['有户人家吃完饭，又多坐了一会儿。'] },
+  need1: { at: '二更天', full: ['糊灯的人说了很久，有人一直在听。'] },
+  need2: { at: '三更天', full: ['灯坊里，两个人糊完了一片纸。'] },
+  need3: { at: '三更天', full: ['门口很干净，灯亮着。'] },
+  sleepRed: { at: '四更天', full: ['有人带着戏脸睡了，枕头一片红。'], short: '又带着戏脸睡了。' },
+  res_sing: { at: '一更天', full: ['有人进门时，嗓子里还是台上的哭腔。'], short: '又带着腔进门。' },
+  res_speak: { at: '一更天', full: ['有人在饭桌上说话，像在跟班主报账。'], short: '又在报账。' },
+  res_act: { at: '一更天', full: ['有人在灯坊里亮了个相，窗外真有人叫好。'], short: '又亮相了。' },
+  res_fight: { at: '一更天', full: ['有人进门时，拳头还攥着。'], short: '拳头又攥着。' },
+  wiped: { at: '一更天', full: ['门口有人拧干了一条热毛巾。', '有人在门口替谁擦了脸。'], short: '毛巾又热了一回。' },
+  eyes: { at: '二更天', full: ['饭桌上，有人抬起了眼。'], short: '又抬了一回眼。' },
+  absent: { at: '一更天', full: ['门口没有人等，屋里的灯亮着。'], short: '门口又没人。' },
+  gift: { at: '三更天', full: ['柜子里多了一样东西，没拆。'] },
+  quiet: { at: '五更天', full: ['城里很静，有人睡得很沉。'] },
+};
+function watchLine(S) {
+  const t = S.T, c = [];
+  if (t.lockedNow) c.push('locked');
+  if (t.tray && t.tray.fail) c.push('trayFail');
+  if (t.cold) c.push('cold');
+  if (t.empty) c.push('empty');
+  t.needHits.forEach(h => c.push('need' + h.w));
+  if (t.nightBase > 0) c.push('sleepRed');
+  if (t.residual) c.push('res_' + t.residual);
+  if (t.wiped > 0) c.push('wiped');
+  if (t.eyes > 0) c.push('eyes');
+  if (t.door === 'absent' || t.door === 'unwilling') c.push('absent');
+  if (t.home.some(id => fOf(S, id) === 'gift')) c.push('gift');
+  const cat = c[0] || 'quiet', def = LINES[cat];
+  const n = (S.lines[cat] = (S.lines[cat] || 0) + 1);
+  const tx = n >= 3 && def.short ? def.short : def.full[(n - 1) % def.full.length];
+  return `${def.at}，${tx}`;
+}
+
+const REACT = {
+  care: { up: ['她接过去，抬眼看你。', '她把碗推到你面前。'], down: ['她接过去，没有抬头。'], none: ['她点点头。'] },
+  comp: { up: ['她笑了一下，说起白天灯坊里的事。', '她走得比平时慢一点。'], down: ['她看了你一眼，又低下头。'], none: ['她听着，没多说什么。'] },
+  listen: { up: ['她说了很久，你一直在听。'], down: ['你回她的话，像在跟班主报账。她不说了。'], none: ['她说了几句，就停了。'] },
+  labor: { up: ['你们一起糊了一片灯纸。', '你扶着灯骨，她一根一根缠线。'], down: ['你扶着灯骨，手一直在抖。'], none: ['你们一起糊了一片灯纸。'] },
+  gift: { up: ['她收下了，放进柜子里。'], down: ['她收下了，放进柜子里。'], none: ['她收下了，放进柜子里。'] },
+  conflict: { up: ['你挑了她一句。'], down: ['你挑了她一句，她没回嘴。'], none: ['你挑了她一句。'] },
+};
+function reactOf(S, tp, d) {
+  const f = tp.f;
+  let k, tx;
+  if (d.dup) { k = 'none'; tx = '她看了一眼桌上，没说什么。'; }
+  else if (!d.valid) { k = 'down'; tx = REACT.listen.down[0]; }
+  else {
+    if (f === 'conflict' || d.dc < 0) k = 'down';
+    else if (d.match && d.eye) k = 'up';
+    else k = 'none';
+    const pool = REACT[f][k];
+    tx = d.match && !d.eye ? '她点点头，没抬眼。' : pool[S.T.reacts.filter(r => r.f === f).length % pool.length];
+  }
+  return { k, f, who: tp.n, tx, match: d.match, eye: d.eye, eyeDie: d.eyeDie, dup: d.dup, valid: d.valid, pen: d.pen, hit: d.hit,
+    d: { calm: d.dc, seen: d.ds, rift: d.dr, lamp: d.dl, hand: d.dh } };
+}
+function factsOf(S) {
+  const L = S.log;
+  return {
+    small: L.filter(x => x.cap < R.box).length,
+    big: L.filter(x => x.cap > R.box).length,
+    perfect: L.filter(x => x.perfect).length,
+    combos: L.reduce((a, x) => a + x.combos.length, 0),
+    res: L.filter(x => x.residual).length,
+    empty: L.filter(x => x.empty).length,
+    red: L.filter(x => x.base > 0).length,
+    eyes: L.reduce((a, x) => a + x.eyes, 0),
+    relFail: S.weeks.filter(w => !w.rel).length,
+    wasted: L.reduce((a, x) => a + x.wasted, 0),
+  };
+}
+/* ENGINE END */
+
+// ── 小工具 ───────────────────────────────────────────
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(a) {
+  return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+const hash = s => { let h = 2166136261; for (const ch of s) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
+const hexRgb = h => { const n = parseInt(h.slice(1), 16); return `${n >> 16},${(n >> 8) & 255},${n & 255}`; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+// 台上臉、布的顏色：唱紅、念墨、做土、打金、家中牌素
+const FCOL = { sing: '#a8243a', speak: '#2b2427', act: '#8f6338', fight: '#b8913f', home: '#e6ddcf' };
+const SKIN = 0xf2e8de;
+
+// ── 卡面（2D，畫在 canvas 上；手牌和 3D 桌上的牌用同一張）────────
+const CW = 300, CH = 450;
+const STOCK = {
+  stage: { base: '#9b1d23', edge: '#4f0c11', line: '#160f12', carve: '#efe2c8', hi: '#efe2c8', text: '#efe2c8' },
+  home: { base: '#ebe2d3', edge: '#b9ab95', line: '#1c1719', carve: '#ebe2d3', hi: '#a8202b', text: '#1c1719' },
+  dark: { base: '#17131a', edge: '#060407', line: '#ddd4c6', carve: '#17131a', hi: '#c33a44', text: '#ddd4c6' },
+};
+const SEALC = { sing: '#5f0d14', speak: '#1c1719', act: '#6e4a26', fight: '#8a6a24', care: '#a8202b', comp: '#a8202b', listen: '#a8202b', labor: '#a8202b', gift: '#a8202b', conflict: '#a8202b' };
+function rr(x, X, Y, w, h, r) { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+// 塔羅式缺角框
+function notch(x, X, Y, w, h, r) {
+  x.beginPath(); x.moveTo(X + r, Y); x.lineTo(X + w - r, Y); x.arc(X + w, Y, r, Math.PI, Math.PI / 2, true);
+  x.lineTo(X + w, Y + h - r); x.arc(X + w, Y + h, r, Math.PI * 1.5, Math.PI, true);
+  x.lineTo(X + r, Y + h); x.arc(X, Y + h, r, 0, -Math.PI / 2, true);
+  x.lineTo(X, Y + r); x.arc(X, Y, r, Math.PI / 2, 0, true); x.closePath();
+}
+function bez(x, p) { x.beginPath(); x.moveTo(p[0][0], p[0][1]); x.bezierCurveTo(p[1][0], p[1][1], p[2][0], p[2][1], p[3][0], p[3][1]); x.stroke(); }
+function wrapText(x, text, X, Y, maxW, lh) {
+  let line = '', y = Y;
+  for (const ch of text) {
+    if (x.measureText(line + ch).width > maxW && line) { x.fillText(line, X, y); line = ch; y += lh; } else line += ch;
+  }
+  if (line) x.fillText(line, X, y);
+  return y;
+}
+function tassel(x, X, Y, len, col) {
+  x.strokeStyle = col; x.lineWidth = 1.6;
+  for (let i = -2; i <= 2; i++) { x.beginPath(); x.moveTo(X, Y); x.quadraticCurveTo(X + i * 2, Y + len * 0.5, X + i * 3.5, Y + len); x.stroke(); }
+  x.fillStyle = col; x.beginPath(); x.arc(X, Y, 3.5, 0, Math.PI * 2); x.fill();
+}
+// 木刻風的主圖：墨填滿，再用卡底色刻出白線
+const EMBLEM = {
+  sing(x, cx, cy, s, P) { // 摺扇與聲紋
+    x.strokeStyle = P.line; x.lineWidth = 3;
+    for (let i = 0; i < 3; i++) { x.beginPath(); x.arc(cx, cy + s * 0.5, s * (1.08 + i * 0.15), Math.PI * 1.22, Math.PI * 1.78); x.stroke(); }
+    const px = cx, py = cy + s * 0.55, R = s * 0.98, a0 = Math.PI * 1.13, a1 = Math.PI * 1.87;
+    x.fillStyle = P.line; x.beginPath(); x.moveTo(px, py); x.arc(px, py, R, a0, a1); x.closePath(); x.fill();
+    x.strokeStyle = P.carve; x.lineWidth = 2;
+    for (let i = 0; i <= 12; i++) { const a = a0 + (a1 - a0) * i / 12; x.beginPath(); x.moveTo(px + Math.cos(a) * R * 0.28, py + Math.sin(a) * R * 0.28); x.lineTo(px + Math.cos(a) * R * 0.95, py + Math.sin(a) * R * 0.95); x.stroke(); }
+    x.lineWidth = 3; x.beginPath(); x.arc(px, py, R * 0.6, a0 + 0.06, a1 - 0.06); x.stroke();
+    x.lineWidth = 1.5; x.beginPath(); x.arc(px, py, R * 0.86, a0 + 0.04, a1 - 0.04); x.stroke();
+    // 扇面上的雲紋
+    for (let i = 0; i < 3; i++) { const a = a0 + (a1 - a0) * (0.25 + i * 0.25), r0 = R * 0.73; x.beginPath(); x.arc(px + Math.cos(a) * r0, py + Math.sin(a) * r0, 6, 0, Math.PI * 1.6); x.stroke(); }
+    x.fillStyle = P.carve; x.beginPath(); x.arc(px, py, 6, 0, Math.PI * 2); x.fill();
+    tassel(x, px, py + 6, 42, P.carve);
+  },
+  speak(x, cx, cy, s, P) { // 卷軸與醒木
+    const w = s * 0.92, h = s * 1.45, r = rng(5);
+    x.fillStyle = P.carve; x.fillRect(cx - w / 2, cy - h / 2, w, h);
+    x.strokeStyle = P.line; x.lineWidth = 1.5; x.strokeRect(cx - w / 2 + 6, cy - h / 2 + 8, w - 12, h - 16);
+    x.lineCap = 'round';
+    for (let i = 0; i < 4; i++) {
+      const lx = cx + w * 0.3 - i * w * 0.2;
+      for (let j = 0; j < 6; j++) { const y0 = cy - h / 2 + 20 + j * (h - 40) / 6; x.lineWidth = 3 + r() * 2; x.beginPath(); x.moveTo(lx + (r() - 0.5) * 3, y0); x.lineTo(lx + (r() - 0.5) * 3, y0 + 8 + r() * 8); x.stroke(); }
+    }
+    x.fillStyle = P.line; x.fillRect(cx - w / 2 - 12, cy - h / 2 - 12, w + 24, 13); x.fillRect(cx - w / 2 - 12, cy + h / 2 - 1, w + 24, 13);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => { x.beginPath(); x.arc(cx + a * (w / 2 + 14), cy + b * (h / 2 + 5.5), 7, 0, Math.PI * 2); x.fill(); });
+    x.fillStyle = '#a8202b'; x.fillRect(cx - w / 2 + 12, cy + h / 2 - 34, 18, 18);
+  },
+  act(x, cx, cy, s, P) { // 水袖
+    const band = (p, w) => { x.lineCap = 'round'; x.strokeStyle = P.line; x.lineWidth = w; bez(x, p); x.strokeStyle = P.carve; x.lineWidth = w * 0.5; bez(x, p); x.strokeStyle = P.line; x.lineWidth = 1.6; bez(x, p); };
+    band([[cx - s * 0.6, cy + s * 0.85], [cx - s * 1.05, cy - s * 0.1], [cx + s * 0.75, cy + s * 0.2], [cx + s * 0.25, cy - s * 0.95]], 24);
+    band([[cx + s * 0.62, cy + s * 0.9], [cx + s * 1.05, cy - s * 0.05], [cx - s * 0.6, cy - s * 0.05], [cx - s * 0.3, cy - s * 0.9]], 17);
+    x.fillStyle = P.line; x.beginPath(); x.ellipse(cx, cy + s * 0.95, s * 0.7, s * 0.16, 0, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = P.carve; x.lineWidth = 2; x.beginPath(); x.ellipse(cx, cy + s * 0.95, s * 0.55, s * 0.08, 0, 0, Math.PI * 2); x.stroke();
+  },
+  fight(x, cx, cy, s, P) { // 靠旗與雙槍
+    x.fillStyle = P.line; x.beginPath(); x.moveTo(cx, cy - s * 0.95); x.lineTo(cx - s * 0.58, cy + s * 0.15); x.lineTo(cx + s * 0.58, cy + s * 0.15); x.closePath(); x.fill();
+    x.strokeStyle = P.carve; x.lineWidth = 2; x.beginPath(); x.moveTo(cx, cy - s * 0.78); x.lineTo(cx - s * 0.44, cy + s * 0.06); x.lineTo(cx + s * 0.44, cy + s * 0.06); x.closePath(); x.stroke();
+    for (let i = 0; i < 4; i++) { x.beginPath(); x.arc(cx, cy - s * 0.18 + i * 0.0, 6 + i * 6, Math.PI * 1.1, Math.PI * 1.9); x.stroke(); }
+    const spear = (x0, y0, x1, y1) => {
+      x.strokeStyle = P.line; x.lineWidth = 7; x.lineCap = 'round'; x.beginPath(); x.moveTo(x0, y0); x.lineTo(x1, y1); x.stroke();
+      x.strokeStyle = P.carve; x.lineWidth = 1.6; x.beginPath(); x.moveTo(x0, y0); x.lineTo(x1, y1); x.stroke();
+      const a = Math.atan2(y1 - y0, x1 - x0), L = s * 0.32;
+      x.fillStyle = P.line; x.beginPath(); x.moveTo(x1 + Math.cos(a) * L, y1 + Math.sin(a) * L); x.lineTo(x1 + Math.cos(a + 1.9) * 12, y1 + Math.sin(a + 1.9) * 12); x.lineTo(x1 + Math.cos(a - 1.9) * 12, y1 + Math.sin(a - 1.9) * 12); x.closePath(); x.fill();
+      tassel(x, x1 - Math.cos(a) * 6, y1 - Math.sin(a) * 6, 26, P.carve);
+    };
+    spear(cx - s * 0.9, cy + s * 1.0, cx + s * 0.62, cy - s * 0.72);
+    spear(cx + s * 0.9, cy + s * 1.0, cx - s * 0.62, cy - s * 0.72);
+  },
+  care(x, cx, cy, s, P) { // 一碗熱湯
+    x.strokeStyle = P.line; x.lineWidth = 3; x.lineCap = 'round';
+    for (let i = -1; i <= 1; i++) bez(x, [[cx + i * s * 0.3, cy - s * 0.15], [cx + i * s * 0.3 - 14, cy - s * 0.45], [cx + i * s * 0.3 + 14, cy - s * 0.6], [cx + i * s * 0.3, cy - s * 0.95]]);
+    x.fillStyle = P.line; x.beginPath(); x.moveTo(cx - s * 0.9, cy); x.bezierCurveTo(cx - s * 0.85, cy + s * 0.75, cx + s * 0.85, cy + s * 0.75, cx + s * 0.9, cy); x.closePath(); x.fill();
+    x.fillRect(cx - s * 0.32, cy + s * 0.58, s * 0.64, s * 0.14);
+    x.fillStyle = P.carve; x.beginPath(); x.ellipse(cx, cy, s * 0.9, s * 0.17, 0, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = P.line; x.lineWidth = 2.5; x.stroke();
+    x.fillStyle = 'rgba(120,70,40,.5)'; x.beginPath(); x.ellipse(cx, cy + 2, s * 0.72, s * 0.1, 0, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = P.carve; x.lineWidth = 2;
+    for (let i = 0; i < 5; i++) { x.beginPath(); x.arc(cx - s * 0.5 + i * s * 0.25, cy + s * 0.32, 7, Math.PI, 0); x.stroke(); }
+  },
+  comp(x, cx, cy, s, P) { // 一根竹竿挑兩盞燈
+    x.strokeStyle = P.line; x.lineWidth = 4; x.beginPath(); x.moveTo(cx - s, cy - s * 0.85); x.lineTo(cx + s, cy - s * 0.95); x.stroke();
+    [-0.45, 0.45].forEach((d, i) => {
+      const lx = cx + d * s, ly = cy + s * 0.05 + i * 6;
+      x.lineWidth = 1.5; x.beginPath(); x.moveTo(lx, cy - s * 0.88 - i * 4); x.lineTo(lx, ly - s * 0.52); x.stroke();
+      x.fillStyle = P.line; x.fillRect(lx - 14, ly - s * 0.56, 28, 9); x.fillRect(lx - 14, ly + s * 0.47, 28, 9);
+      x.fillStyle = '#a8202b'; x.beginPath(); x.ellipse(lx, ly, s * 0.36, s * 0.5, 0, 0, Math.PI * 2); x.fill();
+      x.strokeStyle = P.line; x.lineWidth = 2.5; x.stroke();
+      x.lineWidth = 1.4; for (let k = -2; k <= 2; k++) { x.beginPath(); x.ellipse(lx, ly, Math.abs(k) * s * 0.09 + 0.5, s * 0.5, 0, 0, Math.PI * 2); x.stroke(); }
+      tassel(x, lx, ly + s * 0.56, 26, P.line);
+    });
+  },
+  listen(x, cx, cy, s, P) { // 月下靜水
+    x.fillStyle = P.line; x.beginPath(); x.arc(cx, cy - s * 0.35, s * 0.55, 0, Math.PI * 2); x.fill();
+    x.fillStyle = P.base; x.beginPath(); x.arc(cx + s * 0.22, cy - s * 0.48, s * 0.5, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = P.line;
+    for (let i = 0; i < 4; i++) { x.lineWidth = 3 - i * 0.5; x.beginPath(); x.ellipse(cx, cy + s * 0.62, s * (0.25 + i * 0.22), s * (0.06 + i * 0.05), 0, 0, Math.PI * 2); x.stroke(); }
+    x.fillStyle = '#a8202b'; x.beginPath(); x.arc(cx - s * 0.75, cy + s * 0.15, 5, 0, Math.PI * 2); x.fill();
+  },
+  labor(x, cx, cy, s, P) { // 燈骨與竹篾
+    x.strokeStyle = P.line; x.lineWidth = 3.5;
+    x.beginPath(); x.ellipse(cx, cy, s * 0.62, s * 0.85, 0, 0, Math.PI * 2); x.stroke();
+    x.lineWidth = 2; for (let k = 1; k <= 3; k++) { x.beginPath(); x.ellipse(cx, cy, s * 0.62 * (1 - k * 0.27), s * 0.85, 0, 0, Math.PI * 2); x.stroke(); }
+    [-0.5, 0, 0.5].forEach(d => { x.beginPath(); x.ellipse(cx, cy + d * s * 0.85, s * 0.62 * Math.sqrt(1 - d * d), s * 0.08, 0, 0, Math.PI * 2); x.stroke(); });
+    x.fillStyle = '#a8202b'; x.globalAlpha = 0.85; x.beginPath(); x.moveTo(cx, cy - s * 0.85); x.bezierCurveTo(cx + s * 0.5, cy - s * 0.7, cx + s * 0.62, cy - s * 0.2, cx + s * 0.6, cy + s * 0.05); x.lineTo(cx, cy + s * 0.05); x.closePath(); x.fill(); x.globalAlpha = 1;
+    x.fillStyle = P.line; x.fillRect(cx - 16, cy - s * 0.98, 32, 10); x.fillRect(cx - 16, cy + s * 0.86, 32, 10);
+  },
+  conflict(x, cx, cy, s, P) { // 裂開的碗
+    x.strokeStyle = P.line; x.lineWidth = 3;
+    x.beginPath(); x.moveTo(cx - s * 0.9, cy); x.bezierCurveTo(cx - s * 0.85, cy + s * 0.75, cx + s * 0.85, cy + s * 0.75, cx + s * 0.9, cy); x.stroke();
+    x.beginPath(); x.ellipse(cx, cy, s * 0.9, s * 0.17, 0, 0, Math.PI * 2); x.stroke();
+    x.strokeStyle = P.hi; x.lineWidth = 4; x.beginPath(); x.moveTo(cx + s * 0.05, cy - s * 0.2); x.lineTo(cx - s * 0.08, cy + s * 0.1); x.lineTo(cx + s * 0.1, cy + s * 0.28); x.lineTo(cx - s * 0.04, cy + s * 0.58); x.stroke();
+    x.fillStyle = P.line; for (let i = 0; i < 3; i++) { x.beginPath(); x.moveTo(cx + s * (0.6 + i * 0.12), cy + s * (0.5 + i * 0.1)); x.lineTo(cx + s * (0.68 + i * 0.12), cy + s * (0.62 + i * 0.1)); x.lineTo(cx + s * (0.56 + i * 0.12), cy + s * (0.64 + i * 0.1)); x.fill(); }
+  },
+  gift(x, cx, cy, s, P) { // 絹花
+    x.strokeStyle = P.line; x.lineWidth = 3; bez(x, [[cx, cy + s * 0.1], [cx - s * 0.1, cy + s * 0.5], [cx + s * 0.1, cy + s * 0.7], [cx - s * 0.05, cy + s]]);
+    for (let i = 0; i < 5; i++) {
+      const a = -Math.PI / 2 + i * Math.PI * 2 / 5;
+      x.save(); x.translate(cx + Math.cos(a) * s * 0.3, cy - s * 0.25 + Math.sin(a) * s * 0.3); x.rotate(a + Math.PI / 2);
+      x.fillStyle = '#a8202b'; x.beginPath(); x.ellipse(0, 0, s * 0.2, s * 0.32, 0, 0, Math.PI * 2); x.fill(); x.strokeStyle = P.line; x.lineWidth = 2; x.stroke(); x.restore();
+    }
+    x.fillStyle = P.line; x.beginPath(); x.arc(cx, cy - s * 0.25, s * 0.1, 0, Math.PI * 2); x.fill();
+  },
+};
+function drawCard(t) {
+  const tp = T[t], f = tp.f, st = isStage(f), P = st ? STOCK.stage : f === 'conflict' ? STOCK.dark : STOCK.home;
+  const c = document.createElement('canvas'); c.width = CW * 2; c.height = CH * 2;
+  const x = c.getContext('2d'); x.scale(2, 2);
+  const r = rng(hash(t));
+  rr(x, 0, 0, CW, CH, 16); x.fillStyle = P.base; x.fill();
+  x.save(); rr(x, 0, 0, CW, CH, 16); x.clip();
+  // 布紋
+  x.globalAlpha = 0.07; x.strokeStyle = P.line; x.lineWidth = 0.6;
+  for (let i = 0; i < CH; i += 3) { x.beginPath(); x.moveTo(0, i + r()); x.lineTo(CW, i + r()); x.stroke(); }
+  for (let i = 0; i < CW; i += 3) { x.beginPath(); x.moveTo(i + r(), 0); x.lineTo(i + r(), CH); x.stroke(); }
+  x.globalAlpha = 1;
+  // 家中牌：水墨暈染；演戲牌：漆面暗角
+  if (!st && f !== 'conflict') for (let i = 0; i < 6; i++) { const X = r() * CW, Y = r() * CH, R = 60 + r() * 120, g = x.createRadialGradient(X, Y, 0, X, Y, R); g.addColorStop(0, `rgba(60,52,54,${0.05 + r() * 0.12})`); g.addColorStop(1, 'rgba(60,52,54,0)'); x.fillStyle = g; x.fillRect(0, 0, CW, CH); }
+  const vg = x.createRadialGradient(CW / 2, CH / 2, CH * 0.25, CW / 2, CH / 2, CH * 0.7); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, st ? 'rgba(30,4,8,.45)' : 'rgba(80,60,40,.25)'); x.fillStyle = vg; x.fillRect(0, 0, CW, CH);
+  // 磨損的邊
+  x.fillStyle = P.edge;
+  for (let i = 0; i < 70; i++) {
+    const side = Math.floor(r() * 4), p = r(), w = 3 + r() * 9, d = 1 + r() * 5;
+    if (side === 0) x.fillRect(p * CW, 0, w, d); else if (side === 1) x.fillRect(p * CW, CH - d, w, d); else if (side === 2) x.fillRect(0, p * CH, d, w); else x.fillRect(CW - d, p * CH, d, w);
+  }
+  x.restore();
+  // 框
+  x.strokeStyle = st ? P.hi : P.line; x.lineWidth = 2.5; notch(x, 14, 14, CW - 28, CH - 28, 20); x.stroke();
+  x.lineWidth = 1; notch(x, 21, 21, CW - 42, CH - 42, 16); x.stroke();
+  // 主圖
+  EMBLEM[f](x, CW / 2 - 8, CH * 0.43, 82, P);
+  // 族印（左上）
+  x.fillStyle = SEALC[f]; x.beginPath(); x.arc(46, 50, 19, 0, Math.PI * 2); x.fill();
+  x.strokeStyle = st ? P.hi : P.line; x.lineWidth = 1.5; x.beginPath(); x.arc(46, 50, 23, 0, Math.PI * 2); x.stroke();
+  x.fillStyle = '#efe2c8'; x.font = `${FAM[f].n.length > 1 ? 15 : 24}px "Ma Shan Zheng", serif`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText(FAM[f].n.length > 1 ? FAM[f].n : FAM[f].n, 46, 51);
+  // 數值：方孔錢
+  x.textBaseline = 'alphabetic';
+  if (st) {
+    x.strokeStyle = P.hi; x.lineWidth = 2; x.beginPath(); x.arc(38, 96, 9, 0, Math.PI * 2); x.stroke(); x.strokeRect(34.5, 92.5, 7, 7);
+    x.fillStyle = P.text; x.font = '26px "Ma Shan Zheng", serif'; x.textAlign = 'left'; x.fillText(String(gT(t)), 52, 105);
+  }
+  let by = st ? 124 : 92;
+  const badge = (txt, col) => { x.fillStyle = col; x.fillRect(31, by, 30, 20); x.fillStyle = '#efe2c8'; x.font = '12px "Noto Serif SC", serif'; x.textAlign = 'center'; x.fillText(txt, 46, by + 14.5); by += 26; };
+  if (slotsT(t) === 2) badge('2位', '#1c1719');
+  if (tp.sig) badge('招', '#a8202b');
+  if (tp.ex) badge('专', '#8a6a24');
+  // 牌名：直排
+  x.fillStyle = P.text; x.font = '34px "Ma Shan Zheng", serif'; x.textAlign = 'center';
+  [...tp.n].forEach((ch, i) => x.fillText(ch, CW - 46, 66 + i * 36));
+  // 說明框：招牌牌多一行，框高一點
+  const bx = 30, bw = CW - 60, bh = tp.sig ? 112 : 90, by0 = CH - 42 - bh;
+  x.fillStyle = st ? 'rgba(20,6,9,.62)' : f === 'conflict' ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.5)'; x.fillRect(bx, by0, bw, bh);
+  x.strokeStyle = st ? P.hi : P.line; x.lineWidth = 1; x.strokeRect(bx, by0, bw, bh);
+  x.fillStyle = st ? P.hi : P.line; x.font = '12px "Noto Serif SC", serif'; x.textAlign = 'left';
+  if (st) {
+    x.fillText(`台上金 ${gT(t)} · ${FAM[f].heavy ? '重层' : '轻层'}`, bx + 10, by0 + 20);
+    x.font = '11.5px "Noto Serif SC", serif';
+    let y = by0 + 40;
+    if (tp.sig) y = wrapText(x, `招牌　${SIG[tp.sig]}`, bx + 10, y, bw - 20, 17) + 20;
+    wrapText(x, `残留　${FAM[f].res}`, bx + 10, y, bw - 20, 17);
+  } else {
+    const m = FAM[f].match;
+    x.font = '13px "Noto Serif SC", serif'; x.fillText(`${FAM[f].n}${m ? `　对路：${m}` : ''}`, bx + 10, by0 + 22);
+    x.font = '11.5px "Noto Serif SC", serif';
+    const eff = (tp.eff || FAM[f].eff) + (m ? '；对路时主效果 +1' : '') + (f === 'gift' ? `（${R.giftCost} 金箔）` : '');
+    wrapText(x, eff, bx + 10, by0 + 44, bw - 20, 17);
+  }
+  // 右下角倒置的族字
+  x.save(); x.translate(CW - 30, CH - 28); x.rotate(Math.PI); x.fillStyle = st ? P.hi : P.line; x.font = '16px "Ma Shan Zheng", serif'; x.textAlign = 'center'; x.fillText(GLYPH[f], 0, 6); x.restore();
+  return c;
+}
+function drawBack() {
+  const c = document.createElement('canvas'); c.width = CW * 2; c.height = CH * 2;
+  const x = c.getContext('2d'); x.scale(2, 2);
+  rr(x, 0, 0, CW, CH, 16); x.fillStyle = '#120e11'; x.fill();
+  x.strokeStyle = '#a8202b'; x.lineWidth = 3; notch(x, 14, 14, CW - 28, CH - 28, 20); x.stroke();
+  x.lineWidth = 1; notch(x, 22, 22, CW - 44, CH - 44, 16); x.stroke();
+  const cx = CW / 2, cy = CH / 2;
+  x.fillStyle = '#7d1219'; x.beginPath(); x.arc(cx, cy, 118, 0, Math.PI * 2); x.fill();
+  x.strokeStyle = '#120e11'; x.lineWidth = 2;
+  for (let i = 0; i < 24; i++) { const a = i * Math.PI / 12; x.beginPath(); x.moveTo(cx + Math.cos(a) * 52, cy + Math.sin(a) * 52); x.lineTo(cx + Math.cos(a) * 118, cy + Math.sin(a) * 118); x.stroke(); }
+  [118, 96, 74, 52].forEach((R, i) => { x.lineWidth = i ? 1.5 : 3; x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.stroke(); });
+  x.fillStyle = '#efe2c8';
+  for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6 + 0.13; x.beginPath(); x.arc(cx + Math.cos(a) * 85, cy + Math.sin(a) * 85, 4, 0, Math.PI * 2); x.fill(); }
+  x.fillStyle = '#a8202b'; x.beginPath(); x.arc(cx, cy, 40, 0, Math.PI * 2); x.fill();
+  x.strokeStyle = '#efe2c8'; x.lineWidth = 1.5; x.stroke();
+  x.fillStyle = '#efe2c8'; x.font = '44px "Ma Shan Zheng", serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('底', cx, cy + 3);
+  return c;
+}
+const cardCache = {};
+function cardArt(t) {
+  if (!cardCache[t]) { const c = drawCard(t); cardCache[t] = { c, url: c.toDataURL('image/png') }; }
+  return cardCache[t];
+}
+
+// ── 臉（鏡子、手邊小像、3D 頭上的貼圖共用）──────────────
+const ZONES = [
+  [[-0.42, -0.06, 0.36, 0.3], [0.42, -0.06, 0.36, 0.3]],
+  [[-0.52, 0.28, 0.3, 0.3], [0.52, 0.28, 0.3, 0.3]],
+  [[0, -0.6, 0.55, 0.22]],
+  [[0, 0.06, 0.15, 0.48]],
+  [[0, 0.74, 0.58, 0.28]],
+  [[0, 0.02, 0.95, 1.15]],
+];
+function eye(x, ex, ey, r, d, mode, painted) {
+  const outer = ex + d * r, inner = ex - d * r;
+  x.strokeStyle = '#140f13'; x.fillStyle = '#140f13'; x.lineCap = 'round';
+  if (mode === 'closed' || mode === 'down') {
+    x.lineWidth = r * 0.3; x.beginPath(); x.moveTo(inner, ey); x.quadraticCurveTo(ex, ey + r * (mode === 'down' ? 0.5 : 0.3), outer, ey - r * 0.08); x.stroke();
+    if (mode === 'down') { x.lineWidth = r * 0.1; for (let i = 0; i < 4; i++) { const px = inner + (outer - inner) * (0.3 + i * 0.18), py = ey + r * 0.32; x.beginPath(); x.moveTo(px, py); x.lineTo(px + d * r * 0.05, py + r * 0.22); x.stroke(); } }
+    return;
+  }
+  if (painted) {
+    x.fillStyle = '#f7f1ea'; x.beginPath(); x.ellipse(ex, ey - r * 0.08, r * 1.15, r * 0.62, 0, 0, Math.PI * 2); x.fill();
+    x.fillStyle = '#140f13'; x.lineWidth = r * 0.26; x.beginPath(); x.moveTo(outer, ey - r * 0.12); x.lineTo(ex + d * r * 1.55, ey - r * 0.6); x.stroke();
+  }
+  x.lineWidth = r * 0.26; x.beginPath(); x.moveTo(inner, ey); x.quadraticCurveTo(ex, ey - r * 0.62, outer, ey - r * 0.12); x.quadraticCurveTo(ex, ey + r * 0.45, inner, ey); x.stroke();
+  x.beginPath(); x.arc(ex + d * r * 0.05, ey - r * 0.1, r * 0.36, 0, Math.PI * 2); x.fill();
+  x.fillStyle = '#f7f1ea'; x.beginPath(); x.arc(ex + d * r * 0.12, ey - r * 0.2, r * 0.08, 0, Math.PI * 2); x.fill();
+  x.fillStyle = '#140f13'; x.beginPath(); x.moveTo(outer, ey - r * 0.12); x.lineTo(ex + d * r * 1.3, ey - r * 0.38); x.stroke();
+}
+function paintFace(x, cx, cy, s, o) {
+  const L = o.layers || [], painted = L.length > 0;
+  L.forEach((ly, i) => {
+    const z = ZONES[Math.min(i, ZONES.length - 1)], top = i === L.length - 1;
+    x.globalAlpha = top ? 0.85 : 0.5; x.fillStyle = FCOL[ly.f];
+    z.forEach(([dx, dy, rx, ry]) => { x.beginPath(); x.ellipse(cx + dx * s, cy + dy * s, rx * s, ry * s, 0, 0, Math.PI * 2); x.fill(); });
+  });
+  x.globalAlpha = 1;
+  if (!painted) { x.fillStyle = 'rgba(214,120,128,.22)'; [-1, 1].forEach(d => { x.beginPath(); x.ellipse(cx + d * s * 0.5, cy + s * 0.28, s * 0.22, s * 0.14, 0, 0, Math.PI * 2); x.fill(); }); }
+  x.strokeStyle = '#140f13'; x.lineCap = 'round'; x.lineWidth = s * (painted ? 0.075 : 0.05);
+  [-1, 1].forEach(d => { x.beginPath(); x.moveTo(cx + d * s * 0.17, cy - s * 0.27); x.quadraticCurveTo(cx + d * s * 0.42, cy - s * (painted ? 0.5 : 0.41), cx + d * s * 0.68, cy - s * (painted ? 0.54 : 0.31)); x.stroke(); });
+  [-1, 1].forEach(d => eye(x, cx + d * s * 0.4, cy - s * 0.06, s * 0.2, d, o.eyes || 'open', painted));
+  x.lineWidth = s * 0.02; x.strokeStyle = '#6a5a5c'; x.beginPath(); x.moveTo(cx + s * 0.03, cy + s * 0.06); x.lineTo(cx - s * 0.03, cy + s * 0.33); x.quadraticCurveTo(cx, cy + s * 0.37, cx + s * 0.06, cy + s * 0.34); x.stroke();
+  const my = cy + s * 0.6, mw = s * 0.2;
+  x.fillStyle = painted ? '#4e0a10' : '#b3202b';
+  x.beginPath(); x.moveTo(cx - mw, my); x.quadraticCurveTo(cx - mw * 0.5, my - s * 0.08, cx, my - s * 0.03); x.quadraticCurveTo(cx + mw * 0.5, my - s * 0.08, cx + mw, my);
+  x.quadraticCurveTo(cx, my + s * (o.smile ? 0.12 : 0.09), cx - mw, my); x.fill();
+  if (o.smile) { x.strokeStyle = '#7a3a3e'; x.lineWidth = s * 0.012; [-1, 1].forEach(d => { x.beginPath(); x.moveTo(cx + d * mw, my); x.lineTo(cx + d * mw * 1.25, my - s * 0.04); x.stroke(); }); }
+  if (o.who === 'wife') { x.fillStyle = '#b3202b'; x.beginPath(); x.moveTo(cx, cy - s * 0.58); x.quadraticCurveTo(cx + s * 0.05, cy - s * 0.5, cx, cy - s * 0.44); x.quadraticCurveTo(cx - s * 0.05, cy - s * 0.5, cx, cy - s * 0.58); x.fill(); }
+}
+// 鏡中與手邊的小像：髮、臉、台上臉
+function drawPortrait(cv, o) {
+  const x = cv.getContext('2d'), W = cv.width, H = cv.height, cx = W / 2, cy = H * 0.55, s = W * 0.3;
+  x.clearRect(0, 0, W, H);
+  if (o.bg) { const g = x.createRadialGradient(cx, cy, 0, cx, cy, W * 0.6); g.addColorStop(0, o.bg[0]); g.addColorStop(1, o.bg[1]); x.fillStyle = g; x.fillRect(0, 0, W, H); }
+  x.fillStyle = '#151115'; x.beginPath(); x.ellipse(cx, cy - s * 0.15, s * 1.15, s * 1.4, 0, 0, Math.PI * 2); x.fill();
+  x.beginPath(); x.arc(cx, cy - s * 1.45, s * 0.42, 0, Math.PI * 2); x.fill();
+  x.save(); x.beginPath(); x.ellipse(cx, cy, s * 0.92, s * 1.18, 0, 0, Math.PI * 2); x.clip();
+  x.fillStyle = '#f2e8de'; x.fillRect(0, 0, W, H);
+  paintFace(x, cx, cy, s, o);
+  if (o.base) { x.globalAlpha = Math.min(0.85, 0.15 + o.base * 0.06); x.fillStyle = '#a8243a'; x.beginPath(); x.ellipse(cx - s * 0.3, cy - s * 1.05, s * 0.8, s * 0.35, 0, 0, Math.PI * 2); x.fill(); x.globalAlpha = 1; }
+  x.restore();
+  x.fillStyle = '#151115'; x.beginPath(); x.ellipse(cx, cy - s * 1.0, s * 0.98, s * 0.42, 0, Math.PI, Math.PI * 2); x.fill();
+  x.strokeStyle = '#151115'; x.lineWidth = Math.max(1.5, W / 120); x.beginPath(); x.ellipse(cx, cy, s * 0.92, s * 1.18, 0, 0, Math.PI * 2); x.stroke();
+}
+// 3D 頭上的貼圖：球面會把字拉寬，先橫向壓回去
+function drawSphereFace(cv, o) {
+  const x = cv.getContext('2d'), W = cv.width;
+  x.fillStyle = '#f2e8de'; x.fillRect(0, 0, W, W);
+  x.save(); x.translate(W / 2, 0); x.scale(0.74, 1); x.translate(-W / 2, 0);
+  paintFace(x, W / 2, W * 0.47, W * 0.3, o);
+  x.restore();
+}
+
+/* ──────────────── 3D ──────────────── */
+let glOK = !!window.THREE, renderer, scene, camera, clock, grad, sets = {}, cur = null, tweens = [], wife = null, actor = null;
+let towel = null, mirrorTex = null, mirrorCv = null, boxStack = null, rope = null, lanterns = [], lampPatches = [], lampLight = null, played3D = [];
+let gold3D = null, rain = null, haze = null, pointer = { x: 0, y: 0 }, backTex = null, cardTexCache = {}, camLook = null, lookNow = null;
+const V = (a, b, c) => new THREE.Vector3(a, b, c);
+function canvasTex(w, h, draw) { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; }
+const toon = (color, map, side) => new THREE.MeshToonMaterial({ color, map: map || null, gradientMap: grad, side: side || THREE.FrontSide });
+function outline(w) {
+  return new THREE.ShaderMaterial({ uniforms: { w: { value: w } }, side: THREE.BackSide,
+    vertexShader: 'uniform float w; void main(){ vec3 p = position + normal * w; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }',
+    fragmentShader: 'void main(){ gl_FragColor = vec4(0.07, 0.055, 0.06, 1.0); }' });
+}
+function inked(mesh, w = 0.007) { mesh.add(new THREE.Mesh(mesh.geometry, outline(w))); return mesh; }
+const box = (w, h, d, m) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+const plane = (w, h, m) => new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
+function softDot() {
+  const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64);
+  return new THREE.CanvasTexture(c);
+}
+function washTex(w, h, base, ink, seed, extra) {
+  return canvasTex(w, h, (x) => {
+    x.fillStyle = base; x.fillRect(0, 0, w, h);
+    const r = rng(seed);
+    for (let i = 0; i < 26; i++) { const X = r() * w, Y = r() * h, R = (0.08 + r() * 0.3) * w, g = x.createRadialGradient(X, Y, 0, X, Y, R); g.addColorStop(0, `rgba(${ink},${0.05 + r() * 0.16})`); g.addColorStop(1, `rgba(${ink},0)`); x.fillStyle = g; x.fillRect(0, 0, w, h); }
+    if (extra) extra(x, w, h, r);
+  });
+}
+function landscape(x, w, h, r) {
+  // 遠山
+  [[0.62, 0.22, '90,84,88'], [0.72, 0.3, '60,54,58']].forEach(([base, amp, ink]) => {
+    x.fillStyle = `rgba(${ink},.55)`; x.beginPath(); x.moveTo(0, h);
+    for (let i = 0; i <= 40; i++) { const px = i / 40 * w; x.lineTo(px, h * base - Math.abs(Math.sin(i * 0.37 + base * 9)) * h * amp - r() * 10); }
+    x.lineTo(w, h); x.closePath(); x.fill();
+  });
+  // 紅日
+  x.fillStyle = 'rgba(168,32,43,.9)'; x.beginPath(); x.arc(w * 0.78, h * 0.2, h * 0.07, 0, Math.PI * 2); x.fill();
+  // 松枝
+  x.strokeStyle = 'rgba(25,20,22,.85)'; x.lineWidth = 9; x.lineCap = 'round';
+  x.beginPath(); x.moveTo(-10, h * 0.12); x.bezierCurveTo(w * 0.15, h * 0.05, w * 0.25, h * 0.2, w * 0.38, h * 0.1); x.stroke();
+  x.lineWidth = 1.4;
+  for (let i = 0; i < 160; i++) { const t = r(), px = t * w * 0.38, py = h * 0.12 - Math.sin(t * 3) * h * 0.04; const a = r() * Math.PI * 2, L = 10 + r() * 16; x.beginPath(); x.moveTo(px, py); x.lineTo(px + Math.cos(a) * L, py + Math.sin(a) * L); x.stroke(); }
+  // 垂下的紅花
+  for (let i = 0; i < 18; i++) { const px = w * (0.04 + r() * 0.34), len = h * (0.1 + r() * 0.3); x.strokeStyle = 'rgba(40,50,44,.6)'; x.lineWidth = 1; x.beginPath(); x.moveTo(px, h * 0.12); x.lineTo(px + r() * 6, h * 0.12 + len); x.stroke(); x.fillStyle = 'rgba(176,40,52,.75)'; for (let k = 0; k < 6; k++) { x.beginPath(); x.arc(px + r() * 6, h * 0.12 + len * r(), 2 + r() * 2.5, 0, Math.PI * 2); x.fill(); } }
+}
+function robeTex(o) {
+  return canvasTex(512, 512, (x, w, h) => {
+    x.fillStyle = o.robe; x.fillRect(0, 0, w, h);
+    const r = rng(o.seed);
+    for (let i = 0; i < 34; i++) {
+      const px = r() * w, py = r() * h * 0.9, rad = 10 + r() * 18;
+      x.strokeStyle = o.pat; x.globalAlpha = 0.45; x.lineWidth = 1.4;
+      for (let k = 0; k < 5; k++) { const a = k * Math.PI * 2 / 5; x.beginPath(); x.ellipse(px + Math.cos(a) * rad * 0.5, py + Math.sin(a) * rad * 0.5, rad * 0.45, rad * 0.28, a, 0, Math.PI * 2); x.stroke(); }
+      if (o.petal) { x.fillStyle = o.petal; x.globalAlpha = 0.35; x.beginPath(); x.arc(px, py, rad * 0.35, 0, Math.PI * 2); x.fill(); }
+    }
+    x.globalAlpha = 1; x.fillStyle = o.hem; x.fillRect(0, h * 0.94, w, h * 0.06); x.fillRect(0, 0, w, h * 0.03);
+  });
+}
+const POSES = {
+  idle: { pitch: 0, yaw: 0, lean: 0, aL: [0.12, -0.14], aR: [0.12, 0.14] },
+  seat: { pitch: 0.05, yaw: 0, lean: 0.04, aL: [-0.85, -0.12], aR: [-0.85, 0.12] },
+  sing: { pitch: -0.24, lean: -0.05, aL: [-0.5, -1.15], aR: [-0.5, 1.15] },
+  speak: { pitch: 0.02, lean: 0.06, aR: [-1.35, 0.3] },
+  act: { pitch: -0.08, aL: [-0.95, -0.55], aR: [-0.25, 1.75] },
+  fight: { pitch: 0.06, lean: 0.24, aL: [-1.5, -0.25], aR: [-1.65, 0.25] },
+  bow: { pitch: 0.35, lean: 0.26, aL: [-0.6, -0.1], aR: [-0.6, 0.1] },
+  reach: { pitch: 0.14, lean: 0.12, aR: [-1.45, -0.08] },
+  up: { pitch: -0.14, lean: 0.03 },
+  down: { pitch: 0.42, lean: 0.02 },
+  none: { pitch: 0.07 },
+  lean: { pitch: 0.04, lean: 0.14, aL: [-0.5, -0.2], aR: [-0.5, 0.2] },
+};
+function makeFigure(o) {
+  const root = new THREE.Group(), body = new THREE.Group(); root.add(body);
+  const map = robeTex(o), robeM = toon(0xffffff, map), sleeveM = toon(0xffffff, map, THREE.DoubleSide);
+  const prof = [[0.36, 0], [0.31, 0.2], [0.25, 0.5], [0.2, 0.78], [0.175, 0.97], [0.19, 1.12], [0.18, 1.26], [0.13, 1.35], [0.07, 1.4], [0.02, 1.42]].map(([a, b]) => new THREE.Vector2(a, b));
+  body.add(inked(new THREE.Mesh(new THREE.LatheGeometry(prof, 36), robeM), 0.008));
+  const sash = new THREE.Mesh(new THREE.CylinderGeometry(0.183, 0.18, 0.07, 32, 1, true), toon(o.sash, null, THREE.DoubleSide)); sash.position.y = 0.97; body.add(sash);
+  const ribbons = [];
+  if (o.ribbons) [-0.06, 0.05].forEach(dx => { const rb = new THREE.Mesh(new THREE.PlaneGeometry(0.028, 0.62), toon(o.sash, null, THREE.DoubleSide)); rb.position.set(dx, 0.64, 0.19); body.add(rb); ribbons.push(rb); });
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.048, 0.12, 16), toon(SKIN)); neck.position.y = 1.45; body.add(neck);
+  const head = new THREE.Group(); head.position.y = 1.55; body.add(head);
+  const sc = V(0.9, 1.1, 0.96), hair = toon(0x151115);
+  const skull = new THREE.Mesh(new THREE.SphereGeometry(0.105, 32, 24), toon(SKIN)); skull.scale.copy(sc); head.add(inked(skull, 0.005));
+  const faceCv = document.createElement('canvas'); faceCv.width = faceCv.height = 512;
+  const faceTex = new THREE.CanvasTexture(faceCv);
+  const face = new THREE.Mesh(new THREE.SphereGeometry(0.1063, 32, 24, Math.PI * 0.08, Math.PI * 0.84, Math.PI * 0.18, Math.PI * 0.62), toon(0xffffff, faceTex)); face.scale.copy(sc); head.add(face);
+  const back = new THREE.Mesh(new THREE.SphereGeometry(0.113, 32, 20, Math.PI, Math.PI, 0, Math.PI * 0.8), hair); back.scale.copy(sc); head.add(inked(back, 0.005));
+  const cap = new THREE.Mesh(new THREE.SphereGeometry(0.1125, 32, 10, 0, Math.PI * 2, 0, Math.PI * (o.headdress ? 0.29 : 0.33)), hair); cap.scale.copy(sc); head.add(cap);
+  const bun = new THREE.Mesh(new THREE.SphereGeometry(0.064, 20, 16), hair); bun.position.set(0, 0.125, -0.05); head.add(inked(bun, 0.005));
+  const longHair = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.05, 0.5, 14, 1, true), toon(0x151115, null, THREE.DoubleSide)); longHair.position.set(0, -0.22, -0.07); head.add(longHair);
+  if (o.pin) {
+    const pin = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.22, 6), toon(0xb8913f)); pin.rotation.z = 1.2; pin.position.set(0, 0.13, -0.05); head.add(pin);
+    [-0.02, 0.02].forEach(dx => { const rb = new THREE.Mesh(new THREE.PlaneGeometry(0.018, 0.55), toon(0xa8202b, null, THREE.DoubleSide)); rb.position.set(0.07 + dx, -0.12, -0.04); head.add(rb); ribbons.push(rb); });
+  }
+  if (o.headdress) {
+    const pearl = toon(0xf4efe6), ruby = toon(0xb3202b);
+    for (let i = 0; i < 17; i++) { const a = Math.PI * (0.05 + i * 0.9 / 16); const p = new THREE.Mesh(new THREE.SphereGeometry(i % 4 === 0 ? 0.016 : 0.011, 10, 8), i % 4 === 0 ? ruby : pearl); p.position.set(-Math.cos(a) * 0.11, 0.075 + Math.sin(a) * 0.035, Math.sin(a) * 0.075); head.add(p); }
+    const jewel = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 10), ruby); jewel.position.set(0, 0.105, 0.085); head.add(jewel);
+    [-1, 1].forEach(d => { for (let k = 0; k < 5; k++) { const p = new THREE.Mesh(new THREE.SphereGeometry(0.008, 8, 6), pearl); p.position.set(d * 0.105, 0.02 - k * 0.032, 0.02); head.add(p); } });
+  }
+  const arms = [-1, 1].map(side => {
+    const sh = new THREE.Group(); sh.position.set(0.165 * side, 1.31, 0); body.add(sh);
+    const len = 0.52, sg = new THREE.CylinderGeometry(0.048, o.cuff, len, 18, 1, true); sg.translate(0, -len / 2, 0);
+    sh.add(inked(new THREE.Mesh(sg, sleeveM), 0.005));
+    const hand = new THREE.Mesh(new THREE.SphereGeometry(0.028, 12, 10), toon(SKIN)); hand.scale.set(0.8, 1.25, 0.6); hand.position.y = -len + 0.01; sh.add(hand);
+    let ws = null;
+    if (o.waterSleeve) {
+      const g = new THREE.PlaneGeometry(0.15, 0.85, 1, 14); g.translate(0, -0.42, 0);
+      const m = new THREE.Mesh(g, toon(0xf3ede3, null, THREE.DoubleSide)); m.position.y = -len; sh.add(m);
+      ws = { m, base: Float32Array.from(g.attributes.position.array) };
+    }
+    return { sh, ws, side };
+  });
+  const st = { pitch: 0, yaw: 0, lean: 0, aL: [0.12, -0.14], aR: [0.12, 0.14] };
+  const tg = { ...st, aL: [...st.aL], aR: [...st.aR] };
+  let blinkAt = 2 + Math.random() * 3, blinkEnd = 0, resetTimer = null;
+  const fig = {
+    root, head, base: 'idle', expr: { eyes: 'open', smile: false }, layers: [], who: o.who,
+    pose(name) {
+      const B = POSES[this.base], P = POSES[name] || {};
+      tg.pitch = P.pitch ?? B.pitch ?? 0; tg.yaw = P.yaw ?? B.yaw ?? 0; tg.lean = P.lean ?? B.lean ?? 0;
+      tg.aL = [...(P.aL || B.aL || POSES.idle.aL)]; tg.aR = [...(P.aR || B.aR || POSES.idle.aR)];
+    },
+    turn(yaw) { tg.yaw = yaw; },
+    redraw() { drawSphereFace(faceCv, { who: o.who, layers: this.layers, eyes: blinkEnd > 0 ? 'closed' : this.expr.eyes, smile: this.expr.smile }); faceTex.needsUpdate = true; },
+    setLayers(L) { this.layers = L.map(l => ({ f: l.f })); this.redraw(); },
+    perform(f) { this.pose(f); clearTimeout(resetTimer); resetTimer = setTimeout(() => this.pose('idle'), 1200); },
+    react(k) {
+      this.expr = k === 'up' ? { eyes: 'open', smile: true } : k === 'down' ? { eyes: 'down', smile: false } : { eyes: 'open', smile: false };
+      this.pose(k === 'up' ? 'up' : k === 'down' ? 'down' : 'none'); this.redraw();
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { this.expr = { eyes: 'open', smile: false }; this.pose(this.base); this.redraw(); }, 2400);
+    },
+    update(dt, t) {
+      const k = 1 - Math.exp(-dt * 6);
+      st.pitch += (tg.pitch - st.pitch) * k; st.yaw += (tg.yaw - st.yaw) * k; st.lean += (tg.lean - st.lean) * k;
+      for (let i = 0; i < 2; i++) { st.aL[i] += (tg.aL[i] - st.aL[i]) * k; st.aR[i] += (tg.aR[i] - st.aR[i]) * k; }
+      head.rotation.x = st.pitch + Math.sin(t * 1.3) * 0.015; head.rotation.y = st.yaw * 0.25;
+      root.rotation.y = st.yaw; body.rotation.x = st.lean; body.position.y = Math.sin(t * 1.6) * 0.004;
+      arms[0].sh.rotation.set(st.aL[0], 0, st.aL[1] + Math.sin(t * 1.1) * 0.02);
+      arms[1].sh.rotation.set(st.aR[0], 0, st.aR[1] - Math.sin(t * 1.1) * 0.02);
+      arms.forEach(a => {
+        if (!a.ws) return;
+        const p = a.ws.m.geometry.attributes.position, b = a.ws.base;
+        for (let i = 0; i < p.count; i++) { const y = b[i * 3 + 1]; p.setZ(i, b[i * 3 + 2] + Math.sin(t * 3 + y * 7 + a.side) * 0.09 * -y); p.setX(i, b[i * 3] + Math.sin(t * 2 + y * 5) * 0.03 * -y); }
+        p.needsUpdate = true;
+      });
+      ribbons.forEach((rb, i) => { rb.rotation.x = Math.sin(t * 1.4 + i) * 0.08; rb.rotation.z = Math.sin(t * 0.9 + i * 2) * 0.05; });
+      if (o.who === 'wife' && root.visible) {
+        if (blinkEnd > 0 && t > blinkEnd) { blinkEnd = 0; this.redraw(); }
+        else if (blinkEnd === 0 && t > blinkAt) { if (this.expr.eyes === 'open' && !calm()) { blinkEnd = t + 0.13; this.redraw(); } blinkAt = t + 2.5 + Math.random() * 3; }
+      }
+    },
+  };
+  fig.pose('idle'); fig.redraw();
+  return fig;
+}
+function candle(g, x0, y0, z0) {
+  const c = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.025, 0.14, 12), toon(0xefe6d6)); c.position.set(x0, y0 + 0.07, z0); g.add(inked(c, 0.004));
+  const fl = new THREE.Sprite(new THREE.SpriteMaterial({ map: softDot(), color: 0xffb35a, blending: THREE.AdditiveBlending, depthWrite: false })); fl.scale.set(0.07, 0.11, 1); fl.position.set(x0, y0 + 0.17, z0); g.add(fl);
+  const L = new THREE.PointLight(0xffb066, 1.1, 3.2, 2); L.position.set(x0, y0 + 0.25, z0); g.add(L);
+  return { fl, L };
+}
+function cardTex(t) {
+  if (!cardTexCache[t]) cardTexCache[t] = new THREE.CanvasTexture(cardArt(t).c);
+  return cardTexCache[t];
+}
+function cardMesh(t) {
+  const edge = new THREE.MeshLambertMaterial({ color: 0x2a1a1c });
+  const front = new THREE.MeshLambertMaterial({ map: cardTex(t) }), back = new THREE.MeshLambertMaterial({ map: backTex });
+  return new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.003), [edge, edge, edge, edge, front, back]);
+}
+
+function buildDress() {
+  const g = new THREE.Group();
+  const wall = plane(4.6, 2.4, new THREE.MeshLambertMaterial({ map: washTex(1024, 540, '#d9d0c2', '40,34,36', 11, landscape) })); wall.position.set(0, 1.45, -0.95); g.add(wall);
+  const floor = plane(8, 8, toon(0x241b1e)); floor.rotation.x = -Math.PI / 2; g.add(floor);
+  const lac = toon(0x3d1a1c);
+  const top = box(1.6, 0.06, 0.72, lac); top.position.set(0, 0.76, 0.02); g.add(inked(top, 0.006));
+  [[-0.72, -0.28], [0.72, -0.28], [-0.72, 0.3], [0.72, 0.3]].forEach(([a, b]) => { const l = box(0.06, 0.73, 0.06, lac); l.position.set(a, 0.365, b); g.add(l); });
+  mirrorCv = document.createElement('canvas'); mirrorCv.width = mirrorCv.height = 320; mirrorTex = new THREE.CanvasTexture(mirrorCv);
+  const mirror = new THREE.Mesh(new THREE.CircleGeometry(0.27, 48), new THREE.MeshLambertMaterial({ map: mirrorTex, emissive: 0x222222 })); mirror.position.set(0, 1.2, -0.3); g.add(mirror);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.024, 10, 48), toon(0xb8913f)); rim.position.copy(mirror.position); g.add(inked(rim, 0.004));
+  const stand = box(0.05, 0.42, 0.05, toon(0xb8913f)); stand.position.set(0, 0.99, -0.37); g.add(stand);
+  // 妝匣：紅漆、金邊、蓋子掀開
+  const lacR = toon(0x7d1219);
+  const base = box(0.36, 0.13, 0.25, lacR); base.position.set(-0.46, 0.855, 0.12); g.add(inked(base, 0.005));
+  const goldM = toon(0xb8913f); [[0, 0.125, 0.37, 0.012], [0, -0.125, 0.37, 0.012], [0.18, 0, 0.012, 0.25], [-0.18, 0, 0.012, 0.25]].forEach(([dx, dz, w, d]) => { const b = box(w, 0.014, d, goldM); b.position.set(-0.46 + dx, 0.922, 0.12 + dz); g.add(b); });
+  const lid = new THREE.Group(); lid.position.set(-0.46, 0.925, -0.005); g.add(lid);
+  const lidM = box(0.36, 0.035, 0.25, lacR); lidM.position.set(0, 0.0175, 0.125); lid.add(inked(lidM, 0.005)); lid.rotation.x = -1.95;
+  const seal = new THREE.Mesh(new THREE.CircleGeometry(0.035, 24), toon(0xb8913f)); seal.position.set(0, 0.036, 0.125); seal.rotation.x = -Math.PI / 2; lid.add(seal);
+  boxStack = new THREE.Group(); boxStack.position.set(-0.46, 0.925, 0.12); g.add(boxStack);
+  const cd = candle(g, 0.5, 0.79, -0.08);
+  // 晾繩（夜裡）
+  rope = new THREE.Group(); g.add(rope);
+  const line = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 3, 6), toon(0x8b7f6a)); line.rotation.z = Math.PI / 2; line.position.set(0, 1.61, -0.62); rope.add(line);
+  rope.userData.cloths = new THREE.Group(); rope.add(rope.userData.cloths);
+  const hemi = new THREE.HemisphereLight(0xf3ece2, 0x2a2226, 0.85); g.add(hemi);
+  const key = new THREE.DirectionalLight(0xfff1dc, 0.6); key.position.set(-2, 3, 2); g.add(key);
+  return { g, cam: { pos: V(0, 1.3, 1.28), look: V(0, 1.04, -0.15) }, hemi, key, cd, bg: 0xcfc6b8 };
+}
+function curtain(w, h, color, seed) {
+  const geo = new THREE.PlaneGeometry(w, h, 36, 1), p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) p.setZ(i, Math.sin(p.getX(i) * 9 + seed) * 0.07 + Math.sin(p.getX(i) * 23) * 0.02);
+  geo.computeVertexNormals();
+  return new THREE.Mesh(geo, toon(color, null, THREE.DoubleSide));
+}
+function maskTex(i) {
+  const pal = [['#b3202b', '#140f13'], ['#140f13', '#efe6d6'], ['#efe6d6', '#b3202b'], ['#b8913f', '#140f13'], ['#3c6762', '#efe6d6'], ['#7d1219', '#b8913f']][i % 6];
+  return canvasTex(128, 160, (x, w, h) => {
+    x.fillStyle = pal[0]; x.beginPath(); x.ellipse(w / 2, h / 2, w * 0.42, h * 0.46, 0, 0, Math.PI * 2); x.fill();
+    x.fillStyle = pal[1]; [-1, 1].forEach(d => { x.beginPath(); x.ellipse(w / 2 + d * 22, h * 0.45, 16, 10, d * 0.4, 0, Math.PI * 2); x.fill(); });
+    x.beginPath(); x.moveTo(w / 2, h * 0.12); x.lineTo(w / 2 + 10, h * 0.34); x.lineTo(w / 2 - 10, h * 0.34); x.fill();
+    x.fillStyle = '#f7f1ea'; [-1, 1].forEach(d => { x.beginPath(); x.ellipse(w / 2 + d * 22, h * 0.46, 6, 4, 0, 0, Math.PI * 2); x.fill(); });
+    x.strokeStyle = pal[1]; x.lineWidth = 4; x.beginPath(); x.arc(w / 2, h * 0.72, 16, 0.2, Math.PI - 0.2); x.stroke();
+  });
+}
+function buildStage() {
+  const g = new THREE.Group(); g.position.x = 20;
+  const boards = canvasTex(512, 256, (x, w, h) => { x.fillStyle = '#4a2c1c'; x.fillRect(0, 0, w, h); x.strokeStyle = 'rgba(0,0,0,.45)'; x.lineWidth = 2; for (let i = 0; i < w; i += 32) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, h); x.stroke(); } });
+  const plat = box(6.4, 0.8, 3.4, toon(0xffffff, boards)); plat.position.set(0, 0.4, -0.4); g.add(plat);
+  const wall = plane(8, 5, new THREE.MeshLambertMaterial({ map: washTex(512, 320, '#3b1a18', '10,6,8', 21) })); wall.position.set(0, 2.6, -2.05); g.add(wall);
+  for (let i = 0; i < 6; i++) { const m = plane(0.36, 0.45, new THREE.MeshLambertMaterial({ map: maskTex(i), transparent: true })); m.position.set(-1.75 + i * 0.7, 3.0, -2.02); g.add(m); }
+  // 掛著的戲服
+  for (let i = 0; i < 7; i++) { const c = box(0.34, 0.9, 0.02, toon([0x7d1219, 0x2e4256, 0xd9d4cc, 0x151115][i % 4])); c.position.set(-2.1 + i * 0.7, 2.05, -2.0); g.add(c); }
+  const cL = curtain(2.3, 4.6, 0xa01d24, 1), cR = curtain(2.3, 4.6, 0xa01d24, 3);
+  cL.position.set(-2.55, 2.7, 0.95); cR.position.set(2.55, 2.7, 0.95); g.add(cL, cR);
+  const val = curtain(7.4, 0.8, 0x8a1820, 5); val.position.set(0, 4.75, 0.98); g.add(val);
+  lanterns = [-1.3, 0, 1.3].map(dx => {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(0.16, 20, 16), new THREE.MeshBasicMaterial({ color: 0x4a1414 })); m.scale.y = 1.25; m.position.set(dx, 3.55, 0.45); g.add(inked(m, 0.01));
+    const capT = box(0.12, 0.04, 0.12, toon(0x151115)); capT.position.set(dx, 3.77, 0.45); g.add(capT);
+    return m;
+  });
+  const spot = new THREE.SpotLight(0xffe0b0, 2.4, 14, 0.36, 0.55, 1.4); spot.position.set(0, 6.5, 3.2); spot.target.position.set(0, 1, -0.2); g.add(spot, spot.target);
+  const beamMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, uniforms: { c: { value: new THREE.Color(0xffd7a0) } },
+    vertexShader: 'varying float vy; void main(){ vy = uv.y; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: 'uniform vec3 c; varying float vy; void main(){ gl_FragColor = vec4(c, 0.14 * vy * vy); }' });
+  const beam = new THREE.Mesh(new THREE.ConeGeometry(1.25, 6.6, 32, 1, true), beamMat); beam.position.set(0, 3.5, 1.4); beam.rotation.x = -0.27; g.add(beam);
+  actor = makeFigure({ who: 'actor', robe: '#f3ede3', pat: '#5d7a62', petal: '#d99aa4', hem: '#a8202b', sash: 0xa8202b, cuff: 0.13, seed: 9, waterSleeve: true, headdress: true });
+  actor.root.position.set(0, 0.8, -0.25); g.add(actor.root);
+  const dark = new THREE.MeshBasicMaterial({ color: 0x070506 });
+  [[-2.45, 4.4, 0.78], [-1.85, 4.9, 0.7], [1.9, 4.8, 0.72], [2.5, 4.3, 0.8]].forEach(([x0, z0, s]) => {
+    const hd = new THREE.Mesh(new THREE.SphereGeometry(0.17 * s, 16, 12), dark); hd.position.set(x0, 1.05 * s + 0.2, z0); g.add(hd);
+    const sh = new THREE.Mesh(new THREE.SphereGeometry(0.3 * s, 16, 12), dark); sh.scale.set(1.2, 0.8, 0.8); sh.position.set(x0, 0.62 * s, z0); g.add(sh);
+  });
+  const n = 220, pos = new Float32Array(n * 3), r = rng(4);
+  for (let i = 0; i < n; i++) { pos[i * 3] = (r() - 0.5) * 4; pos[i * 3 + 1] = 0.8 + r() * 4; pos[i * 3 + 2] = -1 + r() * 3.5; }
+  const hg = new THREE.BufferGeometry(); hg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  haze = new THREE.Points(hg, new THREE.PointsMaterial({ size: 0.05, map: softDot(), color: 0xffe2b8, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending })); g.add(haze);
+  const gn = 260, gp = new Float32Array(gn * 3);
+  const gg = new THREE.BufferGeometry(); gg.setAttribute('position', new THREE.BufferAttribute(gp, 3));
+  gold3D = new THREE.Points(gg, new THREE.PointsMaterial({ size: 0.06, color: 0xd9b25a, transparent: true, opacity: 0.95, depthWrite: false })); gold3D.visible = false; gold3D.userData.v = new Float32Array(gn); g.add(gold3D);
+  g.add(new THREE.HemisphereLight(0x6b4a3a, 0x0a0608, 0.55));
+  return { g, cam: { pos: V(20, 1.75, 6.3), look: V(20, 1.55, -0.4) }, bg: 0x0d0a0c };
+}
+function buildDoor() {
+  const g = new THREE.Group(); g.position.x = 40;
+  const wallM = new THREE.MeshLambertMaterial({ map: washTex(512, 512, '#3a383d', '8,8,12', 31, (x, w, h, r) => { x.strokeStyle = 'rgba(0,0,0,.25)'; for (let i = 0; i < 30; i++) { x.lineWidth = 1 + r() * 2; x.beginPath(); const px = r() * w; x.moveTo(px, 0); x.lineTo(px + r() * 20 - 10, h); x.stroke(); } }) });
+  const wl = plane(3.4, 3.4, wallM); wl.position.set(-2.25, 1.7, 0); const wr = wl.clone(); wr.position.x = 2.25; const wt = plane(1.1, 1.3, wallM); wt.position.set(0, 2.75, 0); g.add(wl, wr, wt);
+  const wood = toon(0x2a1a14);
+  const pL = box(0.09, 2.2, 0.12, wood); pL.position.set(-0.6, 1.1, 0.02); const pR = pL.clone(); pR.position.x = 0.6; const lin = box(1.38, 0.12, 0.14, wood); lin.position.set(0, 2.16, 0.02);
+  [pL, pR, lin].forEach(m => g.add(inked(m, 0.006)));
+  const leaf = new THREE.Group(); leaf.position.set(-0.55, 0, -0.02); const lm = box(0.55, 2.06, 0.05, toon(0x3a2418)); lm.position.set(0.275, 1.03, 0); leaf.add(inked(lm, 0.005)); leaf.rotation.y = 1.15; g.add(leaf);
+  g.userData.leaf = leaf;
+  const inside = plane(1.25, 2.15, new THREE.MeshBasicMaterial({ color: 0x6e4a26 })); inside.position.set(0, 1.07, -0.9); g.add(inside);
+  const inL = new THREE.PointLight(0xffb066, 1.3, 4, 2); inL.position.set(0, 1.6, -0.5); g.add(inL);
+  const lan = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 16), new THREE.MeshBasicMaterial({ map: canvasTex(256, 128, (x, w, h) => { x.fillStyle = '#c8402c'; x.fillRect(0, 0, w, h); x.fillStyle = 'rgba(255,190,120,.35)'; x.fillRect(0, h * 0.3, w, h * 0.4); x.strokeStyle = 'rgba(60,10,8,.7)'; x.lineWidth = 3; for (let i = 0; i < w; i += 16) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, h); x.stroke(); } x.fillStyle = '#b8913f'; x.fillRect(0, 0, w, 10); x.fillRect(0, h - 10, w, 10); x.fillStyle = '#1a1114'; x.font = 'bold 54px serif'; x.textAlign = 'center'; x.fillText('檀', w * 0.25, h * 0.68); x.fillText('檀', w * 0.75, h * 0.68); }) })); lan.scale.y = 1.25; lan.position.set(0.95, 2.35, 0.25); g.add(inked(lan, 0.01));
+  const lanL = new THREE.PointLight(0xff6a40, 1.5, 5, 2); lanL.position.set(0.95, 2.2, 0.5); g.add(lanL);
+  const eave = box(4.5, 0.18, 0.6, toon(0x151115)); eave.position.set(0, 3.42, 0.25); g.add(eave);
+  const ground = plane(10, 10, new THREE.MeshPhongMaterial({ color: 0x0e0e13, shininess: 90, specular: 0x554433 })); ground.rotation.x = -Math.PI / 2; g.add(ground);
+  const n = 520, pos = new Float32Array(n * 6), r = rng(8);
+  for (let i = 0; i < n; i++) { const x0 = (r() - 0.5) * 6, y0 = r() * 4, z0 = -0.2 + r() * 4; pos.set([x0, y0, z0, x0 - 0.01, y0 - 0.16, z0], i * 6); }
+  const rg = new THREE.BufferGeometry(); rg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  rain = new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: 0x8a94a8, transparent: true, opacity: 0.45 })); g.add(rain);
+  g.add(new THREE.HemisphereLight(0x55607a, 0x0a0a10, 0.6));
+  return { g, cam: { pos: V(40, 1.55, 3.4), look: V(40, 1.35, 0) }, bg: 0x0a0a10 };
+}
+function buildHome() {
+  const g = new THREE.Group(); g.position.x = 60;
+  const lattice = canvasTex(512, 320, (x, w, h) => { x.fillStyle = '#d9c8a6'; x.fillRect(0, 0, w, h); x.fillStyle = '#e8d9b8'; x.fillRect(w * 0.3, h * 0.12, w * 0.4, h * 0.6); x.strokeStyle = '#3a2418'; x.lineWidth = 6; x.strokeRect(w * 0.3, h * 0.12, w * 0.4, h * 0.6); x.lineWidth = 3; for (let i = 1; i < 6; i++) { x.beginPath(); x.moveTo(w * 0.3 + i * w * 0.4 / 6, h * 0.12); x.lineTo(w * 0.3 + i * w * 0.4 / 6, h * 0.72); x.stroke(); } for (let i = 1; i < 5; i++) { x.beginPath(); x.moveTo(w * 0.3, h * 0.12 + i * h * 0.6 / 5); x.lineTo(w * 0.7, h * 0.12 + i * h * 0.6 / 5); x.stroke(); } });
+  const wall = plane(4.2, 2.6, new THREE.MeshLambertMaterial({ map: lattice })); wall.position.set(0, 1.25, -1.45); g.add(wall);
+  const floor = plane(8, 8, toon(0x2c1f18)); floor.rotation.x = -Math.PI / 2; g.add(floor);
+  const tb = box(1.45, 0.07, 0.78, toon(0x3a2418)); tb.position.set(0, 0.385, 0.05); g.add(inked(tb, 0.006));
+  [[-0.65, -0.3], [0.65, -0.3], [-0.65, 0.35], [0.65, 0.35]].forEach(([a, b]) => { const l = box(0.06, 0.35, 0.06, toon(0x2a1a14)); l.position.set(a, 0.175, b); g.add(l); });
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.03, 0.055, 18), toon(0xf1ebe0)); cup.position.set(-0.32, 0.45, 0.2); g.add(inked(cup, 0.003));
+  const tea = new THREE.Mesh(new THREE.CircleGeometry(0.033, 18), toon(0x5a3a1a)); tea.rotation.x = -Math.PI / 2; tea.position.set(-0.32, 0.473, 0.2); g.add(tea);
+  // 燈骨：竹篾一圈圈，糊上的紙一片片加上去
+  const lamp = new THREE.Group(); lamp.position.set(0.52, 0.6, -0.3); lamp.scale.setScalar(0.8); g.add(lamp);
+  const bamboo = toon(0xb89a5a);
+  [-0.16, -0.08, 0, 0.08, 0.16].forEach(y => { const rr0 = 0.14 * Math.sqrt(1 - (y / 0.2) ** 2); const ring = new THREE.Mesh(new THREE.TorusGeometry(rr0, 0.004, 6, 32), bamboo); ring.rotation.x = Math.PI / 2; ring.position.y = y; lamp.add(ring); });
+  for (let i = 0; i < 8; i++) { const rib = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.0035, 6, 24, Math.PI), bamboo); rib.scale.x = 0.7; rib.rotation.set(0, i * Math.PI / 8, Math.PI / 2); lamp.add(rib); }
+  lampPatches = [];
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; const p = new THREE.Mesh(new THREE.SphereGeometry(0.142, 10, 8, a, Math.PI / 4, Math.PI * 0.18, Math.PI * 0.64), new THREE.MeshLambertMaterial({ color: 0xb3202b, emissive: 0x3a0606, transparent: true, opacity: 0.88, side: THREE.DoubleSide })); p.visible = false; lamp.add(p); lampPatches.push(p); }
+  lampLight = new THREE.PointLight(0xff7a4a, 0, 2.5, 2); lampLight.position.set(0.52, 0.62, -0.3); g.add(lampLight);
+  const cd = candle(g, -0.55, 0.42, -0.18);
+  g.add(new THREE.HemisphereLight(0x8a6a50, 0x140c0a, 0.55));
+  return { g, cam: { pos: V(60, 1.12, 1.18), look: V(60, 0.7, -0.3) }, cd, bg: 0x1a1210 };
+}
+function initGL() {
+  if (!glOK) return;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: $('#gl'), antialias: true });
+  } catch (e) { glOK = false; return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(innerWidth, innerHeight);
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.03, 80); scene.add(camera);
+  clock = new THREE.Clock();
+  const d = new Uint8Array([70, 70, 70, 150, 150, 150, 220, 220, 220, 255, 255, 255]);
+  grad = new THREE.DataTexture(d, 4, 1, THREE.RGBFormat); grad.minFilter = grad.magFilter = THREE.NearestFilter; grad.generateMipmaps = false; grad.needsUpdate = true;
+  backTex = new THREE.CanvasTexture(drawBack());
+  sets.dress = buildDress(); sets.stage = buildStage(); sets.door = buildDoor(); sets.home = buildHome();
+  Object.values(sets).forEach(s => { s.g.visible = false; scene.add(s.g); });
+  wife = makeFigure({ who: 'wife', robe: '#d6d1ca', pat: '#7a7478', hem: '#3a3236', sash: 0xa8202b, cuff: 0.11, seed: 5, ribbons: true, pin: true });
+  const tw = plane(0.5, 0.36, new THREE.MeshLambertMaterial({ map: canvasTex(256, 180, (x, w, h) => { x.fillStyle = '#f4efe6'; x.fillRect(0, 0, w, h); x.strokeStyle = '#cfc6b8'; x.lineWidth = 4; for (let i = 0; i < 6; i++) { x.beginPath(); x.moveTo(0, 20 + i * 28); x.quadraticCurveTo(w / 2, 10 + i * 28, w, 24 + i * 28); x.stroke(); } }), side: THREE.DoubleSide, transparent: true }));
+  towel = tw; towel.visible = false; camera.add(towel);
+  addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderSmear(); });
+  addEventListener('pointermove', e => { pointer.x = e.clientX / innerWidth - 0.5; pointer.y = e.clientY / innerHeight - 0.5; });
+  requestAnimationFrame(loop);
+}
+function tween(dur, fn) {
+  if (!glOK || calm()) { fn(1); return Promise.resolve(); }
+  return new Promise(res => tweens.push({ t: 0, dur: dur / 1000, fn, res }));
+}
+const ease = e => (e < 0.5 ? 2 * e * e : 1 - Math.pow(-2 * e + 2, 2) / 2);
+function loop() {
+  requestAnimationFrame(loop);
+  // 補間動畫按真實時間走：幀率低時不能跟著變慢，否則流程會等很久
+  const raw = clock.getDelta(), dt = Math.min(raw, 0.05), t = clock.elapsedTime;
+  for (let i = tweens.length - 1; i >= 0; i--) { const w = tweens[i]; w.t += Math.min(raw, 0.25); const k = Math.min(1, w.t / w.dur); w.fn(ease(k)); if (k >= 1) { tweens.splice(i, 1); w.res(); } }
+  if (cur) {
+    const c = sets[cur].cam, br = Math.sin(t * 0.7) * 0.01;
+    camera.position.set(c.pos.x + pointer.x * 0.12, c.pos.y + br - pointer.y * 0.06, c.pos.z);
+    const want = camLook || c.look;
+    if (!lookNow) lookNow = want.clone();
+    lookNow.lerp(want, 1 - Math.exp(-dt * 2.5));
+    camera.lookAt(lookNow);
+  }
+  wife?.update(dt, t); actor?.update(dt, t);
+  if (cur === 'door' && rain) { const p = rain.geometry.attributes.position; for (let i = 0; i < p.count; i += 2) { let y = p.getY(i) - dt * 6; if (y < 0) y += 4; p.setY(i, y); p.setY(i + 1, y - 0.16); } p.needsUpdate = true; }
+  if (cur === 'stage' && haze) { haze.rotation.y = Math.sin(t * 0.05) * 0.2; haze.position.y = Math.sin(t * 0.3) * 0.05; }
+  if (gold3D && gold3D.visible) { const p = gold3D.geometry.attributes.position, v = gold3D.userData.v; for (let i = 0; i < p.count; i++) p.setY(i, p.getY(i) - v[i] * dt); p.needsUpdate = true; }
+  Object.values(sets).forEach(s => { if (s.cd) { s.cd.fl.scale.y = 0.11 + Math.sin(t * 11) * 0.008; s.cd.L.intensity = s.cd.base * (0.92 + Math.sin(t * 13) * 0.05 + Math.sin(t * 7.3) * 0.03); } });
+  renderer.render(scene, camera);
+}
+// 切換場景：mood 是白天、夜裡或天剛亮
+function setScene(name, mood) {
+  if (!glOK) return;
+  Object.entries(sets).forEach(([k, s]) => { s.g.visible = k === name; });
+  cur = name; lookNow = null; camLook = null;
+  const s = sets[name];
+  let bg = s.bg;
+  if (name === 'dress') {
+    const m = { day: [0xcfc6b8, 0.85, 0.6, 0.6], night: [0x0d0a0c, 0.12, 0.05, 1.6], dawn: [0x7f8a94, 0.5, 0.25, 0.5] }[mood || 'day'];
+    bg = m[0]; s.hemi.intensity = m[1]; s.key.intensity = m[2]; s.cd.base = m[3]; s.cd.L.intensity = m[3];
+    rope.visible = mood === 'night';
+  }
+  if (s.cd && name !== 'dress') s.cd.base = 1.1;
+  scene.background = new THREE.Color(bg);
+  scene.fog = name === 'stage' ? new THREE.Fog(bg, 6, 14) : name === 'door' ? new THREE.Fog(bg, 3, 9) : name === 'home' ? new THREE.Fog(bg, 2.5, 6) : null;
+  if (wife.root.parent) wife.root.parent.remove(wife.root);
+  wife.root.visible = false;
+}
+function placeWife(name, pos, base, yaw = 0) {
+  if (!glOK) return;
+  sets[name].g.add(wife.root); wife.root.visible = true;
+  wife.root.position.copy(pos); wife.base = base; wife.expr = { eyes: 'open', smile: false }; wife.pose(base); wife.turn(yaw); wife.redraw();
+}
+async function walkWife(z, ms) { const z0 = wife.root.position.z; await tween(ms, k => { wife.root.position.z = z0 + (z - z0) * k; }); }
+function setBoxStack(n) {
+  if (!glOK) return;
+  while (boxStack.children.length) boxStack.remove(boxStack.children[0]);
+  const m = new THREE.MeshLambertMaterial({ map: backTex });
+  for (let i = 0; i < Math.ceil(n / 2); i++) { const c = new THREE.Mesh(new THREE.BoxGeometry(0.29, 0.005, 0.19), [m, m, m, m, m, m]); c.position.set((i % 2) * 0.004, -0.06 + i * 0.006, 0); c.rotation.y = (i % 3 - 1) * 0.03; boxStack.add(c); }
+}
+function updateMirror(base) {
+  if (!glOK || !S) return;
+  drawPortrait(mirrorCv, { who: 'you', layers: S.T.layers, eyes: 'open', base, bg: ['#8d9396', '#3b4044'] });
+  mirrorTex.needsUpdate = true;
+}
+function updateRope() {
+  if (!glOK || !S) return;
+  const g = rope.userData.cloths; while (g.children.length) g.remove(g.children[0]);
+  S.rope.forEach((e, i) => {
+    const m = plane(0.13, 0.2, new THREE.MeshBasicMaterial({ color: new THREE.Color(FCOL[e.f]).lerp(new THREE.Color(0x000000), 0.25), side: THREE.DoubleSide }));
+    m.position.set(-0.95 + i * 0.16, 1.5, -0.61); m.rotation.z = (i % 2 ? 1 : -1) * 0.05; g.add(m);
+  });
+}
+function updateLanterns() {
+  if (!glOK || !S) return;
+  lanterns.forEach((m, i) => { const done = S.T.plays.some(p => p.seg === i), curSeg = view === 'stage' && S.T.seg === i; m.material.color.setHex(curSeg ? 0xff5a3c : done ? 0xa8302a : 0x4a1414); });
+}
+function updateLamp() {
+  if (!glOK || !S) return;
+  // 燈進度 0–5 對到八片燈紙；點亮時全糊上
+  lampPatches.forEach((p, i) => { p.visible = i < Math.round(S.lamp * 8 / R.lampMax) || S.lit; });
+  lampLight.intensity = S.lit ? 1.6 : 0;
+}
+function goldRain() {
+  if (!glOK) return;
+  const p = gold3D.geometry.attributes.position, v = gold3D.userData.v, r = rng(Date.now() & 0xffff);
+  for (let i = 0; i < p.count; i++) { p.setXYZ(i, (r() - 0.5) * 4, 3 + r() * 3, -0.8 + r() * 2.5); v[i] = 0.8 + r() * 1.4; }
+  p.needsUpdate = true; gold3D.visible = true; setTimeout(() => { gold3D.visible = false; }, 3600);
+}
+function clear3DCards() { played3D.forEach(m => m.parent && m.parent.remove(m)); played3D = []; }
+function cardSpot(where, n) {
+  if (where === 'stage') { const seg = S.T.seg, k = S.T.plays.filter(p => p.seg === seg).length; return V(20 - 1.3 + seg * 1.3 - 0.3 + k * 0.3, 0.805, 0.95); }
+  return V(60 - 0.45 + n * 0.13, 0.425, 0.02);
+}
+async function spawnCard(t, worldPos, setName) {
+  if (!glOK) return;
+  const m = cardMesh(t), s = sets[setName].g, local = s.worldToLocal(worldPos.clone());
+  m.rotation.x = -Math.PI / 2; m.rotation.z = (Math.random() - 0.5) * 0.25; m.position.copy(local); if (setName === 'stage') m.scale.setScalar(2.2); m.position.y += 0.35; s.add(m); played3D.push(m);
+  const y0 = m.position.y;
+  await tween(320, k => { m.position.y = y0 - 0.35 * k; });
+}
+async function towelSwipe(color) {
+  if (!glOK) { await wait(300); return; }
+  towel.visible = true; towel.material.color = new THREE.Color(0xffffff).lerp(new THREE.Color(color), 0.35);
+  await tween(650, k => { towel.position.set(-0.55 + 1.1 * k, 0.05 - Math.sin(k * Math.PI) * 0.1, -0.42); towel.rotation.z = -0.4 + 0.8 * k; });
+  towel.visible = false;
+}
+
+/* ──────────────── 遊戲流程 ──────────────── */
+let S = null, view = 'title', busy = false, mode = null, panel = null, sheet = null, editDeck = false, lookOpen = false, draftName = '小满', saved = null;
+const PH = { morning: ['早', '装妆匣'], stage: ['台', '白天 · 戏台'], door: ['门', '门口'], evening: ['家', '傍晚 · 灯坊'], night: ['夜', '夜'], watch: ['更', '更夫'], week: ['考', '周考核'], end: ['终', '季末'] };
+const ACT_N = ['开锣', '借妆', '对镜', '元宵'];
+const DOW = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+const OTHERS = ['小凤', '金宝', '月仙', '玉楼', '小桃红'];
+const RULES = [
+  '一季四周、28 天。第 7、14、21 天夜里周考核；第 28 天先做第四次周考核，再季末结算。',
+  '早：选一出戏，再从卡组装妆匣（基础 15 位，最少 10 位）。演戏牌、家中牌各最多 9 位；打、共劳占 2 位。被看见 ≥4 时 +1；裂痕 ≥3、手伤 ≥2、底色 ≥3 各 −1；周考核掉两名，下一周每天 −1。',
+  '白天：照戏单三段（起、承、转）出演戏牌，每段最多 3 位。段里出了该族至少一张，这段就「对上」。随时可以进下一段，打过一张就能收场。每出一张，脸上多一层台上脸。',
+  '招牌特技（不掷骰）：甩袖长腔，本折第一张 +1；大段念白，已打出 3 张以上 +1；精准身段，紧接念 +1；武戏亮相，已打出唱 +2。',
+  '配合在收场时一次判定，白天不掷骰。整折：三段各一张，出牌顺序相邻，族都对上。搭档：相邻两张唱→念（对唱）或做→打（武身）。整折优先，每张牌只算一次。每个配合掷一颗骰：1–3 落空；4–5 搭档 +4、整折 +5；6 搭档 +10、整折 +8。熟练 6 级的族，骰点 +1。',
+  '收场：金箔＝台上金＋招牌＋配合。三段都对上，且至少一个配合掷到 4 以上，就是完美，全部 ×1.5。唱和打合计 ≥4 位，手伤 +1。剧本第一次三段都对上，多一张专属演戏卡。',
+  '门口：先掷心情骰（1–2 差，3–6 好）。心情好、安心 ≥2，她会替你擦：每天一次，最多 2 层，不耗牌，安心 −1。自己卸：从最上层掷骰，到抹淡线免费；没到就弃一张牌。抹淡线：唱、打要 6，念、做要 5–6；安心 ≥3 时各降 1。',
+  '进门：最上层的残留生效。唱：第一张家中牌打出后安心 −1；念：被看见 −1，当天倾听无效；做：底色 +1；打：裂痕 +1。',
+  '傍晚：看她的样子出家中牌。累→照顾，等→陪伴，忙→共劳，想说→倾听。对路的牌主效果 +1，她会抬眼；心情差时要再掷 4 以上才抬眼。同族一晚只算一次。礼物要花金箔。',
+  '事件：样子是累，她会端盘子。接：占 1 位，掷骰不大于手伤 +1 就失手（伤 +1、安心 −2、裂痕 +1），否则安心 +1。不接：安心 −1。样子是想说而你没出倾听：伤 +1，安心 −1。一张家中牌都没出是空宅：安心 −1。',
+  '夜：剩下的牌还能自己卸（同门口，不能被擦）。没卸掉的层，每层底色 +1。妆匣剩下的牌作废，明天回到卡组。手伤不会自己好。',
+  '破裂：安心 0、裂痕 3、伤 3，任一条。裂痕 4：门锁死，本季不能再被擦。伤只增不减。',
+  '她每一幕有一个藏起来的心愿。做到了，她会松一口气，右上角的心愿数 +1。',
+];
+const ASSUME = [
+  'v0.5 文件缺第十一至十七节。下面几项沿用 v0.4：周考核（业绩线 × 关系线，水牌名次 +2／+1／−1／−2；排名 +1 的那周，下周第一天脸上带一层上周的红）、季末四个结局（留白、头牌、素脸、更夫）、戏箱（每周 3 张，最多买 1 张）、熟练（同族每打出 3 次升 1 级）。',
+  '周考核业绩线 60／100／140／180 金箔：v0.5 的金箔比 v0.4 多，按模拟重订，待 playtest。关系线守住＝考核时没有破裂。季末关系崩盘＝季末时破裂。',
+  '文件提到「美满需伤 ≤1」，但结局那一节缺失，原型还没接上。',
+  '初始卡组 18 张：四张招牌；唱、念、做各两张，打一张；家中牌热汤、热毛巾、聊天、散步、沉默、缝线、绢花各一张。',
+  '戏箱卡、剧本专属卡的台上金比同族多 1。剧本「完成」＝三段都对上。每周两出戏和它们的专属卡，是原型自拟的。',
+  '大段念白的「已打出 ≥3 张」不算它自己。',
+  '自卸时每层只掷一次骰：没到抹淡线，这层就要弃牌才清得掉，夜里也不再掷。被擦一次清 2 层，不够 2 层就清完。',
+  '对路时主效果 +1 不看心情，心情只决定她抬不抬眼。前三幕的心愿看对路次数，第四幕看抬眼。',
+  '端盘「占 1 位」算在家中 9 位里。陪生日以一张陪伴牌计，占妆匣 1 位。加演夜场的金箔文件写「待定」，原型用 +6。礼物 5 金箔。',
+  '破裂按当下的数值判定：安心回到 1 以上，就不算破裂。',
+  '每幕的样子序列是原型自拟的：第一幕多等，第二幕多想说，第三幕多忙，第四幕多累。',
+  '教学日（第十七节）缺失：第一天只在每个时段多一句提示。',
+];
+const PENDING = [
+  '【待确认】玩家行当：原型固定唱二路，没有行当加成。',
+  '【待确认】元宵三选一（上台、回家点灯、替小凤代演）的效果：原型只记下你的选择，当天照常进行。',
+  '底色只增不减（文件标「待确认」）：原型里没有让底色减少的规则。',
+];
+const MORNING = {
+  1: '开锣。你刚升上二路，今天第一次自己装妆匣。',
+  8: '小凤病倒了，嗓子哑着。班主说这一周谁肯多唱，他都记着。',
+  11: '今天是阿檀的生日。班主问你，今晚能不能替小凤加演夜场。',
+  15: '班主说，这一周要选新的头牌。',
+  18: '今晚，后台的镜子会擦得很亮。',
+  22: '元宵快到了。阿檀的灯，还差几片纸。',
+  28: '元宵。最后一场戏、阿檀点灯、小凤托你替她上台，都撞在今天。',
+};
+const MORNING_ROT = ['街口的豆花摊开了，戏园门口的水牌还湿着。', '班主在后台点名，你的名字排在中间。', '阿檀天没亮就去了灯坊。', '戏园门口围了一圈人，在看昨天的水牌。', '你在镜子前坐了一会儿，才开始装妆匣。'];
+const TUTOR = {
+  morning: '教学日：先选今天唱哪出戏，再装妆匣。台上和家里，都只能从这一匣里拿。',
+  stage: '照戏单一段一段出牌，每段出一张对的族，这段就对上。唱接念、做接打会成配合，收场时才掷骰。',
+  door: '她心情好、肯擦，就让她擦。自己卸要掷骰，没到抹淡线就弃一张牌。',
+  evening: '看她的样子出牌：累给照顾，等给陪伴，忙给共劳，想说给倾听。对路，她会抬眼。',
+  night: '剩下的牌还能卸。没卸掉的，睡一觉就渗进底色。',
+};
+const DOOR_SAY = {
+  wipe: ['阿檀', '回来啦。擦一擦？'],
+  absent: ['', '门口没有人。屋里的灯亮着。'],
+  unwilling: ['', '她在门口看了你一眼，转身进去了。'],
+  locked: ['', '门从里面闩上了。'],
+};
+const RES_SAY = {
+  sing: ['你进门时，嗓子里还是台上的腔。', '唱的残留：第一张家中牌之后，安心 −1'],
+  speak: ['你进门时，说话还是念白的口气。', '念的残留：被看见 −1，今晚倾听无效'],
+  act: ['你进门时，身上还端着台上的身段。', '做的残留：底色 +1'],
+  fight: ['你进门时，拳头还攥着。', '打的残留：裂痕 +1'],
+};
+const LOOK_POSE = { 等: 'seat', 累: 'down', 忙: 'reach', 想说: 'lean' };
+const LOOK_TX = {
+  等: '她坐在桌边。饭摆好了，筷子还没动。',
+  累: '她靠着桌角坐着，灯纸搁在膝上。',
+  忙: '她低着头扎灯骨，手一直没停。',
+  想说: '你进门时，她抬头看了你一下。',
+};
+const NEED_TX = ['吃完饭，她拉着你多坐了一会儿，松了一口气。', '她把今天的事从头说了一遍，说完，松了一口气。', '你们一起糊完了一片纸。她看着灯骨，松了一口气。', '她把灯提到门口，点上了。'];
+const USED_N = { stage: '已演', home: '已出', clean: '成布' };
+const YUAN_N = { stage: '上台', lamp: '回家点灯', cover: '替小凤代演' };
+const ENDINGS = {
+  liubai: { name: '留白', cond: '业绩过线 · 关系守住', text: () => `元宵夜，你回到家门口。有人伸手接过你的毛巾。${S.lit ? '门口那盏灯亮着，是你们一起糊的。' : '灯骨还搁在桌上，纸没有糊完。'}` },
+  toupai: { name: '头牌', cond: '业绩过线 · 关系崩盘', text: () => '你的名字还挂在水牌上。回到家，门已经推不开了。你对着镜子擦脸，露出来的是戏台上那张。' },
+  suian: { name: '素脸', cond: '末位摘牌 · 关系守住', text: () => `摘牌那天，你素着脸回家。阿檀抬眼看你，认出了你。${S.lit ? '她把灯提到门口点上。' : ''}` },
+  gengfu: { name: '更夫', cond: '末位摘牌 · 关系崩盘', text: () => '春天，城里多了一个不上妆的更夫。你接过梆子，上面刻着一长串名字。' },
+};
+// 狀態圖示（第四節）：安心是疊起的熱毛巾、被看見是眼睛、裂痕是門縫、傷是繃帶、手傷是纏繃帶的手、燈是燈骨
+const ICON = {
+  calm: '<svg viewBox="0 0 16 16"><rect x="2" y="10.5" width="12" height="3.5" rx="1.6" fill="currentColor"/><rect x="3" y="6.5" width="10" height="3.5" rx="1.6" fill="currentColor" opacity=".75"/><path d="M5.5 5c0-1.2 1-1.2 1-2.6M8.5 5c0-1.2 1-1.2 1-2.6" stroke="currentColor" fill="none" stroke-width="1" stroke-linecap="round"/></svg>',
+  seen: '<svg viewBox="0 0 16 16"><path d="M1 8c2-3.6 4.5-5 7-5s5 1.4 7 5c-2 3.6-4.5 5-7 5S3 11.6 1 8z" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2.4" fill="currentColor"/></svg>',
+  rift: '<svg viewBox="0 0 16 16"><rect x="3" y="1.5" width="10" height="13" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8.3 1.5L6.8 5.6l2 2-2 3 1.4 3.9" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>',
+  hurt: '<svg viewBox="0 0 16 16"><rect x="1.5" y="5.5" width="13" height="5" rx="2.5" transform="rotate(-35 8 8)" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="8.6" r=".9" fill="currentColor"/><circle cx="9" cy="7.4" r=".9" fill="currentColor"/></svg>',
+  hand: '<svg viewBox="0 0 16 16"><path d="M4.3 15V8.6L3 6c-.5-1 .9-1.7 1.5-.7L5.6 7.4V2.6c0-1 1.5-1 1.5 0V7V1.9c0-1 1.5-1 1.5 0V7V2.7c0-1 1.5-1 1.5 0V9l1-1.7c.6-1 2-.3 1.4.7L11 12.6V15" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><rect x="4.3" y="10.2" width="7" height="2.2" fill="currentColor"/></svg>',
+  lamp: '<svg viewBox="0 0 16 16"><ellipse cx="8" cy="8.8" rx="5" ry="5.4" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 3.4v10.8M5 4.8c-1.6 2.6-1.6 5.6 0 8.1M11 4.8c1.6 2.6 1.6 5.6 0 8.1" fill="none" stroke="currentColor" stroke-width=".9"/><rect x="6" y="1" width="4" height="2.2" fill="currentColor"/></svg>',
+  need: '<svg viewBox="0 0 16 16"><path d="M8 14s-5.5-3.4-5.5-7.4C2.5 4.4 4 3 5.6 3 6.8 3 7.6 3.7 8 4.6 8.4 3.7 9.2 3 10.4 3 12 3 13.5 4.4 13.5 6.6 13.5 10.6 8 14 8 14z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>',
+};
+// 她的樣子：畫面為主，放大（滑過、聚焦或點開）才附文字
+const LOOK_ICON = {
+  等: '<svg viewBox="0 0 24 24"><path d="M2.5 12.5h8.5c0 3.2-1.9 5.3-4.25 5.3S2.5 15.7 2.5 12.5zM13 12.5h8.5c0 3.2-1.9 5.3-4.25 5.3S13 15.7 13 12.5z" fill="currentColor"/><path d="M15 10.5l4.5-7M17 10.5l4.5-7" stroke="currentColor" stroke-width="1.2"/><path d="M4 20.5h16" stroke="currentColor" stroke-width="1"/></svg>',
+  累: '<svg viewBox="0 0 24 24"><circle cx="11" cy="9" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5" transform="rotate(18 11 9)"/><path d="M8.6 9.8q1 .7 2 0M11.8 10.6q1 .7 2 0" stroke="currentColor" fill="none" stroke-width="1.1"/><path d="M4 22c1-4.5 3.6-7.2 7.4-7.2S18 17.5 19 22" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16.5 3.2h3.2l-3.2 3.2h3.2" stroke="currentColor" fill="none" stroke-width="1"/></svg>',
+  忙: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="13.2" rx="7" ry="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 5.2v16M7.4 6.8c-2 3.6-2 9.4 0 12.9M16.6 6.8c2 3.6 2 9.4 0 12.9M5 13.2h14" fill="none" stroke="currentColor" stroke-width="1"/><rect x="9" y="2" width="6" height="2.6" fill="currentColor"/></svg>',
+  想说: '<svg viewBox="0 0 24 24"><path d="M3.5 4.5h17v11H10l-5 4.2v-4.2H3.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8.5" cy="10" r="1.1" fill="currentColor"/><circle cx="12" cy="10" r="1.1" fill="currentColor"/><circle cx="15.5" cy="10" r="1.1" fill="currentColor"/></svg>',
+};
+
+// ── 存檔：每次畫面更新都存一份，關掉再開可以接著玩 ──
+const KEY = 'dise-v05';
+function save() { try { if (S) localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 存不了就算了 */ } }
+function load() { try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); return d && d.v === 5 ? d : null; } catch (e) { return null; } }
+
+function say(who, tx, gain) {
+  $('#sub').innerHTML = tx ? `<div class="sub">${who ? `<span class="who">${esc(who)}</span><br>` : ''}<span class="tx">${esc(tx)}</span>${gain ? `<span class="gain">${esc(gain)}</span>` : ''}</div>` : '';
+}
+function refresh() {
+  const on = view !== 'title';
+  $('#hud').hidden = !on; $('#title').hidden = on;
+  if (!on) { renderTitle(); return; }
+  renderTop(); renderState(); renderMid(); renderChoices(); renderHand(); renderSmear(); drawPortrait($('#pf'), { who: 'you', layers: S.T.layers });
+  const mp = $('#mirrorPf'); if (mp) drawPortrait(mp, { who: 'you', layers: [], base: S.base, bg: ['#8d9396', '#3b4044'] });
+  updateLanterns();
+  save();
+}
+function renderTitle() {
+  $('#title').innerHTML = `<div class="title-in">
+    <div class="vb"><div class="t">底色</div><div class="s">戏城 · 一季</div></div>
+    <div>
+      <p class="intro">在一座人人每天上妆演戏的城里，你刚升上二路。每天早上装一只妆匣，台上的戏和晚上的家，都只能从这一匣里拿。</p>
+      <p class="lede">台上每出一张演戏牌，脸上就多一层油彩；牌接得好会成配合，散戏时才掷骰见分晓。回到家门口，她心情好才肯替你擦。看她的样子出家中牌，对路她会抬眼。金箔和水牌是公开的，她的心愿藏着。</p>
+      <div class="form">
+        <div class="field"><label for="nm">你的小名</label><input id="nm" maxlength="6" value="${esc(draftName)}" autocomplete="off"></div>
+        <button class="btn go" data-act="start">开锣</button>
+        ${saved ? `<button class="btn" data-act="cont">接着玩 · 第 ${saved.day} 天</button>` : ''}
+      </div>
+      <p class="hint">${glOK ? '建议戴耳机、在大屏幕上玩。' : '这台设备显示不了 3D，卡牌和剧情照样能玩。'}一季四周二十八天，第一天是教学日。你唱二路，行当待作者确认。</p>
+    </div></div>`;
+}
+function renderTop() {
+  const [sl, nm] = PH[view], w = weekOf(S.day) - 1;
+  $('#seal').textContent = sl;
+  $('#when').innerHTML = `<b>第 ${S.day} 天 · ${nm}</b><span>第${'一二三四'[w]}周 · ${ACT_N[w]} · ${DOW[dowOf(S.day) - 1]}</span>`;
+  const last = S.weeks[S.weeks.length - 1], flow = (view === 'week' || view === 'end') && last ? last.flow : S.weekGold;
+  const box = view === 'morning' ? `<span>妆匣 <b>${sumSlots(S, S.T.box)}</b>/${capFree(S)}</span>`
+    : ['stage', 'door', 'evening', 'night'].includes(view) ? `<span>匣里剩 <b>${S.T.box.filter(id => !S.T.used[id]).length}</b> 张</span>` : '';
+  $('#stats').innerHTML = `<span>金箔 <b>${S.gold}</b></span><span>本周流水 <b>${flow}</b>/${R.lines[w]}</span><span>水牌 <b>${S.rank}</b>/6</span>${box}`;
+}
+function pips(key, label, v, max, bad) {
+  const p = Array.from({ length: max }, (_, i) => `<i class="${i < v ? 'on' : ''}"></i>`).join('');
+  return `<span class="st-i ${bad ? 'warn' : ''}" title="${label} ${v}/${max}" role="img" aria-label="${label} ${v}/${max}">${ICON[key]}<span class="pp" aria-hidden="true">${p}</span></span>`;
+}
+function renderState() {
+  const done = S.needDone.filter(Boolean).length;
+  $('#state').innerHTML = `<div class="row"><span class="who">她</span>${pips('calm', '安心', S.calm, R.calmMax, S.calm <= 1)}${pips('seen', '被看见', S.seen, R.seenMax)}${pips('rift', '裂痕', S.rift, R.riftMax, S.rift >= R.riftBreak)}${pips('hurt', '伤', S.hurt, R.hurtMax, S.hurt >= 2)}</div>
+    <div class="row"><span class="who">你</span>${pips('hand', '手伤', S.hand, R.handMax, S.hand >= R.handPen)}<span class="gap"></span>${pips('lamp', S.lit ? '灯（点亮了）' : '灯', S.lamp, R.lampMax)}<span class="st-i" title="心愿 ${done}/4" role="img" aria-label="心愿完成 ${done}/4">${ICON.need}<b>${done}/4</b></span></div>
+    ${brokenOf(S) ? '<div class="broke">破裂</div>' : ''}`;
+}
+function midHTML() {
+  if (panel === 'rules') return rulesPanel();
+  if (sheet) return sheetPanel();
+  if (view === 'morning') return morningPanel();
+  if (view === 'stage') return stagePanel();
+  if (view === 'evening') {
+    const lk = S.T.look;
+    return `<button class="lookb" data-act="look" aria-expanded="${lookOpen}" aria-label="她的样子：${lk}">${LOOK_ICON[lk]}<span class="lb">${lk}</span></button>`;
+  }
+  return '';
+}
+// 每次點擊都會重畫紙面；同一張紙要留住捲動位置和焦點，不然一按就跳回最上面
+function renderMid() {
+  const m = $('#mid'), key = `${view}|${panel}|${sheet ? sheet.k : ''}`, old = m.querySelector('.panel');
+  const top = old && m.dataset.key === key ? old.scrollTop : 0;
+  const fe = document.activeElement, fa = fe && m.contains(fe) && fe.dataset.act ? [fe.dataset.act, fe.dataset.arg] : null;
+  m.innerHTML = midHTML();
+  m.dataset.key = key;
+  const nu = m.querySelector('.panel');
+  if (nu) nu.scrollTop = top;
+  if (fa) {
+    const b = m.querySelector(`[data-act="${fa[0]}"]${fa[1] !== undefined ? `[data-arg="${CSS.escape(fa[1])}"]` : ''}`);
+    if (b && !b.disabled) b.focus({ preventScroll: true });
+  }
+}
+function rulesPanel() {
+  return `<div class="panel rules"><h3>规矩<small><button class="btn" data-act="close">关上</button></small></h3><ol>${RULES.map(r => `<li>${r}</li>`).join('')}</ol>
+    <h4>原型自拟、沿用的地方</h4><ul>${ASSUME.map(r => `<li>${r}</li>`).join('')}</ul>
+    <h4>待作者确认</h4><ul>${PENDING.map(r => `<li>${r}</li>`).join('')}
+    <li>倾听对路时裂痕 −1（文件标「待确认」）：<button class="btn small" data-act="opt" aria-pressed="${S.opt.listenRift}">${S.opt.listenRift ? '开着' : '关着'}</button></li></ul>
+    <div class="acts"><button class="btn" data-act="again">重开一局</button></div></div>`;
+}
+function scriptSlip(sc, i) {
+  const got = S.scripts[scriptKey(S, i)];
+  return `<button class="slip" data-act="script" data-arg="${i}" aria-pressed="${S.T.script === i}">
+    <span class="vt">${sc.n}</span><span class="sg">${sc.segs.map((f, j) => `<span><i style="background:${FCOL[f]}">${FAM[f].n}</i>${SEG_N[j]}</span>`).join('')}</span>
+    <span class="tag">${got ? `已得「${T[sc.ex].n}」` : `首次三段对上：「${T[sc.ex].n}」`}</span></button>`;
+}
+function cardSub(t) {
+  const tp = T[t], f = tp.f, two = slotsT(t) === 2 ? ' · 2 位' : '';
+  if (isStage(f)) return `${FAM[f].n} · 金 ${gT(t)}${two}${tp.sig ? ` · 招牌：${SIG[tp.sig]}` : ''}`;
+  return `${FAM[f].n} · ${tp.eff || FAM[f].eff}${two}${FAM[f].match ? ` · 对路：${FAM[f].match}` : ''}`;
+}
+function morningPanel() {
+  const t = S.T, used = sumSlots(S, t.box), free = capFree(S), kind = specialOf(S);
+  const meter = Array.from({ length: free }, () => '<i></i>');
+  let k = 0;
+  t.box.forEach(id => { const f = fOf(S, id); for (let j = 0; j < slotsOf(S, id) && k < free; j++, k++) meter[k] = `<i class="on ${isStage(f) ? '' : 'home'}" style="background:${FCOL[isStage(f) ? f : 'home']}"></i>`; });
+  const order = ['sing', 'speak', 'act', 'fight', 'care', 'comp', 'listen', 'labor', 'gift', 'conflict'];
+  const groups = [];
+  S.deck.forEach(c => { let g = groups.find(x => x.t === c.t); if (!g) groups.push(g = { t: c.t, ids: [] }); g.ids.push(c.id); });
+  groups.sort((a, b) => order.indexOf(T[a.t].f) - order.indexOf(T[b.t].f));
+  const rows = groups.map(g => {
+    const tp = T[g.t], inBox = g.ids.filter(id => t.box.includes(id)).length, free1 = g.ids.find(id => !t.box.includes(id));
+    const canPlus = free1 !== undefined && canAdd(S, free1), stashId = g.ids.find(id => !t.box.includes(id)) ?? g.ids[g.ids.length - 1];
+    return `<div class="dk"><img src="${cardArt(g.t).url}" alt=""><div class="nm"><b>${tp.n}</b>${tp.lock ? `<em>${tp.sig ? '招牌' : '专属'}</em>` : ''}<small>${cardSub(g.t)}</small></div>
+      <div class="ct">${editDeck && !tp.lock ? `<button class="mini" data-act="stash" data-arg="${stashId}" aria-label="把一张${tp.n}收回卡库">收起</button>` : ''}
+      <button class="step" data-act="minus" data-arg="${g.t}" ${inBox ? '' : 'disabled'} aria-label="${tp.n}少带一张">−</button><span>${inBox}/${g.ids.length}</span><button class="step" data-act="plus" data-arg="${g.t}" ${canPlus ? '' : 'disabled'} aria-label="${tp.n}多带一张">＋</button></div></div>`;
+  }).join('');
+  let special = '';
+  if (kind === 'bday') special = `<section class="special"><h3>阿檀生日<small>出门前二选一</small></h3><div class="pair">
+    <button class="btn" data-act="special" data-arg="night" aria-pressed="${t.special === 'night'}">加演夜场<small>妆匣预留 2 位 · 金箔 +${R.nightShow} · 被看见 −1</small></button>
+    <button class="btn" data-act="special" data-arg="bday" aria-pressed="${t.special === 'bday'}">陪生日<small>算一张陪伴牌，占 1 位 · 被看见 +1 · 金箔不增</small></button></div></section>`;
+  if (kind === 'yuan') special = `<section class="special"><h3>元宵<small>三选一</small></h3><div class="pair">${Object.entries(YUAN_N).map(([k2, n]) => `<button class="btn" data-act="special" data-arg="${k2}" aria-pressed="${t.special === k2}">${n}</button>`).join('')}</div>
+    <p class="hint">三条路的效果待作者确认。这一局只记下你的选择，今天照常过。</p></section>`;
+  const shop = shopOf(S).map(t2 => {
+    const tp = T[t2], can = !S.bought && S.gold >= tp.price;
+    return `<div class="dk"><img src="${cardArt(t2).url}" alt=""><div class="nm"><b>${tp.n}</b><small>${cardSub(t2)}</small></div><div class="ct"><button class="btn small" data-act="buy" data-arg="${t2}" ${can ? '' : 'disabled'}>${tp.price} 金箔</button></div></div>`;
+  }).join('');
+  const lib = S.lib.map(c => `<div class="dk"><img src="${cardArt(c.t).url}" alt=""><div class="nm"><b>${T[c.t].n}</b><small>${cardSub(c.t)}</small></div><div class="ct"><button class="mini" data-act="unstash" data-arg="${c.id}" ${S.deck.length < R.deckCap ? '' : 'disabled'}>放回</button></div></div>`).join('');
+  return `<div class="panel">
+    ${special}
+    <section><h3>戏单<small>今天唱哪一出</small></h3><div class="slips">${scriptsOf(S).map(scriptSlip).join('')}</div></section>
+    <section><h3>妆匣<small>演 ${sideSlots(S, t.box, 'stage')}/9 · 家 ${sideSlots(S, t.box, 'home')}/9 · 共 ${used}/${free} 位</small></h3><div class="meter" aria-hidden="true">${meter.join('')}</div>
+      <div class="tools2"><button class="mini" data-act="yesterday" ${S.lastBox ? '' : 'disabled'}>照昨天装</button><button class="mini" data-act="clear" ${t.box.length ? '' : 'disabled'}>清空</button><button class="mini" data-act="edit" aria-pressed="${editDeck}">整理卡组 ${S.deck.length}/${R.deckCap}</button></div>
+      <div class="deck">${rows}</div></section>
+    <section><h3>戏箱<small>${S.bought ? '这周买过了' : '班主这周开箱，最多买一张'}</small></h3><div class="deck">${shop}</div></section>
+    ${lib ? `<section><h3>卡库<small>收起来的牌</small></h3><div class="deck">${lib}</div></section>` : ''}
+  </div>`;
+}
+// 白天不擲骰：只提示能成哪些配合，不顯示點數
+function comboTips(S) {
+  const P = S.T.plays, segs = scriptNow(S).segs, cs = combosNow(S), last = P.length - 1, tips = [];
+  const used = new Set(cs.flatMap(c => c.at));
+  if (last >= 0 && !used.has(last)) { if (P[last].f === 'sing') tips.push('接一张念，成对唱'); if (P[last].f === 'act') tips.push('接一张打，成武身'); }
+  const s0 = P.filter(p => p.seg === 0), s1 = P.filter(p => p.seg === 1), s2 = P.filter(p => p.seg === 2);
+  if (!cs.some(c => c.k === 'whole') && s0.length && s0[s0.length - 1].f === segs[0] && !s2.length) {
+    if (S.T.seg === 1 && !s1.length) tips.push(`承段只出一张${FAM[segs[1]].n}，转段先出${FAM[segs[2]].n}，成整折`);
+    else if (s1.length === 1 && s1[0].f === segs[1]) tips.push(`${S.T.seg === 1 ? '进转段，' : ''}先出${FAM[segs[2]].n}，成整折`);
+  }
+  return tips;
+}
+function stagePanel() {
+  const sc = scriptNow(S), t = S.T, cs = combosNow(S), tips = comboTips(S);
+  const stage = t.plays.reduce((a, p) => a + p.g, 0), sig = t.plays.reduce((a, p) => a + p.sig, 0);
+  return `<div class="stagebar">${sc.segs.map((f, i) => {
+    const ps = t.plays.filter(p => p.seg === i), left = R.segMax - segSlots(S, i), ok = alignedSeg(S, i);
+    const st = ok ? '对上了' : t.seg === i ? '现在这一段' : t.seg > i ? '没对上' : '还没到';
+    return `<div class="seg ${t.seg === i ? 'cur' : ''} ${ok ? 'ok' : ''}"><b>${SEG_N[i]} · ${FAM[f].n}</b><small>${st}</small><div class="pips">${ps.map(p => `<i class="on ${p.f !== f ? 'bad' : ''}" style="background:${FCOL[p.f]};${slotsOf(S, p.id) === 2 ? 'width:23px' : ''}"></i>`).join('')}${Array.from({ length: left }, () => '<i></i>').join('')}</div></div>`;
+  }).join('')}</div>
+  <div class="goldnow">《${sc.n}》　台上金 <b>${stage}</b>${sig ? `　招牌 <b>+${sig}</b>` : ''}
+    <div class="combos">${cs.length ? cs.map(c => `<span class="cb">${COMBO_N[c.k]}</span>`).join('') : '<span class="none">还没有配合</span>'}${tips.map(x => `<span class="tip">${x}</span>`).join('')}</div></div>`;
+}
+const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
+// 中國骰子：一點和四點是紅的
+const dieHTML = (v, cls = '') => `<span class="die ${cls} ${v === 1 || v === 4 ? 'red' : ''}" aria-hidden="true">${Array.from({ length: 9 }, (_, i) => `<i class="${PIPS[v].includes(i) ? 'on' : ''}"></i>`).join('')}</span>`;
+async function showDice(o) {
+  const el = $('#dice');
+  el.hidden = false;
+  el.innerHTML = `<div class="dbox" role="status"><span class="lb">${esc(o.label)}</span><span class="dslot">${dieHTML(1)}</span><span class="res"></span></div>`;
+  const slot = el.querySelector('.dslot'), res = el.querySelector('.res');
+  if (!calm()) for (let i = 0; i < 8; i++) { slot.innerHTML = dieHTML(1 + Math.floor(Math.random() * 6), 'spin'); await wait(65); }
+  slot.innerHTML = dieHTML(o.v, 'land');
+  res.className = `res ${o.ok ? 'ok' : 'bad'}`;
+  res.textContent = `${o.v}${o.mod ? ` +${o.mod}` : ''}　${o.result}`;
+  await wait(calm() ? 900 : 1300);
+  el.hidden = true;
+}
+function sheetPanel() {
+  const k = sheet.k;
+  if (k === 'combo') {
+    const t = S.T, sum = t.stageGold + t.sigGold + t.comboGold;
+    const rows = t.combos.map(c => `<div class="rowx"><span>${COMBO_N[c.k]}<small>${c.fams.map(f => FAM[f].n).join('→')}</small></span><span class="dz">${dieHTML(c.die, 'sm')}${c.mod ? '<small>熟练 +1</small>' : ''}<b>${c.big ? '大成功' : c.ok ? '成了' : '落空'}</b>　+${c.gold}</span></div>`).join('');
+    return `<div class="panel sheet ledger"><h2>散戏</h2>
+      <div class="rowx"><span>台上金</span><b>${t.stageGold}</b></div>
+      ${t.sigGold ? `<div class="rowx"><span>招牌</span><b>+${t.sigGold}</b></div>` : ''}
+      ${rows || '<div class="rowx"><span>配合</span><span>没有成配合</span></div>'}
+      <div class="rowx"><span>三段</span><span>${[0, 1, 2].map(i => `${SEG_N[i]}${alignedSeg(S, i) ? '对上' : '没对上'}`).join(' · ')}</span></div>
+      <div class="rowx"><span>完美</span><span>${t.perfect ? `三段都对上、配合成了：${sum} × 1.5` : t.aligned ? '三段都对上，但配合没掷成' : '三段没有都对上'}</span></div>
+      <div class="rowx total"><span>这一场</span><b>${t.gold} 金箔</b></div>
+      ${t.handHit ? '<p class="note">唱和打合计 4 位以上，手伤 +1。</p>' : ''}
+      ${t.reward ? `<p class="note">《${scriptNow(S).n}》第一次三段都对上，你多了一张专属牌「${t.reward}」。</p>` : ''}
+      <div class="acts"><button class="btn go" data-act="todoor">卸了妆回家</button></div></div>`;
+  }
+  if (k === 'mirror') {
+    const b = S.base, depth = b === 0 ? '还是素的' : b <= 2 ? '浅浅一层' : b <= 5 ? '深了，擦不掉' : '很深，像长在脸上';
+    return `<div class="panel sheet ledger"><h2>对镜</h2><canvas id="mirrorPf" class="mirrorpf" width="200" height="250" aria-label="镜子里油彩底下的颜色"></canvas>
+      <p>后台的镜子擦得很亮。你看见了油彩底下那一层：${depth}。</p><p class="note">底色 ${b}。只看这一次，不结算。</p>
+      <div class="rowx"><span>新头牌</span><span>${board(S.rank).slice(0, 3).map((x, i) => `${i + 1}. ${esc(x.n)}`).join('　')}</span></div>
+      <div class="acts"><button class="btn go" data-act="closesheet">合上镜子</button></div></div>`;
+  }
+  if (k === 'week') {
+    const w = S.weeks[S.weeks.length - 1], res = w.perf ? (w.rel ? '业绩过线，关系守住' : '业绩过线，关系失守') : (w.rel ? '业绩没过线，关系守住' : '业绩没过线，关系失守');
+    const next = [S.pen.minus ? '下一周妆匣每天少 1 位。' : '', S.pen.carry ? '下周第一天醒来，脸上会留着一层上周的红。' : ''].join('');
+    return `<div class="panel sheet ledger"><h2>第${'一二三四'[w.w - 1]}周 · 考核</h2>
+      <div class="rowx"><span>本周流水</span><span><b>${w.flow}</b> / ${w.line} 金箔　${w.perf ? '过线' : '没过线'}</span></div>
+      <div class="rowx"><span>关系线</span><span>${w.rel ? '守住' : '失守（破裂）'}</span></div>
+      <div class="rowx"><span>水牌</span><span>${res}：第 ${w.r0} 名 → 第 ${w.r1} 名</span></div>
+      <ol class="board">${board(S.rank).map(x => `<li class="${x.me ? 'me' : ''}">${esc(x.n)}</li>`).join('')}</ol>
+      ${next ? `<p class="note">${next}</p>` : ''}
+      <div class="acts"><button class="btn go" data-act="nextweek">${S.day >= R.days ? '季末' : '下一周'}</button></div></div>`;
+  }
+  if (k === 'end') {
+    const e = ENDINGS[endingOf(S)], F = factsOf(S), done = S.needDone.filter(Boolean).length;
+    const chips = arr => (arr.length ? arr.map(x => `<i style="background:${FCOL[x.f]};${x.f === 'home' ? 'outline:1px solid #8b7f84;outline-offset:-1px' : ''}"></i>`).join('') : '<span>空着</span>');
+    return `<div class="panel sheet ledger end"><h2>${e.name}</h2><p class="cond">${e.cond}</p><p class="w">${esc(e.text())}</p>
+      ${S.choice.yuan ? `<p class="note">元宵那天你选了「${YUAN_N[S.choice.yuan]}」。三条路的效果待作者确认。</p>` : ''}
+      <div class="rowx"><span>外账</span><span>一季金箔 <b>${S.total}</b> · 水牌第 ${S.rank} 名 · 完美 ${F.perfect} 天 · 配合 ${F.combos} 次</span></div>
+      <div class="rowx"><span>周考核</span><span>${S.weeks.map(w => `${w.flow}/${w.line}${w.perf ? '✓' : '✗'}${w.rel ? '' : '（失守）'}`).join(' · ')}</span></div>
+      <div class="rowx"><span>她</span><span>安心 ${S.calm} · 被看见 ${S.seen} · 裂痕 ${S.rift} · 伤 ${S.hurt} · 心愿 ${done}/4${S.lit ? ' · 灯点亮了' : ''}</span></div>
+      <div class="rowx"><span>你</span><span>底色 <b>${S.base}</b>（季末翻开）· 手伤 ${S.hand} · 抬眼 ${F.eyes} 次 · 空宅 ${F.empty} 天 · 作废 ${F.wasted} 张</span></div>
+      <div class="rowx"><span>木匣</span><span class="cl">${chips(S.chest)}</span></div>
+      <div class="rowx"><span>晾绳</span><span class="cl">${chips(S.rope)}</span></div>
+      <div class="acts"><button class="btn go" data-act="again">再来一季</button><button class="btn" data-act="home">回到开场</button></div></div>`;
+  }
+  return '';
+}
+function board(rank) {
+  const o = OTHERS.slice();
+  return Array.from({ length: R.ranks }, (_, i) => (i + 1 === rank ? { n: S.name, me: true } : { n: o.shift() }));
+}
+function selfSub() {
+  const top = topLayer(S);
+  if (!top) return '脸上没有层';
+  if (!top.rolled) { const n = lineOf(S, top.f); return `${FAM[top.f].n}层 · 掷到 ${n}${n < 6 ? '–6' : ''} 免费`; }
+  return '没抹淡：弃一张牌';
+}
+const canSelf = S => canRoll(S) || (!!topLayer(S) && topLayer(S).failed && S.T.box.some(id => canClean(S, id)));
+function renderChoices() {
+  const opts = [];
+  const o = (label, act, sub, disabled, arg) => opts.push(`<button class="opt" data-act="${act}" ${arg !== undefined ? `data-arg="${arg}"` : ''} ${disabled ? 'disabled' : ''}>${label}${sub ? `<small>${sub}</small>` : ''}</button>`);
+  if (busy || panel === 'rules' || sheet) { $('#choices').innerHTML = ''; return; }
+  const t = S.T, n = t.layers.length;
+  if (view === 'morning') o('合上妆匣，出门', 'depart', canDepart(S) ? `${sumSlots(S, t.box)} 位` : specialOf(S) && !t.special ? '先选今天怎么过' : '妆匣装多了', !canDepart(S));
+  if (view === 'stage') {
+    if (t.seg < 2) o('下一段', 'nextseg', `进${SEG_N[t.seg + 1]}段`);
+    o('收场', 'endstage', canEndStage(S) ? (t.plays.length ? `脸上 ${n} 层` : '今天不上台') : '至少打一张', !canEndStage(S));
+  }
+  if (view === 'door' || view === 'night') {
+    if (mode === 'cloth') o('留着这层', 'keep');
+    else {
+      if (view === 'door' && t.door === 'wipe') o('让她擦', 'wipe', canWipe(S) ? `清 ${Math.min(R.wipeMax, n)} 层 · 安心 −1` : t.wiped ? '今天擦过了' : '脸上没有层', !canWipe(S));
+      o('自己卸', 'self', selfSub(), !canSelf(S));
+      if (view === 'door') o('进门', 'enter', n ? `带着 ${n} 层` : '脸是干净的');
+      else o('睡吧', 'sleep', n ? `${n} 层会渗进底色` : '素着脸睡');
+    }
+  }
+  if (view === 'evening') {
+    if (mode === 'tray') { o('接过来', 'trayyes', canTray(S) ? `占 1 位 · 掷到 ${S.hand + 1} 以下会失手` : '家中 9 位满了', !canTray(S)); o('不接', 'trayno', '安心 −1'); }
+    else o('吃完了', 'endeve', homeCount(S) ? `出了 ${homeCount(S)} 张` : '今晚空宅');
+  }
+  $('#choices').innerHTML = opts.join('');
+}
+function renderHand() {
+  const h = $('#hand'), lb = $('#handLabel');
+  const show = ['morning', 'stage', 'door', 'evening', 'night'].includes(view) && panel !== 'rules' && !sheet;
+  // 攤手牌時先把一張牌的高度留出來：早上牌一張張裝進匣，上面裝匣的紙才不會跟著被擠小
+  h.classList.toggle('on', show);
+  if (!show) { h.innerHTML = ''; lb.textContent = ''; return; }
+  const t = S.T, ids = t.box.slice().sort((a, b) => (isStage(fOf(S, a)) === isStage(fOf(S, b)) ? 0 : isStage(fOf(S, a)) ? -1 : 1));
+  const can = id => {
+    if (busy) return false;
+    if (view === 'stage') return canStage(S, id);
+    if (view === 'evening') return mode !== 'tray' && canHome(S, id);
+    if (view === 'night' || view === 'door') return mode === 'cloth' && canClean(S, id);
+    return view === 'morning';
+  };
+  const n = ids.length, mid = (n - 1) / 2;
+  h.innerHTML = ids.map((id, i) => {
+    const c = cardOf(S, id), used = t.used[id], ok = can(id), tp = T[c.t];
+    const rot = (i - mid) * Math.min(3, 30 / Math.max(n, 1)), lift = Math.abs(i - mid) * 1.6;
+    const label = `${tp.n}，${cardSub(c.t)}${used ? `，${USED_N[used]}` : ''}`;
+    return `<button class="hc ${ok ? 'play' : ''} ${!ok && !used && view !== 'morning' ? 'off' : ''}" style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'disabled'} aria-label="${esc(label)}"><img src="${cardArt(c.t).url}" alt="">${used ? `<span class="st">${USED_N[used]}</span>` : ''}</button>`;
+  }).join('');
+  lb.textContent = {
+    morning: t.box.length ? '今天的妆匣 · 点一张拿出来' : '妆匣还是空的',
+    stage: '点演戏牌，唱进当前这一段',
+    door: mode === 'cloth' ? '挑一张牌当布' : '妆匣里还剩的牌',
+    evening: mode === 'tray' ? '她端着盘子' : '点家中牌，推到她面前',
+    night: mode === 'cloth' ? '挑一张牌当布' : '妆匣里还剩的牌',
+  }[view];
+}
+// 第一人稱時，臉上沒卸的台上臉化成螢幕四邊的油彩
+function renderSmear() {
+  const cv = $('#smear'), w = innerWidth, h = innerHeight;
+  if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+  const x = cv.getContext('2d'); x.clearRect(0, 0, w, h);
+  if (!S || !['door', 'evening', 'night'].includes(view)) return;
+  const m = Math.min(w, h);
+  S.T.layers.forEach((ly, i) => {
+    const r = rng(101 + i * 977), col = hexRgb(FCOL[ly.f]);
+    for (let k = 0; k < 7; k++) {
+      const side = Math.floor(r() * 4); let px, py;
+      if (side === 0) { px = r() * w; py = -h * 0.04 + r() * h * 0.1; } else if (side === 1) { px = r() * w; py = h * 1.02 - r() * h * 0.08; } else if (side === 2) { px = -w * 0.02 + r() * w * 0.07; py = r() * h; } else { px = w * 1.02 - r() * w * 0.07; py = r() * h; }
+      const rad = (0.12 + r() * 0.16) * m, g = x.createRadialGradient(px, py, 0, px, py, rad);
+      g.addColorStop(0, `rgba(${col},.6)`); g.addColorStop(0.55, `rgba(${col},.25)`); g.addColorStop(1, `rgba(${col},0)`);
+      x.fillStyle = g; x.beginPath(); x.arc(px, py, rad, 0, Math.PI * 2); x.fill();
+    }
+  });
+}
+async function ink(fn) {
+  const el = $('#ink');
+  if (calm()) { fn(); return; }
+  el.className = ''; void el.offsetWidth; el.className = 'on';
+  await wait(700); fn(); refresh(); await wait(120);
+  el.className = 'off'; await wait(560); el.className = '';
+}
+async function fly(id, where) {
+  const el = document.querySelector(`.hc[data-arg="${id}"]`), t = cardOf(S, id).t;
+  const target = where === 'stage' ? cardSpot('stage') : where === 'home' ? cardSpot('home', S.T.home.length) : null;
+  if (el && !calm()) {
+    const r = el.getBoundingClientRect(), ghost = new Image();
+    ghost.src = cardArt(t).url; ghost.className = 'ghost'; Object.assign(ghost.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+    document.body.appendChild(ghost); el.style.visibility = 'hidden';
+    let tx = innerWidth / 2, ty = innerHeight * 0.45;
+    if (glOK && target) { const v = target.clone().project(camera); tx = (v.x + 1) / 2 * innerWidth; ty = (1 - v.y) / 2 * innerHeight; }
+    if (!target) { ty = innerHeight + 80; }
+    await ghost.animate([{ transform: 'none', opacity: 1 }, { transform: `translate(${tx - r.left - r.width / 2}px, ${ty - r.top - r.height / 2}px) scale(${target ? 0.32 : 0.5}) rotate(${where === 'cloth' ? 40 : 8}deg)`, opacity: where === 'cloth' ? 0 : 0.95 }], { duration: 440, easing: 'cubic-bezier(.3,.7,.3,1)' }).finished.catch(() => {});
+    ghost.remove();
+  }
+  if (target) spawnCard(t, target, where === 'stage' ? 'stage' : 'home');
+}
+function burst(n) {
+  if (calm()) return;
+  const fx = $('#fx');
+  for (let i = 0; i < Math.min(n, 44); i++) {
+    const f = document.createElement('span'); f.className = 'fleck';
+    f.style.left = `${8 + Math.random() * 84}vw`; f.style.animationDelay = `${Math.random() * 0.5}s`; f.style.background = Math.random() < 0.3 ? '#efe2c2' : '#b8913f';
+    fx.appendChild(f); setTimeout(() => f.remove(), 2600);
+  }
+}
+function stamp(text) { const s = document.createElement('div'); s.className = 'stamp'; s.textContent = text; document.body.appendChild(s); setTimeout(() => s.remove(), 1800); }
+async function run(fn) { if (busy) return; busy = true; refresh(); try { await fn(); } finally { busy = false; refresh(); } }
+const sign = v => (v > 0 ? `+${v}` : `−${-v}`);
+
+// ── 一天 ──
+// 依目前時段擺 3D 場景（開局、接著玩都走這裡）
+function placeScene() {
+  clear3DCards();
+  if (view === 'morning') { setScene('dress', 'day'); setBoxStack(S.T.box.length); }
+  else if (view === 'stage') { setScene('stage'); actor?.setLayers(S.T.layers); }
+  else if (view === 'door') { setScene('door'); doorStage(); }
+  else if (view === 'evening') { setScene('home'); if (glOK) placeWife('home', V(0, -0.52, -0.5), LOOK_POSE[S.T.look]); }
+  else if (view === 'end') endScene();
+  else setScene('dress', view === 'week' ? 'dawn' : 'night');
+  updateMirror(0); updateRope(); updateLamp();
+}
+function endScene() {
+  if (!glOK) return;
+  const e = endingOf(S);
+  if (e === 'toupai') { setScene('stage'); actor?.setLayers([{ f: 'sing' }, { f: 'fight' }]); actor?.pose('bow'); return; }
+  if (e === 'gengfu') { setScene('door'); sets.door.g.userData.leaf.rotation.y = 0; return; }
+  setScene('home'); placeWife('home', V(0, -0.52, -0.5), 'seat'); wife.react('up'); updateLamp();
+}
+function toMorning() {
+  view = 'morning'; mode = null; sheet = null; editDeck = false; lookOpen = false;
+  if (glOK) { wife.root.visible = false; actor.setLayers([]); }
+  placeScene();
+  const tx = MORNING[S.day] || MORNING_ROT[S.day % MORNING_ROT.length];
+  say('', tx, S.day === 1 ? TUTOR.morning : S.T.notes.join(''));
+  refresh();
+}
+function startGame(name) {
+  S = newGame(name, ((Date.now() % 2147483647) ^ Math.floor(Math.random() * 2147483647)) >>> 0);
+  saved = null; panel = null;
+  toMorning();
+}
+function continueGame() {
+  S = saved; saved = null; panel = null; mode = null; lookOpen = false;
+  view = S.phase; sheet = view === 'week' ? { k: 'week' } : view === 'end' ? { k: 'end' } : null;
+  placeScene();
+  if (view === 'watch') showWatch();
+  say('', `第 ${S.day} 天，接着来。`);
+  refresh();
+}
+const onDepart = () => run(async () => {
+  depart(S);
+  const sc = scriptNow(S);
+  await ink(() => { view = 'stage'; placeScene(); actor?.setLayers([]); actor?.pose('idle'); });
+  say('班主', `今天唱《${sc.n}》。${SEG_N[0]}段要${FAM[sc.segs[0]].n}。`, S.day === 1 ? TUTOR.stage : '');
+});
+const onStage = id => run(async () => {
+  const f = fOf(S, id), want = scriptNow(S).segs[S.T.seg], name = tOf(S, id).n;
+  await fly(id, 'stage');
+  playStage(S, id);
+  const p = S.T.plays[S.T.plays.length - 1], fresh = combosNow(S).find(c => c.at.includes(S.T.plays.length - 1));
+  actor?.perform(f); actor?.setLayers(S.T.layers);
+  const tx = f === want ? pick(['台下有人叫好。', '这一句唱得满，金箔落下来几片。', '班主在侧幕点了点头。']) : '台下静了一下。这一段要的不是它。';
+  say('', tx, [p.sig ? `招牌「${name}」：金 +${p.sig}` : '', fresh ? `成了${COMBO_N[fresh.k]}，收场时掷骰` : ''].filter(Boolean).join('　'));
+});
+const onEndStage = () => run(async () => {
+  endStage(S);
+  const t = S.T;
+  for (const c of t.combos) await showDice({ label: `${COMBO_N[c.k]} · ${c.fams.map(f => FAM[f].n).join('→')}`, v: c.die, mod: c.mod, ok: c.ok, result: c.big ? `大成功 +${c.gold}` : c.ok ? `成了 +${c.gold}` : '落空' });
+  if (t.gold) { burst(t.gold * 2); goldRain(); }
+  if (t.perfect) stamp('完美');
+  actor?.pose('bow');
+  sheet = { k: 'combo' };
+  say('班主', t.perfect ? `好！${t.gold} 金箔。` : t.gold ? `散戏。${t.gold} 金箔。` : '今天你没有上台。');
+});
+const onToDoor = () => run(async () => {
+  sheet = null;
+  await ink(() => { view = 'door'; mode = null; placeScene(); say('', ''); });
+  const good = moodGood(S);
+  await showDice({ label: '心情骰 · 3 以上心情好', v: S.T.mood, ok: good, result: good ? '心情好' : '心情差' });
+  const [who, tx] = DOOR_SAY[S.T.door];
+  say(who, tx, S.day === 1 ? TUTOR.door : S.T.door === 'absent' ? '安心不到 2，她没有出来。' : '');
+});
+function doorStage() {
+  if (!glOK) return;
+  const d = S.T.door, leaf = sets.door.g.userData.leaf;
+  leaf.rotation.y = d === 'locked' ? 0 : 1.15;
+  if (d === 'wipe' || d === 'unwilling') placeWife('door', V(0, 0, 0.32), 'idle');
+  if (d === 'unwilling') setTimeout(() => { wife.turn(2.6); walkWife(-0.5, 1200); }, 1300);
+}
+const onWipe = () => run(async () => {
+  if (!canWipe(S)) return;
+  const n = Math.min(R.wipeMax, S.T.layers.length), cols = S.T.layers.slice(-n).reverse().map(l => FCOL[l.f]);
+  if (glOK) { await walkWife(1.95, 800); wife.pose('reach'); await wait(250); }
+  for (const c of cols) await towelSwipe(c);
+  wipe(S); renderSmear();
+  say('阿檀', n === 2 ? '她踮起脚，替你擦掉两层，把毛巾叠起来收进袖子里。' : '她踮起脚，替你擦掉一层。毛巾上染了颜色。', `安心 −1　${S.T.layers.length ? `还剩 ${S.T.layers.length} 层` : '脸上干净了'}`);
+  if (glOK) { await wait(400); wife.pose('idle'); await walkWife(0.32, 800); }
+});
+const restTx = () => (S.T.layers.length ? `还剩 ${S.T.layers.length} 层。` : '脸上干净了。');
+const onSelf = () => run(async () => {
+  if (!topLayer(S)) return;
+  if (canRoll(S)) {
+    const d = selfRoll(S);
+    await showDice({ label: `自卸 · ${FAM[d.f].n}层 · 抹淡线 ${d.need}${d.need < 6 ? '–6' : ''}`, v: d.v, ok: d.ok, result: d.ok ? '抹淡了' : '没抹淡' });
+    if (d.ok) {
+      renderSmear();
+      if (view === 'night') { updateMirror(0); updateRope(); }
+      say('', `这层${FAM[d.f].n}抹淡了，布挂上晾绳。${restTx()}`);
+      return;
+    }
+  }
+  mode = 'cloth';
+  say('', '没抹淡。挑一张牌弃掉，当布卸掉这层；或者留着它。');
+});
+const onClean = id => run(async () => {
+  const name = tOf(S, id).n;
+  await fly(id, 'cloth');
+  selfClean(S, id); mode = null; renderSmear();
+  if (view === 'night') { updateMirror(0); updateRope(); }
+  say('', `「${name}」成了一块布，挂上晾绳。${restTx()}`);
+});
+const onEnter = () => run(async () => {
+  enterHome(S);
+  const t = S.T;
+  await ink(() => { view = 'evening'; mode = null; lookOpen = false; placeScene(); });
+  if (t.residual) { say('', ...RES_SAY[t.residual]); await wait(2000); }
+  if (t.bday) { say('陪生日', t.reacts[0].tx, '被看见 +1'); await wait(2000); }
+  say('', LOOK_TX[t.look], S.day === 1 ? TUTOR.evening : '');
+});
+function gainOf(r) {
+  if (r.dup) return `同族一晚一次：只占位${r.pen ? ' · 唱的残留：安心 −1' : ''}`;
+  if (!r.valid) return `念的残留：倾听无效${r.pen ? ' · 唱的残留：安心 −1' : ''}`;
+  const d = r.d, parts = [r.match ? '对路' : ''];
+  [['calm', '安心'], ['seen', '被看见'], ['rift', '裂痕'], ['lamp', '灯'], ['hand', '手伤']].forEach(([k, n]) => { if (d[k]) parts.push(`${n} ${sign(d[k])}`); });
+  if (r.pen) parts.push('（含唱的残留 −1）');
+  if (r.f === 'gift') parts.push(`金箔 −${R.giftCost}`);
+  return parts.filter(Boolean).join(' · ');
+}
+function needMoment(h) {
+  wife?.react('up');
+  const done = S.needDone.filter(Boolean).length;
+  say('阿檀', NEED_TX[h.w], `心愿 ${done}/4${h.card ? ` · 你多了一张牌：「${h.card}」` : ''}${h.w === 1 || h.w === 2 ? ' · 灯 +1' : ''}`);
+  updateLamp();
+}
+const onHome = id => run(async () => {
+  await fly(id, 'home');
+  playHome(S, id);
+  const r = S.T.reacts[S.T.reacts.length - 1];
+  if (r.eyeDie) await showDice({ label: '心情差 · 抬眼要 4 以上', v: r.eyeDie.v, ok: r.eye, result: r.eye ? '她抬眼了' : '她没抬眼' });
+  wife?.react(r.k);
+  updateLamp();
+  say(`${r.who} · ${r.k === 'up' ? '抬眼' : r.k === 'down' ? '低头' : '没抬眼'}`, r.tx, gainOf(r));
+  if (r.hit) { await wait(2000); needMoment(r.hit); }
+});
+const onEndEvening = () => run(async () => {
+  if (trayDue(S)) {
+    mode = 'tray';
+    wife?.pose('reach');
+    say('阿檀', '她撑着桌子站起来，端起一摞碗盘，手有点抖。', '接过来，还是不接？');
+    return;
+  }
+  await finishEvening();
+});
+const onTray = accept => run(async () => {
+  const need = S.hand + 1;
+  tray(S, accept);
+  mode = null;
+  const tr = S.T.tray;
+  if (tr.accept) {
+    await showDice({ label: `端盘 · 掷到 ${need} 以下会失手`, v: tr.v, ok: !tr.fail, result: tr.fail ? '失手' : '端稳了' });
+    say(tr.fail ? '' : '阿檀', tr.fail ? '盘子从你手里滑下去，碎了一地。她蹲下去捡，割破了手。' : '你接过盘子，稳稳端进灶间。', tr.fail ? '伤 +1 · 安心 −2 · 裂痕 +1' : '安心 +1');
+    wife?.react(tr.fail ? 'down' : 'up');
+  } else { say('', '你没有接。她自己端进去了。', '安心 −1'); wife?.react('down'); }
+  await wait(2000);
+  await finishEvening();
+});
+async function finishEvening() {
+  endEvening(S);
+  const t = S.T;
+  if (t.cold) { say('', '她说了一半，看你没在听，就不说了。', '伤 +1 · 安心 −1'); await wait(2000); }
+  if (t.empty) { say('', '今晚，你一张家中牌都没有出。她把饭收了。', '空宅 · 安心 −1'); await wait(2000); }
+  const h3 = t.needHits.find(h => h.w === 3);
+  if (h3) { needMoment(h3); await wait(2400); }
+  await ink(() => { view = 'night'; mode = null; placeScene(); if (S.day === R.mirrorDay) sheet = { k: 'mirror' }; });
+  if (S.day === R.mirrorDay && glOK) updateMirror(S.base);
+  say('', t.layers.length ? `夜里，镜子里的脸上还有 ${t.layers.length} 层台上脸。没卸掉的，睡一觉就渗进底色里。` : '夜里，镜子里的脸是干净的。', S.day === 1 ? TUTOR.night : '');
+}
+function showWatch() {
+  const w = $('#watch'); w.hidden = false;
+  w.innerHTML = `<div class="knock">梆　梆　梆</div><div class="w">${esc(S.T.watch)}</div><button class="opt" data-act="dawn">天亮</button>`;
+}
+const onSleep = () => run(async () => {
+  if (S.T.special === 'night') { say('班主', '夜场散了。你从后台出来，街上已经没人了。', `金箔 +${R.nightShow} · 被看见 −1`); await wait(2000); }
+  sleep(S);
+  view = 'watch';
+  showWatch();
+});
+const onDawn = () => run(async () => {
+  $('#watch').hidden = true;
+  dawn(S);
+  if (S.phase === 'week') { view = 'week'; sheet = { k: 'week' }; placeScene(); say('', ''); return; }
+  toMorning();
+});
+const onNextWeek = () => run(async () => {
+  nextWeek(S);
+  if (S.phase === 'end') { view = 'end'; sheet = { k: 'end' }; placeScene(); say('', ''); return; }
+  toMorning();
+});
+
+$('#title').addEventListener('input', e => { if (e.target.id === 'nm') draftName = e.target.value; });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || b.disabled) return;
+  const a = b.dataset.act, arg = b.dataset.arg, id = Number(arg);
+  switch (a) {
+    case 'start': startGame((draftName.trim() || '小满').slice(0, 6)); return;
+    case 'cont': continueGame(); return;
+    case 'rules': panel = panel === 'rules' ? null : 'rules'; break;
+    case 'close': panel = null; break;
+    case 'opt': S.opt.listenRift = !S.opt.listenRift; break;
+    case 'script': pickScript(S, id); break;
+    case 'special': choose(S, arg); setBoxStack(S.T.box.length); break;
+    case 'plus': stepTpl(S, arg, 1); setBoxStack(S.T.box.length); break;
+    case 'minus': stepTpl(S, arg, -1); setBoxStack(S.T.box.length); break;
+    case 'yesterday': boxYesterday(S); setBoxStack(S.T.box.length); break;
+    case 'clear': clearBox(S); setBoxStack(0); break;
+    case 'edit': editDeck = !editDeck; break;
+    case 'stash': stash(S, id); setBoxStack(S.T.box.length); break;
+    case 'unstash': unstash(S, id); break;
+    case 'buy': if (buyShop(S, arg)) say('班主', `「${T[arg].n}」归你了。`, `金箔 −${T[arg].price}`); break;
+    case 'depart': onDepart(); return;
+    case 'nextseg': nextSeg(S); say('', `${SEG_N[S.T.seg]}段：要${FAM[scriptNow(S).segs[S.T.seg]].n}。`); break;
+    case 'endstage': onEndStage(); return;
+    case 'todoor': onToDoor(); return;
+    case 'wipe': onWipe(); return;
+    case 'self': onSelf(); return;
+    case 'keep': mode = null; say('', '你留着这层。'); break;
+    case 'enter': onEnter(); return;
+    case 'look': lookOpen = !lookOpen; break;
+    case 'endeve': onEndEvening(); return;
+    case 'trayyes': onTray(true); return;
+    case 'trayno': onTray(false); return;
+    case 'closesheet': sheet = null; updateMirror(0); break;
+    case 'sleep': onSleep(); return;
+    case 'dawn': onDawn(); return;
+    case 'nextweek': onNextWeek(); return;
+    case 'again': startGame(S.name); return;
+    case 'home': saved = load(); S = null; view = 'title'; sheet = null; panel = null; clear3DCards(); camLook = null; if (glOK) { setScene('dress', 'night'); placeWife('dress', V(0.72, 0, -0.62), 'idle', -0.35); } refresh(); return;
+    case 'card':
+      if (view === 'morning') { toggleBox(S, id); setBoxStack(S.T.box.length); break; }
+      if (view === 'stage') { onStage(id); return; }
+      if (view === 'evening') { onHome(id); return; }
+      if ((view === 'night' || view === 'door') && mode === 'cloth') { onClean(id); return; }
+      break;
+  }
+  refresh();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel) { panel = null; refresh(); } });
+
+// 測試用：在主控台裡看規則與流程
+window.__dise = { R, T, newGame, endingOf, combosOf, get S() { return S; }, get view() { return view; } };
+
+(async function boot() {
+  const glyphs = Object.values(T).map(t => t.n).join('') + Object.values(FAM).map(f => f.n + (f.res || '') + (f.eff || '')).join('') + Object.values(SIG).join('') + '底色戏城台上金残留招专位起承转唱念做打顾陪听劳冲礼安心被看见裂痕伤手灯对路';
+  try { await Promise.race([Promise.all([document.fonts.load('40px "Ma Shan Zheng"', glyphs), document.fonts.load('16px "Noto Serif SC"', glyphs)]), wait(3500)]); } catch (e) { /* 字體載不到就用後備字體 */ }
+  initGL();
+  saved = load();
+  if (glOK) { setScene('dress', 'night'); placeWife('dress', V(0.72, 0, -0.62), 'idle', -0.35); drawPortrait(mirrorCv, { who: 'you', layers: [], bg: ['#8d9396', '#3b4044'] }); mirrorTex.needsUpdate = true; }
+  refresh();
+})();
+</script>
