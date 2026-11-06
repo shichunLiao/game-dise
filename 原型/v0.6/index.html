@@ -79,13 +79,12 @@ p { margin: 0; }
 .lookb:hover .lb, .lookb:focus-visible .lb, .lookb[aria-expanded="true"] .lb { display: block; }
 
 /* 早上：桌上攤開的卡組，點一張放進妝匣 */
-.spread { pointer-events: auto; position: absolute; left: 50%; top: 2px; transform: translateX(-50%); display: grid; grid-template-columns: repeat(4, auto); gap: 8px 10px; background: rgba(18, 14, 17, .72); border: 1px solid rgba(236, 227, 212, .22); padding: 10px 12px; max-height: 100%; overflow: auto; }
-.spc { position: relative; width: 84px; height: 126px; border: none; background: none; padding: 0; cursor: pointer; transition: transform .15s ease; }
+.spread { pointer-events: auto; position: absolute; left: 50%; top: 2px; transform: translateX(-50%); display: grid; grid-template-columns: repeat(var(--cols, 4), auto); gap: 8px 10px; background: rgba(18, 14, 17, .72); border: 1px solid rgba(236, 227, 212, .22); padding: 10px 12px; max-height: 100%; overflow: auto; }
+.spc { position: relative; width: var(--cw, 84px); height: var(--chh, 126px); border: none; background: none; padding: 0; cursor: pointer; transition: transform .15s ease; }
 .spc img { width: 100%; height: 100%; display: block; border-radius: 6px; }
 .spc:hover:not(:disabled), .spc:focus-visible { transform: translateY(-4px); }
 .spc:disabled { cursor: default; filter: brightness(.42) saturate(.5); }
 .spc .ct { position: absolute; right: -5px; top: -5px; min-width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ink); border: 1px solid var(--gold); font-size: 13px; font-variant-numeric: tabular-nums; }
-.spread.more .spc { width: 68px; height: 102px; }
 .tools2 { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: center; }
 .mini { border: 1px solid rgba(236, 227, 212, .45); background: transparent; color: var(--paper); font-size: 12px; padding: 3px 10px; min-height: 32px; cursor: pointer; }
 .mini:disabled { opacity: .35; cursor: not-allowed; }
@@ -248,9 +247,7 @@ p { margin: 0; }
   .hand.on { min-height: 128px; }
   .hc { width: 72px; height: 108px; margin: 0 -4px; }
   .hc .stain { width: 24px; height: 24px; }
-  .spc { width: 66px; height: 99px; }
   .spread { padding: 6px; gap: 6px; }
-  .spread.more .spc { width: 56px; height: 84px; }
   .sub .tx { font-size: 19px; }
   .sub .gain { font-size: 12px; }
   .opt { font-size: 20px; }
@@ -1414,6 +1411,7 @@ function coachRender() {
   const W = innerWidth, H = innerHeight, pad = act ? 5 : 8;
   if (r) r = { l: Math.max(4, r.l - pad), t: Math.max(4, r.t - pad), r: Math.min(W - 4, r.r + pad), b: Math.min(H - 4, r.b + pad) };
   el.hidden = false;
+  hidePeek();
   const doing = act ? `<span class="do">照着做：${esc(st.tap || '点亮起来的地方')}</span>` : '<button class="btn go small" data-act="coachnext">知道了</button>';
   el.innerHTML = `<div class="dim"></div><div class="shield"></div>${r ? `<div class="ring" ${act ? `data-tap="${esc(st.tap || '点这里')}"` : ''}></div>` : ''}
     <div class="cbox" role="dialog" aria-labelledby="coachT" aria-describedby="coachX"><h4 id="coachT">${st.title}</h4><div class="tx" id="coachX">${st.text()}</div>
@@ -1455,8 +1453,10 @@ function peekHTML(t) {
   const fig = (side, on, name, lines, over) => `<figure class="${on ? 'on' : ''}"><img src="${cardArt(t, side, over).url}" alt=""><figcaption><b>${name}</b>${lines.join('<br>')}</figcaption></figure>`;
   return fig('stage', front, '台上面', stageLines(t)) + fig('home', !front, '家里面', covered ? ['台上的字盖住了。', '推出去，就算被染。'] : homeLines(t), covered);
 }
+// 教學小框還在畫面上時不放大牌：先讀完教學，再看牌
+const coachOn = () => !$('#coach').hidden;
 function showPeek(el) {
-  if (!S || view === 'title') return;
+  if (!S || view === 'title' || coachOn()) return;
   const id = el.dataset.id !== undefined ? Number(el.dataset.id) : null, t = id !== null ? cardOf(S, id)?.t : el.dataset.t;
   if (!t || !T[t]) return;
   const p = $('#peek');
@@ -1593,7 +1593,7 @@ function refresh() {
   const on = view !== 'title';
   $('#hud').hidden = !on; $('#title').hidden = on;
   if (!on) { renderTitle(); $('#coach').hidden = true; hidePeek(); return; }
-  renderPlate(); renderTop(); renderTray(); renderMid(); renderChoices(); renderHand(); peekSync(); renderSmear();
+  renderPlate(); renderTop(); renderTray(); renderMid(); renderChoices(); renderHand(); fitSpread(); peekSync(); renderSmear();
   updateTable();
   coachUpdate();
   save();
@@ -1694,8 +1694,28 @@ function morningPanel() {
     const free = S.deck.filter(c => c.t === k && !t.box.includes(c.id)), can = free.length > 0;
     return `<button class="spc" data-act="pick" data-arg="${k}" data-t="${k}" ${can ? '' : 'disabled'} aria-label="${T[k].n}，还有 ${free.length} 张"><img src="${cardArt(k, 'stage').url}" alt=""><span class="ct">${free.length}</span></button>`;
   }).join('');
-  return `<div class="spread ${kinds.length > 8 ? 'more' : ''}">${cells}<div class="tools2"><button class="mini" data-act="yesterday" ${S.lastBox ? '' : 'disabled'}>照昨天装</button><button class="mini" data-act="clear" ${t.box.length ? '' : 'disabled'}>全拿出来</button></div></div>`;
+  return `<div class="spread">${cells}<div class="tools2"><button class="mini" data-act="yesterday" ${S.lastBox ? '' : 'disabled'}>照昨天装</button><button class="mini" data-act="clear" ${t.box.length ? '' : 'disabled'}>全拿出来</button></div></div>`;
 }
+// 攤開的牌照桌上的空位排：先排成一列，放不下才折行；牌盡量維持原大，不夠才一起縮
+function fitSpread() {
+  const sp = $('#mid .spread');
+  if (!sp) return;
+  const n = sp.querySelectorAll('.spc').length, mid = $('#mid').getBoundingClientRect(), cs = getComputedStyle(sp);
+  const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight), padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+  const gx = parseFloat(cs.columnGap) || 10, gy = parseFloat(cs.rowGap) || 8, tools = (sp.querySelector('.tools2')?.offsetHeight || 32) + gy;
+  const W = Math.min(mid.width, innerWidth - 32) - padX - 2, H = mid.height - padY - tools - 6;
+  let best = { h: 0, cols: 4 };
+  for (let cols = 1; cols <= n; cols++) {
+    const rows = Math.ceil(n / cols);
+    const h = Math.min(126, (H - (rows - 1) * gy) / rows, (W - (cols - 1) * gx) / cols * 1.5);
+    if (h > best.h + 0.5) best = { h, cols };
+  }
+  const h = Math.max(72, Math.floor(best.h));
+  sp.style.setProperty('--cols', best.cols);
+  sp.style.setProperty('--chh', `${h}px`);
+  sp.style.setProperty('--cw', `${Math.round(h / 1.5)}px`);
+}
+addEventListener('resize', () => { if (view === 'morning') fitSpread(); });
 function rulesPanel() {
   const P = S.played;
   return `<div class="panel rules"><h2>规矩<button class="btn small" style="float:right" data-act="close">关上</button></h2>
