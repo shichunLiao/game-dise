@@ -1,0 +1,2114 @@
+{
+ "version": "v1.6",
+ "source": "原型/assets_codex_20261110/manifest.json（v2 complete_candidate）",
+ "count": 162,
+ "note": "只收遊戲裡用得到的圖；風格鎖定小樣 draft/s1–s5 留在原件目錄，不進正式庫。",
+ "assets": [
+  {
+   "id": "C5-changqiang",
+   "file": "cards/art_changqiang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 20035,
+   "sha256": "0efedf76bdd34584c2d987d3eb9f4ad5cff7fb6a0366f0f665fb8de32dea00fb",
+   "source": "原型/assets_codex_20261110/cards/art_changqiang_line.png",
+   "used_for": "卡面插圖 T.changqiang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-changqiang",
+   "file": "cards/art_changqiang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7009,
+   "sha256": "30ebdc2ce13a28198e96ad257d144658829232fd0de2a948a1620ecd541f550a",
+   "source": "原型/assets_codex_20261110/cards/art_changqiang_accent.png",
+   "used_for": "卡面插圖 T.changqiang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-liangsang",
+   "file": "cards/art_liangsang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 24889,
+   "sha256": "4a023d7fac1536397830768cf4504fcf63908b3ced3e1183cf2cd36333b256b1",
+   "source": "原型/assets_codex_20261110/cards/art_liangsang_line.png",
+   "used_for": "卡面插圖 T.liangsang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-liangsang",
+   "file": "cards/art_liangsang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6623,
+   "sha256": "1f5738599b93e2ccecef9673f4f61dfc31c0cf67500e861ae6606b58af35d176",
+   "source": "原型/assets_codex_20261110/cards/art_liangsang_accent.png",
+   "used_for": "卡面插圖 T.liangsang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-bai",
+   "file": "cards/art_bai_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 9536,
+   "sha256": "019ebc510d93fb340bc7a6e10507e85ef08a434eb9f2a32f5b79fe98e282f782",
+   "source": "原型/assets_codex_20261110/cards/art_bai_line.png",
+   "used_for": "卡面插圖 T.bai（line 依卡色染色）"
+  },
+  {
+   "id": "C5-bai",
+   "file": "cards/art_bai_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7365,
+   "sha256": "5a0cd80bfff1ccee2803bedbd254e41b2bfb4efe59fb0f089e09e1e9d09aa719",
+   "source": "原型/assets_codex_20261110/cards/art_bai_accent.png",
+   "used_for": "卡面插圖 T.bai（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-kuaiban",
+   "file": "cards/art_kuaiban_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 16102,
+   "sha256": "fed8f8394ed955373e9095480d4922373eb466b5bbf5acd585fc910fa3868ef9",
+   "source": "原型/assets_codex_20261110/cards/art_kuaiban_line.png",
+   "used_for": "卡面插圖 T.kuaiban（line 依卡色染色）"
+  },
+  {
+   "id": "C5-kuaiban",
+   "file": "cards/art_kuaiban_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7418,
+   "sha256": "dad602092c58c561f9671b88b3d90281f80c2326f17ed1f5935e946b61f46980",
+   "source": "原型/assets_codex_20261110/cards/art_kuaiban_accent.png",
+   "used_for": "卡面插圖 T.kuaiban（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-shenduan",
+   "file": "cards/art_shenduan_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 20287,
+   "sha256": "ea34368ec52263d9e8cfdc834401b3a6769625a6bc770aa8195330f944b32458",
+   "source": "原型/assets_codex_20261110/cards/art_shenduan_line.png",
+   "used_for": "卡面插圖 T.shenduan（line 依卡色染色）"
+  },
+  {
+   "id": "C5-shenduan",
+   "file": "cards/art_shenduan_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6765,
+   "sha256": "25ee49589f36921e2c360e954b2a5a4681ad0fafbe7208e11cb4ee53adbf7f58",
+   "source": "原型/assets_codex_20261110/cards/art_shenduan_accent.png",
+   "used_for": "卡面插圖 T.shenduan（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-shuixiu",
+   "file": "cards/art_shuixiu_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 21976,
+   "sha256": "93f617f2856568d6c97bd95caac9c83b650e2efcf0016632b457296133422b24",
+   "source": "原型/assets_codex_20261110/cards/art_shuixiu_line.png",
+   "used_for": "卡面插圖 T.shuixiu（line 依卡色染色）"
+  },
+  {
+   "id": "C5-shuixiu",
+   "file": "cards/art_shuixiu_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7014,
+   "sha256": "e62ba5035e9fb7abdb63cd9cd50c700f39fa52b193e69f28ff1315e3fcb53afe",
+   "source": "原型/assets_codex_20261110/cards/art_shuixiu_accent.png",
+   "used_for": "卡面插圖 T.shuixiu（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-liangxiang",
+   "file": "cards/art_liangxiang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 15468,
+   "sha256": "d2aa62755e6a5e57e52090bf91f64b9d8e3f4e5530b3988038f917feafafae5b",
+   "source": "原型/assets_codex_20261110/cards/art_liangxiang_line.png",
+   "used_for": "卡面插圖 T.liangxiang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-liangxiang",
+   "file": "cards/art_liangxiang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6914,
+   "sha256": "b39ee7cfdf0236036cd3c47a0584786da5d655f5e8beee2cfbeb19e91c249f45",
+   "source": "原型/assets_codex_20261110/cards/art_liangxiang_accent.png",
+   "used_for": "卡面插圖 T.liangxiang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-fanshen",
+   "file": "cards/art_fanshen_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 19773,
+   "sha256": "a349f8e207cc3b215d50f5acfc53b91a554d62e259ea4d4005227eb2a64c7b19",
+   "source": "原型/assets_codex_20261110/cards/art_fanshen_line.png",
+   "used_for": "卡面插圖 T.fanshen（line 依卡色染色）"
+  },
+  {
+   "id": "C5-fanshen",
+   "file": "cards/art_fanshen_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6744,
+   "sha256": "6df5d1c721ca0cf2e647f6025312307c8d980eec2c66087ba2127adda5e75ab0",
+   "source": "原型/assets_codex_20261110/cards/art_fanshen_accent.png",
+   "used_for": "卡面插圖 T.fanshen（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-jie_kutou",
+   "file": "cards/art_jie_kutou_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 18791,
+   "sha256": "c08ebe19a38f47515a61a9116039f92610e71b43cab11bb70acd40c73f49d719",
+   "source": "原型/assets_codex_20261110/cards/art_jie_kutou_line.png",
+   "used_for": "卡面插圖 T.jie_kutou（line 依卡色染色）"
+  },
+  {
+   "id": "C5-jie_kutou",
+   "file": "cards/art_jie_kutou_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6755,
+   "sha256": "b75295db2fffd1043b3994cc3ae8741de5f69cd677d179462e38b0ee4b37e039",
+   "source": "原型/assets_codex_20261110/cards/art_jie_kutou_accent.png",
+   "used_for": "卡面插圖 T.jie_kutou（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-jie_guankou",
+   "file": "cards/art_jie_guankou_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 13176,
+   "sha256": "9abe341d821f49e6f2b2d9848c1573ce234905b926ba1be2e1761f9833a10b3a",
+   "source": "原型/assets_codex_20261110/cards/art_jie_guankou_line.png",
+   "used_for": "卡面插圖 T.jie_guankou（line 依卡色染色）"
+  },
+  {
+   "id": "C5-jie_guankou",
+   "file": "cards/art_jie_guankou_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6663,
+   "sha256": "42e3e094b370997251d1a93958e3620fb480c303b289c55d6fe0015bbd5f8b65",
+   "source": "原型/assets_codex_20261110/cards/art_jie_guankou_accent.png",
+   "used_for": "卡面插圖 T.jie_guankou（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-jie_dadao",
+   "file": "cards/art_jie_dadao_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 9120,
+   "sha256": "81b7da85a8b74c3568cdf61e0e6246ec8c05b3eeaa4fa5984d8429762a8763b4",
+   "source": "原型/assets_codex_20261110/cards/art_jie_dadao_line.png",
+   "used_for": "卡面插圖 T.jie_dadao（line 依卡色染色）"
+  },
+  {
+   "id": "C5-jie_dadao",
+   "file": "cards/art_jie_dadao_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6925,
+   "sha256": "7d364961a7d007a2d97f46be1015a5165b2a654907cbb771ce649d289ff5b684",
+   "source": "原型/assets_codex_20261110/cards/art_jie_dadao_accent.png",
+   "used_for": "卡面插圖 T.jie_dadao（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-manban",
+   "file": "cards/art_manban_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 12802,
+   "sha256": "33ac3e6d18507d4f4ff97a3156919b37b9c527c1ff4f5300f4185496934d7105",
+   "source": "原型/assets_codex_20261110/cards/art_manban_line.png",
+   "used_for": "卡面插圖 T.manban（line 依卡色染色）"
+  },
+  {
+   "id": "C5-manban",
+   "file": "cards/art_manban_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6576,
+   "sha256": "ef8f5a84a1043a963d31d9e1037d2ac5c80a75e118c59a0fb766f0d8ce6052d7",
+   "source": "原型/assets_codex_20261110/cards/art_manban_accent.png",
+   "used_for": "卡面插圖 T.manban（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-daoban",
+   "file": "cards/art_daoban_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 14807,
+   "sha256": "e5ca247d51d68cb941ec7c2573fd35caa58c8430b70859b16bfef9f124d9cb7c",
+   "source": "原型/assets_codex_20261110/cards/art_daoban_line.png",
+   "used_for": "卡面插圖 T.daoban（line 依卡色染色）"
+  },
+  {
+   "id": "C5-daoban",
+   "file": "cards/art_daoban_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6858,
+   "sha256": "ca31ece757863b11e81c9e166013dd3a4636e08261e3fa8bdcc3e3286cc23a97",
+   "source": "原型/assets_codex_20261110/cards/art_daoban_accent.png",
+   "used_for": "卡面插圖 T.daoban（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-yunbai",
+   "file": "cards/art_yunbai_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 11996,
+   "sha256": "aed48001af87e6f94b5ee1d860b639d831fe854bc420553fee14d19854579913",
+   "source": "原型/assets_codex_20261110/cards/art_yunbai_line.png",
+   "used_for": "卡面插圖 T.yunbai（line 依卡色染色）"
+  },
+  {
+   "id": "C5-yunbai",
+   "file": "cards/art_yunbai_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6603,
+   "sha256": "0fe2b6f661166ac9dcedb80a12afbcb524cf2c29b2d13e30b5f08a095c5f2cec",
+   "source": "原型/assets_codex_20261110/cards/art_yunbai_accent.png",
+   "used_for": "卡面插圖 T.yunbai（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-shuban",
+   "file": "cards/art_shuban_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 13058,
+   "sha256": "ec8666e0c3302b7e3efce31741dba366e13c1ff67375f5de6e58af52672b170d",
+   "source": "原型/assets_codex_20261110/cards/art_shuban_line.png",
+   "used_for": "卡面插圖 T.shuban（line 依卡色染色）"
+  },
+  {
+   "id": "C5-shuban",
+   "file": "cards/art_shuban_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7111,
+   "sha256": "a910ea5e372eb67a5e0aefea538f95ac60c56792fa8849d7aea8a9b478d135a4",
+   "source": "原型/assets_codex_20261110/cards/art_shuban_accent.png",
+   "used_for": "卡面插圖 T.shuban（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-woyu",
+   "file": "cards/art_woyu_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 17938,
+   "sha256": "49dbfd6da3e8aaa6031151e5b36deced217b863da8f8909499da9b43033fcf68",
+   "source": "原型/assets_codex_20261110/cards/art_woyu_line.png",
+   "used_for": "卡面插圖 T.woyu（line 依卡色染色）"
+  },
+  {
+   "id": "C5-woyu",
+   "file": "cards/art_woyu_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 9525,
+   "sha256": "07eaf626d12e254ab35fbf3edca3078eca003a0d285ea1cebfc202789e41ed2b",
+   "source": "原型/assets_codex_20261110/cards/art_woyu_accent.png",
+   "used_for": "卡面插圖 T.woyu（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-tazhuan",
+   "file": "cards/art_tazhuan_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 18469,
+   "sha256": "1752fd029f6ea57efdd398c6153d925cb17fc86a2f65cd4beda67a32a3ce5aab",
+   "source": "原型/assets_codex_20261110/cards/art_tazhuan_line.png",
+   "used_for": "卡面插圖 T.tazhuan（line 依卡色染色）"
+  },
+  {
+   "id": "C5-tazhuan",
+   "file": "cards/art_tazhuan_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7390,
+   "sha256": "28e7e0ff290f527c8b8bd41162bf7aeaec5fd467d3ea5720cc7187e61b6b4807",
+   "source": "原型/assets_codex_20261110/cards/art_tazhuan_accent.png",
+   "used_for": "卡面插圖 T.tazhuan（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-qiba",
+   "file": "cards/art_qiba_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 21606,
+   "sha256": "56d08713af992e1501103f00ac9ff73f471edb047ba1570e545548659e43f855",
+   "source": "原型/assets_codex_20261110/cards/art_qiba_line.png",
+   "used_for": "卡面插圖 T.qiba（line 依卡色染色）"
+  },
+  {
+   "id": "C5-qiba",
+   "file": "cards/art_qiba_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6922,
+   "sha256": "1bfae8fa628b4bfe6fd7624cefc5f77bed39244d5f69a8b5155897ac1d1e92cb",
+   "source": "原型/assets_codex_20261110/cards/art_qiba_accent.png",
+   "used_for": "卡面插圖 T.qiba（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-jijifeng",
+   "file": "cards/art_jijifeng_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 19862,
+   "sha256": "136ffffe9d300788b1a01738f7e6ffb8f2c100b32e19c3f3b08742497aee12b3",
+   "source": "原型/assets_codex_20261110/cards/art_jijifeng_line.png",
+   "used_for": "卡面插圖 T.jijifeng（line 依卡色染色）"
+  },
+  {
+   "id": "C5-jijifeng",
+   "file": "cards/art_jijifeng_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7914,
+   "sha256": "d1c308d8ff9ee6dcf32cc0cbeb3bfeabc0b8012b475c94d7d941b3f5f10a14ac",
+   "source": "原型/assets_codex_20261110/cards/art_jijifeng_accent.png",
+   "used_for": "卡面插圖 T.jijifeng（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-qingchang",
+   "file": "cards/art_qingchang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 13650,
+   "sha256": "fd4af9726adcca502529fab04dcc25857bc8c00329bbbaeafd37905b12d64f74",
+   "source": "原型/assets_codex_20261110/cards/art_qingchang_line.png",
+   "used_for": "卡面插圖 T.qingchang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-qingchang",
+   "file": "cards/art_qingchang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7176,
+   "sha256": "41ea9762c727e2509fa5685dd33afff29f830125f0c9c52be3c181ac12c98dc2",
+   "source": "原型/assets_codex_20261110/cards/art_qingchang_accent.png",
+   "used_for": "卡面插圖 T.qingchang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-dingchang",
+   "file": "cards/art_dingchang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6276,
+   "sha256": "1b76b52a4782e81257d39fed2851a2b120b40c73a5e645346a34da0aa2487f75",
+   "source": "原型/assets_codex_20261110/cards/art_dingchang_line.png",
+   "used_for": "卡面插圖 T.dingchang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-dingchang",
+   "file": "cards/art_dingchang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7273,
+   "sha256": "c314ca51ac11249653b4ce1a2ca73fa159f3fa5dcba6171d2f607b8d43a79fa5",
+   "source": "原型/assets_codex_20261110/cards/art_dingchang_accent.png",
+   "used_for": "卡面插圖 T.dingchang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-tuoqiang",
+   "file": "cards/art_tuoqiang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 8974,
+   "sha256": "67ffb6fefcd52c3876b23b9f143f0346a11c4393d140cfa42177d3318a2f266a",
+   "source": "原型/assets_codex_20261110/cards/art_tuoqiang_line.png",
+   "used_for": "卡面插圖 T.tuoqiang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-tuoqiang",
+   "file": "cards/art_tuoqiang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6665,
+   "sha256": "757f0d853783acd8ebd1010cdb028b245860b8ff6a71190e88ce3ff59241d753",
+   "source": "原型/assets_codex_20261110/cards/art_tuoqiang_accent.png",
+   "used_for": "卡面插圖 T.tuoqiang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-tangma",
+   "file": "cards/art_tangma_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 17495,
+   "sha256": "42b00182c1b0bdd0b01e61677b0ebdaec3452c89113f5f988682701a4f5648cc",
+   "source": "原型/assets_codex_20261110/cards/art_tangma_line.png",
+   "used_for": "卡面插圖 T.tangma（line 依卡色染色）"
+  },
+  {
+   "id": "C5-tangma",
+   "file": "cards/art_tangma_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6695,
+   "sha256": "76f041d7d0896c12786d3e0648d578a36196a63e7e2b6f1ab1760337b9047807",
+   "source": "原型/assets_codex_20261110/cards/art_tangma_accent.png",
+   "used_for": "卡面插圖 T.tangma（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-tang",
+   "file": "cards/art_tang_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 19209,
+   "sha256": "928b000c12fd87d32c48b7f30b64ab6a2776c478962d2550423c56fb119891d4",
+   "source": "原型/assets_codex_20261110/cards/art_tang_line.png",
+   "used_for": "卡面插圖 T.tang（line 依卡色染色）"
+  },
+  {
+   "id": "C5-tang",
+   "file": "cards/art_tang_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7261,
+   "sha256": "45ca610d0e31dac1492cf811e1210c74ec0a19a69f3013c37a1c2a16eaf4988a",
+   "source": "原型/assets_codex_20261110/cards/art_tang_accent.png",
+   "used_for": "卡面插圖 T.tang（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-fan",
+   "file": "cards/art_fan_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 10487,
+   "sha256": "4aa512b05d3731905100a4f4138ee4f3ba0e196efb86dada6b57b58dab38437b",
+   "source": "原型/assets_codex_20261110/cards/art_fan_line.png",
+   "used_for": "卡面插圖 T.fan（line 依卡色染色）"
+  },
+  {
+   "id": "C5-fan",
+   "file": "cards/art_fan_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6847,
+   "sha256": "61c88d1dbd3d7f5b7641b0f8fdb2fdfbf9d13cb082a1d8bf4d33e00c96fdadfe",
+   "source": "原型/assets_codex_20261110/cards/art_fan_accent.png",
+   "used_for": "卡面插圖 T.fan（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-xin",
+   "file": "cards/art_xin_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 15257,
+   "sha256": "c73b822dc6d42f652e2b7099ef651072f5fcea5fe24a9d3e6e6374321df3a68a",
+   "source": "原型/assets_codex_20261110/cards/art_xin_line.png",
+   "used_for": "卡面插圖 T.xin（line 依卡色染色）"
+  },
+  {
+   "id": "C5-xin",
+   "file": "cards/art_xin_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 10170,
+   "sha256": "60f4e7c2f87b514d15ab687d3e8f4f0b66abfecb4d66338314aa1cb4c9cc7381",
+   "source": "原型/assets_codex_20261110/cards/art_xin_accent.png",
+   "used_for": "卡面插圖 T.xin（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-zhi",
+   "file": "cards/art_zhi_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 19179,
+   "sha256": "e88ab59fd989836b5febe6cf8d70dd37cf3937e3aa095709b62a21f22a447a36",
+   "source": "原型/assets_codex_20261110/cards/art_zhi_line.png",
+   "used_for": "卡面插圖 T.zhi（line 依卡色染色）"
+  },
+  {
+   "id": "C5-zhi",
+   "file": "cards/art_zhi_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7224,
+   "sha256": "ad61726d2ab9028812fb255dd048f80a5f27af79536d7cec6d4675c3aec8a226",
+   "source": "原型/assets_codex_20261110/cards/art_zhi_accent.png",
+   "used_for": "卡面插圖 T.zhi（accent 朱紅點題）"
+  },
+  {
+   "id": "C5-home_listen",
+   "file": "cards/art_home_listen_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 14086,
+   "sha256": "5b0ca209d1120c252946d8ab1b0b851b4ce17ec2dd31bf450ab7d5596f441a5c",
+   "source": "原型/assets_codex_20261110/cards/art_home_listen_line.png",
+   "used_for": "家裡面插圖 HOME.listen"
+  },
+  {
+   "id": "C5-home_listen",
+   "file": "cards/art_home_listen_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7354,
+   "sha256": "4ba3e42f093c1d441ffc3ff2e50333786efcb062af8d675f8d967bf2e61eecc9",
+   "source": "原型/assets_codex_20261110/cards/art_home_listen_accent.png",
+   "used_for": "家裡面插圖 HOME.listen"
+  },
+  {
+   "id": "C5-home_comp",
+   "file": "cards/art_home_comp_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 12985,
+   "sha256": "0ce3af022d4cf7d15e7586f90f4f0f218b3d3e9fe72edb3b46205879c5ad573b",
+   "source": "原型/assets_codex_20261110/cards/art_home_comp_line.png",
+   "used_for": "家裡面插圖 HOME.comp"
+  },
+  {
+   "id": "C5-home_comp",
+   "file": "cards/art_home_comp_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6800,
+   "sha256": "4e87f6fb1b2f832e9d3016900b6ad9edf6d78f47b77f1961cebad7826e903462",
+   "source": "原型/assets_codex_20261110/cards/art_home_comp_accent.png",
+   "used_for": "家裡面插圖 HOME.comp"
+  },
+  {
+   "id": "C5-home_care",
+   "file": "cards/art_home_care_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 16692,
+   "sha256": "9318d60811373ff37a62727636de0cc4a7cd1a884a0d58c37d8b837c4c195fee",
+   "source": "原型/assets_codex_20261110/cards/art_home_care_line.png",
+   "used_for": "家裡面插圖 HOME.care"
+  },
+  {
+   "id": "C5-home_care",
+   "file": "cards/art_home_care_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6870,
+   "sha256": "efb453d0eb7a09aa8c908ddca3cc18caa82a61e1b61b91e6c567bd4f751d0c6e",
+   "source": "原型/assets_codex_20261110/cards/art_home_care_accent.png",
+   "used_for": "家裡面插圖 HOME.care"
+  },
+  {
+   "id": "C5-home_labor",
+   "file": "cards/art_home_labor_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 21402,
+   "sha256": "58171edf514787656511e2011050e25a46a08177b81c674e9913f1ef1e8aed2c",
+   "source": "原型/assets_codex_20261110/cards/art_home_labor_line.png",
+   "used_for": "家裡面插圖 HOME.labor"
+  },
+  {
+   "id": "C5-home_labor",
+   "file": "cards/art_home_labor_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7125,
+   "sha256": "73eee27949675529eaa99e1f878ea0c3fdf8614ad6cba9fcda1f8e6d4b86534b",
+   "source": "原型/assets_codex_20261110/cards/art_home_labor_accent.png",
+   "used_for": "家裡面插圖 HOME.labor"
+  },
+  {
+   "id": "C4-1-1",
+   "file": "cards/paper_01.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 10571,
+   "sha256": "d0c5387959bda80b435ba4d6bff6b076136a13c414c7ad60c5f43824c59089fa",
+   "source": "原型/assets_codex_20261110/cards/paper_01.png",
+   "used_for": "卡紙紋理（overlay 疊在卡面上，依牌輪換）"
+  },
+  {
+   "id": "C4-1-2",
+   "file": "cards/paper_02.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 12512,
+   "sha256": "037997663dfb5b6d240cb67224c07f251e858a91009c5830c05cd177e4fd4dd9",
+   "source": "原型/assets_codex_20261110/cards/paper_02.png",
+   "used_for": "卡紙紋理（overlay 疊在卡面上，依牌輪換）"
+  },
+  {
+   "id": "C4-1-3",
+   "file": "cards/paper_03.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 13156,
+   "sha256": "7efbe66a0b7da282a30f66666b1142cb7284dce3f6ae82dd28cb0fa42d7e4be1",
+   "source": "原型/assets_codex_20261110/cards/paper_03.png",
+   "used_for": "卡紙紋理（overlay 疊在卡面上，依牌輪換）"
+  },
+  {
+   "id": "C4-1-4",
+   "file": "cards/paper_04.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 7315,
+   "sha256": "c3b5988faef124643178b1526ed803cdb2b59f92660c10e468146adc0e7ff519",
+   "source": "原型/assets_codex_20261110/cards/paper_04.png",
+   "used_for": "卡紙紋理（overlay 疊在卡面上，依牌輪換）"
+  },
+  {
+   "id": "C4-2",
+   "file": "cards/border_stage.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": true,
+   "bytes": 7789,
+   "sha256": "e37d014692199edcb66345b0d4fcd7471a85e6711d3c2148dd8b09f033880b33",
+   "source": "原型/assets_codex_20261110/cards/border_stage.png",
+   "used_for": "台上面邊框（依卡色染色；借來的牌染金）"
+  },
+  {
+   "id": "C4-3",
+   "file": "cards/border_home.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": true,
+   "bytes": 5741,
+   "sha256": "b520a6fb635b9f44590f5f61538a7dd07f9ea6c5be12f66bb09feb1e1da6174a",
+   "source": "原型/assets_codex_20261110/cards/border_home.png",
+   "used_for": "家裡面、家常牌邊框（染墨／朱紅）"
+  },
+  {
+   "id": "C4-4",
+   "file": "cards/back.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 35816,
+   "sha256": "de2d38dadf0faea0b34e5745b92a1580d48c2f2caa2c9867a8e83e9b06989a56",
+   "source": "原型/assets_codex_20261110/cards/back.png",
+   "used_for": "牌背（中心「底」字由程式寫）"
+  },
+  {
+   "id": "C2-a01",
+   "file": "crowd/a01.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5571,
+   "sha256": "8849ebf287a771affd88048ca3d63b02a7289d93cb95cf1ea78ef09f2c1b5cec",
+   "source": "原型/assets_codex_20261110/crowd/a01.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a02",
+   "file": "crowd/a02.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7532,
+   "sha256": "760f8a51a0ace349295e0ad81dfbc3107e92d7fe5740d43521812153f0dcc37e",
+   "source": "原型/assets_codex_20261110/crowd/a02.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a03",
+   "file": "crowd/a03.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7727,
+   "sha256": "7d0e273106f26b7801e396ec75d481d3cde5e891c5922d8b52ce543bf68711b0",
+   "source": "原型/assets_codex_20261110/crowd/a03.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a04",
+   "file": "crowd/a04.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5376,
+   "sha256": "a36acc180c5f48526bc9a7877d636fa58bdea0a7bd3bb881ac709c5ab8b7a7f8",
+   "source": "原型/assets_codex_20261110/crowd/a04.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a05",
+   "file": "crowd/a05.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7219,
+   "sha256": "93336aeb8d9befb79c4ebfeefe49d4a9fbdaab01a540c7094441beef32579403",
+   "source": "原型/assets_codex_20261110/crowd/a05.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a06",
+   "file": "crowd/a06.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7991,
+   "sha256": "75f718b1e92960ba61a40bfc4cd94a8aa3d7dec53e369bcaab2c0c73eda4507c",
+   "source": "原型/assets_codex_20261110/crowd/a06.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a07",
+   "file": "crowd/a07.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7575,
+   "sha256": "7b525a13c9c3ff8c3340f157c6186e86585dde4d544d1895f61dfcad61564e14",
+   "source": "原型/assets_codex_20261110/crowd/a07.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a08",
+   "file": "crowd/a08.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6418,
+   "sha256": "e7b0bdb9f8e43c3b1c06968e2867c0a37f6d4a39d92b9e45bc6f59a568ebcbfa",
+   "source": "原型/assets_codex_20261110/crowd/a08.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a09",
+   "file": "crowd/a09.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6219,
+   "sha256": "f00f5f78b274c7034c015972f01797b10a1675cc94245bc052350ffa693e14b0",
+   "source": "原型/assets_codex_20261110/crowd/a09.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a10",
+   "file": "crowd/a10.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7688,
+   "sha256": "8914f6dfe1d97cb57365a7c2e4a3446571c5cc74cc1eb7e25b6d804fa1a7f905",
+   "source": "原型/assets_codex_20261110/crowd/a10.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a11",
+   "file": "crowd/a11.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 8310,
+   "sha256": "a8fbd2e495921059d297c3a6d0a56f5dfbc538219758a80769abdc6addcc5c63",
+   "source": "原型/assets_codex_20261110/crowd/a11.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a12",
+   "file": "crowd/a12.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 9230,
+   "sha256": "ab328dab950db73cb165424ec204a4f3b5b322d58522315c4e8b37b187f44cbe",
+   "source": "原型/assets_codex_20261110/crowd/a12.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a13",
+   "file": "crowd/a13.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5095,
+   "sha256": "e3a989019941bbfe8d299fa64b5a0438d95d6761b5dd7b87c29b4eecfac1caf0",
+   "source": "原型/assets_codex_20261110/crowd/a13.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a14",
+   "file": "crowd/a14.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5888,
+   "sha256": "fbda5fe205fe0e76ab3ee0fce100b1d3202f10bc99e60f6676998949eb5cb096",
+   "source": "原型/assets_codex_20261110/crowd/a14.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a15",
+   "file": "crowd/a15.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5554,
+   "sha256": "832f6479fe48757fc73c023bf1621800295c2e4c15cad8206b6db6ac25cc5665",
+   "source": "原型/assets_codex_20261110/crowd/a15.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-a16",
+   "file": "crowd/a16.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6291,
+   "sha256": "9617aa60a86bce96d4e09443cc1b6971c9f22446076c7ecc73c42b8d14d820c8",
+   "source": "原型/assets_codex_20261110/crowd/a16.png",
+   "used_for": "觀眾：前排、中排與兩側（每天輪換）"
+  },
+  {
+   "id": "C2-b01-idle",
+   "file": "crowd/b01_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5301,
+   "sha256": "0c0b7247c4a9df14b0ee23158f469ba636e8238600a3b634549c28371a3e3900",
+   "source": "原型/assets_codex_20261110/crowd/b01_idle.png",
+   "used_for": "觀眾：前排動作對，平常（叫好組）"
+  },
+  {
+   "id": "C2-b01-act",
+   "file": "crowd/b01_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6436,
+   "sha256": "cf0e722883ec06989cbc73e93a8c45988219b627fab464bbfdf26629e3a4cd40",
+   "source": "原型/assets_codex_20261110/crowd/b01_act.png",
+   "used_for": "觀眾：前排動作對，叫好時換上"
+  },
+  {
+   "id": "C2-b02-idle",
+   "file": "crowd/b02_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5917,
+   "sha256": "59dee2fe828eb3589bfeba74a13704ac325e6afcbfd4392d47a6c8add20a5d42",
+   "source": "原型/assets_codex_20261110/crowd/b02_idle.png",
+   "used_for": "觀眾：前排動作對，平常（叫好組）"
+  },
+  {
+   "id": "C2-b02-act",
+   "file": "crowd/b02_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6943,
+   "sha256": "2848411c59e0801ba694681b97259cf3d6d407e227d42a416c05d03929c71db1",
+   "source": "原型/assets_codex_20261110/crowd/b02_act.png",
+   "used_for": "觀眾：前排動作對，叫好時換上"
+  },
+  {
+   "id": "C2-b03-idle",
+   "file": "crowd/b03_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7479,
+   "sha256": "ff2b1e02f7d1a533bd92a4714ce40217d9ba1cc2c71687b96dc6294f942e223e",
+   "source": "原型/assets_codex_20261110/crowd/b03_idle.png",
+   "used_for": "觀眾：前排動作對，平常（叫好組）"
+  },
+  {
+   "id": "C2-b03-act",
+   "file": "crowd/b03_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7804,
+   "sha256": "9134c4b1e2446469020c77be7bcca3c9c974ce3753a02440607189a3ca29b61b",
+   "source": "原型/assets_codex_20261110/crowd/b03_act.png",
+   "used_for": "觀眾：前排動作對，叫好時換上"
+  },
+  {
+   "id": "C2-b04-idle",
+   "file": "crowd/b04_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5348,
+   "sha256": "c4bc5b38d23418a86ef6cdf2b125cc21c347f87d8226cd51bb0039f8a2a12510",
+   "source": "原型/assets_codex_20261110/crowd/b04_idle.png",
+   "used_for": "觀眾：前排動作對，平常（叫好組）"
+  },
+  {
+   "id": "C2-b04-act",
+   "file": "crowd/b04_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6236,
+   "sha256": "3511522ed2fc655cdc4ad5ebd02321dc4d48190783b54f83fa899ba32023cbe6",
+   "source": "原型/assets_codex_20261110/crowd/b04_act.png",
+   "used_for": "觀眾：前排動作對，叫好時換上"
+  },
+  {
+   "id": "C2-b05-idle",
+   "file": "crowd/b05_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5989,
+   "sha256": "83bc9a593f8df833a9c3c86893433f9b2464112956307a3604c2ef3a8e07ba11",
+   "source": "原型/assets_codex_20261110/crowd/b05_idle.png",
+   "used_for": "觀眾：前排動作對，平常（倒彩組）"
+  },
+  {
+   "id": "C2-b05-act",
+   "file": "crowd/b05_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6953,
+   "sha256": "286653952c5b43645492c8d9df5f9ad6ab160b9bc5fb1089f6206bf4a8856c77",
+   "source": "原型/assets_codex_20261110/crowd/b05_act.png",
+   "used_for": "觀眾：前排動作對，倒彩時換上"
+  },
+  {
+   "id": "C2-b06-idle",
+   "file": "crowd/b06_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5780,
+   "sha256": "42454803fb853f958f097809375c5421b978372737bc5e54a6ee271b8ee6d228",
+   "source": "原型/assets_codex_20261110/crowd/b06_idle.png",
+   "used_for": "觀眾：前排動作對，平常（倒彩組）"
+  },
+  {
+   "id": "C2-b06-act",
+   "file": "crowd/b06_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7187,
+   "sha256": "c5b15b2b4619adaca3a39ee2d75864ad7ac588073f8634f687daed2257cc1c37",
+   "source": "原型/assets_codex_20261110/crowd/b06_act.png",
+   "used_for": "觀眾：前排動作對，倒彩時換上"
+  },
+  {
+   "id": "C2-b07-idle",
+   "file": "crowd/b07_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5517,
+   "sha256": "9e71429c0bad3383be09a97f8ecd438da889d623cc0a7a5acac1dfd306ceb478",
+   "source": "原型/assets_codex_20261110/crowd/b07_idle.png",
+   "used_for": "觀眾：前排動作對，平常（倒彩組）"
+  },
+  {
+   "id": "C2-b07-act",
+   "file": "crowd/b07_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5545,
+   "sha256": "2276e37069604f7db9fd3f15554826832ed71b17cbe57ced56bb7d3169104241",
+   "source": "原型/assets_codex_20261110/crowd/b07_act.png",
+   "used_for": "觀眾：前排動作對，倒彩時換上"
+  },
+  {
+   "id": "C2-b08-idle",
+   "file": "crowd/b08_idle.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5904,
+   "sha256": "fb8edbe97d18d393879205741824930ea6ba96dbaaba5eb6243403b08f839111",
+   "source": "原型/assets_codex_20261110/crowd/b08_idle.png",
+   "used_for": "觀眾：前排動作對，平常（倒彩組）"
+  },
+  {
+   "id": "C2-b08-act",
+   "file": "crowd/b08_act.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 6841,
+   "sha256": "05bf72423a9e2ce323af8f267d7a3f957436c8029f1198e78ba3e9df1e7387b2",
+   "source": "原型/assets_codex_20261110/crowd/b08_act.png",
+   "used_for": "觀眾：前排動作對，倒彩時換上"
+  },
+  {
+   "id": "C2-c01",
+   "file": "crowd/c01.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5589,
+   "sha256": "f57ff6cadb49e4bc875cdaa6c294d5bfbe1f373984dd874684b44f3691c7d5d0",
+   "source": "原型/assets_codex_20261110/crowd/c01.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c02",
+   "file": "crowd/c02.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5234,
+   "sha256": "e8791364538d1b998c2dc8d961497246c9cda907635cb5ce0138a0d846380aa3",
+   "source": "原型/assets_codex_20261110/crowd/c02.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c03",
+   "file": "crowd/c03.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5153,
+   "sha256": "02fecfb53c543ab8aa641e3eeddd1bcf997cde47dbe170f71c5642ac9fbf2fb0",
+   "source": "原型/assets_codex_20261110/crowd/c03.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c04",
+   "file": "crowd/c04.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5295,
+   "sha256": "f229191418c0536480558f3dbf7a08f63656a23c506a188362bc21566a86a99e",
+   "source": "原型/assets_codex_20261110/crowd/c04.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c05",
+   "file": "crowd/c05.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5569,
+   "sha256": "ced167a3fc5bf9472d4d1aa22fa5191aaae34ffe1ca3dfef2ea64c6f0e4f790e",
+   "source": "原型/assets_codex_20261110/crowd/c05.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c06",
+   "file": "crowd/c06.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 7454,
+   "sha256": "9789c87f4e7eff4d3078b4d2397f5766b74089b00eb13290866ef69610e515b3",
+   "source": "原型/assets_codex_20261110/crowd/c06.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c07",
+   "file": "crowd/c07.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 5217,
+   "sha256": "ca6d21b74cf7ec521f49493ff03adf5335596fad7d03b0d555256e0dcfc0c73d",
+   "source": "原型/assets_codex_20261110/crowd/c07.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "C2-c08",
+   "file": "crowd/c08.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 4771,
+   "sha256": "6c34e33e3e09571b4d5324b256daec0e1abe470e06b242559e1720b317abb830",
+   "source": "原型/assets_codex_20261110/crowd/c08.png",
+   "used_for": "觀眾：後排遠處小影"
+  },
+  {
+   "id": "D1",
+   "file": "deco/shoujiu.png",
+   "size": [
+    1536,
+    1024
+   ],
+   "transparent": false,
+   "bytes": 101881,
+   "sha256": "5fc411ee8a0c0eaeb19c7b4a1598e4ac07dde13a16efd463d14badb9cc1e49ee",
+   "source": "原型/assets_codex_20261110/deco/shoujiu.png",
+   "used_for": "小戲台後的守舊背幕（只在戲台鏡頭出現，免得擋住對面的阿檀）"
+  },
+  {
+   "id": "D2",
+   "file": "deco/carpet.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": false,
+   "bytes": 62004,
+   "sha256": "0d695f348a446984ab4ea1f9c942470df9f4c6c9ba85c54d646d66e4d631d3e9",
+   "source": "原型/assets_codex_20261110/deco/carpet.png",
+   "used_for": "戲台台毯（平鋪）"
+  },
+  {
+   "id": "D3-1",
+   "file": "deco/chuanghua_01.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 6203,
+   "sha256": "600d4bdf6743fc13bb1718c347d6bbf93cf6506dc1ce257ff1fe8b9748123cc5",
+   "source": "原型/assets_codex_20261110/deco/chuanghua_01.png",
+   "used_for": "後牆格窗上的窗花"
+  },
+  {
+   "id": "D3-2",
+   "file": "deco/chuanghua_02.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 8490,
+   "sha256": "e12d0d7cb1e8597e6bb314c259ebf41c4845bea8e38a4eb99e0dbf5902d92453",
+   "source": "原型/assets_codex_20261110/deco/chuanghua_02.png",
+   "used_for": "後牆格窗上的窗花"
+  },
+  {
+   "id": "D3-3",
+   "file": "deco/chuanghua_03.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 13434,
+   "sha256": "3899dd9f1869c6a68381c7223c77f6a9971917dee2191de94a2dcce03b750d23",
+   "source": "原型/assets_codex_20261110/deco/chuanghua_03.png",
+   "used_for": "後牆格窗上的窗花"
+  },
+  {
+   "id": "D3-4",
+   "file": "deco/chuanghua_04.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 9654,
+   "sha256": "a2a3a7b51a1fbd282388c7892ee9ceb806be968ff6d428ca275b341881fb9532",
+   "source": "原型/assets_codex_20261110/deco/chuanghua_04.png",
+   "used_for": "後牆格窗上的窗花"
+  },
+  {
+   "id": "D4-1",
+   "file": "deco/lianpu_01.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 12772,
+   "sha256": "352826a15443e72a7ac69ac7dea5564abb87d903e13421b9733dd8b060dddae5",
+   "source": "原型/assets_codex_20261110/deco/lianpu_01.png",
+   "used_for": "後牆上的臉譜剪紙"
+  },
+  {
+   "id": "D4-2",
+   "file": "deco/lianpu_02.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 12514,
+   "sha256": "0c6a74f75763c19901319c4c5e7225d4968a1c816edba7c2ded88fd0b431e6d5",
+   "source": "原型/assets_codex_20261110/deco/lianpu_02.png",
+   "used_for": "後牆上的臉譜剪紙"
+  },
+  {
+   "id": "D4-3",
+   "file": "deco/lianpu_03.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 12690,
+   "sha256": "cdb54f414742074bf70c3c6a084307d7b454e8782e8bd608735891885176a8a9",
+   "source": "原型/assets_codex_20261110/deco/lianpu_03.png",
+   "used_for": "後牆上的臉譜剪紙"
+  },
+  {
+   "id": "D4-4",
+   "file": "deco/lianpu_04.png",
+   "size": [
+    512,
+    640
+   ],
+   "transparent": true,
+   "bytes": 12517,
+   "sha256": "b6f6a8ddbcc815fd5579b7a7b13a4351574568ec473cb3d0cd5483589fbc72f9",
+   "source": "原型/assets_codex_20261110/deco/lianpu_04.png",
+   "used_for": "後牆上的臉譜剪紙"
+  },
+  {
+   "id": "D5",
+   "file": "deco/lampaper.png",
+   "size": [
+    256,
+    256
+   ],
+   "transparent": true,
+   "bytes": 1960,
+   "sha256": "c7133ccf0cebc022c3a610f5c57563e72c4fc7bbcce014816ec10efe0cecdd0e",
+   "source": "原型/assets_codex_20261110/deco/lampaper.png",
+   "used_for": "燈坊那盞燈的燈紙紋樣"
+  },
+  {
+   "id": "D6",
+   "file": "deco/chest_lid.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 5975,
+   "sha256": "921505704b20e112f7958632817b1feefc6bf1852904d08c6d6701be034d2ee1",
+   "source": "原型/assets_codex_20261110/deco/chest_lid.png",
+   "used_for": "木匣蓋子上的如意雲頭（染赭金）"
+  },
+  {
+   "id": "C6-qinshi",
+   "file": "relics/qinshi_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 12319,
+   "sha256": "df9472fafe4a7fdb017c72c09b8c97a84bc3aca46978f5f92e6ae6559c18a5f3",
+   "source": "原型/assets_codex_20261110/relics/qinshi_line.png",
+   "used_for": "物件圖示 RELICS.qinshi"
+  },
+  {
+   "id": "C6-qinshi",
+   "file": "relics/qinshi_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6539,
+   "sha256": "e33b029f658d93e73bc5c91445c1754c7adb3ecbcabfedf36bf1135cd529fd3d",
+   "source": "原型/assets_codex_20261110/relics/qinshi_accent.png",
+   "used_for": "物件圖示 RELICS.qinshi"
+  },
+  {
+   "id": "C6-gujing",
+   "file": "relics/gujing_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 21425,
+   "sha256": "e818bba80a68105624bfaa746f9099691a11576b9db4dc889140e0b00a14cb1e",
+   "source": "原型/assets_codex_20261110/relics/gujing_line.png",
+   "used_for": "物件圖示 RELICS.gujing"
+  },
+  {
+   "id": "C6-gujing",
+   "file": "relics/gujing_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 8054,
+   "sha256": "f411c82ee98bca64a7f2a43e8ead7f5160f42f2950c7fa9edd6e183b1034df6e",
+   "source": "原型/assets_codex_20261110/relics/gujing_accent.png",
+   "used_for": "物件圖示 RELICS.gujing"
+  },
+  {
+   "id": "C6-cha",
+   "file": "relics/cha_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 15678,
+   "sha256": "fe33b9c9e12e0f91d8c129fd7aa0ec98268338478191b666a151f75ea99c1ef7",
+   "source": "原型/assets_codex_20261110/relics/cha_line.png",
+   "used_for": "物件圖示 RELICS.cha"
+  },
+  {
+   "id": "C6-cha",
+   "file": "relics/cha_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7186,
+   "sha256": "4ff1d1d0b6ebcfb5cd2187a1036390aa529984198e6f9575ba1e5ec58658f6a4",
+   "source": "原型/assets_codex_20261110/relics/cha_accent.png",
+   "used_for": "物件圖示 RELICS.cha"
+  },
+  {
+   "id": "C6-lian",
+   "file": "relics/lian_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 16223,
+   "sha256": "418d6169899e98ed6950ee94354928ef3bcee8c7860d9ec838a139e60aa45d08",
+   "source": "原型/assets_codex_20261110/relics/lian_line.png",
+   "used_for": "物件圖示 RELICS.lian"
+  },
+  {
+   "id": "C6-lian",
+   "file": "relics/lian_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7171,
+   "sha256": "ce0a76d9a6de04b8208e7bd161a1afa79f7b8bd46b4ab2681351ab3461fdca8c",
+   "source": "原型/assets_codex_20261110/relics/lian_accent.png",
+   "used_for": "物件圖示 RELICS.lian"
+  },
+  {
+   "id": "C6-jin",
+   "file": "relics/jin_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 15599,
+   "sha256": "610be9adc7bf35a39e0414f47b72cb79d8457e1cbf6703cbc25bcbd3af80f08f",
+   "source": "原型/assets_codex_20261110/relics/jin_line.png",
+   "used_for": "物件圖示 RELICS.jin"
+  },
+  {
+   "id": "C6-jin",
+   "file": "relics/jin_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 7237,
+   "sha256": "281911670c6457b4fd4df86f697cb6ad2b070a56f0e7690b50f2419d844bb727",
+   "source": "原型/assets_codex_20261110/relics/jin_accent.png",
+   "used_for": "物件圖示 RELICS.jin"
+  },
+  {
+   "id": "C6-you",
+   "file": "relics/you_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 12052,
+   "sha256": "8c3795c9ba36f66c6aaca383a2cfe4aed47d1f4545a643640b564a00f438de6a",
+   "source": "原型/assets_codex_20261110/relics/you_line.png",
+   "used_for": "物件圖示 RELICS.you"
+  },
+  {
+   "id": "C6-you",
+   "file": "relics/you_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6975,
+   "sha256": "f75f87ec0474013e38d7b8137f5246465506290785b13b635c298f0aced784b7",
+   "source": "原型/assets_codex_20261110/relics/you_accent.png",
+   "used_for": "物件圖示 RELICS.you"
+  },
+  {
+   "id": "C6-luo",
+   "file": "relics/luo_line.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 14824,
+   "sha256": "199156c30373eb6d289f4625e4ace3e765dceaad30fb132e6a6cafeaa1649cd8",
+   "source": "原型/assets_codex_20261110/relics/luo_line.png",
+   "used_for": "物件圖示 RELICS.luo"
+  },
+  {
+   "id": "C6-luo",
+   "file": "relics/luo_accent.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 6960,
+   "sha256": "a55f18a3321f0e8e04956ddb5c02785b04a5d0578db3f66ebcdf0faa869969e2",
+   "source": "原型/assets_codex_20261110/relics/luo_accent.png",
+   "used_for": "物件圖示 RELICS.luo"
+  },
+  {
+   "id": "C7-1-light",
+   "file": "ui/paper_light.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 26127,
+   "sha256": "b5f6af7e9ca8034d20409953b04dd9a610b9b25dbf18f1ca4365859dd3f01df8",
+   "source": "原型/assets_codex_20261110/ui/paper_light.png",
+   "used_for": "米白紙面板（水牌、規矩、後台、圖鑑等紙頁的毛邊）"
+  },
+  {
+   "id": "C7-1-dark",
+   "file": "ui/paper_dark.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 10009,
+   "sha256": "d7db14bc1a1454bd0d8041a1dc5757d74f2d10f81f60849b05383a2201c0d8b3",
+   "source": "原型/assets_codex_20261110/ui/paper_dark.png",
+   "used_for": "深色紙面板（教學框、燈的回饋、骰子框）"
+  },
+  {
+   "id": "C7-2-square",
+   "file": "ui/seal_square.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 3207,
+   "sha256": "47e45eac6ff2a98c24d66bf84fc22ca9a42382203d80fadcde641b6d29557eda",
+   "source": "原型/assets_codex_20261110/ui/seal_square.png",
+   "used_for": "方印底：「家」印、「完美」印"
+  },
+  {
+   "id": "C7-2-round",
+   "file": "ui/seal_round.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 4512,
+   "sha256": "c17e6a22253614219a4045ed46579d1b67268933754faa472eef5f12abfacc3a",
+   "source": "原型/assets_codex_20261110/ui/seal_round.png",
+   "used_for": "圓印底：結局字"
+  },
+  {
+   "id": "C7-3-wait",
+   "file": "ui/look_wait.png",
+   "size": [
+    256,
+    256
+   ],
+   "transparent": true,
+   "bytes": 2521,
+   "sha256": "39aab23e7db8617eb8c7dc8547d8f0a1d2d8cc4dc1b4a15812009a0e440f63fa",
+   "source": "原型/assets_codex_20261110/ui/look_wait.png",
+   "used_for": "她的樣子「等」圖示"
+  },
+  {
+   "id": "C7-3-tired",
+   "file": "ui/look_tired.png",
+   "size": [
+    256,
+    256
+   ],
+   "transparent": true,
+   "bytes": 2767,
+   "sha256": "879b8144cdfece643b5a04dbbd30df7a127874f05b6ccd87a0d23e74bde2d7d6",
+   "source": "原型/assets_codex_20261110/ui/look_tired.png",
+   "used_for": "她的樣子「累」圖示"
+  },
+  {
+   "id": "C7-3-busy",
+   "file": "ui/look_busy.png",
+   "size": [
+    256,
+    256
+   ],
+   "transparent": true,
+   "bytes": 3864,
+   "sha256": "a9c42127aa535251d7afe98e4b35a47626386c900e3ec6260104a4b9ff9f0e2f",
+   "source": "原型/assets_codex_20261110/ui/look_busy.png",
+   "used_for": "她的樣子「忙」圖示"
+  },
+  {
+   "id": "C7-3-talk",
+   "file": "ui/look_talk.png",
+   "size": [
+    256,
+    256
+   ],
+   "transparent": true,
+   "bytes": 1596,
+   "sha256": "77da7f3c670cb075756eda4e3d4863d835c4bf1ab9b348172ae78a68c4e60c65",
+   "source": "原型/assets_codex_20261110/ui/look_talk.png",
+   "used_for": "她的樣子「想说」圖示"
+  },
+  {
+   "id": "C7-4-on",
+   "file": "ui/wick_on.png",
+   "size": [
+    128,
+    128
+   ],
+   "transparent": true,
+   "bytes": 727,
+   "sha256": "10a7e9f8d8d451ca9b64882e66120f8c41bfabf67ad2a5831145816069acf91f",
+   "source": "原型/assets_codex_20261110/ui/wick_on.png",
+   "used_for": "熄：還亮著的燈芯"
+  },
+  {
+   "id": "C7-4-out",
+   "file": "ui/wick_out.png",
+   "size": [
+    128,
+    128
+   ],
+   "transparent": true,
+   "bytes": 517,
+   "sha256": "b08ffa71390042fad818f76a6d3d38f3b64e2389b29af345e8976ddaae8199b0",
+   "source": "原型/assets_codex_20261110/ui/wick_out.png",
+   "used_for": "熄：熄過的燈芯"
+  },
+  {
+   "id": "C7-5",
+   "file": "ui/scar_mark.png",
+   "size": [
+    64,
+    192
+   ],
+   "transparent": true,
+   "bytes": 874,
+   "sha256": "15fcede76b1224e84809a80524a13cee42f240853c00a0d54243bc702669ab0e",
+   "source": "原型/assets_codex_20261110/ui/scar_mark.png",
+   "used_for": "痕：燈上的一道劃痕"
+  },
+  {
+   "id": "C7-6",
+   "file": "ui/brush_underline.png",
+   "size": [
+    1024,
+    64
+   ],
+   "transparent": true,
+   "bytes": 912,
+   "sha256": "a75c34a12acbecd0c4b553fc0178f026363c937cb1a2800c59832d11af0a9a51",
+   "source": "原型/assets_codex_20261110/ui/brush_underline.png",
+   "used_for": "紙頁標題下的朱紅筆劃"
+  },
+  {
+   "id": "C8-paper_flakes",
+   "file": "fx/paper_flakes.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 105166,
+   "sha256": "2873e6ac8af9bd9df21081facfbad36f98a172034ddac75f4cff864ff1971daf",
+   "source": "原型/assets_codex_20261110/fx/paper_flakes.png",
+   "used_for": "連擊：紙屑"
+  },
+  {
+   "id": "C8-gold_leaf",
+   "file": "fx/gold_leaf.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 177984,
+   "sha256": "c5f975825b8bb96974584550875e2ccc1929e63b9f230c369896bd60dec9c603",
+   "source": "原型/assets_codex_20261110/fx/gold_leaf.png",
+   "used_for": "連擊與散戲：金箔"
+  },
+  {
+   "id": "C8-ink_drops",
+   "file": "fx/ink_drops.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 30889,
+   "sha256": "8ba14747cb196c64bde0af9807d069e5c279bbc83f3c3d2c33c78c15ee0233c5",
+   "source": "原型/assets_codex_20261110/fx/ink_drops.png",
+   "used_for": "倒彩：墨點"
+  },
+  {
+   "id": "C8-paper_burnt",
+   "file": "fx/paper_burnt.png",
+   "size": [
+    1024,
+    1024
+   ],
+   "transparent": true,
+   "bytes": 103083,
+   "sha256": "3a8061bbee89a8f25a405521bd04a8746aa3056282fa95782ce886365d4df398",
+   "source": "原型/assets_codex_20261110/fx/paper_burnt.png",
+   "used_for": "倒彩、燈熄：燒紙"
+  },
+  {
+   "id": "C8-ribbon",
+   "file": "fx/ribbon.png",
+   "size": [
+    2048,
+    128
+   ],
+   "transparent": true,
+   "bytes": 2853,
+   "sha256": "c62560867792c6c2cc453d65883a8c88b28a2f56c1405dcd0d9004a76f607435",
+   "source": "原型/assets_codex_20261110/fx/ribbon.png",
+   "used_for": "連擊 ×4 以上：彩綢"
+  },
+  {
+   "id": "C9-1",
+   "file": "night/layer_1_far.png",
+   "size": [
+    2560,
+    720
+   ],
+   "transparent": true,
+   "bytes": 14686,
+   "sha256": "2aed735ee92a561ddd452fa3351e3aa71d54507be64d353836552374f6c6af3d",
+   "source": "原型/assets_codex_20261110/night/layer_1_far.png",
+   "used_for": "更夫報更頁：遠山城牆"
+  },
+  {
+   "id": "C9-2",
+   "file": "night/layer_2_roofs.png",
+   "size": [
+    2560,
+    720
+   ],
+   "transparent": true,
+   "bytes": 21256,
+   "sha256": "14de85067df96ee9759c587da3824c320e89dda61203f3260334572d6f3dd950",
+   "source": "原型/assets_codex_20261110/night/layer_2_roofs.png",
+   "used_for": "更夫報更頁：屋脊與小戲樓"
+  },
+  {
+   "id": "C9-3",
+   "file": "night/layer_3_near.png",
+   "size": [
+    2560,
+    720
+   ],
+   "transparent": true,
+   "bytes": 31265,
+   "sha256": "6f0e473398497a2e54d8b21eb5e1d047f492358bff4777b6ba56ebd98127eeca",
+   "source": "原型/assets_codex_20261110/night/layer_3_near.png",
+   "used_for": "更夫報更頁：近處屋簷與燈籠"
+  },
+  {
+   "id": "C9-4",
+   "file": "night/moon.png",
+   "size": [
+    512,
+    512
+   ],
+   "transparent": true,
+   "bytes": 3928,
+   "sha256": "3baed3d00b4570b228c1b6148a53708a72bedeb18e24824d4f80678128c856a9",
+   "source": "原型/assets_codex_20261110/night/moon.png",
+   "used_for": "更夫報更頁：月亮"
+  },
+  {
+   "id": "C10-rival_wei",
+   "file": "draft/rival_wei.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 18890,
+   "sha256": "c7f44f0827008a299d8ce87837a1399a4516d337aca7b10789a331aff001c8a5",
+   "source": "原型/assets_codex_20261110/draft/rival_wei.png",
+   "used_for": "同門木刻像草稿：魏老板（水牌、字幕）"
+  },
+  {
+   "id": "C10-rival_jinbao",
+   "file": "draft/rival_jinbao.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 18226,
+   "sha256": "2e901aeefeba7596d517818c2b2e99091de11f00087d6b439fb9fa8396e67f6d",
+   "source": "原型/assets_codex_20261110/draft/rival_jinbao.png",
+   "used_for": "同門木刻像草稿：金宝（水牌、字幕）"
+  },
+  {
+   "id": "C10-rival_yuexian",
+   "file": "draft/rival_yuexian.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 15346,
+   "sha256": "c8c1d1f3afb3e6a668ac3ba11c7a969b899ffeff1a6b1e1ad6ae526a989f4911",
+   "source": "原型/assets_codex_20261110/draft/rival_yuexian.png",
+   "used_for": "同門木刻像草稿：月仙（水牌、字幕）"
+  },
+  {
+   "id": "C10-rival_yulou",
+   "file": "draft/rival_yulou.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 19197,
+   "sha256": "19ac3a6a38398ceaec0adcebd943c8d9601c7eb6c1bb05c89cd10ad019a7d595",
+   "source": "原型/assets_codex_20261110/draft/rival_yulou.png",
+   "used_for": "同門木刻像草稿：玉楼（水牌、字幕）"
+  },
+  {
+   "id": "C10-rival_xiaofeng",
+   "file": "draft/rival_xiaofeng.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 20681,
+   "sha256": "0656fcdbdfcedafa82cb20156ac1c0571e7dc9eb626ad31a23051c6faa42d64d",
+   "source": "原型/assets_codex_20261110/draft/rival_xiaofeng.png",
+   "used_for": "同門木刻像草稿：小凤（水牌、字幕）"
+  },
+  {
+   "id": "C10-sun_shifu",
+   "file": "draft/sun_shifu.png",
+   "size": [
+    600,
+    900
+   ],
+   "transparent": false,
+   "bytes": 23121,
+   "sha256": "8f01e20d3b4688e64aeab8cee9dacac7c00f30cbfd6e3c11ab739ac49492ba22",
+   "source": "原型/assets_codex_20261110/draft/sun_shifu.png",
+   "used_for": "孫師父木刻像草稿（後台）"
+  }
+ ]
+}
