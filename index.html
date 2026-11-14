@@ -2453,12 +2453,19 @@ const MOODS = {
 // 鏡頭往右挪、拉近一點：她在左、鏡子在右，兩個都整個入鏡（妝匣本身就是底下那排手牌）
 const portraitPhone = () => innerWidth <= 760 && innerHeight > innerWidth;
 VIEWS.tableP = { pos: [0.46, 2.7, 4.2], look: [0.74, 1.0, -0.5] };
+// 續做（士淳回饋「卸妝的時候鏡子還是被遮擋了」）：門口卸妝在直屏也一樣，全桌拉遠鏡子就出畫。doorP 比 tableP 低、平一點，
+// 像剛進門站著看桌子：她在左（起身伸手遞毛巾），鏡子在右，臉上的油彩看得見擦掉沒有
+VIEWS.doorP = { pos: [0.39, 1.94, 5.9], look: [0.66, 1.1, -0.5] };
+// 夜裡（睡前卸妝、守夜）同一個問題：原本鏡子只露一半。nightP 沿用 doorP 的思路，略低、略近
+VIEWS.nightP = { pos: [0.5, 1.75, 5.5], look: [0.7, 1.0, -0.4] };
+const PORTRAIT_VIEWS = ['door', 'night'];
 let lastFocus = null;
 function focus(v, mood) {
   if (!glOK) return;
   lastFocus = v;
-  if (v === 'table' && view === 'morning' && portraitPhone()) v = 'tableP';
-  const fit = v === 'tableP' ? 1 : camera.aspect < 0.8 ? 1.72 : camera.aspect < 1.25 ? 1.32 : 1;
+  if (portraitPhone()) { if (v === 'table' && view === 'morning') v = 'tableP'; else if (VIEWS[v + 'P'] && PORTRAIT_VIEWS.includes(v)) v += 'P'; }
+  // 直屏專用鏡頭按 390×844 調的；更窄的手機（如 360×800）照比例再退一點，鏡子才不會貼邊
+  const fit = v.endsWith('P') ? Math.max(1, 0.462 / camera.aspect) : camera.aspect < 0.8 ? 1.72 : camera.aspect < 1.25 ? 1.32 : 1;
   const d = VIEWS[v], l = V(...d.look), p = V(...d.pos).sub(l).multiplyScalar(fit).add(l);
   camTo = { p, l };
   if (!camPos) { camPos = p.clone(); camAim = l.clone(); }
@@ -2608,8 +2615,11 @@ async function spawnCard(t, side, pos) {
 async function towelSwipe(color) {
   if (!glOK) { await wait(300); return; }
   towel.visible = true; towel.material.color = new THREE.Color(0xffffff).lerp(new THREE.Color(color), 0.35);
-  await tween(620, k => { towel.position.set(-0.55 + 1.1 * k, 0.05 - Math.sin(k * Math.PI) * 0.1, -0.42); towel.rotation.z = -0.4 + 0.8 * k; });
-  towel.visible = false;
+  // 直屏手機視野很窄：毛巾照寬螢幕的大小會蓋滿整個畫面、只閃一下。橫向按畫面寬窄縮，看起來仍是一條毛巾從臉前擦過
+  const sx = portraitPhone() ? Math.max(0.3, camera.aspect / 1.6) : 1;
+  towel.scale.x = sx;
+  await tween(620, k => { towel.position.set((-0.55 + 1.1 * k) * sx, 0.05 - Math.sin(k * Math.PI) * 0.1, -0.42); towel.rotation.z = -0.4 + 0.8 * k; });
+  towel.visible = false; towel.scale.x = 1;
 }
 
 // 她的樣子：畫面為主，放大（滑過、聚焦或點開）才附文字
