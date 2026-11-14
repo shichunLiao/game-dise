@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <!-- 這個檔案由 原型/v1.6/pack.js 從 index.html 產生，圖已內嵌，可以直接雙擊打開。要改請改 index.html 再重跑 pack.js。 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>底色·戏城 v1.6 美术接入（单文件）</title>
+<title>底色·戏城 v1.7</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,8 +119,8 @@ p { margin: 0; }
 .spc { position: relative; width: var(--cw, 84px); height: var(--chh, 126px); border: none; background: none; padding: 0; cursor: pointer; transition: transform .15s ease; }
 .spc img { width: 100%; height: 100%; display: block; border-radius: 6px; }
 .spread .sph { grid-column: 1 / -1; font-size: 12px; letter-spacing: .2em; color: var(--paper-2); margin: -2px 0 2px; }
-.spc:hover:not(:disabled), .spc:focus-visible { transform: translateY(-4px); }
-.spc:disabled { cursor: default; filter: brightness(.42) saturate(.5); }
+.spc:hover:not(.none), .spc:focus-visible { transform: translateY(-4px); }
+.spc.none { cursor: default; filter: brightness(.42) saturate(.5); }
 .spc .ct { position: absolute; right: -5px; top: -5px; min-width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ink); border: 1px solid var(--gold); font-size: 13px; font-variant-numeric: tabular-nums; }
 .tools2 { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: center; }
 .mini { border: 1px solid rgba(236, 227, 212, .45); background: transparent; color: var(--paper); font-size: 12px; padding: 3px 10px; min-height: 32px; cursor: pointer; }
@@ -634,6 +634,59 @@ html.a-night .watch { background: radial-gradient(circle at 80% 16%, rgba(236, 2
   .topmid { order: 0; flex-basis: auto; }
   .talk { padding-bottom: 4px; }
 }
+
+/* ── v1.7 ── */
+/* 點一下看牌：資訊卡釘著，可以按 × 收；放不下就收成只有字的小卡 */
+#peek.pin { pointer-events: auto; }
+#peek .pclose { position: absolute; right: -10px; top: -12px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--gold); background: var(--ink); color: var(--paper); font-size: 20px; line-height: 1; cursor: pointer; }
+#peek.compact figure { width: 150px; padding: 6px 8px; }
+#peek.compact img { display: none; }
+#peek.compact figcaption { margin-top: 0; font-size: 13px; }
+/* 拖牌 */
+.hc, .spc { touch-action: none; -webkit-user-select: none; user-select: none; }
+.hud .hand.scroll .hc { touch-action: pan-x; }
+.hc.lifted, .spc.lifted { opacity: .28; }
+.ghost { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; filter: drop-shadow(0 16px 24px rgba(0, 0, 0, .7)); transition: filter .12s; }
+.ghost img { width: 100%; height: 100%; border-radius: 7px; display: block; }
+.ghost.ok { filter: drop-shadow(0 0 14px rgba(242, 212, 138, .95)) drop-shadow(0 16px 24px rgba(0, 0, 0, .7)); }
+#drop { position: fixed; z-index: 34; pointer-events: none; border: 2px dashed rgba(242, 212, 138, .55); border-radius: 14px; background: rgba(242, 212, 138, .05); display: flex; align-items: flex-start; justify-content: center; padding-top: 10px; }
+#drop.hot { border-color: #f2d48a; background: rgba(242, 212, 138, .14); }
+#drop span { font-family: var(--display); font-size: 22px; color: #f6dc96; background: rgba(14, 10, 12, .78); padding: 4px 16px; letter-spacing: .1em; }
+body.dragging { cursor: grabbing; }
+/* 後台商店：固定在出門旁邊 */
+.opt.shopb { display: inline-flex; align-items: center; gap: 8px; border-color: #f2d48a; color: #f6dc96; background: rgba(28, 20, 14, .86); }
+.opt.shopb::before { content: none; }
+.opt.shopb .sf { width: 34px; height: 34px; border-radius: 50%; box-shadow: 0 0 0 2px #f2d48a; background: #f2d48a; color: #1c1719; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; object-fit: cover; }
+.opt.shopb small { color: #e8cf98; }
+.shopp .refr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 6px 0 4px; }
+.shopp .refr .note { margin: 0; }
+/* 同門的事：可以關的小卡；關了以後是情報列裡的小標記 */
+#evc { pointer-events: auto; display: flex; justify-content: center; width: 100%; }
+#evc:empty { display: none; }
+.evcard { position: relative; max-width: min(36em, 94vw); background: rgba(20, 14, 16, .92); border: 1px solid rgba(242, 212, 138, .55); border-top: 3px solid var(--red-2); padding: 8px 40px 8px 12px; text-align: center; box-shadow: 0 10px 26px rgba(0, 0, 0, .6); animation: rise .4s ease both; }
+.evcard .sface { width: 36px; height: 36px; border-radius: 50%; vertical-align: middle; margin-right: 6px; box-shadow: 0 0 0 2px var(--red); }
+.evcard .who { display: inline-block; font-size: 12px; letter-spacing: .3em; background: var(--red); color: var(--paper); padding: 1px 8px 0; }
+.evcard .tx { font-family: var(--display); font-size: 18px; line-height: 1.45; color: var(--paper); margin: 4px 0 6px; }
+.evcard .evx { position: absolute; right: 4px; top: 4px; width: 32px; height: 32px; border: 1px solid rgba(236, 227, 212, .3); background: none; color: var(--paper); font-size: 18px; cursor: pointer; }
+.intel .ic.ev { cursor: pointer; border-color: rgba(224, 71, 90, .8); font-family: inherit; }
+.intel .ic.ev .d { color: #f0a0a8; }
+.intel .ic.ev .evf { width: 18px; height: 18px; border-radius: 50%; }
+.goal .capl { color: #f0a0a8; border-bottom: 1px dashed rgba(240, 160, 168, .6); cursor: help; }
+.wleft { font-family: var(--body); font-size: 12px; background: rgba(242, 212, 138, .16); border: 1px solid rgba(242, 212, 138, .5); padding: 0 6px; margin-left: 4px; color: #f6dc96; vertical-align: middle; }
+.rtx { display: inline-flex; align-items: center; justify-content: center; font-family: var(--display); color: #1c1719; background: #f2d48a; border-radius: 50%; }
+.ri.rtx { width: 22px; height: 22px; font-size: 14px; }
+.bri.rtx { width: 64px; height: 64px; font-size: 36px; }
+/* 情報氣泡：可以按 × 收；小一點，不擋手牌（位置在 placeBub 算） */
+.bub.intel { pointer-events: auto; padding-right: 30px; }
+.bub .bx { position: absolute; right: 4px; top: 2px; width: 26px; height: 26px; border: none; background: none; color: #f2d48a; font-size: 18px; cursor: pointer; }
+@media (max-width: 760px), (max-height: 560px) { .bub.intel { font-size: 15px; max-width: min(230px, 62vw); } .bub { font-size: 15px; } .evcard .tx { font-size: 16px; } }
+/* 最後卸妝：整頁可捲，繼續的按鈕貼在畫面底下，永遠點得到 */
+.lastwipe { justify-content: safe center; overflow-y: auto; padding-bottom: 0; }
+.lastwipe .face { width: min(340px, 78vw, 46vh); flex: none; }
+.lastwipe .tx { font-size: clamp(17px, 2.6vh + 6px, 24px); }
+.lastwipe .after { font-size: clamp(16px, 2.4vh + 6px, 22px); }
+.lastwipe .lwbar { position: sticky; bottom: 0; z-index: 2; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); margin-top: auto; background: linear-gradient(rgba(7, 5, 6, 0), rgba(7, 5, 6, .92) 30%); }
+@media (max-height: 560px) { .lastwipe { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-auto-rows: auto; align-content: safe center; justify-items: center; column-gap: 20px; row-gap: 8px; padding: 10px 16px 0; } .lastwipe .face { grid-column: 1; grid-row: 1 / span 4; width: min(230px, 38vw, 64vh); } .lastwipe > :not(.face):not(.lwbar) { grid-column: 2; } .lastwipe .lwbar { grid-column: 1 / -1; } }
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -650,7 +703,7 @@ html.a-night .watch { background: radial-gradient(circle at 80% 16%, rgba(236, 2
   </div>
   <div class="leftcol" id="leftcol"><div class="homep" id="homep"></div><button class="tool bookb" data-act="book" id="bookBtn">图鉴</button></div>
   <div class="mid" id="mid"></div>
-  <div class="talk"><div id="sub"></div><div class="choices" id="choices"></div></div>
+  <div class="talk"><div id="evc"></div><div id="sub"></div><div class="choices" id="choices"></div></div>
   <div class="hand" id="hand"></div>
   <div class="hand-label" id="handLabel"></div>
 </div>
@@ -674,8 +727,9 @@ html.a-night .watch { background: radial-gradient(circle at 80% 16%, rgba(236, 2
 /* ENGINE START */
 // 規則依 設計/v1.0_戲城_平衡版.md（v1.1–v1.3 只改介面與教學）。數字都是占位；文件沒寫死的地方，列在 ASSUME（規矩頁）。
 const R = {
-  days: 10, box: 10, boxMin: 6, stageMax: 5, homeMax: 3, homeAfterWipe: 1,
-  wipeLayers: 2, wipeScarMax: 2, layerMax: 4, openGold: 1, chainGold: [0, 0, 1, 2, 3, 3],
+  days: 10, box: 10, boxMin: 6, stageMax: 5, homeMax: 3,
+  // v1.7：擦臉改成整季 2 次保底，不再把今晚能推的張數壓成 1，也不看痕
+  wipeLayers: 2, wipes: 2, refreshCost: 3, drumGold: 3, layerMax: 4, openGold: 1, chainGold: [0, 0, 1, 2, 3, 3],
   perfectChain: 3, perfectDie: 4, perfect: 1.5, stageDouble: 2,
   dyeCap: [1, 2, 3], basePerSlot: 2, overBase: [2, 4], seatScar: 3, brokenScar: 4, brokenOuts: 5, happyScar: 1, happyOuts: 0, ranks: 6,
   // v0.7：她的需要（每段兩天、要推夠張數）、滅燈、美滿要燈、後台、怨氣
@@ -693,6 +747,10 @@ const RELICS = {
   jin: { n: '熟手巾', price: 11, tx: '她替你擦脸，一次擦 3 层。' },
   you: { n: '灯油', price: 9, tx: '没满足她的需要，灯只熄 1（不是 3）。' },
   luo: { n: '小锣', price: 10, tx: '每天第一次接错，不记怨气。' },
+  // v1.7 新貨
+  bangu: { n: '班鼓', price: 9, tx: '收场时连击到 3 以上，再 +3 金。' },
+  xiangfen: { n: '香粉', price: 6, tx: '用了保底擦脸的那晚，渗进底色的层少 1。' },
+  zhezi: { n: '手抄折子', price: 7, tx: '孙师父每天多拿出 1 张牌给你看。' },
 };
 const RELIC_KEYS = Object.keys(RELICS);
 // 台上四族；home 是這一族牌背面的家裡面
@@ -738,6 +796,9 @@ const T = {
   dingchang: { f: 'speak', n: '定场诗', g: 4, next: 'act', clean: 1, price: 7 },
   tuoqiang: { f: 'sing', n: '托腔', g: 3, next: 'fight', boost: 1, price: 8 },
   tangma: { f: 'fight', n: '趟马', g: 4, next: 'act', boost: 1, price: 8 },
+  // v1.7：有代價的後台牌。rile 打出就多一點怨氣；tire 打出後今晚少推一張
+  shuaya: { f: 'act', n: '耍牙', g: 6, next: 'fight', rile: 1, price: 7 },
+  shuaifa: { f: 'fight', n: '甩发', g: 7, next: 'speak', tire: 1, price: 7 },
   // 家常牌：她的需要整段都對上了，她送你的
   tang: { f: 'act', n: '热汤', g: 0, next: 'sing', home: 1 },
   fan: { f: 'speak', n: '同桌', g: 0, next: 'sing', home: 1 },
@@ -746,7 +807,7 @@ const T = {
 };
 const BASIC = ['changqiang', 'liangsang', 'bai', 'kuaiban', 'shenduan', 'shuixiu', 'liangxiang', 'fanshen'];
 const BORROWED = ['jie_kutou', 'jie_guankou', 'jie_dadao'];
-const SHOP = ['manban', 'daoban', 'yunbai', 'shuban', 'woyu', 'tazhuan', 'qiba', 'jijifeng', 'qingchang', 'dingchang', 'tuoqiang', 'tangma'];
+const SHOP = ['manban', 'daoban', 'yunbai', 'shuban', 'woyu', 'tazhuan', 'qiba', 'jijifeng', 'qingchang', 'dingchang', 'tuoqiang', 'tangma', 'shuaya', 'shuaifa'];
 const GIFT = { care: 'tang', comp: 'fan', listen: 'xin', labor: 'zhi' };
 const GIFTS = Object.values(GIFT);
 // 第 1、2 天妝匣是替你裝好的：走得通一條四張鏈，四種家裡面都有
@@ -826,7 +887,7 @@ function addCard(S, t) {
 
 function newGame(name, seed) {
   const s0 = (seed >>> 0) || 1;
-  const S = { v: 13, name, seed: s0, seed0: s0, day: 1, phase: 'morning', deck: [], nid: 1,
+  const S = { v: 17, name, wipes: R.wipes, seed: s0, seed0: s0, day: 1, phase: 'morning', deck: [], nid: 1,
     gold: 0, spent: 0, lamp: 0, lit: false, litAlone: false, scars: 0, base: 0, baseSeen: false, fengGold: 0, outs: 0,
     played: { sing: 0, speak: 0, act: 0, fight: 0 }, scarLog: [], rope: [], chest: [], log: [], lines: {}, choice: null, lastBox: null,
     looks: [], recipes: {}, pats: {}, events: {}, known: {}, met: [0, 0, 0, 0], gifts: [], bought: [], relics: [],
@@ -864,15 +925,10 @@ function beginDay(S) {
     stageMax: ev && ev.stageMax ? ev.stageMax : R.stageMax, perfectDie: Math.max(2, (ev && ev.die ? ev.die : R.perfectDie) - (has(S, 'cha') ? 1 : 0)),
     wiped: 0, homeCap: R.homeMax, pushed: [], dye: 0, grudge: 0, lampGain: 0, scarsToday: 0, reacts: [], matched: 0,
     need: needOf(S), got: {}, judged: false, met: null, lampOut: 0, gift: null, forecast: null, heard: false, freeBreak: has(S, 'luo'),
-    offers: [], sold: [], freeClean: 0, seep: 0, nightBase: 0, emptySeat: false, auto: false, watch: null, wasted: 0 };
+    offers: [], sold: [], refreshed: false, drumGold: 0, fenSaved: 0, freeClean: 0, seep: 0, nightBase: 0, emptySeat: false, auto: false, watch: null, wasted: 0 };
   if (ev === EVENTS.tip) S.known[S.day] = 'tip';
   // 後台：第 3 天起每天早上兩張牌、一樣物件（物件賣完就只有牌）
-  if (S.day >= R.shopFrom) {
-    const pool = SHOP.slice();
-    for (let i = 0; i < R.shopOffers && pool.length; i++) S.T.offers.push(pool.splice(Math.floor(fixed(S, 500, S.day, i) * pool.length), 1)[0]);
-    const rel = RELIC_KEYS.filter(k => !S.relics.includes(k));
-    if (rel.length) S.T.offers.push(rel[Math.floor(fixed(S, 520, S.day) * rel.length)]);
-  }
+  if (S.day >= R.shopFrom) S.T.offers = stockOf(S, 0);
   if (lockedBox(S)) {
     const taken = new Set();
     S.T.box = PRESET.map(t => { const c = S.deck.find(x => x.t === t && !taken.has(x.id)); taken.add(c.id); return c.id; });
@@ -881,6 +937,19 @@ function beginDay(S) {
     S.T.box = (S.lastBox || []).filter(id => ids.has(id)).slice(0, S.T.cap);
   }
   S.phase = S.day === 1 ? 'stage' : 'morning';
+}
+
+// 後台的貨：第 3 天起每天早上兩張牌（有手抄折子三張）、一樣物件（物件賣完就只有牌）
+// salt 0 是早上原本那一批；刷新過是另一批（同一天同一種子刷出來都一樣）
+function stockOf(S, salt) {
+  const out = [], pool = SHOP.slice(), n = R.shopOffers + (has(S, 'zhezi') ? 1 : 0), a = salt ? 530 : 500;
+  // 刷新：不再出現剛才那幾樣
+  if (salt) S.T.offers.forEach(k => { const i = pool.indexOf(k); if (i >= 0 && pool.length > n) pool.splice(i, 1); });
+  for (let i = 0; i < n && pool.length; i++) out.push(pool.splice(Math.floor(fixed(S, a, S.day, i) * pool.length), 1)[0]);
+  let rel = RELIC_KEYS.filter(k => !S.relics.includes(k));
+  if (salt && rel.length > 1) rel = rel.filter(k => !S.T.offers.includes(k));
+  if (rel.length) out.push(rel[Math.floor(fixed(S, a + 20, S.day) * rel.length)]);
+  return out;
 }
 
 // ── 早 ──
@@ -912,9 +981,22 @@ function buy(S, k) {
     S.relics.push(k);
     // 妝奩：今天就多一格
     if (k === 'lian') S.T.cap += 1;
+    // 手抄折子：今天就多看一張
+    if (k === 'zhezi') { const more = SHOP.filter(x => !S.T.offers.includes(x)); if (more.length) S.T.offers.splice(S.T.offers.length - 1, 0, more[Math.floor(fixed(S, 540, S.day) * more.length)]); }
     return { relic: k };
   }
   return addCard(S, k);
+}
+// 刷新今天的貨架：一天一次、花 3 金（就是賣座）
+const refreshWhy = S => (S.phase !== 'morning' || !S.T.offers.length ? '今天后台不开' : S.T.refreshed ? '今天已经换过一批了' : purseOf(S) < R.refreshCost ? `卖座不到 ${R.refreshCost} 金，换不起` : '');
+const canRefresh = S => !refreshWhy(S);
+function refreshShop(S) {
+  if (!canRefresh(S)) return false;
+  S.gold -= R.refreshCost; S.spent += R.refreshCost;
+  S.T.offers = stockOf(S, 1);
+  S.T.sold = [];
+  S.T.refreshed = true;
+  return true;
 }
 const stageable = (S, id) => !tOf(S, id).home;
 function canDepart(S) {
@@ -953,6 +1035,9 @@ function playStage(S, id) {
   t.used[id] = 'stage';
   t.stageGold += tp.g; t.comboGold += extra; t.openGold += open; t.finGold += fin;
   S.played[f] += 1;
+  // 耍牙：台下叫好，也記一點怨氣；甩髮：今晚少推一張
+  if (tp.rile && S.day > 1) { t.grudge += 1; p.riled = true; }
+  if (tp.tire) t.homeCap = Math.max(1, t.homeCap - 1);
   // 接錯了：台下的怨氣跟你回家，今晚多染一張（第 1 天不算）
   if (p.broke && S.day > 1) {
     // 小鑼：每天第一次接錯不記
@@ -977,7 +1062,9 @@ function endStage(S) {
   const t = S.T, sum = t.stageGold + t.comboGold + t.openGold + t.finGold;
   t.ended = true;
   if (t.maxChain >= R.perfectChain) { t.die = d6(S); t.perfect = t.die >= t.perfectDie; }
-  t.gold = t.perfect ? Math.floor(sum * R.perfect) : sum;
+  // 班鼓：連擊到 3 以上，收場再加（不吃完美的倍數）
+  t.drumGold = has(S, 'bangu') && t.maxChain >= 3 ? R.drumGold : 0;
+  t.gold = (t.perfect ? Math.floor(sum * R.perfect) : sum) + t.drumGold;
   if (S.choice === 'stage') t.gold *= R.stageDouble;
   // 代演：金記在小鳳名下
   if (S.choice === 'cover') S.fengGold += t.gold; else S.gold += t.gold;
@@ -985,13 +1072,14 @@ function endStage(S) {
 }
 
 // ── 門口 ──
-const canWipe = S => S.phase === 'door' && !S.T.wiped && S.T.layers.length > 0 && S.scars <= R.wipeScarMax;
+// v1.7：保底擦臉整季 2 次（S.wipes 是還剩幾次），一晚一次；擦完今晚照樣能推滿
+const canWipe = S => S.phase === 'door' && !S.T.wiped && S.T.layers.length > 0 && (S.wipes ?? 0) > 0;
 function wipe(S) {
   if (!canWipe(S)) return 0;
   const t = S.T, n = Math.min(R.wipeLayers + (has(S, 'jin') ? 1 : 0), t.layers.length);
   for (let i = 0; i < n; i++) S.chest.push({ day: S.day, f: t.layers.pop().f });
   t.wiped = n;
-  t.homeCap = R.homeAfterWipe;
+  S.wipes -= 1;
   return n;
 }
 const canClean = (S, id) => (S.phase === 'door' || S.phase === 'night') && S.T.layers.length > 0 && S.T.box.includes(id) && !S.T.used[id];
@@ -1107,14 +1195,16 @@ function sleep(S) {
   const t = S.T;
   // 座位空了、或沒回家：需要沒人接，燈也不糊；下一段的事由更夫說
   if (!t.judged && !t.auto && t.emptySeat) { t.judged = true; forecast(S, 'watch'); }
-  t.nightBase = t.layers.length;
-  S.base += t.layers.length;
+  // 香粉：用了保底擦臉的那晚，滲進底色的少 1
+  t.fenSaved = t.wiped && has(S, 'xiangfen') && t.layers.length ? 1 : 0;
+  t.nightBase = t.layers.length - t.fenSaved;
+  S.base += t.nightBase;
   t.layers = [];
   t.wasted = t.box.filter(id => !t.used[id]).length;
   if (S.day === 7 || S.left) S.baseSeen = true;
   t.watch = watchLine(S);
   S.log.push({ day: S.day, cap: t.cap, starter: starterOf(S), stage: t.plays.length, maxChain: t.maxChain, die: t.die, perfect: t.perfect, gold: t.gold,
-    wiped: t.wiped, pushed: t.pushed.length, look: lookNow(S), need: t.need.k, pat: t.need.pat, got: Object.values(t.got).reduce((a, v) => a + v, 0), met: t.met, lampOut: t.lampOut, grudge: t.grudge, lampGain: t.lampGain,
+    wiped: t.wiped, wipes: S.wipes, refreshed: t.refreshed, drumGold: t.drumGold, fenSaved: t.fenSaved, pushed: t.pushed.length, look: lookNow(S), need: t.need.k, pat: t.need.pat, got: Object.values(t.got).reduce((a, v) => a + v, 0), met: t.met, lampOut: t.lampOut, grudge: t.grudge, lampGain: t.lampGain,
     scarsToday: t.scarsToday, matched: t.matched, nightBase: t.nightBase, seep: t.seep, wasted: t.wasted, emptySeat: t.emptySeat,
     total: S.gold, purse: purseOf(S), lamp: S.lamp, scars: S.scars, base: S.base, watch: t.watch });
   S.phase = 'watch';
@@ -1237,9 +1327,11 @@ const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 // 圖檔一律不改：染色、紅紙邊、紙紋都在這裡做。阿檀、台上的你、鏡中的臉這一包沒有圖，沿用 v1.5 畫法。
 const ART_DIR = '../assets/';
 const ART = { on: false, blocked: false, img: {}, failed: [], tint: {}, box: {}, url: {}, ms: 0 };
+// v1.7 新加的牌與物件還沒有圖：不載，畫面退回程式畫法（族紋／首字）
+const NO_ART = ['shuaya', 'shuaifa', 'bangu', 'xiangfen', 'zhezi'];
 const ART_FILES = (() => {
   const f = [], two = n => String(n).padStart(2, '0');
-  Object.keys(T).forEach(k => f.push(`cards/art_${k}_line.png`, `cards/art_${k}_accent.png`));
+  Object.keys(T).filter(k => !NO_ART.includes(k)).forEach(k => f.push(`cards/art_${k}_line.png`, `cards/art_${k}_accent.png`));
   Object.keys(HOME).forEach(h => f.push(`cards/art_home_${h}_line.png`, `cards/art_home_${h}_accent.png`));
   for (let i = 1; i <= 4; i++) f.push(`cards/paper_${two(i)}.png`);
   f.push('cards/border_stage.png', 'cards/border_home.png', 'cards/back.png');
@@ -1248,7 +1340,7 @@ const ART_FILES = (() => {
   for (let i = 1; i <= 8; i++) f.push(`crowd/c${two(i)}.png`);
   f.push('deco/shoujiu.png', 'deco/carpet.png', 'deco/lampaper.png', 'deco/chest_lid.png');
   for (let i = 1; i <= 4; i++) f.push(`deco/chuanghua_${two(i)}.png`, `deco/lianpu_${two(i)}.png`);
-  RELIC_KEYS.forEach(k => f.push(`relics/${k}_line.png`, `relics/${k}_accent.png`));
+  RELIC_KEYS.filter(k => !NO_ART.includes(k)).forEach(k => f.push(`relics/${k}_line.png`, `relics/${k}_accent.png`));
   ['paper_light', 'paper_dark', 'seal_square', 'seal_round', 'look_wait', 'look_tired', 'look_busy', 'look_talk', 'wick_on', 'wick_out', 'scar_mark', 'brush_underline'].forEach(n => f.push(`ui/${n}.png`));
   ['paper_flakes', 'gold_leaf', 'ink_drops', 'paper_burnt', 'ribbon'].forEach(n => f.push(`fx/${n}.png`));
   ['layer_1_far', 'layer_2_roofs', 'layer_3_near', 'moon'].forEach(n => f.push(`night/${n}.png`));
@@ -1564,7 +1656,7 @@ function drawGiftFace(x, t) {
   x.fillStyle = '#f4ecdc'; x.font = '32px "Ma Shan Zheng", serif'; x.textBaseline = 'middle'; x.fillText(`背 ${HOME[h].n}`, CW / 2, 398);
   paperOver(x, t);
 }
-const kwOf = tp => (tp.wild ? '百搭' : tp.heavy ? '重彩' : tp.fin ? `压轴+${tp.fin}` : tp.clean ? '素·不上妆' : tp.boost ? '托·连击×2' : '');
+const kwOf = tp => (tp.wild ? '百搭' : tp.heavy ? '重彩' : tp.fin ? `压轴+${tp.fin}` : tp.clean ? '素·不上妆' : tp.boost ? '托·连击×2' : tp.rile ? '耍·怨气+1' : tp.tire ? '累·少推1张' : '');
 // 這張牌後面接哪一族；百搭後面什麼都接得上
 const nextN = tp => (tp.wild ? '任意' : FAM[tp.next].n);
 function drawStageFace(x, t) {
@@ -1649,7 +1741,7 @@ function cardArt(t, side = 'stage', over = false) {
 function stageLines(t) {
   const tp = T[t];
   if (tp.home) return ['家常牌，不上台。', '推给她，或拿来卸妆。'];
-  const kw = tp.wild ? '百搭：接谁都算接上，也能起手。' : tp.heavy ? '重彩：留两层油彩。' : tp.fin ? `压轴：第 4 张起打，再 +${tp.fin} 金。` : tp.clean ? '素：不上妆，脸上不添层。' : tp.boost ? '托：接上时，连击的金翻倍。' : '接上上一张，连击 +1。';
+  const kw = tp.wild ? '百搭：接谁都算接上，也能起手。' : tp.heavy ? '重彩：留两层油彩。' : tp.fin ? `压轴：第 4 张起打，再 +${tp.fin} 金。` : tp.clean ? '素：不上妆，脸上不添层。' : tp.boost ? '托：接上时，连击的金翻倍。' : tp.rile ? '耍：打出就记一点怨气（第 2 天起）。' : tp.tire ? '累：打出后，今晚少推一张。' : '接上上一张，连击 +1。';
   return [`打出得 ${tp.g} 金。`, kw, tp.wild ? '下一张打哪一族都接得上。' : `下一张请打：${FAM[tp.next].n}。`];
 }
 function homeLines(t) {
@@ -2049,9 +2141,30 @@ const CROWD_DIR = [0, Math.cos(0.62), -Math.sin(0.62)];
 const CROWD_MID = [[-0.68, 0.38, 0.9], [-0.42, 0.45, 0.92], [-0.15, 0.39, 0.9], [0.12, 0.45, 0.92], [0.41, 0.39, 0.9], [0.69, 0.45, 0.92]];
 const CROWD_FRONT_B = [1, 5, 2, 6, 0, 7, 3, 8, 4];
 const crowdA = () => crowd.filter(c => c.kind === 'a');
+// v1.7：座位排成四排、每排一樣大，往後一排小一點（溫和透視），不再前後忽大忽小；座位坐滿
+// 前排 9（叫好／倒彩動作對 + 正中一格 a）、二排 8、三排 9（都是 a 畫像，每天輪換）、後排 10 是遠處小影 c
+const ROWS = [
+  { z: 0.6, k: 1.06, n: 9, span: 1.04 },
+  { z: 0.47, k: 0.97, n: 8, span: 0.94 },
+  { z: 0.35, k: 0.89, n: 9, span: 1.0 },
+  { z: 0.24, k: 0.8, n: 10, span: 1.12 },
+];
+function crowdSeats() {
+  const two = n => String(n).padStart(2, '0'), out = [];
+  ROWS.forEach((r, ri) => {
+    for (let j = 0; j < r.n; j++) {
+      // 一點點錯落：左右、大小各抖一點，看起來像人坐的，不像排隊
+      const jx = (fixedNoise(ri * 31 + j) - 0.5) * 0.05, jk = 1 + (fixedNoise(ri * 17 + j + 5) - 0.5) * 0.06;
+      const x = -r.span + (2 * r.span) * (r.n === 1 ? 0.5 : j / (r.n - 1)) + jx;
+      const who = ri === 0 ? (CROWD_FRONT_B[j] ? `b${two(CROWD_FRONT_B[j])}` : 'a') : ri === 3 ? `c${two(1 + (j % 8))}` : 'a';
+      out.push([[x, r.z, r.k * jk], who]);
+    }
+  });
+  return out;
+}
+const fixedNoise = i => { const v = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return v - Math.floor(v); };
 function buildCrowdArt(g) {
-  const two = n => String(n).padStart(2, '0');
-  const slots = [...CROWD_AT.map((at, i) => [at, i < 9 ? (CROWD_FRONT_B[i] ? `b${two(CROWD_FRONT_B[i])}` : 'a') : i < 17 ? `c${two(i - 8)}` : 'a']), ...CROWD_MID.map(at => [at, 'a'])];
+  const slots = crowdSeats();
   const geo = {};
   crowd = slots.map(([[x0, z0, k], who], i) => {
     const kind = who[0], hf = 0.275 * k, w = 0.22 * k * (256 + CROWD_PAD * 2) / 256, h = hf * (320 + CROWD_PAD) / 320;
@@ -2063,7 +2176,7 @@ function buildCrowdArt(g) {
     sh.position.set(w * 0.07, -hf * 0.03, -0.022); sh.renderOrder = -1;
     const piv = new THREE.Group(); piv.position.set(x0, TOP + 0.013 * hf, z0 + 0.29 * hf); piv.rotation.x = -0.62;
     piv.add(sh, new THREE.Mesh(gg, mat)); crowdG.add(piv);
-    const c = { m: piv, mat, sh, y0: piv.position.y, h: hf, hf, headK: kind === 'c' ? 0.42 : 0.86, kick: null, phase: i * 1.7, front: i < 9, side: x0 < -0.4 ? 'L' : x0 > 0.4 ? 'R' : 'C', kind, who };
+    const c = { m: piv, mat, sh, y0: piv.position.y, h: hf, hf, headK: kind === 'c' ? 0.42 : 0.86, kick: null, phase: i * 1.7, front: i < 9, side: x0 < -0.4 ? 'L' : x0 > 0.4 ? 'R' : 'C', kind, who, row: i < 9 ? 0 : i < 17 ? 1 : i < 26 ? 2 : 3 };
     if (kind === 'b') { c.idle = idle; c.act = crowdTexOf(`crowd/${who}_act.png`) || idle; c.grp = +who.slice(1) <= 4 ? 'cheer' : 'boo'; c.actFrom = 0; c.actTo = 0; }
     return c;
   });
@@ -2076,7 +2189,7 @@ function crowdDress(day) {
   if (!ART.on) return;
   const two = n => String(n).padStart(2, '0');
   crowdA().forEach((c, j) => {
-    const tex = crowdTexOf(`crowd/a${two(1 + ((day - 1) * 9 + j) % 16)}.png`) || c.mat.map;
+    const tex = crowdTexOf(`crowd/a${two(1 + ((day - 1) * 7 + j * 5) % 16)}.png`) || c.mat.map;
     if (tex && c.mat.map !== tex) { c.mat.map = tex; c.sh.material.map = tex; c.mat.needsUpdate = true; c.sh.material.needsUpdate = true; }
     c.m.visible = !!c.mat.map;
   });
@@ -2102,17 +2215,18 @@ function buildCrowd(g) {
 function crowdKick(kind) {
   const now = clock ? clock.elapsedTime : 0;
   crowd.forEach((c, i) => {
-    c.kick = { t0: now + (i % 3) * 0.06 + Math.random() * 0.12, amp: kind === 'down' ? -0.05 : kind === 'big' ? 0.07 : 0.04 };
+    // v1.7：連擊越高，台下跳得越高、越久（hot 是滿堂紅以上）；後排也跟著起來
+    c.kick = { t0: now + (i % 3) * 0.06 + Math.random() * 0.12, amp: kind === 'down' ? -0.05 : kind === 'hot' ? 0.1 : kind === 'big' ? 0.07 : 0.04, dur: kind === 'hot' ? 1.6 : 0.9 };
     // v1.6：動作對換一張紙——叫好時叫好組舉手，倒彩時倒彩組擺手、捂耳、扭頭、扔瓜子殼
-    if (c.act && (kind === 'down') === (c.grp === 'boo')) { c.actFrom = c.kick.t0 + 0.05; c.actTo = c.actFrom + (kind === 'big' ? 1.7 : 1.15); }
+    if (c.act && (kind === 'down') === (c.grp === 'boo')) { c.actFrom = c.kick.t0 + 0.05; c.actTo = c.actFrom + (kind === 'hot' ? 2.6 : kind === 'big' ? 1.7 : 1.15); }
   });
 }
 function crowdTick(t) {
   crowd.forEach(c => {
     let y = Math.sin(t * 0.9 + c.phase) * 0.004;
     if (c.kick) {
-      const k = (t - c.kick.t0) / 0.9;
-      if (k > 1) c.kick = null; else if (k > 0) y += c.kick.amp * Math.sin(k * Math.PI) * (c.kick.amp > 0 ? Math.abs(Math.sin(k * Math.PI * 2)) + 0.4 : 1);
+      const k = (t - c.kick.t0) / (c.kick.dur || 0.9), bounce = c.kick.dur > 1 ? 3 : 2;
+      if (k > 1) c.kick = null; else if (k > 0) y += c.kick.amp * Math.sin(k * Math.PI) * (c.kick.amp > 0 ? Math.abs(Math.sin(k * Math.PI * bounce)) + 0.4 : 1);
     }
     c.m.position.y = c.y0 + y;
     if (c.act) { const tex = t >= c.actFrom && t < c.actTo ? c.act : c.idle; if (c.mat.map !== tex) { c.mat.map = tex; c.sh.material.map = tex; } }
@@ -2487,7 +2601,7 @@ const NUDGES = {
   board: { at: () => $('#wboard'), when: () => view === 'morning' && S.day >= 2, tx: () => `<b>水牌</b>你和同门按卖座排名。第 3 天散戏后垫底，就被摘牌。` },
   book: { at: () => $('#bookBtn'), when: () => view === 'morning' && S.day >= 2 && S.tut.seen.board, tx: () => '<b>图鉴</b>看不懂的牌和词，都在这里。' },
   crowd: { at: () => $('.bub.intel'), when: () => view === 'stage', tx: () => '<b>台下的话</b>金框那句说的是她今晚要什么，会记在上面那一排。' },
-  wipe: { at: () => $('[data-act="wipe"]'), when: () => view === 'door', tx: () => `<b>让她擦</b>一次擦 ${R.wipeLayers} 层，不耗牌；但今晚她只听得下 1 张。` },
+  wipe: { at: () => $('[data-act="wipe"]'), when: () => view === 'door', tx: () => `<b>让她擦</b>一次擦 ${R.wipeLayers} 层，不耗牌，今晚照样能推满。整季只有 ${R.wipes} 次，按钮上写着还剩几次。` },
   stakes: { at: () => $('#homep'), when: () => view === 'night' && S.day >= 2 && !$('#lampfb:not([hidden])'), tx: () => `<b>她会走</b>灯熄满 ${R.brokenOuts} 回，或痕到 ${R.brokenScar} 道。` },
   shop: { at: () => $('[data-act="shop"]'), when: () => view === 'morning', tx: () => '<b>后台</b>孙师父卖牌和物件。花的就是卖座，名次会掉；越早买越划算。' },
   wild: { at: () => $('.hc[data-wild].play'), when: () => view === 'stage', tx: () => '<b>百搭</b>前后都接得上，还能起手。链要断的时候用它。' },
@@ -2652,51 +2766,146 @@ function peekHTML(t) {
   const front = view !== 'evening';
   const covered = view === 'evening' && coveredFams(S).includes(T[t].f);
   const fig = (side, on, name, lines, over) => `<figure class="${on ? 'on' : ''}"><img src="${cardArt(t, side, over).url}" alt=""><figcaption><b>${name}</b>${lines.join('<br>')}</figcaption></figure>`;
-  return fig('stage', front, '台上面', stageLines(t)) + fig('home', !front, '家里面', covered ? ['台上的字盖住了。', '推出去，就算被染。'] : homeLines(t), covered);
+  return fig('stage', front, `${T[t].n} · 台上面`, stageLines(t)) + fig('home', !front, `${HOME[FAM[T[t].f].home]?.n || T[t].n} · 家里面`, covered ? ['台上的字盖住了。', '推出去，就算被染。'] : homeLines(t), covered);
 }
 // 教學小框還在畫面上時不放大牌：先讀完教學，再看牌
 const coachOn = () => !$('#coach').hidden;
-function showPeek(el) {
+function showPeek(el, pin = false) {
   if (!S || view === 'title' || coachOn()) return;
   const id = el.dataset.id !== undefined ? Number(el.dataset.id) : null, t = id !== null ? cardOf(S, id)?.t : el.dataset.t;
   if (!t || !T[t]) return;
   const p = $('#peek');
   peekAt = el;
-  p.innerHTML = peekHTML(t);
+  peekPin = pin ? el : null;
+  p.classList.toggle('pin', pin);
+  // 不擋手牌、也不擋出門那一排按鈕：底邊壓在按鈕（沒有就是手牌）上面；放不下就收成只有字的小卡
+  const hand = $('#hand').getBoundingClientRect(), ch = $('#choices'), cr = ch && ch.offsetHeight && !ch.closest('[hidden]') ? ch.getBoundingClientRect() : null;
+  const floor = Math.min(hand.top + 6, cr ? cr.top : innerHeight) - 8;
+  p.innerHTML = peekHTML(t) + (pin ? '<button class="pclose" data-act="peekclose" aria-label="收起">×</button>' : '');
+  p.classList.remove('compact');
   p.hidden = false;
+  if (p.offsetHeight > floor - 8 || p.offsetWidth > innerWidth - 16) p.classList.add('compact');
   const a = el.getBoundingClientRect(), W = innerWidth, H = innerHeight, pw = p.offsetWidth, ph = p.offsetHeight;
-  let left = a.left + a.width / 2 - pw / 2, top = a.top - 24 - ph;
-  // 桌上攤開的牌：放在右邊，放不下就放左邊
-  if (!el.classList.contains('hc')) { left = a.right + 12; top = a.top + a.height / 2 - ph / 2; if (left + pw > W - 16) left = a.left - 12 - pw; }
-  p.style.left = `${clamp(left, 16, Math.max(16, W - pw - 16))}px`;
+  let left = a.left + a.width / 2 - pw / 2, top = Math.min(a.top - 24, floor) - ph;
+  // 桌上攤開的牌（卡組、後台）：放在右邊，放不下就放左邊
+  if (!el.classList.contains('hc')) { left = a.right + 12; top = a.top + a.height / 2 - ph / 2; if (left + pw > W - 16) left = a.left - 12 - pw; top = Math.min(top, floor - ph); }
+  p.style.left = `${clamp(left, 8, Math.max(8, W - pw - 8))}px`;
   p.style.top = `${clamp(top, 8, Math.max(8, H - ph - 8))}px`;
 }
-function hidePeek() { peekAt = null; $('#peek').hidden = true; }
+function hidePeek() { peekAt = null; peekPin = null; $('#peek').hidden = true; }
 const peekEl = x => x?.closest?.('.hc, .spc');
 // 手牌每次重畫，舊的牌就換成新元素：滑鼠還停在牌上的話，換到新元素上接著看
+// 手牌每次重畫，舊的牌就換成新元素：釘著的資訊卡跟到同一張牌的新元素上，牌不在了就收
 function peekSync() {
   if (!peekAt || peekAt.isConnected) return;
+  const pin = !!peekPin, id = peekAt.dataset.id, t = peekAt.dataset.t, inHand = peekAt.classList.contains('hc');
   hidePeek();
-  const el = !busy && peekXY ? peekEl(document.elementFromPoint(...peekXY)) : null;
-  if (el) showPeek(el);
+  if (!pin || busy) return;
+  const el = inHand && id !== undefined ? document.querySelector(`#hand .hc[data-id="${id}"]`) : t ? document.querySelector(`#mid .spc[data-t="${t}"]`) : null;
+  if (el) showPeek(el, true);
 }
-document.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') peekXY = [e.clientX, e.clientY]; }, { passive: true });
-document.addEventListener('pointerover', e => { if (e.pointerType === 'touch') return; const el = peekEl(e.target); if (el && el !== peekAt) showPeek(el); });
-document.addEventListener('pointerout', e => { const el = peekEl(e.target); if (el && el === peekAt && !el.contains(e.relatedTarget)) hidePeek(); });
-document.addEventListener('focusin', e => { const el = e.target.closest?.('.hc'); if (el) showPeek(el); });
-document.addEventListener('focusout', e => { if (e.target === peekAt) hidePeek(); });
-// 手機：長按看牌，放開時不出牌
+// v1.7：點一下（按下就放開）只看牌，資訊卡留著，點空白處或 × 才收；拖上去才打出／推給她／卸妝，拖錯了回手。
+// 早上：卡組的牌拖進下面的妝匣才放入，妝匣的牌拖回上面的卡組才拿回。鍵盤（Tab 到牌上按 Enter）照舊直接用。
+let drag = null, peekPin = null;
+const DRAG_MIN = 9;
+const dragOK = el => el && !busy && S && ((el.classList.contains('hc') && el.closest('#hand') && el.dataset.act) || (el.classList.contains('spc') && el.closest('#mid .spread') && !el.classList.contains('none') && !lockedBox(S)));
+// 拖到哪裡算數：手牌往上拖出手牌區；卡組的牌往下拖進妝匣（手牌區）
+function dropZone(el) {
+  const h = $('#hand').getBoundingClientRect(), fromHand = el.classList.contains('hc');
+  const top = h.top + 4;
+  if (fromHand) return { x0: 0, y0: 0, x1: innerWidth, y1: top - 6, label: { morning: '拖回上面的卡组 · 拿出妆匣', stage: '放到台上 · 打出', evening: '放到桌上 · 推给她', door: '放到这里 · 用这张卸一层', night: '放到这里 · 用这张卸一层' }[view] || '' };
+  return { x0: 0, y0: top - 30, x1: innerWidth, y1: innerHeight, label: '放进妆匣' };
+}
+const inZone = (z, x, y) => x >= z.x0 && x <= z.x1 && y >= z.y0 && y <= z.y1;
+function dropShow(z, hot) {
+  let d = $('#drop');
+  if (!d) { d = document.createElement('div'); d.id = 'drop'; d.setAttribute('aria-hidden', 'true'); document.body.appendChild(d); }
+  if (!z) { d.hidden = true; return; }
+  d.hidden = false; d.classList.toggle('hot', !!hot);
+  Object.assign(d.style, { left: `${z.x0 + 8}px`, top: `${z.y0 + 8}px`, width: `${z.x1 - z.x0 - 16}px`, height: `${Math.max(40, z.y1 - z.y0 - 16)}px` });
+  d.innerHTML = `<span>${esc(z.label)}</span>`;
+}
+// 拖錯、或現在不能用：說一句為什麼
+function whyNot(id) {
+  const t = S.T;
+  if (view === 'stage') {
+    if (t.ended) return '已经收场了。';
+    if (t.plays.length >= t.stageMax) return `今天只有 ${t.stageMax} 张的戏，打满了。`;
+    if (!t.plays.length && starterOf(S)) return `第一张要打起手的「${FAM[starterOf(S)].n}」。`;
+    if (tOf(S, id).home) return '家常牌不上台，留着推给她。';
+  }
+  if (view === 'evening') {
+    if (t.pushed.length >= t.homeCap) return `今晚最多推 ${t.homeCap} 张，已经推满了。`;
+    if (S.choice === 'lamp') return '今晚只点灯。';
+  }
+  if ((view === 'door' || view === 'night') && !t.layers.length) return '脸上已经没有油彩了。';
+  return '这张现在用不上。';
+}
+function useCard(el) {
+  if (el.classList.contains('spc')) { pickKind(el.dataset.t); refresh(); return; }
+  const id = Number(el.dataset.id);
+  if (view === 'morning') { if (!lockedBox(S)) toggleBox(S, id); refresh(); return; }
+  if (view === 'stage') { if (canStage(S, id)) onStage(id); else { say('', whyNot(id)); refresh(); } return; }
+  if (view === 'evening') { if (canHome(S, id)) onHome(id); else { say('', whyNot(id)); refresh(); } return; }
+  if (view === 'door' || view === 'night') { if (canClean(S, id)) onClean(id); else { say('', whyNot(id)); refresh(); } }
+}
+// 從卡組拿一張這種牌放進妝匣；滿了就說清楚，不偷偷換掉
+function pickKind(k) {
+  const c = S.deck.find(x => x.t === k && !S.T.box.includes(x.id));
+  if (!c || lockedBox(S)) return false;
+  if (S.T.box.length >= S.T.cap) { say('', `妆匣满了（${S.T.cap} 格）。先把一张拖回卡组，再放这张。`); return false; }
+  toggleBox(S, c.id);
+  return true;
+}
 document.addEventListener('pointerdown', e => {
-  peekEat = false;
-  if (e.pointerType !== 'touch') return;
   const el = peekEl(e.target);
-  if (!el) return;
-  clearTimeout(peekHold);
-  peekHold = setTimeout(() => { showPeek(el); peekEat = true; }, 380);
+  // 點空白處：收起資訊卡（點在資訊卡上不收）
+  if (!el && !e.target.closest?.('#peek')) { if (peekPin) hidePeek(); return; }
+  if (!el || e.button > 0) return;
+  drag = { el, x: e.clientX, y: e.clientY, id: e.pointerId, on: false, ghost: null, can: dragOK(el) };
 });
-['pointerup', 'pointercancel'].forEach(k => document.addEventListener(k, e => { if (e.pointerType !== 'touch') return; clearTimeout(peekHold); if (peekAt) setTimeout(hidePeek, 0); }));
-document.addEventListener('click', e => { if (peekEat) { peekEat = false; e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (!drag.on) {
+    if (Math.hypot(dx, dy) < DRAG_MIN || !drag.can) return;
+    drag.on = true; hidePeek();
+    const r = drag.el.getBoundingClientRect(), img = drag.el.querySelector('img');
+    const g = document.createElement('div'); g.className = 'ghost';
+    g.innerHTML = img ? `<img src="${img.src}" alt="">` : '';
+    Object.assign(g.style, { width: `${r.width}px`, height: `${r.height}px` });
+    document.body.appendChild(g);
+    drag.ghost = g; drag.w = r.width; drag.h = r.height; drag.zone = dropZone(drag.el);
+    drag.el.classList.add('lifted');
+    document.body.classList.add('dragging');
+  }
+  const z = drag.zone, inside = inZone(z, e.clientX, e.clientY);
+  drag.ghost.style.transform = `translate(${e.clientX - drag.w / 2}px, ${e.clientY - drag.h * 0.6}px) rotate(${clamp(dx / 30, -8, 8)}deg) scale(1.06)`;
+  drag.ghost.classList.toggle('ok', inside);
+  dropShow(z, inside);
+  e.preventDefault();
+}, { passive: false });
+function dragEnd(e, cancel) {
+  if (!drag || (e && e.pointerId !== drag.id)) return;
+  const d = drag; drag = null;
+  if (!d.on) {
+    // 點一下：看牌（同一張再點一下就收）
+    if (!cancel) { if (peekPin === d.el) hidePeek(); else showPeek(d.el, true); }
+    return;
+  }
+  d.ghost.remove(); d.el.classList.remove('lifted'); document.body.classList.remove('dragging'); dropShow(null);
+  if (!cancel && e && inZone(d.zone, e.clientX, e.clientY)) useCard(d.el);
+}
+document.addEventListener('pointerup', e => dragEnd(e, false));
+document.addEventListener('pointercancel', e => dragEnd(e, true));
+// 滑鼠、觸控點牌時產生的 click 不出牌（出牌只靠拖）；鍵盤 Enter／空白鍵的 click（detail 0）照舊
+document.addEventListener('click', e => { const el = peekEl(e.target); if (el && e.detail !== 0 && (el.closest('#hand') || el.closest('#mid'))) { e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener('focusin', e => { const el = e.target.closest?.('.hc'); if (el && el.matches(':focus-visible')) showPeek(el); });
+document.addEventListener('focusout', e => { if (e.target === peekAt && !peekPin) hidePeek(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && peekAt) hidePeek(); });
 document.addEventListener('contextmenu', e => { if (peekEl(e.target)) e.preventDefault(); });
+// 牌上的圖不要被瀏覽器當成原生拖曳（那樣會吃掉 pointermove）
+document.addEventListener('dragstart', e => { if (peekEl(e.target)) e.preventDefault(); });
 
 /* ──────────────── 遊戲流程 ──────────────── */
 let S = null, view = 'title', busy = false, panel = null, sheet = null, lookOpen = false, draftName = '小满', saved = null;
@@ -2750,6 +2959,7 @@ const CROWD = {
   seep: ['这脸，彩都要渗进肉里了。'],
   blank: ['小凤的牌，到他手里也一样响。'],
   perfect: ['满堂彩！', '这一场，值了！'],
+  hot: ['满堂红！', '再来一个！', '这一串，绝了！', '后排的都站起来了！'],
 };
 // 同門的事：早上有人告訴你，台下也有人在聊
 const EV_TX = {
@@ -2761,6 +2971,15 @@ const EV_TX = {
   sick: () => `小凤${K('病倒了')}，嗓子哑着。魏老板把她的三张牌推到你面前：金很高，背面是空白。`,
   back: () => `小凤${K('能下床了')}，魏老板把借你的牌收了回去。`,
 };
+// v1.7：同門的事是一張可以關的小卡（× 或「知道了」）；關了以後收成情報列裡的一個小標記，點它可以再打開
+const EV_SHORT = { tip: '玉楼递话', hot: '金宝唱红 · 他今天 ×2', grab: '月仙抢戏 · 只剩四张', cheer: '魏老板捧场 · 骰 3 就完美', wei: '魏老板压轴 · 他今天 ×1.8', sick: '小凤病倒 · 借你三张', back: '小凤回来 · 借牌收回' };
+const evSeen = () => !!(S.evSeen && S.evSeen[S.day]);
+function renderEvent() {
+  const el = $('#evc'), k = S && S.events[S.day], ev = k && EVENTS[k];
+  if (!ev || view !== 'morning' || panel || sheet || evSeen()) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="evcard" role="dialog" aria-label="同门的事：${esc(ev.who)}"><button class="evx" data-act="evclose" aria-label="关上">×</button>${faceTag(ev.who, 'sface')}<span class="who">${esc(ev.who)}</span><div class="tx">${EV_TX[k]()}</div><button class="btn small go" data-act="evclose">知道了</button></div>`;
+}
+const evChip = () => { const k = S.events[S.day]; return k && EV_SHORT[k] && (evSeen() || view !== 'morning') ? `<button class="ic ev" data-act="evopen" title="点开再看一遍">${faceTag(EVENTS[k].who, 'evf')}<span class="d">同门</span>${EV_SHORT[k]}</button>` : ''; };
 const EV_BUB = {
   tip: `玉楼那张嘴，${K('灯坊')}的事他都知道。`,
   hot: `金宝昨晚那出${K('满堂彩')}，我还在回味呢。`,
@@ -2794,12 +3013,12 @@ const ENDING_TX = {
 const USED_N = { stage: '演', home: '推', clean: '布' };
 const RULES = [
   '一副牌两面用：正面是台上面，背面是家里面。一张牌每天只能用一面。',
-  '早：挑 10 张进妆匣。木牌写着今天的起手族，匣里没有这一族就不能出发。第 3 天起可以去后台找孙师父：每天两张牌、一样物件（买一次整季都有用）。只有一种金：买东西花的就是卖座，水牌名次跟着掉，要靠往后多挣回来。',
+  '早：挑 10 张进妆匣。木牌写着今天的起手族，匣里没有这一族就不能出发。第 3 天起可以去后台找孙师父（出门旁边那颗钮）：每天两张牌、一样物件（买一次整季都有用）；花 3 金可以换一批货，一天一次。只有一种金：买东西花的就是卖座，水牌名次跟着掉，要靠往后多挣回来。',
   '白天：最多 5 张。第一张打起手族（开得正 +1 金）。下一张打上一张写的那一族，就接上了：第 2 张多 1 金，第 3 张多 2，第 4 张起多 3。接错了连击从头算，已拿的金不扣；第 2 天起，接错一次记一点怨气，今晚多染一张。',
   '每打一张，脸上多一层（重彩两层、素不上妆）；超过 4 层直接渗进底色。收场时连击到 3，掷一颗骰，4 以上金 ×1.5。后台的牌：百搭接谁都算接上，它后面打哪一族也都接得上，还能起手；压轴第 4 张起打出另加金；托接上时连击的金翻倍。',
-  '门口：她替你擦 2 层，不耗牌，但今晚她只听得下 1 张（痕到 3 她就不擦了）。自卸：每层弃 1 张牌。',
+  '门口：保底擦脸整季 2 次，每次她替你擦 2 层（熟手巾 3 层），不耗牌，今晚照样能推满。用完就只能自卸：每层弃 1 张牌。',
   '傍晚：她今晚要的有四种花样：一张；两张同样的；两样各一张；三张（两张同样的加一张别的，第 9 天）。每一样都推够对路的牌（背面对上），这一晚才算满足；一段两晚都满足，她送你一张家常牌（对上算两张、灯 +3）。没推够：灯熄一截（灯 −3）。',
-  '最多推 3 张（被擦那晚 1 张）。没卸掉的层（每晚上限第一幕 1、第二幕 2、第三幕 3）加上怨气，决定前几张牌被染。对路的牌灯 +2，不对路的灯不涨；被染的牌灯上留一道痕，永久。',
+  '最多推 3 张（打了甩发那晚少 1 张）。没卸掉的层（每晚上限第一幕 1、第二幕 2、第三幕 3）加上怨气，决定前几张牌被染。对路的牌灯 +2，不对路的灯不涨；被染的牌灯上留一道痕，永久。',
   '情报：一段需要的最后一晚，她会说起往后两晚各要什么；一上台，台下就有人聊她今晚的事；玉楼有时来递话。听到的都记在上面那一排。',
   '夜：剩下的牌继续卸。没卸掉的层，每层变成 1 点底色。剩牌作废，明天全部回到卡组。',
   '第二幕起：底色每 2 点妆匣少 1 位。第三幕：底色到 2，你演得最多的那一族，家里面被台上的字盖住，推出去就算被染；底色到 4 涉及两族。痕到 3，她的座位空了。',
@@ -2811,7 +3030,7 @@ const TIPS = [
   '四族一圈：唱 → 念 → 做 → 打 → 唱。照牌上的「接」走，四张就能连成一串。',
   '先看情报再装匣：她要几张、背面是什么，就带几张，台上别打掉（印着「家」的牌）。',
   '10 张的账：四张上台 + 四张卸妆 + 两张推给她，刚好。打第 5 张、用重彩，就得想好拿哪几张去卸。',
-  '让她擦省两张牌，但今晚只听得下 1 张：要 2 张同样的晚上，得靠家常牌（一张算两张）；要两样、要三张的晚上别让她擦。',
+  '保底擦脸只有 2 次：留给要三张、手里又没牌卸妆的那几晚。',
   '要三张的晚上：只打三张的链，多留一张回家。',
   '后台买的东西要回本：第 3、4 天买，用得满七八天；第 8 天以后买，多半挣不回来。物件里琴师、锣鼓经天天都多拿金。',
   '美满很难：每一晚的需要都得接住，还要多推几张对路的把灯糊满。台上就只能打四张，名次要靠买得准、接得好。',
@@ -2823,7 +3042,7 @@ const ASSUME = [
   '卡组：八种牌各 2 张，共 16 张。第 1、2 天的妆匣是装好的，第 3 天起自己挑。后台买的牌、她送的家常牌，永久进卡组。',
   '第 1 天傍晚和夜自动结算：灯 +1，她说起第 2–3 天的事，剩下的层用剩下的牌卸。',
   '她的需要四段（第 2–3、4–5、6–7、8–9 天）各有一个主要的样子，每局洗过。每晚的花样：第 2–3 天一张；第 4、8 天两张同样或两样各一；第 5、6 天还可能只要一张；第 7 天两张；第 9 天三张。元宵代演那晚是「等」，1 张。',
-  '后台每天两张牌（十二种：重彩慢板、踏转、起霸；百搭导板、数板、急急风；压轴韵白、卧鱼；素清唱、定场诗；托托腔、趟马，价钱 8–11）和一样物件（琴师、锣鼓经、护嗓茶、妆奁、熟手巾、灯油、小锣，价钱 9–16）。',
+  '后台每天两张牌（十四种：重彩慢板、踏转、起霸；百搭导板、数板、急急风；压轴韵白、卧鱼；素清唱、定场诗；托托腔、趟马；有代价的耍牙（打出记一点怨气）、甩发（打出今晚少推一张），价钱 7–9）和一样物件（琴师、锣鼓经、护嗓茶、妆奁、熟手巾、灯油、小锣、班鼓、香粉、手抄折子，价钱 6–13）。每天早上可花 3 金换一批，一天一次。',
   '她走了、被摘牌：都是当场结束，不再往下演；名次按结束那天的水牌算。第 10 天元宵那晚痕到 4 或灯熄满 5 回，照常走到结局（破裂）。',
   '对手每天的金：魏老板约 20、金宝约 17、月仙约 14、玉楼约 7、小凤 9（第 4–7 天病着没有），每天上下浮动；金宝唱红那天 ×2，魏老板压轴那天 ×1.8。同分时对手在前。',
   '同门的事：第 3 天玉楼递话、第 4 天小凤病倒、第 8 天小凤回来；第 5、6、7、9 天从「金宝唱红、月仙抢戏、魏老板捧场、魏老板压轴、玉楼递话」里挑。',
@@ -2839,9 +3058,25 @@ const PENDING = [
 ];
 
 // ── 存檔：每次畫面更新都存一份，關掉再開可以接著玩 ──
-const KEY = 'dise-v13';
+const KEY = 'dise-v17', OLD_KEY = 'dise-v13';
 function save() { try { if (S) localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 存不了就算了 */ } }
-function load() { try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); return d && d.v === 13 ? d : null; } catch (e) { return null; } }
+// v1.6 的存檔（v 13）搬過來：保底擦臉照已經擦過的晚數扣，今天的貨架補上刷新欄
+function migrate(d) {
+  if (!d) return null;
+  if (d.v === 13) {
+    const used = (d.log || []).filter(x => x.wiped > 0).length + (d.T && d.T.wiped && !(d.log || []).some(x => x.day === d.day) ? 1 : 0);
+    d.wipes = Math.max(0, R.wipes - used);
+    if (d.T) Object.assign(d.T, { refreshed: false, drumGold: 0, fenSaved: 0 }, d.T.wiped ? { homeCap: Math.max(d.T.homeCap, R.homeMax) } : {});
+    d.v = 17;
+  }
+  return d.v === 17 ? d : null;
+}
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY) || 'null') || JSON.parse(localStorage.getItem(OLD_KEY) || 'null');
+    return migrate(d);
+  } catch (e) { return null; }
+}
 
 // ── 聲音：戲院裡的幾聲，用合成的，不載檔案 ──
 let audio = null, muted = false;
@@ -2947,7 +3182,7 @@ function refresh() {
   document.querySelector('.talk').hidden = !!panel;
   $('#hud').dataset.v = view;
   const mb = $('#musicBtn'); mb.setAttribute('aria-pressed', String(musicOn)); mb.textContent = musicOn ? '乐 开' : '乐 关'; mb.title = musicOn ? '背景音乐：开着（点一下关）' : '背景音乐：关着（点一下开）';
-  renderPlate(); renderBoardChip(); renderTop(); renderLeft(); renderMid(); renderChoices(); renderHand(); fitSpread(); peekSync(); renderSmear();
+  renderPlate(); renderBoardChip(); renderTop(); renderLeft(); renderMid(); renderEvent(); renderChoices(); renderHand(); fitSpread(); peekSync(); renderSmear();
   updateTable();
   coachUpdate();
   save();
@@ -2989,7 +3224,7 @@ const TERMS = {
   托: '接上时，这一张的连击金翻倍。',
   家常牌: '她送你的牌，不上台。对上她的需要，一张算两张，灯 +3。',
   完美: '收场时连击到 3，掷一颗骰，4 以上，这一场的金 ×1.5。',
-  让她擦: '卸妆的一种：她替你擦，一次 2 层、不耗牌；但这一晚她只听得下 1 张。',
+  让她擦: '卸妆的一种：保底擦脸，整季 2 次。她替你擦，一次 2 层、不耗牌，今晚照样能推满。',
 };
 // 自動加虛線的只取這幾個（單字的牌名關鍵詞不自動加，免得「素着脸」也冒虛線）
 const AUTO_TERMS = ['卖座', '起手', '接口', '连击', '怨气', '油彩', '底色', '被染', '痕', '熄', '情报', '考核', '家常牌', '完美', '让她擦'];
@@ -3047,16 +3282,17 @@ function renderBoardChip() {
   el.innerHTML = `<button class="wb ${fresh ? 'popin' : ''}" data-act="water" aria-label="水牌第 ${i + 1}，${gap}${ne ? `，第 ${ne.day} 天考核${examTx(ne)}` : ''}。点开看全部"><span class="wbh"><span>水牌</span><span>第 <b>${i + 1}</b> / ${b.length}</span></span><ol>${rows}</ol><span class="dif">${gap}</span>${ex}</button>${S.relics.length ? `<div class="relics" aria-label="物件">${S.relics.map(r => `<button class="rel" data-tip="${esc(RELICS[r].n)}|${esc(RELICS[r].tx)}" aria-label="${esc(RELICS[r].n)}：${esc(RELICS[r].tx)}">${relicTag(r, 'ri', 44, '#f2d48a', '#f4ecdc')}${RELICS[r].n}</button>`).join('')}</div>` : ''}`;
 }
 // v1.6：物件圖示（<img>）；沒有圖就是空字串
-const relicTag = (k, cls, size, line, acc) => { const u = relicIcon(k, size, line, acc); return u ? `<img class="${cls}" src="${u}" alt="">` : ''; };
+const relicTag = (k, cls, size, line, acc) => { const u = relicIcon(k, size, line, acc); return u ? `<img class="${cls}" src="${u}" alt="">` : `<span class="${cls} rtx" aria-hidden="true">${RELICS[k].n[0]}</span>`; };
 // 情報：聽來的需要，按段排；今晚的那一條亮著
 function intelHTML(onlyNow = false) {
-  if (seatEmpty(S)) return '';
+  const evc = ['morning', 'stage'].includes(view) ? evChip() : '';
+  if (seatEmpty(S)) return evc ? `<div class="intel" role="note"><span class="lbl">情报</span>${evc}</div>` : '';
   const items = [];
   // 今晚的需要已經過了（夜裡、吃完飯），就從明天記起
   for (let d = view === 'night' || S.T.judged ? S.day + 1 : S.day; d < (onlyNow ? S.day + 1 : R.days); d++) if (S.known[d]) items.push({ d, nd: needOf(S, d) });
-  if (!items.length) return '';
+  if (!items.length) return evc ? `<div class="intel" role="note"><span class="lbl">情报</span>${evc}</div>` : '';
   const lab = d => (d === S.day ? '今晚' : d === S.day + 1 ? '明晚' : `第${d}天`);
-  return `<div class="intel" role="note" aria-label="情报"><span class="lbl">情报</span>${items.map(it => `<span class="ic ${it.d === S.day ? 'now' : ''}"><span class="d">${lab(it.d)}</span>${it.nd.items.map(x => `${lookIcon(x.look)}${x.look} → <b>${HOME[LOOK_HOME[x.look]].n}</b>×${x.n}`).join(' + ')}</span>`).join('')}</div>`;
+  return `<div class="intel" role="note" aria-label="情报"><span class="lbl">情报</span>${items.map(it => `<span class="ic ${it.d === S.day ? 'now' : ''}"><span class="d">${lab(it.d)}</span>${it.nd.items.map(x => `${lookIcon(x.look)}${x.look} → <b>${HOME[LOOK_HOME[x.look]].n}</b>×${x.n}`).join(' + ')}</span>`).join('')}${evc}</div>`;
 }
 // 這一種牌的背面是她今晚要的（早上攤開的牌用）
 const needKind = k => !!S.known[S.day] && !seatEmpty(S) && S.choice !== 'stage' && S.choice !== 'lamp' && !T[k].blank && needOf(S).items.some(x => x.look === (T[k].home ? HOME[FAM[T[k].f].home].look : HOME[FAM[T[k].f].home].look));
@@ -3094,7 +3330,11 @@ function renderTop() {
   // 早上、門口、夜裡：一條金字說這一步要做什麼
   const n = t.layers.length;
   let goal = '';
-  if (view === 'morning' && !lockedBox(S) && S.choice !== 'lamp') goal = `装妆匣 <b>${t.box.length}</b>/${t.cap}${starterOf(S) ? ` <small>起手 ${FAM[starterOf(S)].n} 要带</small>` : ''}`;
+  if (view === 'morning' && !lockedBox(S) && S.choice !== 'lamp') {
+    // 底色讓妝匣少了格：寫出來，不悄悄變少
+    const lost = R.box + (has(S, 'lian') ? 1 : 0) - t.cap;
+    goal = `装妆匣 <b>${t.box.length}</b>/${t.cap}${starterOf(S) ? ` <small>起手 ${FAM[starterOf(S)].n} 要带</small>` : ''}${lost > 0 ? ` <small class="capl" data-tip="妆匣少格|第二幕起，底色每 ${R.basePerSlot} 点，妆匣少一格（最少 ${R.boxMin} 格）。">底色 ${S.base} · 少 ${lost} 格</small>` : ''}`;
+  }
   else if (view === 'morning') goal = '妆匣装好了 <small>出门</small>';
   else if (view === 'door') goal = n ? `进门前卸妆 <b>${n}</b> 层 <small>没卸的会染牌</small>` : '脸是干净的 <small>进门</small>';
   else if (view === 'night') goal = n ? `睡前还有 <b>${n}</b> 层 <small>过夜就渗进底色</small>` : '夜深了 <small>睡吧</small>';
@@ -3158,6 +3398,8 @@ const LORE = {
   dingchang: '角色第一次上场时念的四句诗，交代身份和心境；念完，场子就「定」住了。',
   tuoqiang: '琴师用京胡跟着演员的唱腔走，托住、垫住，叫「托腔保调」。好琴师能让角儿唱得更舒服。',
   tangma: '表现骑马赶路的一套程式动作。手里一根马鞭，就是一匹马。',
+  shuaya: '净角、丑角用嘴叼着野猪牙上下翻动的绝活，吓人也叫好。台下炸了，后台也有人不痛快。',
+  shuaifa: '甩动头上的一绺长发，表现人物悲愤、慌乱。一场甩下来，脖子半天抬不起来。',
   tang: '不是戏。她把汤热了第二回，等你回来。',
   fan: '不是戏。两只碗、两双筷子，她摆好了。',
   xin: '不是戏。她把你早年写的信翻出来，用红线又扎了一遍。',
@@ -3171,6 +3413,9 @@ const RELIC_LORE = {
   jin: '用旧了、用软了的手巾，卸妆不伤脸。',
   you: '点灯用的油。',
   luo: '乐队里的小锣，声音清脆，常给旦角、文戏打点子。',
+  bangu: '鼓师手里的单皮鼓，整个乐队都看他的鼓签子。场子热了，他还能再催一把。',
+  xiangfen: '卸妆前先扑的一层粉，油彩就不那么往肉里钻。',
+  zhezi: '师父手抄的戏本子，一出一折，边角都翻毛了。',
 };
 let bookTab = 'cards', bookSel = null;
 function bookPanel() {
@@ -3234,10 +3479,9 @@ function morningPanel() {
   const cells = kinds.map(k => {
     const free = S.deck.filter(c => c.t === k && !t.box.includes(c.id)), can = free.length > 0;
     const nk = needKind(k);
-    return `<button class="spc ${nk && can ? 'want' : ''}" data-act="pick" data-arg="${k}" data-t="${k}" ${can ? '' : 'disabled'} aria-label="${T[k].n}，还有 ${free.length} 张${nk ? '，背面是她今晚要的' : ''}"><img src="${cardArt(k, 'stage').url}" alt=""><span class="ct">${free.length}</span>${nk && can ? '<span class="wtag" aria-hidden="true">家</span>' : ''}</button>`;
+    return `<button class="spc ${nk && can ? 'want' : ''} ${can ? '' : 'none'}" ${can ? `data-act="pick" data-arg="${k}"` : 'aria-disabled="true"'} data-t="${k}" aria-label="${T[k].n}，还有 ${free.length} 张${nk ? '，背面是她今晚要的' : ''}"><img src="${cardArt(k, 'stage').url}" alt=""><span class="ct">${free.length}</span>${nk && can ? '<span class="wtag" aria-hidden="true">家</span>' : ''}</button>`;
   }).join('');
-  const shop = t.offers.length ? `<button class="mini" data-act="shop" style="border-color:#f2d48a;color:#f2d48a">后台 · 孙师父（花卖座，名次会掉）</button>` : '';
-  return `<div class="spread"><div class="sph">卡组 · 点一张放进妆匣</div>${cells}${shop ? `<div class="tools2">${shop}</div>` : ''}</div>`;
+  return `<div class="spread"><div class="sph">卡组 · 点看牌 · 拖到下面放进妆匣</div>${cells}</div>`;
 }
 // 攤開的牌照桌上的空位排：在這塊空位裡把牌放到最大，放不下一列就折行
 function fitSpread() {
@@ -3245,7 +3489,7 @@ function fitSpread() {
   if (!sp) return;
   const n = sp.querySelectorAll('.spc').length, mid = $('#mid').getBoundingClientRect(), cs = getComputedStyle(sp);
   const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight), padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-  const gx = parseFloat(cs.columnGap) || 10, gy = parseFloat(cs.rowGap) || 8, tools = (sp.querySelector('.tools2')?.offsetHeight || 32) + gy + (sp.querySelector('.sph')?.offsetHeight || 0) + gy;
+  const gx = parseFloat(cs.columnGap) || 10, gy = parseFloat(cs.rowGap) || 8, tools = (sp.querySelector('.tools2')?.offsetHeight || 0) + gy + (sp.querySelector('.sph')?.offsetHeight || 0) + gy;
   // 可用的空位：寬螢幕夾在左邊木牌、妝匣和右邊水牌之間，從情報底下開始；窄螢幕在木牌底下、整個寬度
   const R = el => (el && !el.hidden && el.getClientRects().length ? el.getBoundingClientRect() : null);
   const plate = R($('#plate')), tray = R($('#leftcol')), side = R(document.querySelector('.side')), tm = R($('#topmid'));
@@ -3308,12 +3552,15 @@ function previewTx(k) {
     if (k === 'jin') return '她擦一次 3 层：上四张，只要再弃一张';
     if (k === 'you') return '灭灯只熄 1（熄过一回，就到不了美满）';
     if (k === 'luo') return '每天接错一次不伤她';
+    if (k === 'bangu') return `连击到 3 的日子每天 +3 金；${payback(3, p)}`;
+    if (k === 'xiangfen') return `保底擦脸还剩 ${S.wipes} 次：用一次，底色少长 1`;
+    if (k === 'zhezi') return '往后每天多一张牌可挑（今天就多一张）';
     return '';
   }
   const deck = S.deck.map(c => c.t), base = bestLineGold(deck), more = bestLineGold([...deck, k]);
   const d = more - base;
-  const tp = T[k], why = tp.wild ? '断了的链靠它接回来' : tp.clean ? '脸上少一层，省一张卸妆的牌' : '';
-  return d > 0 ? `放进今天的四张链：<b>+${d} 金</b>${tp.heavy ? '，多一层油彩' : tp.clean ? '，还少一层油彩' : ''}；起手天天换，${payback(Math.max(1, d / 2), p)}` : why ? `今天的链用不上它；${why}` : `今天起手${FAM[starterOf(S)]?.n || ''}用不上，换个日子再看`;
+  const tp = T[k], why = tp.wild ? '断了的链靠它接回来' : tp.clean ? '脸上少一层，省一张卸妆的牌' : tp.rile ? '金高，但台下记一点怨气' : tp.tire ? '金高，但那晚少推一张' : '';
+  return d > 0 ? `放进今天的四张链：<b>+${d} 金</b>${tp.heavy ? '，多一层油彩' : tp.clean ? '，还少一层油彩' : tp.rile ? '，但台下记一点怨气' : tp.tire ? '，但那晚少推一张' : ''}；起手天天换，${payback(Math.max(1, d / 2), p)}` : why ? `今天的链用不上它；${why}` : `今天起手${FAM[starterOf(S)]?.n || ''}用不上，换个日子再看`;
 }
 // 買了以後掉到第幾：照現在的水牌算
 function afterBuy(k) {
@@ -3337,6 +3584,7 @@ function shopPanel() {
   return `<div class="panel shopp"><h2>后台 · 孙师父<button class="btn small" style="float:right" data-act="close">回桌上</button></h2>
     ${portraitURL('孙师父') ? `<div class="sunq"><img class="pt" src="${portraitURL('孙师父')}" alt="孙师父"><p class="note">“这几张，是我年轻时候的看家本事。拿去，别糟践了。”</p></div>` : '<p class="note">“这几张，是我年轻时候的看家本事。拿去，别糟践了。”</p>'}
     <div class="purse"><span>卖座<b>${S.gold}</b></span><span>水牌第<b>${rankOf(S)}</b></span><span>还剩 <b>${daysLeft()}</b> 场</span></div>
+    <div class="refr"><button class="btn small ${canRefresh(S) ? 'go' : ''}" data-act="refresh" ${canRefresh(S) ? '' : 'disabled'}>换一批货 · ${R.refreshCost} 金</button><span class="note">${canRefresh(S) ? `花 ${R.refreshCost} 金（就是卖座，名次会掉），孙师父把今天这批收回去，另拿一批。一天一次。` : esc(refreshWhy(S)) + '。'}</span></div>
     <p class="note">只有一种金：花的就是卖座，买了水牌马上往下掉，要靠往后几天多挣回来。买下的牌进卡组，以后每天都能装；物件买一次整季都在。明天孙师父换一批。</p>
     ${S.relics.length ? `<p class="note">你已经有：${S.relics.map(r => RELICS[r].n).join('、')}</p>` : ''}
     <div class="shop">${cells}</div></div>`;
@@ -3410,6 +3658,12 @@ function renderChoices() {
   if (view === 'morning') {
     const st = starterOf(S), yes = canDepart(S);
     if (S.day !== R.days || S.choice) o(S.choice === 'lamp' ? '回家' : '出门', 'depart', yes ? (S.choice === 'lamp' ? '今天不上台' : '') : `还没带${st ? FAM[st].n : ''}`, !yes, undefined, yes);
+    // v1.7：後台商店固定在「出門」旁邊，一眼看得到
+    if (t.offers.length) {
+      const left = t.offers.filter(k => !t.sold.includes(k) && !S.relics.includes(k)).length;
+      const face = faceURL('孙师父', 64);
+      opts.push(`<button class="opt shopb" data-act="shop" aria-label="后台商店，孙师父，今天还有 ${left} 样">${face ? `<img class="sf" src="${face}" alt="">` : '<span class="sf">孙</span>'}后台商店<small>孙师父 · ${left} 样${t.refreshed ? ' · 已换过' : ''}</small></button>`);
+    }
   }
   if (view === 'stage') {
     const stuck = !t.box.some(id => !t.used[id] && canStage(S, id) && (!t.plays.length || fits(S, id)));
@@ -3417,7 +3671,11 @@ function renderChoices() {
     else o('收场', 'endstage', t.plays.length ? `脸上 ${n} 层` : '今天不上台', false, undefined, t.plays.length >= t.stageMax || (t.plays.length > 0 && stuck));
   }
   if (view === 'door') {
-    if (S.day > 1 && S.scars <= R.wipeScarMax && canWipe(S)) o('让她擦', 'wipe', `${Math.min(R.wipeLayers, n)} 层 · 今晚只推 1 张`);
+    // 保底擦臉：整季 2 次，按鈕上寫還剩幾次；用完了也留一顆灰的，說清楚為什麼不能擦
+    if (S.day > 1 && n) {
+      const wl = S.wipes ?? 0, wn = Math.min(R.wipeLayers + (has(S, 'jin') ? 1 : 0), n);
+      o(`让她擦 <span class="wleft">剩 ${wl}/${R.wipes} 次</span>`, 'wipe', wl ? `擦 ${wn} 层 · 今晚照样推 ${t.homeCap} 张` : '这一季的保底擦脸用完了', !canWipe(S));
+    }
     const dye = S.day === 1 ? 0 : dyeOf(S);
     o(S.day === 1 ? '回去歇了' : '进门', 'enter', dye ? `前 ${dye} 张会被染` : '', false, undefined, !n || S.day === 1);
   }
@@ -3458,14 +3716,14 @@ function renderHand() {
     const label = tp.home ? `${tp.n}，家常牌，不上台，背面${HOME[FAM[tp.f].home].n}` : `${tp.n}，${FAM[tp.f].n}，金 ${tp.g}，接${nextN(tp)}${kwOf(tp) ? `，${kwOf(tp)}` : ''}，背面${tp.blank ? '空白' : HOME[FAM[tp.f].home].n}`;
     const dim = !ok && view !== 'morning';
     const home = ['morning', 'stage', 'door'].includes(view) && keepHint(id);
-    return `<button class="hc ${ok ? 'play' : ''} ${hot(id) ? 'hot' : ''} ${dim ? 'off' : ''} ${home ? 'want' : ''}" data-id="${id}" ${tp.wild ? 'data-wild="1"' : ''} style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'disabled'} aria-label="${esc(label)}${home ? '，她今晚要的' : ''}"><img src="${cardArt(c.t, side, covered.includes(tp.f) && !tp.home).url}" alt="">${view === 'evening' && canHome(S, id) && willDye(S, id) ? '<span class="stain"></span>' : ''}${home ? '<span class="wtag" aria-hidden="true">家</span>' : ''}</button>`;
+    return `<button class="hc ${ok ? 'play' : ''} ${hot(id) ? 'hot' : ''} ${dim ? 'off' : ''} ${home ? 'want' : ''}" data-id="${id}" ${tp.wild ? 'data-wild="1"' : ''} style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'aria-disabled="true"'} aria-label="${esc(label)}${home ? '，她今晚要的' : ''}"><img src="${cardArt(c.t, side, covered.includes(tp.f) && !tp.home).url}" alt="">${view === 'evening' && canHome(S, id) && willDye(S, id) ? '<span class="stain"></span>' : ''}${home ? '<span class="wtag" aria-hidden="true">家</span>' : ''}</button>`;
   }).join('');
   const tx = {
-    morning: lockedBox(S) ? '' : t.box.length ? '妆匣里的 · 点一张拿回去' : '妆匣是空的',
-    stage: ids.some(keepHint) ? '金框的能打 · 印着「家」的留着回家' : '',
-    door: t.layers.length ? '点一张牌卸一层' : '',
-    evening: t.pushed.length >= t.homeCap ? '她听不下了' : '点牌推给她',
-    night: t.layers.length ? '点一张牌卸一层' : '',
+    morning: lockedBox(S) ? '点牌看说明' : t.box.length ? '妆匣 · 点看牌 · 拖回卡组拿出' : '妆匣是空的 · 把上面的牌拖下来',
+    stage: ids.some(keepHint) ? '金框的能打 · 「家」留着回家 · 拖上台打出' : '点看牌 · 拖上台打出',
+    door: t.layers.length ? '点看牌 · 拖上去卸一层' : '',
+    evening: t.pushed.length >= t.homeCap ? '她听不下了' : '点看牌 · 拖上去推给她',
+    night: t.layers.length ? '点看牌 · 拖上去卸一层' : '',
   }[view];
   // 裝匣的兩個按鈕跟著妝匣
   const tools = view === 'morning' && !lockedBox(S) ? `<button class="mini" data-act="yesterday" ${S.lastBox ? '' : 'disabled'}>照昨天装</button><button class="mini" data-act="clear" ${t.box.length ? '' : 'disabled'}>全拿出来</button>` : '';
@@ -3580,19 +3838,26 @@ function bubble(html, kind = 'n', o = {}) {
   const i = pool.length ? pool[Math.floor(Math.random() * pool.length)] : 0;
   const el = document.createElement('div');
   el.className = `bub ${kind}`;
-  el.innerHTML = `${kind === 'intel' ? '<span class="tg">情报 · 台下</span>' : kind === 'ev' ? '<span class="tg">同门的事</span>' : ''}${html}`;
+  el.innerHTML = `${kind === 'intel' ? '<span class="tg">情报 · 台下</span><button class="bx" aria-label="收起（情报已记在上面）">×</button>' : kind === 'ev' ? '<span class="tg">同门的事</span>' : ''}${html}`;
   $('#talkb').appendChild(el);
   const b = { el, i, kind, until: performance.now() + (kind === 'intel' ? 14000 : kind === 'ev' ? 5500 : 2600) };
+  el.querySelector('.bx')?.addEventListener('click', e => { e.stopPropagation(); b.until = 0; if (coach.lesson === 'crowd') coachNext(); bubTick(); });
   // 同一個人換一句：舊的先收
   bubs.filter(x => x.kind === 'n' && kind === 'n').slice(0, -1).forEach(x => { x.until = 0; });
   bubs.push(b);
   placeBub(b);
   return b;
 }
+// v1.7：氣泡不擋手牌、按鈕、台上那一排連擊：底邊一律壓在手牌與按鈕上面；頂上讓開連擊那一排
+function bubFloor() {
+  const R0 = el => (el && el.offsetHeight && !el.closest('[hidden]') ? el.getBoundingClientRect() : null);
+  const hs = [...document.querySelectorAll('#hand .hc')].map(e => e.getBoundingClientRect().top), ch = R0($('#choices')), sb = R0($('#sub .sub'));
+  return Math.min(hs.length ? Math.min(...hs) : innerHeight, ch ? ch.top : innerHeight, sb ? sb.top : innerHeight) - 10;
+}
 function placeBub(b) {
   const h = crowdHead(b.i) || { x: innerWidth * (b.i <= 2 ? 0.16 : b.i >= 6 ? 0.84 : 0.5), y: innerHeight * 0.66 };
-  const w = b.el.offsetWidth, ht = b.el.offsetHeight;
-  const x = clamp(h.x, w / 2 + 8, innerWidth - w / 2 - 8), y = clamp(h.y - 8, ht + 8, innerHeight - 8);
+  const w = b.el.offsetWidth, ht = b.el.offsetHeight, tm = $('#topmid').getBoundingClientRect(), roof = (tm.height > 4 ? tm.bottom : 0) + 8;
+  const x = clamp(h.x, w / 2 + 8, innerWidth - w / 2 - 8), y = clamp(Math.min(h.y - 8, bubFloor()), Math.min(roof + ht, bubFloor()), innerHeight - 8);
   b.el.style.left = `${x}px`; b.el.style.top = `${y}px`;
   b.el.style.setProperty('--ax', `${clamp(h.x - (x - w / 2), 16, w - 16)}px`);
 }
@@ -3734,8 +3999,9 @@ function comboFx(p) {
   spawn('spark', 10 + n * 8, at);
   lanternKick = Math.min(1.6, 0.35 * n);
   if (n >= 2) swayKick = Math.max(swayKick, 0.35 * n);
-  if (n >= 3) { spawn('petal', 40 + (n - 3) * 35); const b = COMBO_TX[Math.min(n, 5)]; banner(b[0], b[1], n >= 4 ? 'big' : ''); }
-  if (n >= 4) { spawn('foil', 80); spawn('ribbon', 6); if (glOK && camPos) camPos.lerp(camAim, 0.08); }
+  // v1.7：連擊 3 起紙屑從兩側台口灑下；滿堂紅（×4）再多一陣、金箔彩綢更滿，台下的熱度拉高
+  if (n >= 3) { spawn('petal', 70 + (n - 3) * 60); const b = COMBO_TX[Math.min(n, 5)]; banner(b[0], b[1], n >= 4 ? 'big' : ''); stageHeat = Math.max(stageHeat, 0.8 + (n - 3) * 0.6); bubble(esc(pick(n >= 4 ? CROWD.hot : CROWD.big)), 'n'); }
+  if (n >= 4) { spawn('foil', 130); spawn('ribbon', 10); [260, 620].forEach(d => setTimeout(() => { spawn('petal', 90); spawn('foil', 50); }, d)); burst(40); if (glOK && camPos) camPos.lerp(camAim, 0.08); }
   if (n >= 5) [0, 350, 700].forEach(d => setTimeout(() => spawn('fw', 60, { x: innerWidth * (0.2 + Math.random() * 0.6), y: innerHeight * (0.12 + Math.random() * 0.2) }), d));
 }
 async function run(fn) { if (busy) return; busy = true; refresh(); try { await fn(); } finally { busy = false; refresh(); } }
@@ -3766,7 +4032,6 @@ function toDay() {
   if (glOK) actor.setLayers([]);
   const st = starterOf(S), ev = eventOf(S), k = S.events[S.day];
   if (view === 'stage') say('班主', DAY_TX[S.day - 1]);
-  else if (ev) sayH(ev.who, EV_TX[k](), esc(DAY_TX[S.day - 1]));
   else say('', DAY_TX[S.day - 1]);
   refresh();
 }
@@ -3821,7 +4086,7 @@ const onStage = id => run(async () => {
   sfx(p.broke ? 'boo' : 'cheer');
   const tp = tOf(S, id), t = S.T;
   // 台下：起伏、說話；聚光燈跟著連擊亮起來
-  crowdKick(p.broke ? 'down' : t.chain >= 3 ? 'big' : 'up');
+  crowdKick(p.broke ? 'down' : t.chain >= 4 ? 'hot' : t.chain >= 3 ? 'big' : 'up');
   stageHeat = p.broke ? 0 : Math.min(2.4, (t.chain - 1) * 0.6);
   if (glOK && p.broke) { lights.spot.color.setHex(0xff6a5a); setTimeout(() => lights.spot.color.setHex(0xffe0b0), 600); }
   const pool = p.broke ? CROWD.broke : p.seeped ? CROWD.seep : p.fin ? CROWD.fin : tp.wild && (p.hit || p.open || t.plays.length === 1) ? CROWD.wild : tp.boost && p.hit ? CROWD.boost : tp.clean ? CROWD.clean : tp.heavy ? CROWD.heavy : tp.blank ? CROWD.blank : p.open ? CROWD.open : t.chain >= 3 ? CROWD.big : CROWD.hit;
@@ -3854,18 +4119,18 @@ const onToDoor = () => run(async () => {
     return;
   }
   await ink(() => { view = 'door'; placeScene(); say('', ''); });
-  if (glOK && S.scars <= R.wipeScarMax && S.T.layers.length && !seatEmpty(S)) wife.pose('reach');
+  if (glOK && S.wipes > 0 && S.T.layers.length && !seatEmpty(S)) wife.pose('reach');
   if (!S.T.layers.length) say('', '脸是干净的。');
-  else if (S.scars <= R.wipeScarMax) say('阿檀', '回来啦。擦一擦？');
-  else say('', '她坐着，没有起身。');
+  else if (S.wipes > 0) say('阿檀', '回来啦。擦一擦？', `保底擦脸还剩 ${S.wipes} 次`);
+  else say('', '毛巾挂在门边。这一季，她能替你擦的都擦过了。');
 });
 const onWipe = () => run(async () => {
   if (!canWipe(S)) return;
-  const n = Math.min(R.wipeLayers, S.T.layers.length), cols = S.T.layers.slice(-n).reverse().map(l => FCOL[l.f]);
+  const n = Math.min(R.wipeLayers + (has(S, 'jin') ? 1 : 0), S.T.layers.length), cols = S.T.layers.slice(-n).reverse().map(l => FCOL[l.f]);
   if (glOK) { wife.pose('reach'); await wait(200); }
   for (const c of cols) await towelSwipe(c);
   wipe(S); renderSmear(); sfx('cloth');
-  say('阿檀', n === 2 ? '她替你擦掉两层，把毛巾叠起来，收进木匣。' : '她替你擦掉一层，把毛巾收进木匣。', '今晚她只听得下 1 张');
+  say('阿檀', n >= 2 ? `她替你擦掉${n === 3 ? '三' : '两'}层，把毛巾叠起来，收进木匣。` : '她替你擦掉一层，把毛巾收进木匣。', `保底擦脸还剩 ${S.wipes} 次 · 今晚照样推 ${S.T.homeCap} 张`);
   if (glOK) wife.pose(wife.base);
 });
 const restTx = () => (S.T.layers.length ? `还剩 ${S.T.layers.length} 层。` : '脸上干净了。');
@@ -3912,7 +4177,7 @@ const onHome = id => run(async () => {
     say(`${r.name}${r.match ? ' · 对路' : ''}`, r.match ? (r.gift ? '她认出这是她给你的，眼睛亮了一下。' : pick(['她抬眼看你，手上慢了一下。', '她笑了一下，把灯骨转过来给你看。'])) : '她接过去，点点头。可这不是她今晚要的。', `${r.gain ? `灯 +${r.gain}` : '灯不涨'}${r.count === 2 ? ' · 算两张' : ''}`);
   }
   updateTable();
-  if (S.T.pushed.length >= S.T.homeCap && S.T.homeCap === R.homeAfterWipe) { await wait(1500); say('', '她累了，只听得下这一张。'); }
+  if (S.T.pushed.length >= S.T.homeCap && S.T.homeCap < R.homeMax) { await wait(1500); say('', `甩了一晚上的发，你累得只说得出 ${S.T.homeCap} 句。`); }
 });
 // 燈：十五片紙，每片 2 點；糊滿 30 才算美滿
 const LSEG = 15, LANG = 360 / LSEG;
@@ -4064,7 +4329,8 @@ function showWipe() {
   const use = fams.length ? fams.slice(0, 3) : ['sing'];
   el.hidden = false; el.dataset.done = '';
   el.innerHTML = `<div class="tx">${esc(lastIntro(alone))}</div><div class="face"><canvas id="clean" width="400" height="500"></canvas><canvas id="paint" width="400" height="500" aria-label="脸上的油彩，拖动来卸掉"></canvas></div>
-    <div class="tx2">${alone ? '在脸上拖动，把油彩擦掉。' : '在脸上拖动：让她一层一层替你擦掉。'}</div><button class="opt" data-act="wipekey">${alone ? '擦一下' : '让她擦一下'}<small>也可以直接在脸上拖</small></button>`;
+    <div class="tx2">${alone ? '在脸上拖动，把油彩擦掉。' : '在脸上拖动：让她一层一层替你擦掉。'}</div>
+    <div class="lwbar"><button class="opt" data-act="wipekey">${alone ? '擦一下' : '让她擦一下'}<small>也可以直接在脸上拖</small></button><button class="opt pri" data-act="wipeall">${alone ? '擦干净' : '让她擦干净'}</button></div>`;
   drawPortrait($('#clean'), { who: 'you', layers: [], base: S.base, baseF: topFams()[0], bg: ['#8d9396', '#3b4044'] });
   const cv = $('#paint'), x = cv.getContext('2d');
   drawPortrait(cv, { who: 'you', layers: Array.from({ length: 6 }, (_, i) => ({ f: use[i % use.length] })), base: S.base, baseF: topFams()[0] });
@@ -4097,8 +4363,9 @@ function showAfter() {
   el.dataset.done = '1';
   const alone = lastAlone();
   cv.style.transition = 'opacity 1.4s'; cv.style.opacity = '0'; cv.style.pointerEvents = 'none';
-  el.querySelector('.tx2')?.remove(); el.querySelector('[data-act="wipekey"]')?.remove();
-  el.insertAdjacentHTML('beforeend', `<div class="after">${esc(lastAfter(alone))}</div><div class="tx2">${S.base ? `底色 ${S.base}：这一季没卸掉的油彩，渗进去的，就留下了。` : '这一季的油彩，每一层都卸掉了。'}</div><button class="opt" data-act="lastdone">${alone ? '放下毛巾' : '让她把毛巾收起来'}</button>`);
+  el.querySelector('.tx2')?.remove(); el.querySelector('.lwbar')?.remove();
+  // 繼續的按鈕固定在畫面底下（貼底的一條），臉和字再長也不會把它擠出畫面
+  el.insertAdjacentHTML('beforeend', `<div class="after">${esc(lastAfter(alone))}</div><div class="tx2">${S.base ? `底色 ${S.base}：这一季没卸掉的油彩，渗进去的，就留下了。` : '这一季的油彩，每一层都卸掉了。'}</div><div class="lwbar"><button class="opt pri" data-act="lastdone">${alone ? '放下毛巾' : '让她把毛巾收起来'}<small>往下看结局</small></button></div>`);
   el.querySelector('[data-act="lastdone"]')?.focus({ preventScroll: true });
 }
 const finishLast = () => run(async () => {
@@ -4149,7 +4416,11 @@ document.addEventListener('click', e => {
     case 'booktab': bookTab = arg; bookSel = null; break;
     case 'booksel': bookSel = arg || null; break;
     case 'yuan': choose(S, arg); say('', { stage: '你把戏服抖开。', lamp: '你把戏服叠起来，放回箱子。', cover: '你接过小凤托人送来的头面。' }[arg]); break;
-    case 'pick': { const c = S.deck.find(x => x.t === arg && !S.T.box.includes(x.id)); if (c) { if (S.T.box.length >= S.T.cap) S.T.box.pop(); toggleBox(S, c.id); } break; }
+    case 'pick': pickKind(arg); break;
+    case 'peekclose': hidePeek(); return;
+    case 'refresh': if (refreshShop(S)) { sfx('cloth'); say('孙师父', '“这批不合意？那看看这几样。”', `卖座 −${R.refreshCost}，水牌第 ${rankOf(S)}；今天不能再换了`); } else say('孙师父', `“${refreshWhy(S)}。”`); break;
+    case 'evclose': if (!S.evSeen) S.evSeen = {}; S.evSeen[S.day] = 1; break;
+    case 'evopen': if (view === 'morning' && S.evSeen) { delete S.evSeen[S.day]; break; } { const k = S.events[S.day]; if (k) sayH(EVENTS[k].who, EV_TX[k]()); } break;
     case 'yesterday': boxYesterday(S); break;
     case 'shop': panel = 'shop'; break;
     case 'water': panel = panel === 'water' ? null : 'water'; break;
@@ -4167,6 +4438,7 @@ document.addEventListener('click', e => {
     case 'dawn': onDawn(); return;
     case 'nextact': onNextAct(); return;
     case 'wipekey': window.__wipeKey?.(); return;
+    case 'wipeall': showAfter(); return;
     case 'lastdone': finishLast(); return;
     case 'mirrorok': onMirrorOk(); return;
     case 'rstep': sheet = { k: arg }; if (arg === 'r_home') { focus('home', 'home'); } if (arg === 'r_chest') focus('table', 'home'); break;
