@@ -687,6 +687,53 @@ body.dragging { cursor: grabbing; }
 .lastwipe .after { font-size: clamp(16px, 2.4vh + 6px, 22px); }
 .lastwipe .lwbar { position: sticky; bottom: 0; z-index: 2; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); margin-top: auto; background: linear-gradient(rgba(7, 5, 6, 0), rgba(7, 5, 6, .92) 30%); }
 @media (max-height: 560px) { .lastwipe { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-auto-rows: auto; align-content: safe center; justify-items: center; column-gap: 20px; row-gap: 8px; padding: 10px 16px 0; } .lastwipe .face { grid-column: 1; grid-row: 1 / span 4; width: min(230px, 38vw, 64vh); } .lastwipe > :not(.face):not(.lwbar) { grid-column: 2; } .lastwipe .lwbar { grid-column: 1 / -1; } }
+/* ── v1.7 手機直屏修正（玩家回饋 phone_morning_day2）：頂欄收成兩行、木牌橫放、水牌縮成小籤，家與圖鑑緊貼頂欄底下；
+   3D 鏡頭只對著頂欄和字幕之間那一帶構圖，見 camBand() ── */
+@media (max-width: 760px) and (orientation: portrait) {
+  .hud { padding-top: max(6px, env(safe-area-inset-top, 0px)); padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); }
+  .top { gap: 6px; row-gap: 4px; align-items: stretch; }
+  .plate { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 3px 9px; }
+  .plate .d { font-size: 17px; white-space: nowrap; }
+  .plate .st { margin-top: 0; font-size: 11px; letter-spacing: 0; gap: 3px; white-space: nowrap; }
+  .plate .st[hidden] { display: none; }
+  .plate .st .fc { width: 22px; height: 22px; font-size: 14px; }
+  .plate .g { margin-top: 0; font-size: 11px; white-space: nowrap; }
+  .plate .g b { font-size: 16px; margin-left: 2px; }
+  .side { flex: 1; min-width: 0; display: flex; flex-direction: row-reverse; align-items: stretch; gap: 6px; }
+  .side .tools { flex: none; align-items: stretch; }
+  .side .tools .tool { min-height: 30px; padding: 2px 7px; }
+  #wboard { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: stretch; gap: 3px; }
+  .wb { width: 100%; padding: 2px 7px 3px; line-height: 1.25; text-align: left; }
+  .wb .wbh { gap: 4px; }
+  .wb .wbh b { font-size: 15px; }
+  .wb ol { display: none; }
+  .wb .dif { display: inline; text-align: left; font-size: 11px; }
+  .wb .exam { display: block; max-width: none; margin-left: 0; font-size: 10px; line-height: 1.2; }
+  .wb .wbh > span { white-space: nowrap; }
+  .relics { max-width: none; justify-content: flex-end; }
+  .topmid { gap: 3px; }
+  .goal { font-size: 19px; padding: 1px 12px; gap: 6px; }
+  .goal .fc { width: 26px; height: 26px; font-size: 15px; }
+  .intel { gap: 3px 4px; }
+  .intel .ic { font-size: 11px; padding: 0 5px 0 3px; gap: 3px; }
+  .intel .ic .d { font-size: 11px; letter-spacing: 0; }
+  .intel .ic svg, .intel .ic .lki { width: 14px; height: 14px; }
+  .intel .lbl { font-size: 10px; letter-spacing: .15em; padding: 0 4px; }
+  .leftcol { left: max(8px, env(safe-area-inset-left, 0px)); }
+  .homep { padding: 1px 8px; }
+  .tool.bookb { min-height: 0; }
+  .talk { padding-bottom: 4px; gap: 4px; }
+  .sub { padding: 4px 30px 5px; }
+  .sub .tx { font-size: 17px; line-height: 1.45; }
+  .hud[data-v="morning"] .homep:not(.warn) { opacity: .75; }
+}
+/* 再窄一點（360 左右）：木牌上「起手」兩字省掉，只留圓章 */
+@media (max-width: 370px) and (orientation: portrait) {
+  .plate { gap: 5px; padding: 3px 6px; }
+  .plate .st { font-size: 0; }
+  .plate .g { font-size: 10px; }
+  .side .tools .tool { padding: 2px 5px; }
+}
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -2402,13 +2449,44 @@ const MOODS = {
   home: { hemi: 0.52, key: 0.3, spot: 0, c: 1.4, bg: 0x1a1210 },
   night: { hemi: 0.13, key: 0.05, spot: 0, c: 1.5, bg: 0x070506 },
 };
+// v1.7 手機直屏修正：直屏手機（窄而高）。早上不用全桌俯視（全桌塞進窄畫面，鏡子會被擠出右邊），改用 tableP：
+// 鏡頭往右挪、拉近一點：她在左、鏡子在右，兩個都整個入鏡（妝匣本身就是底下那排手牌）
+const portraitPhone = () => innerWidth <= 760 && innerHeight > innerWidth;
+VIEWS.tableP = { pos: [0.46, 2.7, 4.2], look: [0.74, 1.0, -0.5] };
+let lastFocus = null;
 function focus(v, mood) {
   if (!glOK) return;
-  const fit = camera.aspect < 0.8 ? 1.72 : camera.aspect < 1.25 ? 1.32 : 1;
+  lastFocus = v;
+  if (v === 'table' && view === 'morning' && portraitPhone()) v = 'tableP';
+  const fit = v === 'tableP' ? 1 : camera.aspect < 0.8 ? 1.72 : camera.aspect < 1.25 ? 1.32 : 1;
   const d = VIEWS[v], l = V(...d.look), p = V(...d.pos).sub(l).multiplyScalar(fit).add(l);
   camTo = { p, l };
   if (!camPos) { camPos = p.clone(); camAim = l.clone(); }
   if (mood) moodTo = MOODS[mood];
+  camBand();
+}
+// 直屏手機：上面頂欄、下面字幕和手牌把畫面上下各吃掉一截。鏡頭的中心挪到中間真正看得見的那一帶（不改縮放，只平移投影），
+// 桌子和鏡子才不會被 HUD 切掉。寬螢幕、橫屏不動。
+let bandDy = 0;
+function camBand() {
+  if (!glOK || !camera) return;
+  let dy = 0;
+  if (portraitPhone() && !$('#hud').hidden) {
+    const vis = el => el && !el.hidden && el.offsetParent !== null && el.getClientRects().length && el.getBoundingClientRect().height > 2;
+    let top = 0, bot = innerHeight;
+    [document.querySelector('.top'), $('#leftcol')].forEach(el => { if (vis(el)) { const r = el.getBoundingClientRect(); if (r.top < innerHeight * 0.45) top = Math.max(top, r.bottom); } });
+    for (const el of [$('#evc'), $('#sub'), $('#choices'), $('#hand')]) if (vis(el) && el.innerHTML.trim()) { bot = Math.min(bot, el.getBoundingClientRect().top); break; }
+    if (bot - top > 120) dy = Math.round((top + bot) / 2 - innerHeight / 2);
+  }
+  bandTo = dy;
+  // 換時段（鏡頭本來就要轉）或剛開局：直接到位；同一個時段裡字幕變高變矮，在 loop 裡慢慢跟
+  if (!Number.isFinite(bandDy) || camPos === null || calm()) setBand(dy);
+}
+let bandTo = 0;
+function setBand(dy) {
+  bandDy = dy;
+  if (Math.abs(dy) >= 0.5) camera.setViewOffset(innerWidth, innerHeight, 0, -dy, innerWidth, innerHeight); else camera.clearViewOffset();
+  camera.updateProjectionMatrix();
 }
 function initGL() {
   if (!glOK) return;
@@ -2424,7 +2502,7 @@ function initGL() {
   buildTable();
   const tw = plane(0.5, 0.36, new THREE.MeshLambertMaterial({ map: canvasTex(256, 180, (x, w, h) => { x.fillStyle = '#f4efe6'; x.fillRect(0, 0, w, h); x.strokeStyle = '#cfc6b8'; x.lineWidth = 4; for (let i = 0; i < 6; i++) { x.beginPath(); x.moveTo(0, 20 + i * 28); x.quadraticCurveTo(w / 2, 10 + i * 28, w, 24 + i * 28); x.stroke(); } }), side: THREE.DoubleSide, transparent: true }));
   towel = tw; towel.visible = false; camera.add(towel);
-  addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderSmear(); });
+  addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; bandDy = NaN; camera.updateProjectionMatrix(); if (lastFocus) focus(lastFocus); renderSmear(); });
   addEventListener('pointermove', e => { pointer.x = e.clientX / innerWidth - 0.5; pointer.y = e.clientY / innerHeight - 0.5; });
   requestAnimationFrame(loop);
 }
@@ -2446,6 +2524,7 @@ function loop() {
   if (camTo) {
     const k = calm() ? 1 : 1 - Math.exp(-Math.min(raw, 0.25) * 2.6);
     camPos.lerp(camTo.p, k); camAim.lerp(camTo.l, k);
+    if (bandTo !== bandDy) setBand(Math.abs(bandTo - bandDy) < 0.5 ? bandTo : bandDy + (bandTo - bandDy) * Math.min(1, k * 1.5));
     camera.position.set(camPos.x + pointer.x * 0.1, camPos.y + Math.sin(t * 0.7) * 0.006 - pointer.y * 0.05, camPos.z);
     camera.lookAt(camAim);
   }
@@ -3184,6 +3263,7 @@ function refresh() {
   const mb = $('#musicBtn'); mb.setAttribute('aria-pressed', String(musicOn)); mb.textContent = musicOn ? '乐 开' : '乐 关'; mb.title = musicOn ? '背景音乐：开着（点一下关）' : '背景音乐：关着（点一下开）';
   renderPlate(); renderBoardChip(); renderTop(); renderLeft(); renderMid(); renderEvent(); renderChoices(); renderHand(); fitSpread(); peekSync(); renderSmear();
   updateTable();
+  camBand();
   coachUpdate();
   save();
 }
@@ -3500,9 +3580,10 @@ function fitSpread() {
     topY = (tm && tm.height > 4 ? tm.bottom : plate ? plate.top : mid.top) + 8;
   } else {
     gut = 8;
-    topY = Math.max(plate ? plate.bottom : 0, side ? side.bottom : 0, tm ? tm.bottom : 0) + 8;
+    // v1.7 手機直屏修正：家與圖鑑那一條也算在頂欄裡，攤開的牌從它底下開始，不再蓋住熄、痕
+    topY = Math.max(plate ? plate.bottom : 0, side ? side.bottom : 0, tm ? tm.bottom : 0, tray && tray.top < mid.top + 60 ? tray.bottom : 0) + 8;
   }
-  topY = Math.min(topY, mid.top);
+  if (wide) topY = Math.min(topY, mid.top);
   const W = innerWidth - 2 * gut - padX - 2, H = mid.bottom - topY - padY - tools - 6;
   let best = { h: 0, cols: 4, rows: 99 };
   for (let cols = 1; cols <= n; cols++) {
