@@ -1,0 +1,2400 @@
+{
+  "version": "v2",
+  "status": "complete_candidate_not_integrated",
+  "expected_png": 183,
+  "generated_png": 183,
+  "assets": [
+    {
+      "id": "S1-a",
+      "file": "draft/s1_changqiang_a_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. broad bold shapes, symmetric, sparse cutouts",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/s1_changqiang_a.png",
+      "sha256": "40e455eef8037515dc5accef5a8eab75b2075a92a5be9d81c58437590d8b7bc3"
+    },
+    {
+      "id": "S1-a",
+      "file": "draft/s1_changqiang_a_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. broad bold shapes, symmetric, sparse cutouts",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/s1_changqiang_a.png",
+      "sha256": "04ad58e0688819165f447f62c46ef10f2be86634a5e7c9aed4e0215adf2479df"
+    },
+    {
+      "id": "S1-b",
+      "file": "draft/s1_changqiang_b_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. angular carved geometry, generous empty space, strong rhythm",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/s1_changqiang_b.png",
+      "sha256": "897ebd858cbc05b9d040b6090884fc4b4d9d06500c6b0f0f0c79ccf9b74531a3"
+    },
+    {
+      "id": "S1-b",
+      "file": "draft/s1_changqiang_b_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. angular carved geometry, generous empty space, strong rhythm",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/s1_changqiang_b.png",
+      "sha256": "3edab0e3bfe0d544409316e1c617b1b572c4b8b5570481d479ad6acfd2a197f2"
+    },
+    {
+      "id": "S1-c",
+      "file": "draft/s1_changqiang_c_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/s1_changqiang_c.png",
+      "sha256": "2237fa8dd8b1996f1dcc83a8a13da8390feeee176a47876ce45f7436e25f50a6"
+    },
+    {
+      "id": "S1-c",
+      "file": "draft/s1_changqiang_c_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/s1_changqiang_c.png",
+      "sha256": "6adca3408c93f1bd5b315433799d0536f9dd4d16217f9475da4136e7bc0f76fa"
+    },
+    {
+      "id": "S2-a",
+      "file": "draft/s2_listen_a_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. broad bold shapes, symmetric, sparse cutouts",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/s2_listen_a.png",
+      "sha256": "21628f0af53bd30cdea4023933a010c386f370012d53eb938229a66af247687b"
+    },
+    {
+      "id": "S2-a",
+      "file": "draft/s2_listen_a_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. broad bold shapes, symmetric, sparse cutouts",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/s2_listen_a.png",
+      "sha256": "10962bcb5062ef89b7baf4a57c14ee0bd54a7dbbf4da0126ef36411a1a41395b"
+    },
+    {
+      "id": "S2-b",
+      "file": "draft/s2_listen_b_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. angular carved geometry, generous empty space, strong rhythm",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/s2_listen_b.png",
+      "sha256": "d300f9ada521ad9a452c57ac43206306fa6bfaa86981a27b054c6a90b2cadca7"
+    },
+    {
+      "id": "S2-b",
+      "file": "draft/s2_listen_b_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. angular carved geometry, generous empty space, strong rhythm",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/s2_listen_b.png",
+      "sha256": "3eaee712166ef8e218d3ccb5039f0921cee2275ecef4996cbcb414e5e600805d"
+    },
+    {
+      "id": "S2-c",
+      "file": "draft/s2_listen_c_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/s2_listen_c.png",
+      "sha256": "0976980adde3e25612d3eb3d955a7d93a8e78124a68b7ec6bf2f45b5d4352b59"
+    },
+    {
+      "id": "S2-c",
+      "file": "draft/s2_listen_c_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/s2_listen_c.png",
+      "sha256": "49d298d83c3e03326efc5bb95f4083324ec0746ea40154da4b3efd1ff27538ec"
+    },
+    {
+      "id": "S3-a",
+      "file": "draft/s3_crowd_a.png",
+      "size": [
+        1536,
+        640
+      ],
+      "transparent": true,
+      "description": "SIX distinct Chinese theater spectators side by side in one horizontal row, viewed FROM BEHIND, head and shoulders only: melon cap man, felt hat elder, conical hat porter, bald youth, hairpin bun woman, double-bun child. broad bold shapes, symmetric, sparse cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s3_crowd_a.png",
+      "sha256": "d9ee95cfd04bb845e010dc611ab7f437afb30e6ea669c2d285a6c6b143d7a796"
+    },
+    {
+      "id": "S3-b",
+      "file": "draft/s3_crowd_b.png",
+      "size": [
+        1536,
+        640
+      ],
+      "transparent": true,
+      "description": "SIX distinct Chinese theater spectators side by side in one horizontal row, viewed FROM BEHIND, head and shoulders only: melon cap man, felt hat elder, conical hat porter, bald youth, hairpin bun woman, double-bun child. angular carved geometry, generous empty space, strong rhythm",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s3_crowd_b.png",
+      "sha256": "bcbe4d6415696112e9469bedf8b8c8860d50d13f18e5c8f7ad08b57abb7a9a7b"
+    },
+    {
+      "id": "S3-c",
+      "file": "draft/s3_crowd_c.png",
+      "size": [
+        1536,
+        640
+      ],
+      "transparent": true,
+      "description": "SIX distinct Chinese theater spectators side by side in one horizontal row, viewed FROM BEHIND, head and shoulders only: melon cap man, felt hat elder, conical hat porter, bald youth, hairpin bun woman, double-bun child. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s3_crowd_c.png",
+      "sha256": "7804abc855ddc2dc87a73994338ed7a936864db6c91b078c36f76afec3b1ed18"
+    },
+    {
+      "id": "S4-a",
+      "file": "draft/s4_chuanghua_a.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "ONE symmetrical vermilion Chinese window paper-cut peony flower, clearly cut out negative spaces. broad bold shapes, symmetric, sparse cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s4_chuanghua_a.png",
+      "sha256": "659e151fe0f9e0814703244df56aec44851412a7071e70df53ce6e7da55fca98"
+    },
+    {
+      "id": "S4-b",
+      "file": "draft/s4_chuanghua_b.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "ONE symmetrical vermilion Chinese window paper-cut peony flower, clearly cut out negative spaces. angular carved geometry, generous empty space, strong rhythm",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s4_chuanghua_b.png",
+      "sha256": "9f7858ae234e997b3edd24aa400d2f48f4bcce824302ee0858ad7a91bcb778e3"
+    },
+    {
+      "id": "S4-c",
+      "file": "draft/s4_chuanghua_c.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "ONE symmetrical vermilion Chinese window paper-cut peony flower, clearly cut out negative spaces. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s4_chuanghua_c.png",
+      "sha256": "e8a358c460c163b8d7210a7d3a3d61e7acc59d6f0f1221eccc2c19cb805e9c63"
+    },
+    {
+      "id": "S5-a",
+      "file": "draft/s5_back_a.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat symmetric Chinese opera card BACK design. Dark vermilion rectangular background, a large central circular ring formed from fan sectors and concentric rings like a gong or rosette; ink black and gray accents, small ochre details. Keep center circle diameter 200px EMPTY of symbols. broad bold shapes, symmetric, sparse cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s5_back_a.png",
+      "sha256": "f083fc78f0bedb885776a76c69ae13bf2d8aca250824d14d2d93c17201b6606b"
+    },
+    {
+      "id": "S5-b",
+      "file": "draft/s5_back_b.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat symmetric Chinese opera card BACK design. Dark vermilion rectangular background, a large central circular ring formed from fan sectors and concentric rings like a gong or rosette; ink black and gray accents, small ochre details. Keep center circle diameter 200px EMPTY of symbols. angular carved geometry, generous empty space, strong rhythm",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s5_back_b.png",
+      "sha256": "19a8a60f2b48bd00e6b3d17a2fbdfe31d03037c1cc913d5d11ae29a8ed72c875"
+    },
+    {
+      "id": "S5-c",
+      "file": "draft/s5_back_c.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat symmetric Chinese opera card BACK design. Dark vermilion rectangular background, a large central circular ring formed from fan sectors and concentric rings like a gong or rosette; ink black and gray accents, small ochre details. Keep center circle diameter 200px EMPTY of symbols. flowing elegant carved curves, balanced asymmetry, very few details",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/s5_back_c.png",
+      "sha256": "de2d38dadf0faea0b34e5745b92a1580d48c2f2caa2c9867a8e83e9b06989a56"
+    },
+    {
+      "id": "C5-changqiang",
+      "file": "cards/art_changqiang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "半开的折扇，扇后三道悠长弧线 / half-open folding fan with three long arcs",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_changqiang.png",
+      "sha256": "0efedf76bdd34584c2d987d3eb9f4ad5cff7fb6a0366f0f665fb8de32dea00fb"
+    },
+    {
+      "id": "C5-changqiang",
+      "file": "cards/art_changqiang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "半开的折扇，扇后三道悠长弧线 / half-open folding fan with three long arcs",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_changqiang.png",
+      "sha256": "30ebdc2ce13a28198e96ad257d144658829232fd0de2a948a1620ecd541f550a"
+    },
+    {
+      "id": "C5-liangsang",
+      "file": "cards/art_liangsang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "全开的折扇，扇外同心弧 / fully open fan and concentric arcs",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_liangsang.png",
+      "sha256": "4a023d7fac1536397830768cf4504fcf63908b3ced3e1183cf2cd36333b256b1"
+    },
+    {
+      "id": "C5-liangsang",
+      "file": "cards/art_liangsang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "全开的折扇，扇外同心弧 / fully open fan and concentric arcs",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_liangsang.png",
+      "sha256": "1f5738599b93e2ccecef9673f4f61dfc31c0cf67500e861ae6606b58af35d176"
+    },
+    {
+      "id": "C5-bai",
+      "file": "cards/art_bai_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "醒木压半展开的空白戏本 / wooden clapper on half unrolled blank script",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_bai.png",
+      "sha256": "019ebc510d93fb340bc7a6e10507e85ef08a434eb9f2a32f5b79fe98e282f782"
+    },
+    {
+      "id": "C5-bai",
+      "file": "cards/art_bai_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "醒木压半展开的空白戏本 / wooden clapper on half unrolled blank script",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_bai.png",
+      "sha256": "5a0cd80bfff1ccee2803bedbd254e41b2bfb4efe59fb0f089e09e1e9d09aa719"
+    },
+    {
+      "id": "C5-kuaiban",
+      "file": "cards/art_kuaiban_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "交叠竹板，短促节奏线 / overlapping bamboo clappers and short rhythm marks",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_kuaiban.png",
+      "sha256": "fed8f8394ed955373e9095480d4922373eb466b5bbf5acd585fc910fa3868ef9"
+    },
+    {
+      "id": "C5-kuaiban",
+      "file": "cards/art_kuaiban_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "交叠竹板，短促节奏线 / overlapping bamboo clappers and short rhythm marks",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_kuaiban.png",
+      "sha256": "dad602092c58c561f9671b88b3d90281f80c2326f17ed1f5935e946b61f46980"
+    },
+    {
+      "id": "C5-shenduan",
+      "file": "cards/art_shenduan_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "旦角背影，衣袖甩成弧 / anonymous dan opera performer BACK silhouette with arcing sleeve",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_shenduan.png",
+      "sha256": "ea34368ec52263d9e8cfdc834401b3a6769625a6bc770aa8195330f944b32458"
+    },
+    {
+      "id": "C5-shenduan",
+      "file": "cards/art_shenduan_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "旦角背影，衣袖甩成弧 / anonymous dan opera performer BACK silhouette with arcing sleeve",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_shenduan.png",
+      "sha256": "25ee49589f36921e2c360e954b2a5a4681ad0fafbe7208e11cb4ee53adbf7f58"
+    },
+    {
+      "id": "C5-shuixiu",
+      "file": "cards/art_shuixiu_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两条翻飞水袖对称交缠 / two symmetrically intertwined long water sleeves",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_shuixiu.png",
+      "sha256": "93f617f2856568d6c97bd95caac9c83b650e2efcf0016632b457296133422b24"
+    },
+    {
+      "id": "C5-shuixiu",
+      "file": "cards/art_shuixiu_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两条翻飞水袖对称交缠 / two symmetrically intertwined long water sleeves",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_shuixiu.png",
+      "sha256": "e62ba5035e9fb7abdb63cd9cd50c700f39fa52b193e69f28ff1315e3fcb53afe"
+    },
+    {
+      "id": "C5-liangxiang",
+      "file": "cards/art_liangxiang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两根交叉雉鸡翎 / two crossed pheasant plumes",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_liangxiang.png",
+      "sha256": "d2aa62755e6a5e57e52090bf91f64b9d8e3f4e5530b3988038f917feafafae5b"
+    },
+    {
+      "id": "C5-liangxiang",
+      "file": "cards/art_liangxiang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两根交叉雉鸡翎 / two crossed pheasant plumes",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_liangxiang.png",
+      "sha256": "b39ee7cfdf0236036cd3c47a0584786da5d655f5e8beee2cfbeb19e91c249f45"
+    },
+    {
+      "id": "C5-fanshen",
+      "file": "cards/art_fanshen_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "翻身武生剪影，衣摆旋圆 / anonymous martial opera performer somersault silhouette with circular swirling hem",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_fanshen.png",
+      "sha256": "a349f8e207cc3b215d50f5acfc53b91a554d62e259ea4d4005227eb2a64c7b19"
+    },
+    {
+      "id": "C5-fanshen",
+      "file": "cards/art_fanshen_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "翻身武生剪影，衣摆旋圆 / anonymous martial opera performer somersault silhouette with circular swirling hem",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_fanshen.png",
+      "sha256": "6df5d1c721ca0cf2e647f6025312307c8d980eec2c66087ba2127adda5e75ab0"
+    },
+    {
+      "id": "C5-jie_kutou",
+      "file": "cards/art_jie_kutou_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "掩面的水袖，袖口一滴朱红泪 / sleeve covering an implied face, one red teardrop, do not show face",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_jie_kutou.png",
+      "sha256": "c08ebe19a38f47515a61a9116039f92610e71b43cab11bb70acd40c73f49d719"
+    },
+    {
+      "id": "C5-jie_kutou",
+      "file": "cards/art_jie_kutou_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "掩面的水袖，袖口一滴朱红泪 / sleeve covering an implied face, one red teardrop, do not show face",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_jie_kutou.png",
+      "sha256": "b75295db2fffd1043b3994cc3ae8741de5f69cd677d179462e38b0ee4b37e039"
+    },
+    {
+      "id": "C5-jie_guankou",
+      "file": "cards/art_jie_guankou_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "连绵墨点与笔锋，不成字 / rhythmic connected abstract ink dots and brush tips, NOT writing",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_jie_guankou.png",
+      "sha256": "9abe341d821f49e6f2b2d9848c1573ce234905b926ba1be2e1761f9833a10b3a"
+    },
+    {
+      "id": "C5-jie_guankou",
+      "file": "cards/art_jie_guankou_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "连绵墨点与笔锋，不成字 / rhythmic connected abstract ink dots and brush tips, NOT writing",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_jie_guankou.png",
+      "sha256": "42e3e094b370997251d1a93958e3620fb480c303b289c55d6fe0015bbd5f8b65"
+    },
+    {
+      "id": "C5-jie_dadao",
+      "file": "cards/art_jie_dadao_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "竖立青龙偃月刀 / one upright crescent-bladed guandao opera prop",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_jie_dadao.png",
+      "sha256": "81b7da85a8b74c3568cdf61e0e6246ec8c05b3eeaa4fa5984d8429762a8763b4"
+    },
+    {
+      "id": "C5-jie_dadao",
+      "file": "cards/art_jie_dadao_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "竖立青龙偃月刀 / one upright crescent-bladed guandao opera prop",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_jie_dadao.png",
+      "sha256": "7d364961a7d007a2d97f46be1015a5165b2a654907cbb771ce649d289ff5b684"
+    },
+    {
+      "id": "C5-manban",
+      "file": "cards/art_manban_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一炷香的烟绕缓缓垂下的长袖 / incense stick and flat curling smoke wrapping one hanging long sleeve",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_manban.png",
+      "sha256": "33ac3e6d18507d4f4ff97a3156919b37b9c527c1ff4f5300f4185496934d7105"
+    },
+    {
+      "id": "C5-manban",
+      "file": "cards/art_manban_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一炷香的烟绕缓缓垂下的长袖 / incense stick and flat curling smoke wrapping one hanging long sleeve",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_manban.png",
+      "sha256": "ef8f5a84a1043a963d31d9e1037d2ac5c80a75e118c59a0fb766f0d8ce6052d7"
+    },
+    {
+      "id": "C5-tazhuan",
+      "file": "cards/art_tazhuan_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "厚底靴与旋起衣摆 / pair of thick-soled opera boots and whirling robe hem",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_tazhuan.png",
+      "sha256": "1752fd029f6ea57efdd398c6153d925cb17fc86a2f65cd4beda67a32a3ce5aab"
+    },
+    {
+      "id": "C5-tazhuan",
+      "file": "cards/art_tazhuan_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "厚底靴与旋起衣摆 / pair of thick-soled opera boots and whirling robe hem",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_tazhuan.png",
+      "sha256": "28e7e0ff290f527c8b8bd41162bf7aeaec5fd467d3ea5720cc7187e61b6b4807"
+    },
+    {
+      "id": "C5-qiba",
+      "file": "cards/art_qiba_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "四面靠旗扇形展开 / four triangular Chinese opera back flags opening in a fan",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_qiba.png",
+      "sha256": "56d08713af992e1501103f00ac9ff73f471edb047ba1570e545548659e43f855"
+    },
+    {
+      "id": "C5-qiba",
+      "file": "cards/art_qiba_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "四面靠旗扇形展开 / four triangular Chinese opera back flags opening in a fan",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_qiba.png",
+      "sha256": "1bfae8fa628b4bfe6fd7624cefc5f77bed39244d5f69a8b5155897ac1d1e92cb"
+    },
+    {
+      "id": "C5-daoban",
+      "file": "cards/art_daoban_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "小鼓与锣左右平衡 / one small drum and one gong, symmetrical balance",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_daoban.png",
+      "sha256": "e5ca247d51d68cb941ec7c2573fd35caa58c8430b70859b16bfef9f124d9cb7c"
+    },
+    {
+      "id": "C5-daoban",
+      "file": "cards/art_daoban_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "小鼓与锣左右平衡 / one small drum and one gong, symmetrical balance",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_daoban.png",
+      "sha256": "ca31ece757863b11e81c9e166013dd3a4636e08261e3fa8bdcc3e3286cc23a97"
+    },
+    {
+      "id": "C5-shuban",
+      "file": "cards/art_shuban_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "展开无字竹简 / open bundle of blank bamboo slips",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_shuban.png",
+      "sha256": "ec8666e0c3302b7e3efce31741dba366e13c1ff67375f5de6e58af52672b170d"
+    },
+    {
+      "id": "C5-shuban",
+      "file": "cards/art_shuban_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "展开无字竹简 / open bundle of blank bamboo slips",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_shuban.png",
+      "sha256": "a910ea5e372eb67a5e0aefea538f95ac60c56792fa8849d7aea8a9b478d135a4"
+    },
+    {
+      "id": "C5-jijifeng",
+      "file": "cards/art_jijifeng_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "交叉鼓槌与疾风线 / crossed drumsticks and swift wind streaks",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_jijifeng.png",
+      "sha256": "136ffffe9d300788b1a01738f7e6ffb8f2c100b32e19c3f3b08742497aee12b3"
+    },
+    {
+      "id": "C5-jijifeng",
+      "file": "cards/art_jijifeng_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "交叉鼓槌与疾风线 / crossed drumsticks and swift wind streaks",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_jijifeng.png",
+      "sha256": "d1c308d8ff9ee6dcf32cc0cbeb3bfeabc0b8012b475c94d7d941b3f5f10a14ac"
+    },
+    {
+      "id": "C5-yunbai",
+      "file": "cards/art_yunbai_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "圆月前一把收拢的扇 / closed folding fan in front of round moon represented by black ring",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_yunbai.png",
+      "sha256": "aed48001af87e6f94b5ee1d860b639d831fe854bc420553fee14d19854579913"
+    },
+    {
+      "id": "C5-yunbai",
+      "file": "cards/art_yunbai_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "圆月前一把收拢的扇 / closed folding fan in front of round moon represented by black ring",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_yunbai.png",
+      "sha256": "0fe2b6f661166ac9dcedb80a12afbcb524cf2c29b2d13e30b5f08a095c5f2cec"
+    },
+    {
+      "id": "C5-woyu",
+      "file": "cards/art_woyu_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "后仰卧倒旦角剪影旁一朵朱红牡丹 / anonymous dan performer reclining backbend silhouette beside a vermilion peony",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_woyu.png",
+      "sha256": "49dbfd6da3e8aaa6031151e5b36deced217b863da8f8909499da9b43033fcf68"
+    },
+    {
+      "id": "C5-woyu",
+      "file": "cards/art_woyu_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "后仰卧倒旦角剪影旁一朵朱红牡丹 / anonymous dan performer reclining backbend silhouette beside a vermilion peony",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_woyu.png",
+      "sha256": "07eaf626d12e254ab35fbf3edca3078eca003a0d285ea1cebfc202789e41ed2b"
+    },
+    {
+      "id": "C5-qingchang",
+      "file": "cards/art_qingchang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一盏清茶一缕气，四周留空 / one quiet teacup with one wisp, much empty space",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_qingchang.png",
+      "sha256": "fd4af9726adcca502529fab04dcc25857bc8c00329bbbaeafd37905b12d64f74"
+    },
+    {
+      "id": "C5-qingchang",
+      "file": "cards/art_qingchang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一盏清茶一缕气，四周留空 / one quiet teacup with one wisp, much empty space",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_qingchang.png",
+      "sha256": "41ea9762c727e2509fa5685dd33afff29f830125f0c9c52be3c181ac12c98dc2"
+    },
+    {
+      "id": "C5-dingchang",
+      "file": "cards/art_dingchang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "醒木压空白素笺 / wooden clapper on one blank sheet",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_dingchang.png",
+      "sha256": "1b76b52a4782e81257d39fed2851a2b120b40c73a5e645346a34da0aa2487f75"
+    },
+    {
+      "id": "C5-dingchang",
+      "file": "cards/art_dingchang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "醒木压空白素笺 / wooden clapper on one blank sheet",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_dingchang.png",
+      "sha256": "c314ca51ac11249653b4ce1a2ca73fa159f3fa5dcba6171d2f607b8d43a79fa5"
+    },
+    {
+      "id": "C5-tuoqiang",
+      "file": "cards/art_tuoqiang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "京胡琴弓托上扬长弧 / jinghu bow supporting one upward long arc",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_tuoqiang.png",
+      "sha256": "67ffb6fefcd52c3876b23b9f143f0346a11c4393d140cfa42177d3318a2f266a"
+    },
+    {
+      "id": "C5-tuoqiang",
+      "file": "cards/art_tuoqiang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "京胡琴弓托上扬长弧 / jinghu bow supporting one upward long arc",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_tuoqiang.png",
+      "sha256": "757f0d853783acd8ebd1010cdb028b245860b8ff6a71190e88ce3ff59241d753"
+    },
+    {
+      "id": "C5-tangma",
+      "file": "cards/art_tangma_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "马鞭鞭穗扬起与奔马风线 / opera horsewhip with lifted tassels and running wind streaks",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_tangma.png",
+      "sha256": "42b00182c1b0bdd0b01e61677b0ebdaec3452c89113f5f988682701a4f5648cc"
+    },
+    {
+      "id": "C5-tangma",
+      "file": "cards/art_tangma_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "马鞭鞭穗扬起与奔马风线 / opera horsewhip with lifted tassels and running wind streaks",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_tangma.png",
+      "sha256": "76f041d7d0896c12786d3e0648d578a36196a63e7e2b6f1ab1760337b9047807"
+    },
+    {
+      "id": "C5-tang",
+      "file": "cards/art_tang_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一碗冒气的汤 / one bowl of steaming soup",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_tang.png",
+      "sha256": "928b000c12fd87d32c48b7f30b64ab6a2776c478962d2550423c56fb119891d4"
+    },
+    {
+      "id": "C5-tang",
+      "file": "cards/art_tang_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一碗冒气的汤 / one bowl of steaming soup",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_tang.png",
+      "sha256": "45ca610d0e31dac1492cf811e1210c74ec0a19a69f3013c37a1c2a16eaf4988a"
+    },
+    {
+      "id": "C5-fan",
+      "file": "cards/art_fan_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两只碗两双筷子对称 / two bowls and two pairs of chopsticks symmetrically arranged",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_fan.png",
+      "sha256": "4aa512b05d3731905100a4f4138ee4f3ba0e196efb86dada6b57b58dab38437b"
+    },
+    {
+      "id": "C5-fan",
+      "file": "cards/art_fan_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两只碗两双筷子对称 / two bowls and two pairs of chopsticks symmetrically arranged",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_fan.png",
+      "sha256": "61c88d1dbd3d7f5b7641b0f8fdb2fdfbf9d13cb082a1d8bf4d33e00c96fdadfe"
+    },
+    {
+      "id": "C5-xin",
+      "file": "cards/art_xin_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "红线捆着的无字旧信 / blank old folded letter tied with vermilion thread",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_xin.png",
+      "sha256": "c73b822dc6d42f652e2b7099ef651072f5fcea5fe24a9d3e6e6374321df3a68a"
+    },
+    {
+      "id": "C5-xin",
+      "file": "cards/art_xin_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "红线捆着的无字旧信 / blank old folded letter tied with vermilion thread",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_xin.png",
+      "sha256": "60f4e7c2f87b514d15ab687d3e8f4f0b66abfecb4d66338314aa1cb4c9cc7381"
+    },
+    {
+      "id": "C5-zhi",
+      "file": "cards/art_zhi_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一朵剪纸花 / one paper-cut flower; black structural flower, small red central petal",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_zhi.png",
+      "sha256": "e88ab59fd989836b5febe6cf8d70dd37cf3937e3aa095709b62a21f22a447a36"
+    },
+    {
+      "id": "C5-zhi",
+      "file": "cards/art_zhi_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "一朵剪纸花 / one paper-cut flower; black structural flower, small red central petal",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_zhi.png",
+      "sha256": "ad61726d2ab9028812fb255dd048f80a5f27af79536d7cec6d4675c3aec8a226"
+    },
+    {
+      "id": "C5-home_listen",
+      "file": "cards/art_home_listen_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "小油灯旁一圈圈声音弧 / one small oil lamp and quiet sound arcs beside it",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_home_listen.png",
+      "sha256": "5b0ca209d1120c252946d8ab1b0b851b4ce17ec2dd31bf450ab7d5596f441a5c"
+    },
+    {
+      "id": "C5-home_listen",
+      "file": "cards/art_home_listen_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "小油灯旁一圈圈声音弧 / one small oil lamp and quiet sound arcs beside it",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_home_listen.png",
+      "sha256": "4ba3e42f093c1d441ffc3ff2e50333786efcb062af8d675f8d967bf2e61eecc9"
+    },
+    {
+      "id": "C5-home_comp",
+      "file": "cards/art_home_comp_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两只并排茶杯 / two side-by-side teacups",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_home_comp.png",
+      "sha256": "0ce3af022d4cf7d15e7586f90f4f0f218b3d3e9fe72edb3b46205879c5ad573b"
+    },
+    {
+      "id": "C5-home_comp",
+      "file": "cards/art_home_comp_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两只并排茶杯 / two side-by-side teacups",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_home_comp.png",
+      "sha256": "4e87f6fb1b2f832e9d3016900b6ad9edf6d78f47b77f1961cebad7826e903462"
+    },
+    {
+      "id": "C5-home_care",
+      "file": "cards/art_home_care_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "汤碗与叠好热毛巾 / bowl of soup and folded warm towel",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_home_care.png",
+      "sha256": "9318d60811373ff37a62727636de0cc4a7cd1a884a0d58c37d8b837c4c195fee"
+    },
+    {
+      "id": "C5-home_care",
+      "file": "cards/art_home_care_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "汤碗与叠好热毛巾 / bowl of soup and folded warm towel",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_home_care.png",
+      "sha256": "efb453d0eb7a09aa8c908ddca3cc18caa82a61e1b61b91e6c567bd4f751d0c6e"
+    },
+    {
+      "id": "C5-home_labor",
+      "file": "cards/art_home_labor_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两双手一起糊一片灯纸 / TWO PAIRS of hands together pasting one sheet of lantern paper",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/art_home_labor.png",
+      "sha256": "58171edf514787656511e2011050e25a46a08177b81c674e9913f1ef1e8aed2c"
+    },
+    {
+      "id": "C5-home_labor",
+      "file": "cards/art_home_labor_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "两双手一起糊一片灯纸 / TWO PAIRS of hands together pasting one sheet of lantern paper",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/art_home_labor.png",
+      "sha256": "73eee27949675529eaa99e1f878ea0c3fdf8614ad6cba9fcda1f8e6d4b86534b"
+    },
+    {
+      "id": "C4-1-1",
+      "file": "cards/paper_01.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 1. No lighting, no shading, no photographed texture. Tiny tonal variation only.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_01.png",
+      "sha256": "d0c5387959bda80b435ba4d6bff6b076136a13c414c7ad60c5f43824c59089fa"
+    },
+    {
+      "id": "C4-1-2",
+      "file": "cards/paper_02.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 2. No lighting, no shading, no photographed texture. Tiny tonal variation only.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_02.png",
+      "sha256": "037997663dfb5b6d240cb67224c07f251e858a91009c5830c05cd177e4fd4dd9"
+    },
+    {
+      "id": "C4-1-3",
+      "file": "cards/paper_03.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 3. No lighting, no shading, no photographed texture. Tiny tonal variation only.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_03.png",
+      "sha256": "7efbe66a0b7da282a30f66666b1142cb7284dce3f6ae82dd28cb0fa42d7e4be1"
+    },
+    {
+      "id": "C4-1-4",
+      "file": "cards/paper_04.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 4. No lighting, no shading, no photographed texture. Tiny tonal variation only.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_04.png",
+      "sha256": "c3b5988faef124643178b1526ed803cdb2b59f92660c10e468146adc0e7ff519"
+    },
+    {
+      "id": "C4-2",
+      "file": "cards/border_stage.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": true,
+      "description": "Pure black thin symmetrical Chinese meander/cloud border, one small corner flower in each corner, margin 28px; center completely TRANSPARENT. Broken-corner card frame.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/border_stage.png",
+      "sha256": "e37d014692199edcb66345b0d4fcd7471a85e6711d3c2148dd8b09f033880b33"
+    },
+    {
+      "id": "C4-3",
+      "file": "cards/border_home.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": true,
+      "description": "Very quiet thin black rectangular card border, four small minimal corner flowers, margin 28px, completely TRANSPARENT empty center.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/border_home.png",
+      "sha256": "b520a6fb635b9f44590f5f61538a7dd07f9ea6c5be12f66bb09feb1e1da6174a"
+    },
+    {
+      "id": "C4-4",
+      "file": "cards/back.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "Flat symmetric Chinese opera card BACK, deep vermilion background, a large circular ring of fan sectors and concentric circles like a gong, ink black gray accents, center diameter 200px empty. Three or four solid colors.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/back.png",
+      "sha256": "de2d38dadf0faea0b34e5745b92a1580d48c2f2caa2c9867a8e83e9b06989a56"
+    },
+    {
+      "id": "C2-a01",
+      "file": "crowd/a01.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "瓜皮帽中年男人 / middle-aged man in melon cap",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a01.png",
+      "sha256": "8849ebf287a771affd88048ca3d63b02a7289d93cb95cf1ea78ef09f2c1b5cec"
+    },
+    {
+      "id": "C2-a02",
+      "file": "crowd/a02.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "毡帽老人 / elder wearing felt hat",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a02.png",
+      "sha256": "760f8a51a0ace349295e0ad81dfbc3107e92d7fe5740d43521812153f0dcc37e"
+    },
+    {
+      "id": "C2-a03",
+      "file": "crowd/a03.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "斗笠挑夫 / porter wearing conical straw hat",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a03.png",
+      "sha256": "7d0e273106f26b7801e396ec75d481d3cde5e891c5922d8b52ce543bf68711b0"
+    },
+    {
+      "id": "C2-a04",
+      "file": "crowd/a04.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "光头小伙 / bald young man",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a04.png",
+      "sha256": "a36acc180c5f48526bc9a7877d636fa58bdea0a7bd3bb881ac709c5ab8b7a7f8"
+    },
+    {
+      "id": "C2-a05",
+      "file": "crowd/a05.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "发髻插簪妇人 / woman with hairpin bun",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a05.png",
+      "sha256": "93336aeb8d9befb79c4ebfeefe49d4a9fbdaab01a540c7094441beef32579403"
+    },
+    {
+      "id": "C2-a06",
+      "file": "crowd/a06.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "发髻插花少女 / girl with flower in bun",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a06.png",
+      "sha256": "75f718b1e92960ba61a40bfc4cd94a8aa3d7dec53e369bcaab2c0c73eda4507c"
+    },
+    {
+      "id": "C2-a07",
+      "file": "crowd/a07.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "两个丫髻小孩 / child with two side buns",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a07.png",
+      "sha256": "7b525a13c9c3ff8c3340f157c6186e86585dde4d544d1895f61dfcad61564e14"
+    },
+    {
+      "id": "C2-a08",
+      "file": "crowd/a08.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "头巾老妇 / old woman wearing headscarf",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a08.png",
+      "sha256": "e7b0bdb9f8e43c3b1c06968e2867c0a37f6d4a39d92b9e45bc6f59a568ebcbfa"
+    },
+    {
+      "id": "C2-a09",
+      "file": "crowd/a09.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "长辫青年 / youth with long braid",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a09.png",
+      "sha256": "f00f5f78b274c7034c015972f01797b10a1675cc94245bc052350ffa693e14b0"
+    },
+    {
+      "id": "C2-a10",
+      "file": "crowd/a10.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "摇折扇书生 / scholar holding open folding fan",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a10.png",
+      "sha256": "8914f6dfe1d97cb57365a7c2e4a3446571c5cc74cc1eb7e25b6d804fa1a7f905"
+    },
+    {
+      "id": "C2-a11",
+      "file": "crowd/a11.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "抱孩子母亲，孩子从肩上探头 / mother carrying child peeking over shoulder",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a11.png",
+      "sha256": "a8fbd2e495921059d297c3a6d0a56f5dfbc538219758a80769abdc6addcc5c63"
+    },
+    {
+      "id": "C2-a12",
+      "file": "crowd/a12.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "小孩骑父亲肩上 / child riding father shoulders",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a12.png",
+      "sha256": "ab328dab950db73cb165424ec204a4f3b5b322d58522315c4e8b37b187f44cbe"
+    },
+    {
+      "id": "C2-a13",
+      "file": "crowd/a13.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "靠在一起两个人 / two people leaning together",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a13.png",
+      "sha256": "e3a989019941bbfe8d299fa64b5a0438d95d6761b5dd7b87c29b4eecfac1caf0"
+    },
+    {
+      "id": "C2-a14",
+      "file": "crowd/a14.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "圆眼镜先生 / gentleman with round spectacles seen in three-quarter BACK view",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a14.png",
+      "sha256": "fbda5fe205fe0e76ab3ee0fce100b1d3202f10bc99e60f6676998949eb5cb096"
+    },
+    {
+      "id": "C2-a15",
+      "file": "crowd/a15.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "方巾老先生 / elder with square scholar headcloth",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a15.png",
+      "sha256": "832f6479fe48757fc73c023bf1621800295c2e4c15cad8206b6db6ac25cc5665"
+    },
+    {
+      "id": "C2-a16",
+      "file": "crowd/a16.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "端茶碗的人 / person holding tea bowl",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/a16.png",
+      "sha256": "9617aa60a86bce96d4e09443cc1b6971c9f22446076c7ecc73c42b8d14d820c8"
+    },
+    {
+      "id": "C2-b01-idle",
+      "file": "crowd/b01_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "broad-shouldered man with short round cap, arms folded at chest",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b01_idle.png",
+      "sha256": "0c0b7247c4a9df14b0ee23158f469ba636e8238600a3b634549c28371a3e3900"
+    },
+    {
+      "id": "C2-b01-act",
+      "file": "crowd/b01_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "broad-shouldered man with short round cap, both arms raised high cheering",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b01_act.png",
+      "sha256": "cf0e722883ec06989cbc73e93a8c45988219b627fab464bbfdf26629e3a4cd40"
+    },
+    {
+      "id": "C2-b02-idle",
+      "file": "crowd/b02_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "slim scholar in headcloth, hands resting on knees",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b02_idle.png",
+      "sha256": "59dee2fe828eb3589bfeba74a13704ac325e6afcbfd4392d47a6c8add20a5d42"
+    },
+    {
+      "id": "C2-b02-act",
+      "file": "crowd/b02_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "slim scholar in headcloth, hands lifted clapping",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b02_act.png",
+      "sha256": "2848411c59e0801ba694681b97259cf3d6d407e227d42a416c05d03929c71db1"
+    },
+    {
+      "id": "C2-b03-idle",
+      "file": "crowd/b03_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "old woman with hair bun holding handkerchief, handkerchief hanging down",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b03_idle.png",
+      "sha256": "ff2b1e02f7d1a533bd92a4714ce40217d9ba1cc2c71687b96dc6294f942e223e"
+    },
+    {
+      "id": "C2-b03-act",
+      "file": "crowd/b03_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "old woman with hair bun holding handkerchief, handkerchief lifted waving",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b03_act.png",
+      "sha256": "9134c4b1e2446469020c77be7bcca3c9c974ce3753a02440607189a3ca29b61b"
+    },
+    {
+      "id": "C2-b04-idle",
+      "file": "crowd/b04_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "fat merchant in round cap, seated, hat on head",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b04_idle.png",
+      "sha256": "c4bc5b38d23418a86ef6cdf2b125cc21c347f87d8226cd51bb0039f8a2a12510"
+    },
+    {
+      "id": "C2-b04-act",
+      "file": "crowd/b04_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "fat merchant in round cap, standing waving removed hat",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b04_act.png",
+      "sha256": "3511522ed2fc655cdc4ad5ebd02321dc4d48190783b54f83fa899ba32023cbe6"
+    },
+    {
+      "id": "C2-b05-idle",
+      "file": "crowd/b05_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "man with long braid, hands down, watching",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b05_idle.png",
+      "sha256": "83bc9a593f8df833a9c3c86893433f9b2464112956307a3604c2ef3a8e07ba11"
+    },
+    {
+      "id": "C2-b05-act",
+      "file": "crowd/b05_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "man with long braid, one hand waving dismissively, booing",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b05_act.png",
+      "sha256": "286653952c5b43645492c8d9df5f9ad6ab160b9bc5fb1089f6206bf4a8856c77"
+    },
+    {
+      "id": "C2-b06-idle",
+      "file": "crowd/b06_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "woman with plain headscarf, hands down, watching",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b06_idle.png",
+      "sha256": "42454803fb853f958f097809375c5421b978372737bc5e54a6ee271b8ee6d228"
+    },
+    {
+      "id": "C2-b06-act",
+      "file": "crowd/b06_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "woman with plain headscarf, both hands covering ears",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b06_act.png",
+      "sha256": "c5b15b2b4619adaca3a39ee2d75864ad7ac588073f8634f687daed2257cc1c37"
+    },
+    {
+      "id": "C2-b07-idle",
+      "file": "crowd/b07_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "elder wearing felt hat, watching forward away from viewer",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b07_idle.png",
+      "sha256": "9e71429c0bad3383be09a97f8ecd438da889d623cc0a7a5acac1dfd306ceb478"
+    },
+    {
+      "id": "C2-b07-act",
+      "file": "crowd/b07_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "elder wearing felt hat, turning further away, shoulders twisted",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b07_act.png",
+      "sha256": "2276e37069604f7db9fd3f15554826832ed71b17cbe57ced56bb7d3169104241"
+    },
+    {
+      "id": "C2-b08-idle",
+      "file": "crowd/b08_idle.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "young man in melon cap, one hand holding sunflower seeds at waist",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b08_idle.png",
+      "sha256": "fb8edbe97d18d393879205741824930ea6ba96dbaaba5eb6243403b08f839111"
+    },
+    {
+      "id": "C2-b08-act",
+      "file": "crowd/b08_act.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "young man in melon cap, one arm up tossing a small handful of seed shells",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/b08_act.png",
+      "sha256": "05bf72423a9e2ce323af8f267d7a3f957436c8029f1198e78ba3e9df1e7387b2"
+    },
+    {
+      "id": "C2-c01",
+      "file": "crowd/c01.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 1",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c01.png",
+      "sha256": "f57ff6cadb49e4bc875cdaa6c294d5bfbe1f373984dd874684b44f3691c7d5d0"
+    },
+    {
+      "id": "C2-c02",
+      "file": "crowd/c02.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 2",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c02.png",
+      "sha256": "e8791364538d1b998c2dc8d961497246c9cda907635cb5ce0138a0d846380aa3"
+    },
+    {
+      "id": "C2-c03",
+      "file": "crowd/c03.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 3",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c03.png",
+      "sha256": "02fecfb53c543ab8aa641e3eeddd1bcf997cde47dbe170f71c5642ac9fbf2fb0"
+    },
+    {
+      "id": "C2-c04",
+      "file": "crowd/c04.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 4",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c04.png",
+      "sha256": "f229191418c0536480558f3dbf7a08f63656a23c506a188362bc21566a86a99e"
+    },
+    {
+      "id": "C2-c05",
+      "file": "crowd/c05.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 5",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c05.png",
+      "sha256": "ced167a3fc5bf9472d4d1aa22fa5191aaae34ffe1ca3dfef2ea64c6f0e4f790e"
+    },
+    {
+      "id": "C2-c06",
+      "file": "crowd/c06.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 6",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c06.png",
+      "sha256": "9789c87f4e7eff4d3078b4d2397f5766b74089b00eb13290866ef69610e515b3"
+    },
+    {
+      "id": "C2-c07",
+      "file": "crowd/c07.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 7",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c07.png",
+      "sha256": "ca6d21b74cf7ec521f49493ff03adf5335596fad7d03b0d555256e0dcfc0c73d"
+    },
+    {
+      "id": "C2-c08",
+      "file": "crowd/c08.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 8",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/c08.png",
+      "sha256": "6c34e33e3e09571b4d5324b256daec0e1abe470e06b242559e1720b317abb830"
+    },
+    {
+      "id": "D1",
+      "file": "deco/shoujiu.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "description": "Flat printed opera backdrop PAPER pattern, vermilion ground, centered symmetric geometric paired phoenix rosette, meander border, only red black rice white ochre. NO actual curtain, wall, stage or environment.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/shoujiu.png",
+      "sha256": "5fc411ee8a0c0eaeb19c7b4a1598e4ac07dde13a16efd463d14badb9cc1e49ee"
+    },
+    {
+      "id": "D2",
+      "file": "deco/carpet.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": false,
+      "description": "Seamless repeating flat printed carpet PATTERN only. Dark vermilion background, low contrast rosettes and Chinese meanders in dark red and ink. Perfectly tileable opposite edges. No physical rug or scene.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/carpet.png",
+      "sha256": "0d695f348a446984ab4ea1f9c942470df9f4c6c9ba85c54d646d66e4d631d3e9"
+    },
+    {
+      "id": "D3-1",
+      "file": "deco/chuanghua_01.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "One symmetrical vermilion window paper-cut 如意云头 / ruyi cloud, clear large transparent cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/chuanghua_01.png",
+      "sha256": "600d4bdf6743fc13bb1718c347d6bbf93cf6506dc1ce257ff1fe8b9748123cc5"
+    },
+    {
+      "id": "D3-2",
+      "file": "deco/chuanghua_02.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "One symmetrical vermilion window paper-cut 蝙蝠 / bat, clear large transparent cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/chuanghua_02.png",
+      "sha256": "e12d0d7cb1e8597e6bb314c259ebf41c4845bea8e38a4eb99e0dbf5902d92453"
+    },
+    {
+      "id": "D3-3",
+      "file": "deco/chuanghua_03.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "One symmetrical vermilion window paper-cut 牡丹 / peony, clear large transparent cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/chuanghua_03.png",
+      "sha256": "3899dd9f1869c6a68381c7223c77f6a9971917dee2191de94a2dcce03b750d23"
+    },
+    {
+      "id": "D3-4",
+      "file": "deco/chuanghua_04.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "One symmetrical vermilion window paper-cut 灯笼 / lantern, clear large transparent cutouts",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/chuanghua_04.png",
+      "sha256": "a2a3a7b51a1fbd282388c7892ee9ceb806be968ff6d428ca275b341881fb9532"
+    },
+    {
+      "id": "D4-1",
+      "file": "deco/lianpu_01.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "One ORIGINAL abstract Chinese opera FACE MASK paper-cut emblem, angular long eyebrows. Invent abstract geometry, do not copy real traditional face scheme. Single color, not a human portrait.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/lianpu_01.png",
+      "sha256": "352826a15443e72a7ac69ac7dea5564abb87d903e13421b9733dd8b060dddae5"
+    },
+    {
+      "id": "D4-2",
+      "file": "deco/lianpu_02.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "One ORIGINAL abstract Chinese opera FACE MASK paper-cut emblem, rounded eye geometry. Invent abstract geometry, do not copy real traditional face scheme. Single color, not a human portrait.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/lianpu_02.png",
+      "sha256": "0c6a74f75763c19901319c4c5e7225d4968a1c816edba7c2ded88fd0b431e6d5"
+    },
+    {
+      "id": "D4-3",
+      "file": "deco/lianpu_03.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "One ORIGINAL abstract Chinese opera FACE MASK paper-cut emblem, triangular nose and curling brows. Invent abstract geometry, do not copy real traditional face scheme. Single color, not a human portrait.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/lianpu_03.png",
+      "sha256": "cdb54f414742074bf70c3c6a084307d7b454e8782e8bd608735891885176a8a9"
+    },
+    {
+      "id": "D4-4",
+      "file": "deco/lianpu_04.png",
+      "size": [
+        512,
+        640
+      ],
+      "transparent": true,
+      "description": "One ORIGINAL abstract Chinese opera FACE MASK paper-cut emblem, broad symmetric cheek swirls. Invent abstract geometry, do not copy real traditional face scheme. Single color, not a human portrait.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/lianpu_04.png",
+      "sha256": "b6f6a8ddbcc815fd5579b7a7b13a4351574568ec473cb3d0cd5483589fbc72f9"
+    },
+    {
+      "id": "D5",
+      "file": "deco/lampaper.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparent": true,
+      "description": "Very faint thin ink lines of a small symmetric floral rosette, seamless tileable lantern PAPER pattern only, sparse lines, transparent background.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/lampaper.png",
+      "sha256": "c7133ccf0cebc022c3a610f5c57563e72c4fc7bbcce014816ec10efe0cecdd0e"
+    },
+    {
+      "id": "D6",
+      "file": "deco/chest_lid.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "One symmetric monochrome line ornament of ruyi cloud heads, flat decorative decal only, do not draw a chest or lid.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/chest_lid.png",
+      "sha256": "921505704b20e112f7958632817b1feefc6bf1852904d08c6d6701be034d2ee1"
+    },
+    {
+      "id": "C6-qinshi",
+      "file": "relics/qinshi_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one jinghu Chinese opera fiddle",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/qinshi.png",
+      "sha256": "df9472fafe4a7fdb017c72c09b8c97a84bc3aca46978f5f92e6ae6559c18a5f3"
+    },
+    {
+      "id": "C6-qinshi",
+      "file": "relics/qinshi_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one jinghu Chinese opera fiddle",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/qinshi.png",
+      "sha256": "e33b029f658d93e73bc5c91445c1754c7adb3ecbcabfedf36bf1135cd529fd3d"
+    },
+    {
+      "id": "C6-gujing",
+      "file": "relics/gujing_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one small gong and one single-skin drum",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/gujing.png",
+      "sha256": "e818bba80a68105624bfaa746f9099691a11576b9db4dc889140e0b00a14cb1e"
+    },
+    {
+      "id": "C6-gujing",
+      "file": "relics/gujing_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one small gong and one single-skin drum",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/gujing.png",
+      "sha256": "f411c82ee98bca64a7f2a43e8ead7f5160f42f2950c7fa9edd6e183b1034df6e"
+    },
+    {
+      "id": "C6-cha",
+      "file": "relics/cha_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "teapot and small teacup with one curling steam wisp",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/cha.png",
+      "sha256": "fe33b9c9e12e0f91d8c129fd7aa0ec98268338478191b666a151f75ea99c1ef7"
+    },
+    {
+      "id": "C6-cha",
+      "file": "relics/cha_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "teapot and small teacup with one curling steam wisp",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/cha.png",
+      "sha256": "4ff1d1d0b6ebcfb5cd2187a1036390aa529984198e6f9575ba1e5ec58658f6a4"
+    },
+    {
+      "id": "C6-lian",
+      "file": "relics/lian_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "small traditional cosmetic casket with tiny drawer, front elevation, drawn graphic, no realistic material",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/lian.png",
+      "sha256": "418d6169899e98ed6950ee94354928ef3bcee8c7860d9ec838a139e60aa45d08"
+    },
+    {
+      "id": "C6-lian",
+      "file": "relics/lian_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "small traditional cosmetic casket with tiny drawer, front elevation, drawn graphic, no realistic material",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/lian.png",
+      "sha256": "ce0a76d9a6de04b8208e7bd161a1afa79f7b8bd46b4ab2681351ab3461fdca8c"
+    },
+    {
+      "id": "C6-jin",
+      "file": "relics/jin_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one rolled towel",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/jin.png",
+      "sha256": "610be9adc7bf35a39e0414f47b72cb79d8457e1cbf6703cbc25bcbd3af80f08f"
+    },
+    {
+      "id": "C6-jin",
+      "file": "relics/jin_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one rolled towel",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/jin.png",
+      "sha256": "281911670c6457b4fd4df86f697cb6ad2b070a56f0e7690b50f2419d844bb727"
+    },
+    {
+      "id": "C6-you",
+      "file": "relics/you_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "small oil jar and short wick",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/you.png",
+      "sha256": "8c3795c9ba36f66c6aaca383a2cfe4aed47d1f4545a643640b564a00f438de6a"
+    },
+    {
+      "id": "C6-you",
+      "file": "relics/you_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "small oil jar and short wick",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/you.png",
+      "sha256": "f75f87ec0474013e38d7b8137f5246465506290785b13b635c298f0aced784b7"
+    },
+    {
+      "id": "C6-luo",
+      "file": "relics/luo_line.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one small hand gong and gong mallet",
+      "layer": "line",
+      "source": "原型/assets_compare/work/v2/sources/luo.png",
+      "sha256": "199156c30373eb6d289f4625e4ace3e765dceaad30fb132e6a6cafeaa1649cd8"
+    },
+    {
+      "id": "C6-luo",
+      "file": "relics/luo_accent.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "one small hand gong and gong mallet",
+      "layer": "accent",
+      "source": "原型/assets_compare/work/v2/sources/luo.png",
+      "sha256": "a55f18a3321f0e8e04956ddb5c02785b04a5d0578db3f66ebcdf0faa869969e2"
+    },
+    {
+      "id": "C7-1-light",
+      "file": "ui/paper_light.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "Flat rice-paper white #ECE3D4 paper UI panel with irregular frayed outer edge, extremely faint fibers, blank interior. Nine-slice: keep 96px margins on each edge and plain interior.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_light.png",
+      "sha256": "b5f6af7e9ca8034d20409953b04dd9a610b9b25dbf18f1ca4365859dd3f01df8"
+    },
+    {
+      "id": "C7-1-dark",
+      "file": "ui/paper_dark.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "Flat near ink black #120E11 paper UI panel with irregular frayed outer edge, extremely faint fibers, blank interior. Nine-slice: keep 96px margins on each edge and plain interior.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_dark.png",
+      "sha256": "d7db14bc1a1454bd0d8041a1dc5757d74f2d10f81f60849b05383a2201c0d8b3"
+    },
+    {
+      "id": "C7-2-square",
+      "file": "ui/seal_square.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "Blank solid vermilion square seal surface with a few carved chipped edges, NO letters NO writing NO internal symbol.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/seal_square.png",
+      "sha256": "47e45eac6ff2a98c24d66bf84fc22ca9a42382203d80fadcde641b6d29557eda"
+    },
+    {
+      "id": "C7-2-round",
+      "file": "ui/seal_round.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "Blank solid vermilion round seal surface with a few carved chipped edges, NO letters NO writing NO internal symbol.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/seal_round.png",
+      "sha256": "c17e6a22253614219a4045ed46579d1b67268933754faa472eef5f12abfacc3a"
+    },
+    {
+      "id": "C7-3-wait",
+      "file": "ui/look_wait.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparent": true,
+      "description": "two sets of bowls and chopsticks",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/look_wait.png",
+      "sha256": "39aab23e7db8617eb8c7dc8547d8f0a1d2d8cc4dc1b4a15812009a0e440f63fa"
+    },
+    {
+      "id": "C7-3-tired",
+      "file": "ui/look_tired.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparent": true,
+      "description": "generic tiny side profile resting cheek on hand, closed eye, symbolic icon, NOT named character portrait",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/look_tired.png",
+      "sha256": "879b8144cdfece643b5a04dbbd30df7a127874f05b6ccd87a0d23e74bde2d7d6"
+    },
+    {
+      "id": "C7-3-busy",
+      "file": "ui/look_busy.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparent": true,
+      "description": "lantern bamboo skeleton, no lantern scene",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/look_busy.png",
+      "sha256": "a9c42127aa535251d7afe98e4b35a47626386c900e3ec6260104a4b9ff9f0e2f"
+    },
+    {
+      "id": "C7-3-talk",
+      "file": "ui/look_talk.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparent": true,
+      "description": "slightly open mouth and one breath curl, symbolic icon",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/look_talk.png",
+      "sha256": "77da7f3c670cb075756eda4e3d4863d835c4bf1ab9b348172ae78a68c4e60c65"
+    },
+    {
+      "id": "C7-4-on",
+      "file": "ui/wick_on.png",
+      "size": [
+        128,
+        128
+      ],
+      "transparent": true,
+      "description": "short lamp wick with tiny vermilion flame at tip",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/wick_on.png",
+      "sha256": "10a7e9f8d8d451ca9b64882e66120f8c41bfabf67ad2a5831145816069acf91f"
+    },
+    {
+      "id": "C7-4-out",
+      "file": "ui/wick_out.png",
+      "size": [
+        128,
+        128
+      ],
+      "transparent": true,
+      "description": "extinguished charred short wick tip with one thin smoke curl",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/wick_out.png",
+      "sha256": "b08ffa71390042fad818f76a6d3d38f3b64e2389b29af345e8976ddaae8199b0"
+    },
+    {
+      "id": "C7-5",
+      "file": "ui/scar_mark.png",
+      "size": [
+        64,
+        192
+      ],
+      "transparent": true,
+      "description": "One diagonal ink scratch, heavy at start, dry carved white streaks at tapering tail.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/scar_mark.png",
+      "sha256": "15fcede76b1224e84809a80524a13cee42f240853c00a0d54243bc702669ab0e"
+    },
+    {
+      "id": "C7-6",
+      "file": "ui/brush_underline.png",
+      "size": [
+        1024,
+        64
+      ],
+      "transparent": true,
+      "description": "ONE horizontal vermilion brush stroke, strong heavy beginning tapering end, dry brush cutouts.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/brush_underline.png",
+      "sha256": "a75c34a12acbecd0c4b553fc0178f026363c937cb1a2800c59832d11af0a9a51"
+    },
+    {
+      "id": "C8-paper_flakes",
+      "file": "fx/paper_flakes.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "Sprite atlas EXACT 4x4 grid, 16 separated items, one centered in each 256x256 cell, transparent gutters, NO grid lines. vermilion and rice-white little paper scraps, some curled shown only by flat line",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_flakes.png",
+      "sha256": "2873e6ac8af9bd9df21081facfbad36f98a172034ddac75f4cff864ff1971daf"
+    },
+    {
+      "id": "C8-gold_leaf",
+      "file": "fx/gold_leaf.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "Sprite atlas EXACT 4x4 grid, 16 separated items, one centered in each 256x256 cell, transparent gutters, NO grid lines. ochre gold leaf shards, a single dark flat crease line on each, NO metallic shine",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/gold_leaf.png",
+      "sha256": "c5f975825b8bb96974584550875e2ccc1929e63b9f230c369896bd60dec9c603"
+    },
+    {
+      "id": "C8-ink_drops",
+      "file": "fx/ink_drops.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "Sprite atlas EXACT 4x4 grid, 16 separated items, one centered in each 256x256 cell, transparent gutters, NO grid lines. black ink dots, splashes, drips",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/ink_drops.png",
+      "sha256": "8ba14747cb196c64bde0af9807d069e5c279bbc83f3c3d2c33c78c15ee0233c5"
+    },
+    {
+      "id": "C8-paper_burnt",
+      "file": "fx/paper_burnt.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "description": "Sprite atlas EXACT 4x4 grid, 16 separated items, one centered in each 256x256 cell, transparent gutters, NO grid lines. vermilion burnt curled lantern-paper scraps with solid ink-black charred edges",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/paper_burnt.png",
+      "sha256": "3a8061bbee89a8f25a405521bd04a8746aa3056282fa95782ce886365d4df398"
+    },
+    {
+      "id": "C8-ribbon",
+      "file": "fx/ribbon.png",
+      "size": [
+        2048,
+        128
+      ],
+      "transparent": true,
+      "description": "One long horizontal floating vermilion ribbon strip, gently waving and tapering at BOTH ends. Graphic flat silhouette only, no shading.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/ribbon.png",
+      "sha256": "c62560867792c6c2cc453d65883a8c88b28a2f56c1405dcd0d9004a76f607435"
+    },
+    {
+      "id": "C9-1",
+      "file": "night/layer_1_far.png",
+      "size": [
+        2560,
+        720
+      ],
+      "transparent": true,
+      "description": "Far parallax paper-cut silhouette, gray ink #8D8487 distant low mountains and city wall. Gentle contour restricted to bottom quarter and sides. HUGE EMPTY TRANSPARENT central upper area for later vertical game text. No people.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/layer_1_far.png",
+      "sha256": "2aed735ee92a561ddd452fa3351e3aa71d54507be64d353836552374f6c6af3d"
+    },
+    {
+      "id": "C9-2",
+      "file": "night/layer_2_roofs.png",
+      "size": [
+        2560,
+        720
+      ],
+      "transparent": true,
+      "description": "Middle parallax paper-cut silhouette, ink black old Chinese roof ridges, upturned eaves and ONE small opera pavilion outline toward side. Silhouettes low along bottom and sides, HUGE empty transparent center for vertical text. No people.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/layer_2_roofs.png",
+      "sha256": "14de85067df96ee9759c587da3824c320e89dda61203f3260334572d6f3dd950"
+    },
+    {
+      "id": "C9-3",
+      "file": "night/layer_3_near.png",
+      "size": [
+        2560,
+        720
+      ],
+      "transparent": true,
+      "description": "Near parallax paper-cut silhouette, ink black eaves confined to top corners, one short strand of small vermilion lanterns toward right edge. HUGE EMPTY transparent central area for vertical game text. Flat silhouettes only. No people.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/layer_3_near.png",
+      "sha256": "6f0e473398497a2e54d8b21eb5e1d047f492358bff4777b6ba56ebd98127eeca"
+    },
+    {
+      "id": "C9-4",
+      "file": "night/moon.png",
+      "size": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "description": "One rice-paper white circular full moon with subtly paper-cut uneven edge. Flat solid color, no craters no shading.",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/moon.png",
+      "sha256": "3baed3d00b4570b228c1b6148a53708a72bedeb18e24824d4f80678128c856a9"
+    },
+    {
+      "id": "C10-rival_wei",
+      "file": "draft/rival_wei.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "魏老板 / boss Wei, portly troupe leader in his fifties, long gown, holding a string of prayer beads",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/rival_wei.png",
+      "sha256": "c7f44f0827008a299d8ce87837a1399a4516d337aca7b10789a331aff001c8a5"
+    },
+    {
+      "id": "C10-rival_jinbao",
+      "file": "draft/rival_jinbao.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "金宝 / Jinbao, martial opera actor in twenties, strong eyebrows, training clothes, confident",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/rival_jinbao.png",
+      "sha256": "2e901aeefeba7596d517818c2b2e99091de11f00087d6b439fb9fa8396e67f6d"
+    },
+    {
+      "id": "C10-rival_yuexian",
+      "file": "draft/rival_yuexian.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "月仙 / Yuexian, qingyi actress in twenties, cool reserved expression, bun with ONE plain hairpin",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/rival_yuexian.png",
+      "sha256": "c8c1d1f3afb3e6a668ac3ba11c7a969b899ffeff1a6b1e1ad6ae526a989f4911"
+    },
+    {
+      "id": "C10-rival_yulou",
+      "file": "draft/rival_yulou.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "玉楼 / Yulou, clown actor in thirties, round face, smiling gently",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/rival_yulou.png",
+      "sha256": "19ac3a6a38398ceaec0adcebd943c8d9601c7eb6c1bb05c89cd10ad019a7d595"
+    },
+    {
+      "id": "C10-rival_xiaofeng",
+      "file": "draft/rival_xiaofeng.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "小凤 / Xiaofeng, young adult huadan actress aged nineteen, thin after illness, wrapped in shawl",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/rival_xiaofeng.png",
+      "sha256": "0656fcdbdfcedafa82cb20156ac1c0571e7dc9eb626ad31a23051c6faa42d64d"
+    },
+    {
+      "id": "C10-sun_shifu",
+      "file": "draft/sun_shifu.png",
+      "size": [
+        600,
+        900
+      ],
+      "transparent": false,
+      "description": "孙师父 / master Sun, old jinghu player aged seventy, thin, gray-white beard, holding jinghu",
+      "layer": null,
+      "source": "原型/assets_compare/work/v2/sources/sun_shifu.png",
+      "sha256": "8f01e20d3b4688e64aeab8cee9dacac7c00f30cbfd6e3c11ab739ac49492ba22"
+    }
+  ],
+  "generated_with": "built-in image_gen",
+  "brief": "設計/美術/codex_生圖需求_v2.md",
+  "selection": {
+    "S1": "c",
+    "S2": "a",
+    "S3": "c",
+    "S4": "c",
+    "S5": "c"
+  },
+  "prompts": "原型/assets_compare/work/v2/prompts.jsonl",
+  "audit": "原型/assets_compare/work/v2/audit.json",
+  "game_integrated": false,
+  "committed": false
+}

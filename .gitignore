@@ -3,3 +3,7 @@
 
 .DS_Store
 __pycache__/
+
+# 放 iCloud，不進 GitHub
+原型/assets_compare/
+原型/v0.7_本地未提交_*/

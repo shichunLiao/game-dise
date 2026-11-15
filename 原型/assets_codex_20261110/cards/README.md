@@ -1,0 +1,73 @@
+# cards — v2 獨立候選素材
+
+由內建 imagegen 生成，未接入遊戲；分層與尺寸為生成原圖的確定性匯出。
+
+- C5-changqiang | `art_changqiang_line.png` | 1024×1024 | 透明 | 半开的折扇，扇后三道悠长弧线 / half-open folding fan with three long arcs
+- C5-changqiang | `art_changqiang_accent.png` | 1024×1024 | 透明 | 半开的折扇，扇后三道悠长弧线 / half-open folding fan with three long arcs
+- C5-liangsang | `art_liangsang_line.png` | 1024×1024 | 透明 | 全开的折扇，扇外同心弧 / fully open fan and concentric arcs
+- C5-liangsang | `art_liangsang_accent.png` | 1024×1024 | 透明 | 全开的折扇，扇外同心弧 / fully open fan and concentric arcs
+- C5-bai | `art_bai_line.png` | 1024×1024 | 透明 | 醒木压半展开的空白戏本 / wooden clapper on half unrolled blank script
+- C5-bai | `art_bai_accent.png` | 1024×1024 | 透明 | 醒木压半展开的空白戏本 / wooden clapper on half unrolled blank script
+- C5-kuaiban | `art_kuaiban_line.png` | 1024×1024 | 透明 | 交叠竹板，短促节奏线 / overlapping bamboo clappers and short rhythm marks
+- C5-kuaiban | `art_kuaiban_accent.png` | 1024×1024 | 透明 | 交叠竹板，短促节奏线 / overlapping bamboo clappers and short rhythm marks
+- C5-shenduan | `art_shenduan_line.png` | 1024×1024 | 透明 | 旦角背影，衣袖甩成弧 / anonymous dan opera performer BACK silhouette with arcing sleeve
+- C5-shenduan | `art_shenduan_accent.png` | 1024×1024 | 透明 | 旦角背影，衣袖甩成弧 / anonymous dan opera performer BACK silhouette with arcing sleeve
+- C5-shuixiu | `art_shuixiu_line.png` | 1024×1024 | 透明 | 两条翻飞水袖对称交缠 / two symmetrically intertwined long water sleeves
+- C5-shuixiu | `art_shuixiu_accent.png` | 1024×1024 | 透明 | 两条翻飞水袖对称交缠 / two symmetrically intertwined long water sleeves
+- C5-liangxiang | `art_liangxiang_line.png` | 1024×1024 | 透明 | 两根交叉雉鸡翎 / two crossed pheasant plumes
+- C5-liangxiang | `art_liangxiang_accent.png` | 1024×1024 | 透明 | 两根交叉雉鸡翎 / two crossed pheasant plumes
+- C5-fanshen | `art_fanshen_line.png` | 1024×1024 | 透明 | 翻身武生剪影，衣摆旋圆 / anonymous martial opera performer somersault silhouette with circular swirling hem
+- C5-fanshen | `art_fanshen_accent.png` | 1024×1024 | 透明 | 翻身武生剪影，衣摆旋圆 / anonymous martial opera performer somersault silhouette with circular swirling hem
+- C5-jie_kutou | `art_jie_kutou_line.png` | 1024×1024 | 透明 | 掩面的水袖，袖口一滴朱红泪 / sleeve covering an implied face, one red teardrop, do not show face
+- C5-jie_kutou | `art_jie_kutou_accent.png` | 1024×1024 | 透明 | 掩面的水袖，袖口一滴朱红泪 / sleeve covering an implied face, one red teardrop, do not show face
+- C5-jie_guankou | `art_jie_guankou_line.png` | 1024×1024 | 透明 | 连绵墨点与笔锋，不成字 / rhythmic connected abstract ink dots and brush tips, NOT writing
+- C5-jie_guankou | `art_jie_guankou_accent.png` | 1024×1024 | 透明 | 连绵墨点与笔锋，不成字 / rhythmic connected abstract ink dots and brush tips, NOT writing
+- C5-jie_dadao | `art_jie_dadao_line.png` | 1024×1024 | 透明 | 竖立青龙偃月刀 / one upright crescent-bladed guandao opera prop
+- C5-jie_dadao | `art_jie_dadao_accent.png` | 1024×1024 | 透明 | 竖立青龙偃月刀 / one upright crescent-bladed guandao opera prop
+- C5-manban | `art_manban_line.png` | 1024×1024 | 透明 | 一炷香的烟绕缓缓垂下的长袖 / incense stick and flat curling smoke wrapping one hanging long sleeve
+- C5-manban | `art_manban_accent.png` | 1024×1024 | 透明 | 一炷香的烟绕缓缓垂下的长袖 / incense stick and flat curling smoke wrapping one hanging long sleeve
+- C5-tazhuan | `art_tazhuan_line.png` | 1024×1024 | 透明 | 厚底靴与旋起衣摆 / pair of thick-soled opera boots and whirling robe hem
+- C5-tazhuan | `art_tazhuan_accent.png` | 1024×1024 | 透明 | 厚底靴与旋起衣摆 / pair of thick-soled opera boots and whirling robe hem
+- C5-qiba | `art_qiba_line.png` | 1024×1024 | 透明 | 四面靠旗扇形展开 / four triangular Chinese opera back flags opening in a fan
+- C5-qiba | `art_qiba_accent.png` | 1024×1024 | 透明 | 四面靠旗扇形展开 / four triangular Chinese opera back flags opening in a fan
+- C5-daoban | `art_daoban_line.png` | 1024×1024 | 透明 | 小鼓与锣左右平衡 / one small drum and one gong, symmetrical balance
+- C5-daoban | `art_daoban_accent.png` | 1024×1024 | 透明 | 小鼓与锣左右平衡 / one small drum and one gong, symmetrical balance
+- C5-shuban | `art_shuban_line.png` | 1024×1024 | 透明 | 展开无字竹简 / open bundle of blank bamboo slips
+- C5-shuban | `art_shuban_accent.png` | 1024×1024 | 透明 | 展开无字竹简 / open bundle of blank bamboo slips
+- C5-jijifeng | `art_jijifeng_line.png` | 1024×1024 | 透明 | 交叉鼓槌与疾风线 / crossed drumsticks and swift wind streaks
+- C5-jijifeng | `art_jijifeng_accent.png` | 1024×1024 | 透明 | 交叉鼓槌与疾风线 / crossed drumsticks and swift wind streaks
+- C5-yunbai | `art_yunbai_line.png` | 1024×1024 | 透明 | 圆月前一把收拢的扇 / closed folding fan in front of round moon represented by black ring
+- C5-yunbai | `art_yunbai_accent.png` | 1024×1024 | 透明 | 圆月前一把收拢的扇 / closed folding fan in front of round moon represented by black ring
+- C5-woyu | `art_woyu_line.png` | 1024×1024 | 透明 | 后仰卧倒旦角剪影旁一朵朱红牡丹 / anonymous dan performer reclining backbend silhouette beside a vermilion peony
+- C5-woyu | `art_woyu_accent.png` | 1024×1024 | 透明 | 后仰卧倒旦角剪影旁一朵朱红牡丹 / anonymous dan performer reclining backbend silhouette beside a vermilion peony
+- C5-qingchang | `art_qingchang_line.png` | 1024×1024 | 透明 | 一盏清茶一缕气，四周留空 / one quiet teacup with one wisp, much empty space
+- C5-qingchang | `art_qingchang_accent.png` | 1024×1024 | 透明 | 一盏清茶一缕气，四周留空 / one quiet teacup with one wisp, much empty space
+- C5-dingchang | `art_dingchang_line.png` | 1024×1024 | 透明 | 醒木压空白素笺 / wooden clapper on one blank sheet
+- C5-dingchang | `art_dingchang_accent.png` | 1024×1024 | 透明 | 醒木压空白素笺 / wooden clapper on one blank sheet
+- C5-tuoqiang | `art_tuoqiang_line.png` | 1024×1024 | 透明 | 京胡琴弓托上扬长弧 / jinghu bow supporting one upward long arc
+- C5-tuoqiang | `art_tuoqiang_accent.png` | 1024×1024 | 透明 | 京胡琴弓托上扬长弧 / jinghu bow supporting one upward long arc
+- C5-tangma | `art_tangma_line.png` | 1024×1024 | 透明 | 马鞭鞭穗扬起与奔马风线 / opera horsewhip with lifted tassels and running wind streaks
+- C5-tangma | `art_tangma_accent.png` | 1024×1024 | 透明 | 马鞭鞭穗扬起与奔马风线 / opera horsewhip with lifted tassels and running wind streaks
+- C5-tang | `art_tang_line.png` | 1024×1024 | 透明 | 一碗冒气的汤 / one bowl of steaming soup
+- C5-tang | `art_tang_accent.png` | 1024×1024 | 透明 | 一碗冒气的汤 / one bowl of steaming soup
+- C5-fan | `art_fan_line.png` | 1024×1024 | 透明 | 两只碗两双筷子对称 / two bowls and two pairs of chopsticks symmetrically arranged
+- C5-fan | `art_fan_accent.png` | 1024×1024 | 透明 | 两只碗两双筷子对称 / two bowls and two pairs of chopsticks symmetrically arranged
+- C5-xin | `art_xin_line.png` | 1024×1024 | 透明 | 红线捆着的无字旧信 / blank old folded letter tied with vermilion thread
+- C5-xin | `art_xin_accent.png` | 1024×1024 | 透明 | 红线捆着的无字旧信 / blank old folded letter tied with vermilion thread
+- C5-zhi | `art_zhi_line.png` | 1024×1024 | 透明 | 一朵剪纸花 / one paper-cut flower; black structural flower, small red central petal
+- C5-zhi | `art_zhi_accent.png` | 1024×1024 | 透明 | 一朵剪纸花 / one paper-cut flower; black structural flower, small red central petal
+- C5-home_listen | `art_home_listen_line.png` | 1024×1024 | 透明 | 小油灯旁一圈圈声音弧 / one small oil lamp and quiet sound arcs beside it
+- C5-home_listen | `art_home_listen_accent.png` | 1024×1024 | 透明 | 小油灯旁一圈圈声音弧 / one small oil lamp and quiet sound arcs beside it
+- C5-home_comp | `art_home_comp_line.png` | 1024×1024 | 透明 | 两只并排茶杯 / two side-by-side teacups
+- C5-home_comp | `art_home_comp_accent.png` | 1024×1024 | 透明 | 两只并排茶杯 / two side-by-side teacups
+- C5-home_care | `art_home_care_line.png` | 1024×1024 | 透明 | 汤碗与叠好热毛巾 / bowl of soup and folded warm towel
+- C5-home_care | `art_home_care_accent.png` | 1024×1024 | 透明 | 汤碗与叠好热毛巾 / bowl of soup and folded warm towel
+- C5-home_labor | `art_home_labor_line.png` | 1024×1024 | 透明 | 两双手一起糊一片灯纸 / TWO PAIRS of hands together pasting one sheet of lantern paper
+- C5-home_labor | `art_home_labor_accent.png` | 1024×1024 | 透明 | 两双手一起糊一片灯纸 / TWO PAIRS of hands together pasting one sheet of lantern paper
+- C4-1-1 | `paper_01.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 1. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-1-2 | `paper_02.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 2. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-1-3 | `paper_03.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 3. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-1-4 | `paper_04.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 4. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-2 | `border_stage.png` | 600×900 | 透明 | Pure black thin symmetrical Chinese meander/cloud border, one small corner flower in each corner, margin 28px; center completely TRANSPARENT. Broken-corner card frame.
+- C4-3 | `border_home.png` | 600×900 | 透明 | Very quiet thin black rectangular card border, four small minimal corner flowers, margin 28px, completely TRANSPARENT empty center.
+- C4-4 | `back.png` | 600×900 | 不透明 | Flat symmetric Chinese opera card BACK, deep vermilion background, a large circular ring of fan sectors and concentric circles like a gong, ink black gray accents, center diameter 200px empty. Three or four solid colors.

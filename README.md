@@ -56,6 +56,10 @@
 | `原型/v1.6/index.packed.html` | v1.6 單檔版：圖已內嵌，可以直接雙擊打開。由 `pack.js` 從 `index.html` 產生，不要直接改 |
 | `原型/v1.6/pack.js` | 打包：`node 原型/v1.6/pack.js` 把 `原型/assets/` 的圖內嵌，產出 `index.packed.html` |
 | `原型/v1.6/check_engine.js` | 核對 v1.6（規則同 v1.5，輸出與 v1.5 相同） |
+| `原型/v1.7/index.html` | v1.7（底色 1.7）：照 v1.6 試玩反饋改——保底擦臉整季 2 次、後台刷新（3 金一天一次）、新物件班鼓／香粉／手抄折子、新牌耍牙／甩發、事件可關、商店放在出門旁、點牌看資訊／拖曳打出、觀眾坐滿、妝匣少格看得見、最後卸妝按鈕不出畫面。說明見 `設計/美術/V17_RESULT.md` |
+| `原型/v1.7/index.packed.html` | v1.7 單檔版：圖已內嵌，雙擊就能玩。由 `pack.js` 產生，不要直接改 |
+| `原型/v1.7/pack.js` | 打包：`node 原型/v1.7/pack.js` |
+| `原型/v1.7/check_engine.js` | 核對 v1.7：保底擦臉次數、刷新、新物件新牌、燈油、妝匣少格，外加機器人難度對照（與 v1.6 接近） |
 
 ## 執行
 
@@ -75,6 +79,8 @@ node 原型/v1.4/check_engine.js
 node 原型/v1.5/check_engine.js
 node 原型/v1.6/check_engine.js
 node 原型/v1.6/pack.js         # 改過 v1.6 的 index.html 之後，重新產出雙擊用的單檔
+node 原型/v1.7/check_engine.js
+node 原型/v1.7/pack.js         # 改過 v1.7 的 index.html 之後，重新產出雙擊用的單檔
 python3 設計/說明PDF/build.py  # 需要 Google Chrome
 ```
 
@@ -93,3 +99,9 @@ python3 設計/說明PDF/build.py  # 需要 Google Chrome
 
   `index.html` 從 `原型/assets/` 讀圖。直接雙擊 `index.html`（file://）時，瀏覽器不讓程式讀圖裡的像素，整套會退回 v1.5 的程式畫法（牌不會空白，只是沒有新圖）。改完 `index.html` 記得跑一次 `node 原型/v1.6/pack.js`，單檔版才會跟上。
 - 兩種都和 v1.5 一樣從網路載 three.js 與字體。
+
+### v1.7 怎麼打開
+
+- **直接玩**：雙擊 `原型/v1.7/index.packed.html`。
+- **改程式、除錯**：同 v1.6，在專案根目錄 `python3 -m http.server 8000`，瀏覽器開 `http://localhost:8000/原型/v1.7/index.html`；改完跑 `node 原型/v1.7/pack.js`。
+- 存檔：v1.7 存在 `dise-v17`，不會蓋掉 v1.6 的存檔（`dise-v13`）；第一次打開時會把 v1.6 的存檔搬過來接著玩，保底擦臉照已擦過的晚數扣。

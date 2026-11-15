@@ -1,0 +1,44 @@
+# crowd — v2 獨立候選素材
+
+由內建 imagegen 生成，未接入遊戲；分層與尺寸為生成原圖的確定性匯出。
+
+- C2-a01 | `a01.png` | 512×640 | 透明 | 瓜皮帽中年男人 / middle-aged man in melon cap
+- C2-a02 | `a02.png` | 512×640 | 透明 | 毡帽老人 / elder wearing felt hat
+- C2-a03 | `a03.png` | 512×640 | 透明 | 斗笠挑夫 / porter wearing conical straw hat
+- C2-a04 | `a04.png` | 512×640 | 透明 | 光头小伙 / bald young man
+- C2-a05 | `a05.png` | 512×640 | 透明 | 发髻插簪妇人 / woman with hairpin bun
+- C2-a06 | `a06.png` | 512×640 | 透明 | 发髻插花少女 / girl with flower in bun
+- C2-a07 | `a07.png` | 512×640 | 透明 | 两个丫髻小孩 / child with two side buns
+- C2-a08 | `a08.png` | 512×640 | 透明 | 头巾老妇 / old woman wearing headscarf
+- C2-a09 | `a09.png` | 512×640 | 透明 | 长辫青年 / youth with long braid
+- C2-a10 | `a10.png` | 512×640 | 透明 | 摇折扇书生 / scholar holding open folding fan
+- C2-a11 | `a11.png` | 512×640 | 透明 | 抱孩子母亲，孩子从肩上探头 / mother carrying child peeking over shoulder
+- C2-a12 | `a12.png` | 512×640 | 透明 | 小孩骑父亲肩上 / child riding father shoulders
+- C2-a13 | `a13.png` | 512×640 | 透明 | 靠在一起两个人 / two people leaning together
+- C2-a14 | `a14.png` | 512×640 | 透明 | 圆眼镜先生 / gentleman with round spectacles seen in three-quarter BACK view
+- C2-a15 | `a15.png` | 512×640 | 透明 | 方巾老先生 / elder with square scholar headcloth
+- C2-a16 | `a16.png` | 512×640 | 透明 | 端茶碗的人 / person holding tea bowl
+- C2-b01-idle | `b01_idle.png` | 512×640 | 透明 | broad-shouldered man with short round cap, arms folded at chest
+- C2-b01-act | `b01_act.png` | 512×640 | 透明 | broad-shouldered man with short round cap, both arms raised high cheering
+- C2-b02-idle | `b02_idle.png` | 512×640 | 透明 | slim scholar in headcloth, hands resting on knees
+- C2-b02-act | `b02_act.png` | 512×640 | 透明 | slim scholar in headcloth, hands lifted clapping
+- C2-b03-idle | `b03_idle.png` | 512×640 | 透明 | old woman with hair bun holding handkerchief, handkerchief hanging down
+- C2-b03-act | `b03_act.png` | 512×640 | 透明 | old woman with hair bun holding handkerchief, handkerchief lifted waving
+- C2-b04-idle | `b04_idle.png` | 512×640 | 透明 | fat merchant in round cap, seated, hat on head
+- C2-b04-act | `b04_act.png` | 512×640 | 透明 | fat merchant in round cap, standing waving removed hat
+- C2-b05-idle | `b05_idle.png` | 512×640 | 透明 | man with long braid, hands down, watching
+- C2-b05-act | `b05_act.png` | 512×640 | 透明 | man with long braid, one hand waving dismissively, booing
+- C2-b06-idle | `b06_idle.png` | 512×640 | 透明 | woman with plain headscarf, hands down, watching
+- C2-b06-act | `b06_act.png` | 512×640 | 透明 | woman with plain headscarf, both hands covering ears
+- C2-b07-idle | `b07_idle.png` | 512×640 | 透明 | elder wearing felt hat, watching forward away from viewer
+- C2-b07-act | `b07_act.png` | 512×640 | 透明 | elder wearing felt hat, turning further away, shoulders twisted
+- C2-b08-idle | `b08_idle.png` | 512×640 | 透明 | young man in melon cap, one hand holding sunflower seeds at waist
+- C2-b08-act | `b08_act.png` | 512×640 | 透明 | young man in melon cap, one arm up tossing a small handful of seed shells
+- C2-c01 | `c01.png` | 512×640 | 透明 | 3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 1
+- C2-c02 | `c02.png` | 512×640 | 透明 | 2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 2
+- C2-c03 | `c03.png` | 512×640 | 透明 | 3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 3
+- C2-c04 | `c04.png` | 512×640 | 透明 | 2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 4
+- C2-c05 | `c05.png` | 512×640 | 透明 | 3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 5
+- C2-c06 | `c06.png` | 512×640 | 透明 | 2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 6
+- C2-c07 | `c07.png` | 512×640 | 透明 | 3 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 7
+- C2-c08 | `c08.png` | 512×640 | 透明 | 2 linked distant spectators, simple varied heads and shoulders, different hats/buns, grouping variation 8
