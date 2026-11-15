@@ -1,0 +1,586 @@
+{
+  "asset_png_count": 28,
+  "files": [
+    {
+      "file": "draft/actor_a.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        240,
+        15,
+        779,
+        1009
+      ],
+      "sha256": "c2b88bffdb69d24096012e292bd66095d5492e19cc583fb07c1d9f25c8eb0bc0"
+    },
+    {
+      "file": "draft/actor_b.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        190,
+        8,
+        830,
+        1015
+      ],
+      "sha256": "e162c5cac35744fc541775efe071cd6192dffd1f1df7729c83d19d7f9e58876b"
+    },
+    {
+      "file": "draft/actor_c.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        267,
+        7,
+        727,
+        1019
+      ],
+      "sha256": "842b82f4ef07a135e7507787f2b653fedb1b3f757e2eafff6452a3c71475d979"
+    },
+    {
+      "file": "draft/atan_a.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        212,
+        23,
+        793,
+        1001
+      ],
+      "sha256": "1620cf823905ed8f9b412a0f5ed173a14230866d33abcce0c3bf463498321c4d"
+    },
+    {
+      "file": "draft/atan_b.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        216,
+        20,
+        794,
+        1008
+      ],
+      "sha256": "5254e11eb405d1ec6ff17187897d492a3f45eaacffa8b34e45b6c79d827a8c46"
+    },
+    {
+      "file": "draft/atan_c.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        214,
+        22,
+        802,
+        1001
+      ],
+      "sha256": "61902f0db2a6e3f7b0f249596068388020591de7a9d8e390b3dc45ea51dd7e01"
+    },
+    {
+      "file": "draft/mirror_a.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        215,
+        36,
+        805,
+        992
+      ],
+      "sha256": "7a8ed7e77b09539ff93ec37bb767195c428bc7378cfe6945dcac1af9dbfd23aa"
+    },
+    {
+      "file": "draft/mirror_b.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B",
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        225,
+        49,
+        798,
+        986
+      ],
+      "sha256": "8c05be6d7b83b5b249daaacb0da18c99aaed06d8be236ed9bce20a0f0ef37a35"
+    },
+    {
+      "file": "draft/mirror_c.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B",
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        234,
+        44,
+        781,
+        990
+      ],
+      "sha256": "64013178a1856a27a23ef8345b69017903fdaca68cd029fc1b1a6edecf181bfb"
+    },
+    {
+      "file": "atan/lowered_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        427,
+        85,
+        665,
+        671
+      ],
+      "sha256": "29ec17d838f172ac775721690a422fbd491df2348d5e95f496e835229d3b1650"
+    },
+    {
+      "file": "atan/lowered_line.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        212,
+        38,
+        793,
+        1000
+      ],
+      "sha256": "e81e05cb1115b4d745628cb23184af3982684d2aef0b503058f05259b7f0bd0c"
+    },
+    {
+      "file": "atan/reach_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        474,
+        47,
+        624,
+        476
+      ],
+      "sha256": "193c1f514ef47d41cb33d00d46e5a333bc3bd16094730840ba5dcb28269bd03c"
+    },
+    {
+      "file": "atan/reach_line.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        218,
+        12,
+        703,
+        1017
+      ],
+      "sha256": "f90334813dd0c242bb909d04d5b80cec0adc10527a89d46b1ad57deb0fa7685d"
+    },
+    {
+      "file": "atan/seated_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        427,
+        71,
+        656,
+        672
+      ],
+      "sha256": "b9d01cc26196e3df37935fbcd79409deb1ba8fd0101c8d4abfebb34193b89ce0"
+    },
+    {
+      "file": "atan/seated_line.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        212,
+        23,
+        793,
+        1001
+      ],
+      "sha256": "346fa02e389ad261ae8bef55604fe9277b32ca20ac9db87315febda3a95476d1"
+    },
+    {
+      "file": "actor/pose_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        394,
+        30,
+        710,
+        1007
+      ],
+      "sha256": "1c2b99d5f9591800d2e775acf6c8ad3e776fdfb6fd6ff31d6a54fbeef966e84b"
+    },
+    {
+      "file": "actor/pose_line.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        22,
+        19,
+        995,
+        1015
+      ],
+      "sha256": "8a9807d1b02e28ecb9d27ff96d950434be3950b3f633acdfc25897a250809818"
+    },
+    {
+      "file": "actor/standing_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        395,
+        18,
+        713,
+        1007
+      ],
+      "sha256": "9c0af5b2d1af3735a54b58762bb6fb406f547b845125e00ab54b607c812beaed"
+    },
+    {
+      "file": "actor/standing_line.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        190,
+        8,
+        830,
+        1015
+      ],
+      "sha256": "6112428a7772571469d852988820f85642dff50d115c1560b0353927828af869"
+    },
+    {
+      "file": "mirror/base.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        233,
+        44,
+        782,
+        991
+      ],
+      "sha256": "a0309f73d13c6e820a0d2cf54e579233312ddf123982db8f0c6e2676493a1462"
+    },
+    {
+      "file": "mirror/clean.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        233,
+        44,
+        782,
+        991
+      ],
+      "sha256": "a0309f73d13c6e820a0d2cf54e579233312ddf123982db8f0c6e2676493a1462"
+    },
+    {
+      "file": "mirror/clean_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [],
+      "alpha_values": [
+        0
+      ],
+      "bbox": null,
+      "sha256": "265149d454822c2c808720c61f5a4317c0bfda56fc96598ea7b19b6ea52c5dd1"
+    },
+    {
+      "file": "mirror/face_line.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        233,
+        44,
+        782,
+        991
+      ],
+      "sha256": "6a3c0032ff8c5330552aa05e5cea0d5a98cf689d49c8fa17e381e17284bef3fc"
+    },
+    {
+      "file": "mirror/face_paper.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        256,
+        123,
+        756,
+        979
+      ],
+      "sha256": "2d682e2658cb5bf1e647267369886d52422d13a90aabb9f99c76ee48a0dd6771"
+    },
+    {
+      "file": "mirror/half.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B",
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        233,
+        44,
+        782,
+        991
+      ],
+      "sha256": "e5e19c3d99a0731865aeb025c3d0c3c7ca7c623cf1b330faf726ee1f71552482"
+    },
+    {
+      "file": "mirror/half_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        506,
+        518,
+        690,
+        779
+      ],
+      "sha256": "3b18fcb947f05654a448af5d55da67d6dae18e5c01af0479f55027489691a73f"
+    },
+    {
+      "file": "mirror/painted.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#000000",
+        "#A8202B",
+        "#ECE3D4"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        233,
+        44,
+        782,
+        991
+      ],
+      "sha256": "160802b23ffb3837e272cd2a72dea6648328fc997b2f235c1a0913ad4661acd7"
+    },
+    {
+      "file": "mirror/painted_accent.png",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "colors": [
+        "#A8202B"
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "bbox": [
+        319,
+        509,
+        690,
+        779
+      ],
+      "sha256": "0bd0e8ca8e7f922a655e1060c0a02137410bcea7fc78eeeb79027dd7b92e526f"
+    }
+  ],
+  "issues": [],
+  "mirror_registration": {
+    "same_alpha_all_states": true,
+    "same_nonpaint_pixels": true,
+    "half_subset_full": true,
+    "clean_equals_base": true,
+    "painted_red_pixels": 16333,
+    "half_red_pixels": 5024
+  },
+  "protected_files_count": 258,
+  "protected_changes": [],
+  "proof_count": 13
+}

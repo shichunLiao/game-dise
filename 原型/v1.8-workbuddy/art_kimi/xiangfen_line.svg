@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>香粉：粉盒、粉撲與花香</title>
+  <defs>
+    <mask id="powder-carve" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="white"/>
+      <g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="442" cy="438" rx="206" ry="106" stroke-width="20"/>
+        <path d="M278 604 Q442 690 606 604 M300 656 Q442 722 584 656" stroke-width="18"/>
+        <path d="M368 528 Q442 566 516 528" stroke-width="15"/>
+        <path d="M644 570 Q706 520 768 570 Q706 636 644 570 Z" stroke-width="17"/>
+        <path d="M664 622 L626 714 M746 622 L784 714" stroke-width="15"/>
+      </g>
+    </mask>
+  </defs>
+  <circle cx="512" cy="512" r="438" fill="none" stroke="#000" stroke-width="18"/>
+  <g fill="#000" mask="url(#powder-carve)">
+    <path d="M232 424 C232 304 324 232 442 232 C560 232 652 304 652 424 L628 472 C606 530 532 558 442 558 C352 558 278 530 256 472 Z"/>
+    <path d="M242 538 C242 482 330 452 442 452 C554 452 642 482 642 538 L616 654 C600 728 530 760 442 760 C354 760 284 728 268 654 Z"/>
+    <path d="M624 566 C646 506 724 486 778 530 C834 576 820 650 758 682 C690 718 610 658 624 566 Z"/>
+  </g>
+  <g fill="none" stroke="#000" stroke-linecap="round">
+    <path d="M656 336 C720 302 720 238 674 224 C630 210 610 254 646 274 C698 304 790 266 806 196" stroke-width="20"/>
+    <path d="M704 418 C790 402 836 348 812 302" stroke-width="17"/>
+    <path d="M366 168 C322 130 350 92 392 122 C420 80 466 104 450 150 C492 166 472 208 430 194 C408 234 364 216 374 178" stroke-width="16"/>
+  </g>
+  <g fill="#000">
+    <path d="M662 698 L800 698 L824 738 L640 738 Z"/>
+    <circle cx="298" cy="188" r="15"/>
+    <circle cx="792" cy="150" r="13"/>
+    <circle cx="846" cy="242" r="11"/>
+  </g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>手抄折子：折頁戲本與書籤</title>
+  <defs>
+    <mask id="book-carve" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="white"/>
+      <g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M242 282 L384 330 L512 268 L650 330 L790 282 L790 706 L650 754 L512 692 L384 754 L242 706 Z" stroke-width="20"/>
+        <path d="M384 330 L384 754 M512 268 L512 692 M650 330 L650 754" stroke-width="18"/>
+        <path d="M282 376 L344 396 M282 432 L344 452 M282 488 L344 508 M282 544 L344 564 M282 600 L344 620" stroke-width="14"/>
+        <path d="M424 386 L474 362 M424 442 L474 418 M424 498 L474 474 M424 554 L474 530 M424 610 L474 586" stroke-width="14"/>
+        <path d="M552 362 L610 390 M552 418 L610 446 M552 474 L610 502 M552 530 L610 558 M552 586 L610 614" stroke-width="14"/>
+        <path d="M690 396 L750 374 M690 452 L750 430 M690 508 L750 486 M690 564 L750 542 M690 620 L750 598" stroke-width="14"/>
+      </g>
+    </mask>
+  </defs>
+  <circle cx="512" cy="512" r="438" fill="none" stroke="#000" stroke-width="18"/>
+  <path d="M214 234 L382 288 L512 220 L652 288 L818 234 L818 738 L652 802 L512 730 L382 802 L214 738 Z" fill="#000" mask="url(#book-carve)"/>
+  <g fill="#000">
+    <path d="M184 216 L230 234 L230 752 L184 734 Z"/>
+    <path d="M802 234 L844 216 L844 734 L802 752 Z"/>
+    <path d="M480 194 L512 174 L544 194 L544 784 L512 840 L480 784 Z"/>
+    <path d="M290 778 L366 812 L342 864 L266 830 Z"/>
+    <path d="M660 812 L736 778 L760 830 L684 864 Z"/>
+  </g>
+  <g fill="none" stroke="#000" stroke-linecap="round">
+    <path d="M178 302 Q126 360 164 420 M846 302 Q898 360 860 420" stroke-width="18"/>
+    <path d="M168 470 Q128 522 164 570 M856 470 Q896 522 860 570" stroke-width="16"/>
+  </g>
+</svg>

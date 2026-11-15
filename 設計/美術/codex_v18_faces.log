@@ -1,0 +1,3012 @@
+Reading additional input from stdin...
+OpenAI Codex v0.167.0
+--------
+workdir: /Users/tsun/Projects/game-dise
+model: gpt-6.1-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a1defc-3cba-7483-b0d3-54de2db25905
+--------
+user
+請完整閱讀並執行 設計/美術/V18_FACES_CODEX_BRIEF.md 的任務。
+codex
+我會先完整閱讀任務說明與專案規範，再依照要求完成修改和驗證。
+exec
+/bin/zsh -lc "pwd; rg --files -g 'AGENTS.md' -g 'V18_FACES_CODEX_BRIEF.md' -g 'package.json'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+/Users/tsun/Projects/game-dise
+設計/美術/V18_FACES_CODEX_BRIEF.md
+
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+exec
+/bin/zsh -lc 'cat 設計/美術/V18_FACES_CODEX_BRIEF.md' in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+# 《底色·戲城》三張臉美術任務（給 Codex · gpt-6.1-sol，reasoning medium）
+
+工作目錄：/Users/tsun/Projects/game-dise
+
+## 目標
+為三個至今仍是程式畫法的角色生成美術：
+1. **阿檀**：對面的妻子（3D 人物，有坐、起身伸手 reach 等姿勢）
+2. **台上的你**：戲台上的旦角主角（3D 人物）
+3. **鏡中的臉**：門口／卸妝鏡裡的臉，需能表現「上妝 → 半卸 → 卸淨（底色）」的層次
+
+先交圖與對比，**這次不接進遊戲**，由士淳看過再決定。
+
+## 最高原則：絕對不能偏離現有美術風格
+- 現有 162 張圖（`原型/assets_codex_20261110/`）就是標準。開工前先通看 cards、crowd、deco、night、ui，以及 `原型截圖/`、`設計/美術/codex_生圖需求_v2.md`、`設計/美術/CODEX_ART_RESULT.md` 裡定下的風格前綴、反向詞、色板、選定小樣。**沿用同一套前綴、反向詞與色板**，不要自創新風格。
+- 風格：平面木刻／中國剪紙，「畫在紙上的平面圖形，擺進 3D 桌面」（《邪惡冥刻》式）。不畫光影、不畫投影、沒有漸變、沒有透視、不要寫實、不要動漫／3D 渲染感。
+- 色板只用現有圖用過的顏色（墨黑、朱紅、赭金、紙白等，以現有檔案取色為準）。
+- 線條粗細、鏤空窗花細節、紙邊處理要和剪紙觀眾、同門木刻像一致。
+- 畫面不要任何文字、字母、數字、簽名、浮水印。
+- 參考 `設計/旦角模型_第一版标注.png`、`設計/旦角模型_第二版细修说明.md` 裡的旦角造型；阿檀與鏡中臉的設定以設計文件（v0.3、v0.6、v1.x）描述為準。
+- 生成器若往寫實跑：先出純黑剪影，再改成木刻線稿塊面平塗；不合格的不留在正式目錄。
+
+## 交付
+放到 `原型/assets_codex_faces_20261115/`：
+- `draft/`：每個角色先出 3 版風格小樣，自選一版（寫明理由：哪裡和現有圖一致）。
+- 正式：
+  - `atan/`：正面坐姿、起身伸手、低頭（共 3 張；透明底 PNG，分 `_line` / `_accent` 兩層，與卡面規格一致）
+  - `actor/`：台上旦角站姿、亮相（2 張，同上兩層）
+  - `mirror/`：鏡中臉 上妝／半卸／卸淨 3 張（同一張臉、同一構圖，可逐張疊換）
+- `對比/`：每張新圖並排放在現有畫面（貼到 `原型截圖/` 對應畫面或 `原型/assets_compare/before/`）旁，外加一張「新圖 vs 現有 162 張抽樣」的風格一致性總覽。
+- 進度與結果：`設計/美術/V18_FACES_PROGRESS.md`、`設計/美術/V18_FACES_RESULT.md`（列出每張檔案、用了哪個前綴、自查結果）。
+
+## 自查（每張都過）
+1. 放大：有沒有漸變、明暗、寫實紋理 → 有就重做。
+2. 縮小：縮到 90px 高還認得出人和表情。
+3. 色調：取色比對現有色板，超出就重做。
+4. 並排：和剪紙觀眾、同門木刻像擺在一起看不出是不同批次。
+
+## 硬性約束
+- 不 commit、不 push。
+- 不改任何 `原型/v*/` 遊戲程式，不覆蓋 `原型/assets_codex_20261110/` 與 `原型/assets_compare/before/`。
+- 不動 game-Loop-Town，不打擾本機其他 Codex／Claude 會話。
+- 中途不要停下來等人挑，做完全部再交結果。
+
+exec
+/bin/zsh -lc 'ls -la; for p in /Users/AGENTS.md /Users/tsun/AGENTS.md /Users/tsun/Projects/AGENTS.md; do if [ -f "$p" ]; then cat "$p"; fi; done' in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+total 120
+drwxr-xr-x@ 13 tsun  staff    416 Nov 13 03:05 .
+drwxr-xr-x@  9 tsun  staff    288 Nov 15 13:02 ..
+-rw-r--r--@  1 tsun  staff  12292 Nov 15 19:14 .DS_Store
+drwxr-xr-x@  3 tsun  staff     96 Nov  8 19:03 .claude
+drwxr-xr-x@ 15 tsun  staff    480 Nov 15 18:39 .git
+-rw-r--r--@  1 tsun  staff    179 Nov 15 11:26 .gitignore
+-rw-r--r--@  1 tsun  staff    721 Nov  8 19:05 CLAUDE.md
+-rw-r--r--@  1 tsun  staff  13031 Nov 14 03:01 README.md
+drwxr-xr-x@  4 tsun  staff    128 Nov 11 15:26 tools
+-rw-r--r--@  1 tsun  staff  16819 Nov  8 19:03 作品集.md
+drwxr-xr-x@ 24 tsun  staff    768 Nov 15 19:33 原型
+drwxr-xr-x@  7 tsun  staff    224 Nov 11 00:28 原型截圖
+drwxr-xr-x@ 23 tsun  staff    736 Nov 13 03:12 設計
+
+exec
+/bin/zsh -lc 'cat /Users/tsun/.codex/skills/.system/imagegen/SKILL.md; cat CLAUDE.md; cat 設計/美術/codex_生圖需求_v2.md; cat 設計/美術/CODEX_ART_RESULT.md; cat 設計/旦角模型_第二版细修说明.md' in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Ask built-in `image_gen` for a genuinely transparent background and preserve its alpha.
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Ask built-in `image_gen` for actual transparency.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, ask built-in `image_gen` for actual transparency and preserve its alpha.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the user confirms a different model.
+- CLI `gpt-image-2` does not support `background=transparent`; ask before using `gpt-image-1.5` unless the user explicitly requested that model.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Optional for image inspection and downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Use only when the user explicitly chooses or confirms CLI mode.
+# 底色（game-dise）
+
+## 專案放哪裡
+
+- 工作副本放在 `~/Projects/game-dise`，GitHub 上的 repo 是正本。
+- 不要把這個 repo 放進 iCloud Drive。iCloud 會把 `.git` 裡的檔案移到雲端，git 會逾時或損壞。
+- Blender 原始檔、QA 截圖這類製作過程的素材放 iCloud，不進 repo。會進遊戲的成品才放進 repo。
+- 單檔不要超過 100 MB（GitHub 上限）。
+
+## 同步規則
+
+git 操作由 Claude 處理，不需要使用者自己下指令。
+
+- 開工前先執行 `git pull --ff-only`。
+- 改完並確認能跑之後，commit 並 push 到 GitHub。
+- pull 失敗或遠端有分歧時，先停下來用白話說明，不要 force push，也不要覆蓋遠端。
+# 《底色·戏城》生图需求 v2（给 Codex · gpt-6.1sol）
+
+> 你负责：卡面插图、卡纸质感、剪纸观众、装饰纸片、物件图标、界面小件、特效、夜景剪纸、同门木刻像草稿。
+> **不归你画**：阿檀、台上的主角、镜中的脸、结局牌、标题画——这些是插画师手绘。
+> **不要再画**：桌面、墙、地板、幕布、戏台、灯、木匣、镜框这些场景和道具的写实贴图。原型里的 3D 场景保留不动。
+> 总体规划见 `美術規劃.md`，打勾清单见 `美術任務清單.md`。
+
+## 〇、先看：上一轮哪里不对
+
+上一轮出的图**太写实**：像照片、有真实光影和材质，放进原型就跳出来。这一轮的目标完全不同：
+
+> **画在纸上的平面图形，摆进一个 3D 的桌面里。** 像《邪恶冥刻》的卡牌：3D 负责空间和光，卡面和纸片上的内容是平面的、画出来的。
+
+开工前先打开这几张，**新图要能放进这个画面里不违和**：
+
+| 文件 | 看什么 |
+|---|---|
+| `原型截圖/原型_卡面一覽.png` | 现在的卡牌版式：族徽、牌名、金、关键词、「接 →」、背面横条都由代码写。你的插图要放进牌名和「接」之间那块 |
+| `原型截圖/原型_觀眾剪紙.png` | 现在的观众：纯黑剪影、朱红纸边、小窗花镂空。这个做法保留，你要做的是让形状更丰富 |
+| `原型截圖/原型_戲台.png`、`原型_傍晚灯坊.png`、`原型_早上装匣.png` | 整体明暗与色调：暗、暖、朱红点题（截图的光比真机略暗） |
+
+## 一、风格
+
+### 1. 风格前缀（每条提示词前都加）
+
+> 平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。
+>
+> flat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.
+
+### 2. 反向词（每条都加）
+
+> 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。
+>
+> negative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.
+
+**生成器总往写实跑时**：先要一张「纯黑单色剪影」，再要求「把这张剪影改成木刻线稿，块面平涂」；或者加一句「像一枚印章／一张剪纸」。
+
+### 3. 颜色
+
+色板：墨黑 `#120E11`、宣纸白 `#ECE3D4`、朱红 `#A8202B`、赭金 `#B8913F`、土褐 `#8F6338`、灰墨 `#8D8487`。
+四族颜色固定：唱＝朱红、念＝墨黑、做＝土褐、打＝赭金。
+
+### 4. 分层交图（重要）
+
+卡面插图、物件图标都**拆两层交**，同一画布、同一位置：
+
+- `_line.png`：**纯黑**（`#000`）线稿和块面，透明底。代码会把它染成卡面需要的颜色（红底牌上染成米白，金底牌上染成墨黑）。
+- `_accent.png`：只有**朱红**的点题块面（唇、花、一点火光），透明底；没有就不交。
+
+这样同一张插图放在四种底色的牌上都对，也绝不会出现写实的明暗。
+
+## 二、风格锁定小样（先做，过了再往下）
+
+每项出 3 版，放进 `draft/`。我会把它们贴进原型截图里给插画师挑。**这 5 项没定稿，后面不开工。**
+
+| 编号 | 文件名 | 内容 | 过关的样子 |
+|---|---|---|---|
+| S1 | `draft/s1_changqiang_a.png`（b、c） | 卡面插图「长腔」，按第三节的格式分两层 | 贴进红底牌后像印上去的木刻；缩到 90px 高还认得出 |
+| S2 | `draft/s2_listen_a.png`（b、c） | 家里面插图「倾听」，分两层 | 贴进米白牌后安静、留白多 |
+| S3 | `draft/s3_crowd_a.png`（b、c） | 一张图里 6 个观众剪影并排（不同的人） | 和 `原型_觀眾剪紙.png` 一个路子，但形状更有意思 |
+| S4 | `draft/s4_chuanghua_a.png`（b、c） | 一张朱红窗花剪纸 | 纯色、镂空清楚 |
+| S5 | `draft/s5_back_a.png`（b、c） | 牌背 | 平面对称构成，三四个颜色 |
+
+## 三、卡面插图（C5）· 31 张
+
+**格式**：每张 1024×1024，透明底，主体居中，整体轮廓大致塞进直径 900 的圆里；`_line` 与 `_accent` 两层。
+**怎么画**：一个主体，木刻刻线或白描线，块面分明；可以对称；**不画背景**。
+**放哪**：牌名下面、「接 →」上面那一块（台上面约 240×110，家里面约 240×180，代码按高度缩放）。
+
+| 文件名前缀 | 牌 | 主体 |
+|---|---|---|
+| `cards/art_changqiang` | 唱·长腔 | 一把半开的折扇，扇后三道悠长的弧线 |
+| `cards/art_liangsang` | 唱·亮嗓 | 一把全开的折扇，扇面外一圈圈同心弧 |
+| `cards/art_bai` | 念·白 | 一块醒木压着一卷半展开的戏本（纸上不要字） |
+| `cards/art_kuaiban` | 念·快板 | 一副交叠的竹板，几道短促的节奏线 |
+| `cards/art_shenduan` | 做·身段 | 一个旦角背影，衣袖甩成一道弧 |
+| `cards/art_shuixiu` | 做·水袖 | 两条交缠翻飞的水袖，对称 |
+| `cards/art_liangxiang` | 打·亮相 | 两根交叉的雉鸡翎 |
+| `cards/art_fanshen` | 打·翻身 | 一个翻身的武生剪影，衣摆旋成一个圆 |
+| `cards/art_jie_kutou` | 借·哭头 | 一只掩面的水袖，袖口一滴泪 |
+| `cards/art_jie_guankou` | 借·贯口 | 一串连绵的墨点与笔锋（不成字） |
+| `cards/art_jie_dadao` | 借·大刀 | 一柄竖立的青龙偃月刀 |
+| `cards/art_manban` | 后台·慢板（重彩） | 一炷香的烟，绕着一只缓缓垂下的长袖 |
+| `cards/art_tazhuan` | 后台·踏转（重彩） | 一双厚底靴，脚下旋起的衣摆 |
+| `cards/art_qiba` | 后台·起霸（重彩） | 武将背后的四面靠旗，扇形展开 |
+| `cards/art_daoban` | 后台·导板（百搭） | 一面小鼓和一面锣，左右对称 |
+| `cards/art_shuban` | 后台·数板（百搭） | 一束展开的竹简（简上不要字） |
+| `cards/art_jijifeng` | 后台·急急风（百搭） | 一对交叉的鼓槌，几道疾风线 |
+| `cards/art_yunbai` | 后台·韵白（压轴） | 一轮圆月，前面一把收拢的扇 |
+| `cards/art_woyu` | 后台·卧鱼（压轴） | 一个后仰卧倒的旦角剪影，身边一朵牡丹 |
+| `cards/art_qingchang` | 后台·清唱（素） | 一盏清茶，茶面上一缕气息，四周空着 |
+| `cards/art_dingchang` | 后台·定场诗（素） | 一块醒木压着一张素笺（笺上不要字） |
+| `cards/art_tuoqiang` | 后台·托腔（托） | 一把京胡的琴弓，托着一道上扬的长弧 |
+| `cards/art_tangma` | 后台·趟马（托） | 一根马鞭，鞭穗扬起，几道奔马的风线 |
+| `cards/art_tang` | 家常·热汤 | 一碗冒热气的汤 |
+| `cards/art_fan` | 家常·同桌 | 两只碗、两双筷子，对称 |
+| `cards/art_xin` | 家常·旧信 | 一封用红线扎着的旧信（信上不要字） |
+| `cards/art_zhi` | 家常·剪纸 | 一朵朱红剪纸花 |
+| `cards/art_home_listen` | 家里面·倾听 | 一盏小油灯，灯旁一圈圈声音的弧 |
+| `cards/art_home_comp` | 家里面·陪伴 | 两只并排的茶杯 |
+| `cards/art_home_care` | 家里面·照顾 | 一碗汤和一条叠好的热毛巾 |
+| `cards/art_home_labor` | 家里面·共劳 | 两双手一起糊一片灯纸 |
+
+插画师交了八枚纹章（唱、念、做、打；倾听、陪伴、照顾、共劳）以后，**同族的插图要用纹章里的线条习惯**（线的粗细、转角、留白），看起来是一套。
+
+**验收**：31 张线的粗细、块面大小一致；染成米白放在红底上、染成墨黑放在金底上都清楚；没有一张有明暗渐变。
+
+## 四、卡纸质感（C4）
+
+| 编号 | 文件名 | 尺寸 | 透明 | 内容 | 验收 |
+|---|---|---|---|---|---|
+| C4-1 | `cards/paper_01.png` … `_04.png` | 600×900 | 否 | 卡纸纹理，**灰度**：细纤维、四角轻微磨圆起毛、一两处很淡的折痕或水渍。整体是 50% 中灰，起伏很小（代码用「叠加」盖在卡面上） | 盖上去卡面颜色几乎不变，只多了纸感 |
+| C4-2 | `cards/border_stage.png` | 600×900 | 是 | 台上面的边框纹样：**纯黑**细线，对称的回纹或云纹，沿四边一圈，四角各一个小角花；中间全空 | 和现在原型的缺角边框位置一致（边距约 28px） |
+| C4-3 | `cards/border_home.png` | 600×900 | 是 | 家里面的边框：比 C4-2 简单，一道细线加四个小角花 | 安静 |
+| C4-4 | `cards/back.png` | 600×900 | 否 | 牌背：平面对称构成，深朱红底，中间一个大圆环（扇形格、同心圆，像一面锣或一枚团花），墨黑与灰点缀；中心直径约 200px 留空 | 和 S5 定稿一致 |
+
+## 五、剪纸观众（C2）· 40 张
+
+**格式**：每张 512×640，透明底；**纯黑 `#0B0809`** 剪影，**不要画红边**（代码加）；底边水平切齐；身上留 1–3 处**镂空**（窗花、衣纹、扇骨），镂空是透明的。头和肩为主，可以带一只手或道具；背对或四分之三背对我们。
+**提示词**：〈风格前缀〉一张中国剪纸观众剪影，纯黑色，背对观者，头和肩，身上镂空几处窗花，透明背景：〈人物〉。
+
+| 组 | 编号 | 人物 |
+|---|---|---|
+| 前排（坐着看戏） | `crowd/a01` … `a16` | 瓜皮帽中年男人；毡帽老人；斗笠挑夫；光头小伙；发髻插簪妇人；发髻插花少女；两个丫髻的小孩；头巾老妇；长辫青年；摇折扇的书生；抱孩子的母亲（孩子从肩上探头）；骑在父亲肩上的小孩；靠在一起的两个人；戴圆眼镜的先生；方巾老先生；端茶碗的人 |
+| 动作对（同一个人两张：平常／反应） | `crowd/b01_idle`、`b01_act` … `b08` | 叫好：抱胸 → 双手举高；鼓掌：手放膝上 → 举手拍；挥帕子的老太太：帕子垂着 → 帕子甩起；胖商人：坐着 → 站起来挥帽子。倒彩：摆手嘘；捂耳朵；扭头背过身；扬手扔出一把瓜子壳 |
+| 后排（远处小影） | `crowd/c01` … `c08` | 两三个人连在一起的一片头和肩，轮廓简单，镂空少 |
+
+**验收**：40 张轮廓一眼能分；没有灰阶；动作对的两张底边、大小、位置一致（叠起来只有动作在变）。
+
+## 六、装饰纸片（D）
+
+贴在原型已有的 3D 物件上，给场景加细节，**不改场景结构**。
+
+| 编号 | 文件名 | 尺寸 | 透明 | 内容 | 贴在哪 |
+|---|---|---|---|---|---|
+| D1 | `deco/shoujiu.png` | 1536×1024 | 否 | 戏台后面的「守旧」背幕：朱红底，正中一团对称的团花或双凤（抽象成几何），四边回纹；平面、只用三四个颜色 | 小戏台的后墙 |
+| D2 | `deco/carpet.png` | 1024×1024 | 否 | 台毯纹样：暗朱红底，低对比的团花与回纹，**能无缝平铺** | 戏台台面 |
+| D3 | `deco/chuanghua_01.png` … `_04.png` | 512×512 | 是 | 朱红窗花剪纸，纯色，镂空清楚：如意、蝙蝠、牡丹、灯笼各一 | 灯坊的窗、后台墙 |
+| D4 | `deco/lianpu_01.png` … `_04.png` | 512×640 | 是 | 脸谱剪纸：单色（朱红或墨黑）的抽象脸谱，**不照抄任何真实谱式** | 后台墙上 |
+| D5 | `deco/lampaper.png` | 256×256 | 是 | 灯纸纹样：极淡的墨线小团花，能平铺 | 灯坊那盏灯的每片纸 |
+| D6 | `deco/chest_lid.png` | 512×512 | 是 | 一个对称的单色线描纹样（如意云头） | 木匣盖子 |
+
+## 七、物件图标（C6）· 7 张
+
+1024×1024，透明底，`_line` + `_accent` 两层；一个物件，外面一圈细圆环（也在 `_line` 里）。木刻刻线，块面分明。
+
+| 文件名前缀 | 物件 |
+|---|---|
+| `relics/qinshi` | 琴师：一把京胡 |
+| `relics/gujing` | 锣鼓经：一面小锣、一面单皮鼓 |
+| `relics/cha` | 护嗓茶：一把茶壶、一只小茶盅，一缕热气 |
+| `relics/lian` | 妆奁：一个带小抽屉的妆奁 |
+| `relics/jin` | 熟手巾：一条卷起来的毛巾 |
+| `relics/you` | 灯油：一只小油罐，一截灯芯 |
+| `relics/luo` | 小锣：一面小手锣和锣槌 |
+
+## 八、界面小件（C7）
+
+全部透明底、平面、纯色。
+
+| 编号 | 文件名 | 尺寸 | 内容 |
+|---|---|---|---|
+| C7-1 | `ui/paper_light.png`、`ui/paper_dark.png` | 1024×1024 | 宣纸面板（米白）和深色纸面板（近墨黑），毛边，纤维极淡；四边各留 96px 做九宫格 |
+| C7-2 | `ui/seal_square.png`、`ui/seal_round.png` | 512×512 | 空白朱红印章底，边缘有石刻的崩口；**印面不要字** |
+| C7-3 | `ui/look_wait.png`、`look_tired.png`、`look_busy.png`、`look_talk.png` | 256×256 | 她的四种样子，单色木刻小图标：两副碗筷；托腮闭眼的侧脸；灯笼骨架；微张的嘴和一缕气 |
+| C7-4 | `ui/wick_on.png`、`ui/wick_out.png` | 128×128 | 一截灯芯：亮的顶上一点朱红小火；熄的芯头焦黑、一丝烟 |
+| C7-5 | `ui/scar_mark.png` | 64×192 | 一道斜的墨色划痕，起笔重、尾巴飞白 |
+| C7-6 | `ui/brush_underline.png` | 1024×64 | 一道朱红毛笔横划 |
+
+## 九、特效（C8）
+
+每张 1024×1024，4×4 格，每格 256×256 一个，透明底，纯色无渐变。
+
+| 文件名 | 内容 |
+|---|---|
+| `fx/paper_flakes.png` | 16 片朱红和米白的小纸屑，有的卷曲 |
+| `fx/gold_leaf.png` | 16 片赭金箔碎片（平涂，用一道深色线表示褶） |
+| `fx/ink_drops.png` | 16 个墨点、甩墨、溅墨 |
+| `fx/paper_burnt.png` | 16 片烧焦卷边的朱红灯纸碎片（焦边用墨黑平涂） |
+| `fx/ribbon.png` | 单独一张 2048×128：一条横向飘的朱红彩绸，两端收细 |
+
+## 十、夜景剪纸（C9）
+
+更夫报更那一屏。**分层剪纸**，代码叠起来做视差：每层 2560×720，透明底，纯色。
+
+| 文件名 | 内容 |
+|---|---|
+| `night/layer_1_far.png` | 最远：灰墨色的远山和城墙，轮廓平缓 |
+| `night/layer_2_roofs.png` | 中间：墨黑的屋脊、檐角、一座小戏楼的轮廓 |
+| `night/layer_3_near.png` | 最近：墨黑的屋檐和一串小灯笼（灯笼朱红） |
+| `night/moon.png` | 512×512：一轮米白圆月，剪纸边 |
+
+画面中间要留大片空（游戏会在中间竖排写字）。
+
+## 十一、同门木刻像草稿（C10，插画师会修）
+
+6 张 600×900，**黑底白刻线**的木刻半身像，像一张人物卡；刻线粗、块面分明，不画背景。放 `draft/`。
+
+| 文件名 | 人物 |
+|---|---|
+| `draft/rival_wei.png` | 魏老板：班主，五十多岁，富态，长衫，手里一串念珠 |
+| `draft/rival_jinbao.png` | 金宝：武生，二十多岁，浓眉，练功服，意气风发 |
+| `draft/rival_yuexian.png` | 月仙：青衣，二十多岁，清冷，发髻一根素簪 |
+| `draft/rival_yulou.png` | 玉楼：丑角，三十多岁，圆脸，笑眯眯 |
+| `draft/rival_xiaofeng.png` | 小凤：花旦，十八九岁，病后清瘦，裹着披肩 |
+| `draft/sun_shifu.png` | 孙师父：老琴师，七十岁，瘦，灰白胡子，怀里抱着京胡 |
+
+## 十二、交付与自查
+
+1. 输出放到仓库 `原型/assets/` 下对应子目录；每个子目录一个 `README.md`，一行一张：编号、文件名、尺寸、透明与否、一句说明。
+2. **自查三步**，每张都过：
+   - 放大看：有没有渐变、明暗、写实纹理？有就重做。
+   - 缩小看：卡面插图缩到 90px 高、观众缩到 60px 高，还认得出吗？
+   - 放进去看：贴到 `原型截圖/` 里对应的原型截图上，色调和周围一致吗？
+3. 拿不准的（构图、某个东西的样子），先出两三个小样放进 `draft/`，等确认。
+
+**合计**：小样 15（5 项各 3 版）、卡面插图 31（×2 层）、卡纸 7、观众 40、装饰纸片 12、物件 7（×2 层）、界面 12、特效 5、夜景 4、同门草稿 6。
+# 《底色·戲城》v2 生圖結果
+
+時間：2026-11-11T01:59:02.192990+08:00（Asia/Shanghai）
+
+狀態：已生成全量候選，供作者評選；未接入遊戲。
+
+目前交付 183/183 個 PNG，依 v2 唯一清單。使用內建 imagegen；原始生成及完整提示詞集合：`原型/assets_compare/work/v2/prompts.jsonl`，逐項語義需求：`plan.json`。
+
+|類別|規定數量|PNG檔|
+|---|---:|---:|
+|風格小樣|15（S1、S2雙層）|21|
+|卡面|31雙層|62|
+|卡紙、邊框、牌背|7|7|
+|剪紙觀眾|40|40|
+|裝飾紙片|12|12|
+|物件|7雙層|14|
+|界面|12|12|
+|特效|5|5|
+|夜景|4|4|
+|同門草稿|6|6|
+
+## 自選風格（已鎖定，按作者授權繼續）
+
+- S1 選 **c**：半開扇與三道長弧最直接；沒有包圍圓框，適合狹長卡面插圖區。
+- S2 選 **a**：小油燈和三道聲音弧，輪廓簡單、留白明確；朱紅只落在火焰。
+- S3 選 **c**：背影、帽形與髮髻可分辨，鏤空少，最接近現有觀眾的塊面密度。
+- S4 選 **c**：曲線牡丹與大鏤空較安靜，純朱紅適合窗與牆面的貼紙。
+- S5 選 **c**：四向扇格環與中央留空，對稱且主次清楚；延續深朱紅牌背。
+
+返工：首輪 S1-c、S2-a 加入需求外人物／裝飾，已移出正式交付並重生。正式檔已轉為規定純色與透明分層，無連續色階。所有素材仍需全量縮圖及截圖貼合驗收。
+
+## 交付位置
+
+- 候選新圖：`原型/assets_codex_20261110/`（每個子目錄附README，根manifest逐檔列出尺寸、透明、分層與雜湊）。
+- 前後對比：`原型/assets_compare/對比/`。
+- 改前：原65張保持不動，另外補匯出7個現有物件字形與4個LOOK_ICON SVG到原before下的relics/ui，只補缺失檔。來源見 `supplement-provenance.json`。
+
+## 主要對比圖
+
+- `原型/assets_compare/對比/draft-new-overview.png`
+- `原型/assets_compare/對比/rivals-new-overview.png`
+- `原型/assets_compare/對比/cards-before-after.png`
+- `原型/assets_compare/對比/cards-four-colors-90px.png`
+- `原型/assets_compare/對比/crowd-before-after.png`
+- `原型/assets_compare/對比/card-back-before-after.png`
+- `原型/assets_compare/對比/border-stage-before-after.png`
+- `原型/assets_compare/對比/border-home-before-after.png`
+- `原型/assets_compare/對比/paper-before-after.png`
+- `原型/assets_compare/對比/relics-before-after.png`
+- `原型/assets_compare/對比/ui-before-after.png`
+- `原型/assets_compare/對比/deco-new-overview.png`
+- `原型/assets_compare/對比/fx-new-overview.png`
+- `原型/assets_compare/對比/night-new-overview.png`
+- `原型/assets_compare/對比/night-before-new-composition.png`
+- `原型/assets_compare/對比/readability-90px-60px.png`
+- `原型/assets_compare/對比/crowd-motion-registration-1.png`
+- `原型/assets_compare/對比/crowd-motion-registration-2.png`
+- `原型/assets_compare/對比/carpet-tile-2x2.png`
+- `原型/assets_compare/對比/lampaper-tile-2x2.png`
+
+另有 `qa-*.png` 逐頁驗收、`context-*.png` 對應原型截圖色調檢查，以及31張 `art_*-placement-proof.png` 卡面靜態貼合。所有貼合圖明標 STATIC PROOF，沒有改動遊戲。
+
+## 哪些沒有1.0獨立對應
+
+- 卡面、觀眾、牌背、邊框有既有匯出，可直接對照。觀眾新40張與舊19張是同類輪廓比較，並非全部一對一角色。
+- 物件的舊版是CSS漢字卡面，狀態小件的舊版是SVG，補匯出後作同功能比較。
+- 卡紙只有舊卡表面裁片，沒有獨立紙張圖。
+- 裝飾紙片、特效圖集、界面紙面板／空印章／筆劃、夜景分層與同門木刻草稿，無既有獨立點陣對應，交新圖總覽與原場景色調參考。
+- 夜間原圖近乎全黑，夜景對比明標為新增分層構成，不把它稱作既有景物的替換。
+
+## 自查
+
+- 尺寸／透明／純色／分層數據檢查：183檔；問題0項。詳見 `原型/assets_compare/work/v2/audit.json`。
+- 卡面與物件兩層同畫布同位置；line只含#000，accent只含#A8202B；觀眾只含#0B0809，鏤空為透明。
+- 交付檔採限定色與透明遮罩，排除連續明暗色階；卡紙是v2特別要求的極低起伏中灰覆蓋層。
+- D2採暗朱紅三檔平塗（#68141D／#581219／#481017），並由生成圖鏡像配邊成無縫重複；附2×2平鋪圖。
+- 觀眾動作對同畫布、同底邊；頭部位置目視接近重合，生成編輯仍有少量輪廓差異，附疊色圖供作者複核。
+- 目視、縮圖、截圖貼合的逐項記錄見 `visual-review.md`；未通過的項目重生後才計入最終通過。
+- 保護檢查：原65張before及開工時363個已跟蹤檔案，雜湊變化0項。
+- 未生成寫實場景貼圖、未生成阿檀／主角／鏡中臉／標題畫／結局牌；同門六張為作者允許的插畫師修稿用草稿。
+- 未接入1.0、未覆蓋現有遊戲資源，未commit、未push。
+
+## 返工記錄
+
+首輪 S1-c、S2-a 加入需求外人物與多色裝飾，退回重做，不列為完成。採用更嚴格的單物件提示詞。
+卡面首批目視：長腔、亮嗓、快板輪廓清楚；白的醒木有斜透視側面，列入重生隊列，改為正面平面矩形，不畫厚度或側面。
+醒木已重生為正面純黑長方形，無側面厚度；已複查替代圖。卡面前16張已在米白背景總覽中逐張目視，保留純色塊與透明刻線。
+第17–24張目視：定場詩的素笺／醒木仍帶斜側面、托腔誤加完整京胡、韻白扇子張得太開，三項已送重生。其餘主體與90px縮圖可辨。
+觀眾 a11 原圖誤生成彩色正面戲服母子，與純黑背影規格不符，列入重生；後續提示已強調普通百姓、日常衣服、後腦勺，禁戲服與正臉。
+a10 已補上伸出肩旁的折扇；a11 已改為朴素母子背影；a13 已改為普通短髮與發髻二人；a16 已補上肩旁茶碗。四張返工目視通過。
+b03_idle 原圖誤為正面彩色老太太，已先停止其反應版相依生成並重做，現為普通發髻背影持垂帕，通過後才繼續動作編輯。
+裝飾D2限定色匯出初版丟失暗紅團花，已改為三檔暗朱紅平塗分色（#68141D/#581219/#481017），並以生成圖作鏡像循環配邊；2×2平鋪目視通過，無連續色階。
+C2-c06原圖誤有六人，已重生為兩人組。C6-gujing生成工具曾回傳錯誤，已用純樂器圖示提示重試。
+
+界面燈芯初稿誤為完整油盞／蠟燭，已改為單截燈芯重生；朱紅筆劃匯出改以原生筆劃有效範圍對齊1024×64長條。
+C8墨點初稿誤成戲曲道具圖集，退回改為純黑隨機墨斑重生；彩綢匯出改按有效輪廓填入2048×128長條。
+圓月首稿為空心環，第二稿誤加全場景；依作者允許的純黑剪影回退法重生實心圓，匯出為單一米白，無光暈與漸層。
+
+# 《戏城》旦角 3D 模型第二版细修说明
+
+2026-11-06
+
+第二版的目标：在游戏里约 250 像素高时，一眼看出是一位清秀的旦角，水袖能舞起来，导出后能直接接进网页游戏。
+
+这份说明给 Codex，在 Blender 里做第二版。模型默认是玩家的台上扮相，站在桌上的小戏台上表演，引擎是 Three.js r128。
+
+评审只看了一张正面偏 3/4 的渲染图。背面、线框、UV 和骨骼都没看到，下面只评能看见的部分。
+
+## 第一版总评
+
+配色和头面方向是对的，要保留；问题集中在大形：身体像一只钟，袖子像两截木块，脸是怒相，衣襟方向也反了。
+
+保留这些：
+
+- 奶白衣身配朱红和金的主色
+- 珍珠、绿地、红点的头面造型和两侧珠串
+- A 字长裙的整体方向
+- 白底脸和小红唇
+- 梅花的纹样主题
+
+图上的编号对应下一节的清单。
+
+![第一版渲染图，红色编号标出 12 处要改的地方](旦角模型_第一版标注.png)
+
+## 细修清单
+
+前 6 项先修，它们决定这是不是一位旦角；后 6 项在大形确认后再做。H 表示头高（发顶到下巴）。
+
+### 必须先修
+
+| # | 部位 | 现状 | 改法 | 验收 |
+| --- | --- | --- | --- | --- |
+| 1 | 衣襟 | 从图上看是左衽：穿着者的右襟压左襟。红衣领像一根圆管，金线压在布外。 | 改成右衽：穿着者的左襟压右襟。衣领改成贴身的平布带，宽约 0.2H，金边画在贴图上。 | 正面看是小写 y 形：上层领从观众右肩斜到观众左腰。没有圆管截面。 |
+| 2 | 眉眼 | 眉头压向鼻梁，粉色硬线斜在眉上，视线偏向一侧，读起来在生气。 | 改细长柳叶眉：眉头平，眉尾微扬。胭脂从眼窝向脸颊晕开，取代粉色硬线。眼尾上挑，视线正前。 | 头部缩到约 50 像素高，表情是温婉或冷静，不是怒。 |
+| 3 | 肩和袖 | 肩头有三角硬面，袖子几乎和头一样粗，袖口是硬折角。 | 溜肩，袖子与衣身连成一体，从肩到袖口渐渐放宽。平滑着色，清掉 N-gon。 | 看不到三角面和硬折角，肩到袖口是一条顺线。 |
+| 4 | 水袖 | 几条并排的硬条挂在手下，像木板，末端平切，和袖口不相连。 | 从袖口整圈接出一整幅薄绸，垂下 3–4 道自然褶，末端有波浪。单层薄片，双面显示，带 5 节骨骼。 | 侧面看是薄片。挥起来没有硬折线，不穿进身体。 |
+| 5 | 手 | 手是一个胶囊，压在水袖上。 | 手从袖口伸出，指尖半藏在水袖里。做手套式分组就够：拇指加并拢的四指。 | 看不出胶囊形，水袖是从袖口出来的，不是从手上挂下来的。 |
+| 6 | 头颈 | 颈是粗短圆柱，领口有一圈缝，下巴和脖子分不开。 | 颈收细，加一道白色护领盖住领口。脸改成鹅蛋形，下巴收尖。 | 任何角度都看不到领口内部。下巴线清楚。 |
+
+### 大形确认后再做
+
+| # | 部位 | 现状 | 改法 | 验收 |
+| --- | --- | --- | --- | --- |
+| 7 | 鬓发 | 两条黑带垂在脸侧，左右粗细不同，右边外侧还露出一块白色头模。 | 改成贴片子：额前约 7 个小弯，两侧各一条长纺沿脸颊垂到下颌，框出鹅蛋脸。薄片或贴图都行。 | 左右对称，额线连贯，没有露出的头模。 |
+| 8 | 头面 | 配色和层次好，但像发箍扣在圆球上，看不出发髻；珠串笔直、珠子太密。 | 保留造型，补出发髻和后脑。每侧珠串减到 3–4 串、能摆动。远看看不清的小珠改用贴图。 | 三角面不超过 6,000；250 像素高时仍看得出珠串和红点。 |
+| 9 | 腰与裙 | 腰线只有一根金线，上身和裙子连成一只钟，没有褶。 | 收腰，加一条朱红腰带，宽约 0.2H，前面垂两条带尾。裙身加 6–8 道长褶，裙摆加一道朱红边。 | 轮廓看得到收腰；250 像素高时红腰带和红裙边清楚。 |
+| 10 | 梅花 | 两列同样大的花，左右镜像，像钉上去的扣子。 | 画进贴图，不做几何。不对称地聚在裙摆和一侧前襟，下大上小，花枝减到 2–3 组。 | 小尺寸读成一片纹样，不是两排点。 |
+| 11 | 裙摆金线 | 断断续续的细管，浮在布外。 | 改成贴图上连续的两道滚边，贴着红裙边。 | 没有细管几何，放大看不浮空。 |
+| 12 | 底盘 | 黑色圆盘。 | 只留在渲染图里，不导出。 | GLB 里没有底盘。 |
+
+## 比例目标
+
+从约 4.5 头身拉到 5.5 头身：头仍偏大，小戏台上看得清脸，但不再像娃娃。现状是从图上量的估算，目标允许 ±10%。
+
+| 部位 | 现状 | 第二版目标 |
+| --- | --- | --- |
+| 全身（发顶到裙摆） | 4.5H | 5.5H |
+| 颈宽 | 0.36H | 0.27H |
+| 上臂处袖粗 | 0.55H | 0.4H |
+| 袖口宽 | 0.55H | 0.6H |
+| 腰宽 | 1.1H | 0.85H |
+| 腰线位置（从发顶往下） | 2.4H | 2.2H |
+| 裙摆宽 | 2.1H | 2.4H |
+| 水袖长（从袖口算） | 1.5H | 2H |
+
+## 材质与配色
+
+颜色和纹样都画进 Base Color，不要靠光泽表现质感。游戏用三档明暗的 Toon 材质加黑色描边，金属度、粗糙度和环境反射都会被丢掉。布褶的深浅也画一点进贴图。
+
+色值大多沿用游戏里现有的人物：
+
+| 用在 | 颜色 | 色值 |
+| --- | --- | --- |
+| 衣身、袖子 | 奶白 | `#f3ede3` |
+| 水袖 | 绸白，比衣身浅一点 | `#f7f1ea` |
+| 衣领、腰带、裙边 | 朱红 | `#a8202b` |
+| 滚边、头面金件 | 金 | `#b8913f` |
+| 梅花 | 淡粉 | `#d99aa4` |
+| 梅枝、叶 | 灰绿 | `#5d7a62` |
+| 头面底色 | 石绿 | `#3c6762` |
+| 头发 | 墨黑 | `#151115` |
+| 皮肤 | 暖白 | `#f2e8de` |
+
+## 接进游戏的技术规格
+
+模型要在浏览器里跑，还要能让游戏实时往脸上画油彩。下面是硬性要求，数字是上限。
+
+| 项目 | 要求 |
+| --- | --- |
+| 文件 | 一个 GLB（glTF 2.0），只含角色，不含相机、灯光和底盘 |
+| 朝向和原点 | Blender 里面朝 -Y，导出后朝 +Z；原点在两脚中心的地面上；变换全部 Apply |
+| 尺寸 | 发顶 1.67 m，不算头面，缩放由游戏处理 |
+| 三角面 | 全身不超过 25,000，其中头面不超过 6,000 |
+| 材质 | 4 个：`robe`、`headdress`、`hair`、`face` |
+| 贴图 | `robe` 2048 px，`headdress` 1024 px，PNG；GLB 总大小不超过 5 MB |
+| 网格 | 主要部件闭合、法线平滑、没有重叠面。描边靠沿法线外推，细管和开口会露馅 |
+| 骨骼 | Root、Hips、Spine、Chest、Neck、Head；双臂 UpperArm、ForeArm、Hand；每只水袖 5 节；腰带尾和珠串各 2 节。总数不超过 40，每顶点不超过 4 个权重，静止姿势用 A-pose |
+
+### 脸部
+
+脸单独一块网格，材质叫 `face`。游戏会在运行时往这张贴图上画 6 层油彩：眼周、脸颊、额头、鼻梁、下巴、全脸。
+
+所以眼、眉、唇不要做成凸起的几何，妆也不要烤死在模型上。UV 用正面平面投影，铺满 0–1 方形。五官落在下表的位置，V 从贴图顶部往下算。
+
+| 部位 | U | V |
+| --- | --- | --- |
+| 脸轮廓 | 0.22–0.78 | 0.12–0.82 |
+| 眉（内端到外端） | 0.45–0.30、0.55–0.70 | 0.39–0.35 |
+| 眼睛中心 | 0.38、0.62 | 0.45 |
+| 鼻 | 0.50 | 0.49–0.57 |
+| 嘴 | 0.44–0.56 | 0.65 |
+
+这些位置按游戏画脸的代码换算，接入时游戏这边会去掉现有的横向压缩。另交两张同 UV 的 1024 px PNG：`face_base` 是素脸，`face_full` 是满妆，用来渲染和对照。
+
+### 动画
+
+6 段烘进 GLB，名字要完全一致。除 `idle` 外，每段不超过 1.2 秒，首尾都回到 `idle` 的姿势。水袖要跟着动。
+
+| 名字 | 用在 | 动作 |
+| --- | --- | --- |
+| `idle` | 待机，循环 3–4 秒 | 轻微呼吸，水袖微摆 |
+| `sing` | 出唱牌 | 抬头，双臂向两侧展开抬起 |
+| `speak` | 出念牌 | 上身微前倾，右手向前指 |
+| `act` | 出做牌 | 左手前伸，右手向外高举，水袖甩出 |
+| `fight` | 出打牌 | 上身前倾，双手向前举起 |
+| `bow` | 收场 | 低头欠身，双手收在身前 |
+
+## 工作顺序与交付
+
+先交一次灰模，确认大形再做细节，避免贴图和绑定返工。
+
+1. 按比例表改大形：肩、袖、头颈、腰。
+2. 修衣襟方向和衣领，加腰带和裙褶。
+3. 交灰模：正、侧、背、正面 3/4 四张图，等确认。
+4. 做脸、贴片子、头面。
+5. 做水袖和手。
+6. 画贴图，绑骨骼，做 6 段动画。
+7. 导出 GLB，按下面的清单自检。
+
+第二版交付：
+
+- [ ] `dan_v2.glb` 和 `dan_v2.blend`
+- [ ] 贴图 PNG：`robe`、`headdress`、`face_base`、`face_full`
+- [ ] 正、侧、背、正面 3/4 四张渲染，光照相同；一张线框图
+- [ ] 游戏效果测试图：简化成三档明暗加黑描边，深色背景，缩到 250 像素高
+- [ ] 6 段动画各一张关键帧拼图或一段短视频
+- [ ] 数据：每个网格的三角面数、骨骼总数、GLB 大小
+- [ ] 清单 12 项逐项说明改了什么，没改的说明原因
+
+## 待作者拍板
+
+没有另行通知就按默认做法做。
+
+| 事项 | 默认做法 | 另一种选择 |
+| --- | --- | --- |
+| 这是谁 | 玩家的台上扮相 | 小凤，或两人共用一个模型换贴图 |
+| 头身比 | 5.5 头身，清秀的人偶 | 保留现在约 4.5 头身的娃娃感 |
+| 行当气质 | 温婉的青衣、闺门旦 | 活泼的花旦，衣服和表情都要跟着改 |
+| 头面底色 | 石绿，接近第一版 | 点翠蓝，更贴近传统头面 |
+
+exec
+/bin/zsh -lc 'rg --files 設計 原型截圖 原型/assets_codex_20261110 原型/assets_compare/before tools' in /Users/tsun/Projects/game-dise
+ exited 2 in 0ms:
+rg: 原型/assets_compare/before: No such file or directory (os error 2)
+原型截圖/原型_觀眾剪紙.png
+原型截圖/原型_早上装匣.png
+原型截圖/原型_傍晚灯坊.png
+原型截圖/原型_戲台.png
+原型截圖/原型_卡面一覽.png
+tools/blender/validate_dan_glb.py
+tools/blender/README.md
+tools/blender/build_opera_study.py
+tools/blender/client.py
+tools/blender/build_dan_v2_gray.py
+tools/blender/paint_dan_v2.py
+tools/blender/finish_dan_v2.py
+tools/blender/enable_connection.py
+tools/blender/refine_dan_v2.py
+tools/blender/export_dan_v2.py
+原型/assets_codex_20261110/night/layer_2_roofs.png
+原型/assets_codex_20261110/night/moon.png
+原型/assets_codex_20261110/night/README.md
+原型/assets_codex_20261110/night/layer_1_far.png
+原型/assets_codex_20261110/night/layer_3_near.png
+原型/assets_codex_20261110/manifest.json
+原型/assets_codex_20261110/relics/you_accent.png
+原型/assets_codex_20261110/relics/gujing_line.png
+原型/assets_codex_20261110/relics/qinshi_line.png
+原型/assets_codex_20261110/relics/jin_accent.png
+原型/assets_codex_20261110/relics/lian_line.png
+原型/assets_codex_20261110/relics/cha_accent.png
+原型/assets_codex_20261110/relics/you_line.png
+原型/assets_codex_20261110/relics/README.md
+原型/assets_codex_20261110/relics/lian_accent.png
+原型/assets_codex_20261110/relics/cha_line.png
+原型/assets_codex_20261110/relics/qinshi_accent.png
+原型/assets_codex_20261110/relics/jin_line.png
+原型/assets_codex_20261110/relics/gujing_accent.png
+原型/assets_codex_20261110/relics/luo_accent.png
+原型/assets_codex_20261110/relics/luo_line.png
+原型/assets_codex_20261110/cards/border_stage.png
+原型/assets_codex_20261110/cards/art_home_care_accent.png
+原型/assets_codex_20261110/cards/art_tang_line.png
+原型/assets_codex_20261110/cards/back.png
+原型/assets_codex_20261110/cards/art_bai_line.png
+原型/assets_codex_20261110/cards/art_shuixiu_accent.png
+原型/assets_codex_20261110/cards/art_xin_line.png
+原型/assets_codex_20261110/cards/art_xin_accent.png
+原型/assets_codex_20261110/cards/art_jie_dadao_line.png
+原型/assets_codex_20261110/cards/art_shenduan_accent.png
+原型/assets_codex_20261110/cards/art_tazhuan_line.png
+原型/assets_codex_20261110/cards/art_home_care_line.png
+原型/assets_codex_20261110/cards/art_qiba_line.png
+原型/assets_codex_20261110/cards/art_zhi_accent.png
+原型/assets_codex_20261110/cards/art_home_labor_accent.png
+原型/assets_codex_20261110/cards/art_bai_accent.png
+原型/assets_codex_20261110/cards/art_home_labor_line.png
+原型/assets_codex_20261110/cards/border_home.png
+原型/assets_codex_20261110/cards/art_manban_line.png
+原型/assets_codex_20261110/cards/art_qingchang_accent.png
+原型/assets_codex_20261110/cards/art_shuixiu_line.png
+原型/assets_codex_20261110/cards/art_woyu_line.png
+原型/assets_codex_20261110/cards/art_tangma_accent.png
+原型/assets_codex_20261110/cards/art_kuaiban_accent.png
+原型/assets_codex_20261110/cards/art_tangma_line.png
+原型/assets_codex_20261110/cards/art_changqiang_accent.png
+原型/assets_codex_20261110/cards/art_liangsang_line.png
+原型/assets_codex_20261110/cards/art_tuoqiang_accent.png
+原型/assets_codex_20261110/cards/art_zhi_line.png
+原型/assets_codex_20261110/cards/art_home_comp_accent.png
+原型/assets_codex_20261110/cards/art_fanshen_line.png
+原型/assets_codex_20261110/cards/README.md
+原型/assets_codex_20261110/cards/art_tang_accent.png
+原型/assets_codex_20261110/cards/art_manban_accent.png
+原型/assets_codex_20261110/cards/art_jie_guankou_accent.png
+原型/assets_codex_20261110/cards/art_kuaiban_line.png
+原型/assets_codex_20261110/cards/art_dingchang_accent.png
+原型/assets_codex_20261110/cards/art_home_comp_line.png
+原型/assets_codex_20261110/cards/art_fan_accent.png
+原型/assets_codex_20261110/cards/art_changqiang_line.png
+原型/assets_codex_20261110/cards/art_liangsang_accent.png
+原型/assets_codex_20261110/cards/art_yunbai_accent.png
+原型/assets_codex_20261110/cards/art_yunbai_line.png
+原型/assets_codex_20261110/cards/art_shuban_accent.png
+原型/assets_codex_20261110/cards/art_jijifeng_line.png
+原型/assets_codex_20261110/cards/art_jie_kutou_line.png
+原型/assets_codex_20261110/cards/art_tazhuan_accent.png
+原型/assets_codex_20261110/cards/art_shenduan_line.png
+原型/assets_codex_20261110/cards/art_jijifeng_accent.png
+原型/assets_codex_20261110/cards/art_dingchang_line.png
+原型/assets_codex_20261110/cards/art_daoban_line.png
+原型/assets_codex_20261110/cards/art_daoban_accent.png
+原型/assets_codex_20261110/cards/paper_04.png
+原型/assets_codex_20261110/cards/art_fan_line.png
+原型/assets_codex_20261110/cards/art_tuoqiang_line.png
+原型/assets_codex_20261110/cards/paper_01.png
+原型/assets_codex_20261110/cards/art_woyu_accent.png
+原型/assets_codex_20261110/cards/art_jie_guankou_line.png
+原型/assets_codex_20261110/cards/art_liangxiang_accent.png
+原型/assets_codex_20261110/cards/art_jie_kutou_accent.png
+原型/assets_codex_20261110/cards/art_liangxiang_line.png
+原型/assets_codex_20261110/cards/art_fanshen_accent.png
+原型/assets_codex_20261110/cards/art_shuban_line.png
+原型/assets_codex_20261110/cards/art_home_listen_line.png
+原型/assets_codex_20261110/cards/paper_02.png
+原型/assets_codex_20261110/cards/art_qingchang_line.png
+原型/assets_codex_20261110/cards/art_jie_dadao_accent.png
+原型/assets_codex_20261110/cards/art_qiba_accent.png
+原型/assets_codex_20261110/cards/paper_03.png
+原型/assets_codex_20261110/cards/art_home_listen_accent.png
+原型/assets_codex_20261110/fx/paper_flakes.png
+原型/assets_codex_20261110/crowd/c02.png
+設計/v1.2_戲城_主次版.md
+原型/assets_codex_20261110/fx/gold_leaf.png
+原型/assets_codex_20261110/fx/README.md
+原型/assets_codex_20261110/fx/ribbon.png
+原型/assets_codex_20261110/fx/ink_drops.png
+原型/assets_codex_20261110/fx/paper_burnt.png
+設計/v1.3_可刪機制清單.md
+設計/旦角模型_第一版标注.png
+設計/旦角模型_第二版细修说明.md
+設計/v0.8_戲城_多樣版.md
+設計/v0.9_戲城_收束版.md
+設計/v1.0_戲城_平衡版.md
+設計/v0.3_戲城_妝匣版.md
+設計/v1.6_戲城_美術接入.md
+原型/assets_codex_20261110/crowd/a14.png
+原型/assets_codex_20261110/crowd/a01.png
+原型/assets_codex_20261110/crowd/a15.png
+原型/assets_codex_20261110/crowd/c03.png
+原型/assets_codex_20261110/crowd/c01.png
+原型/assets_codex_20261110/crowd/a03.png
+原型/assets_codex_20261110/crowd/a16.png
+原型/assets_codex_20261110/crowd/a02.png
+原型/assets_codex_20261110/crowd/b05_act.png
+原型/assets_codex_20261110/crowd/c04.png
+原型/assets_codex_20261110/crowd/a06.png
+原型/assets_codex_20261110/crowd/a12.png
+原型/assets_codex_20261110/crowd/b04_act.png
+原型/assets_codex_20261110/crowd/a13.png
+原型/assets_codex_20261110/crowd/a07.png
+原型/assets_codex_20261110/crowd/c05.png
+原型/assets_codex_20261110/crowd/c07.png
+原型/assets_codex_20261110/crowd/a11.png
+原型/assets_codex_20261110/crowd/a05.png
+原型/assets_codex_20261110/crowd/b05_idle.png
+原型/assets_codex_20261110/crowd/b04_idle.png
+原型/assets_codex_20261110/crowd/a04.png
+原型/assets_codex_20261110/crowd/a10.png
+原型/assets_codex_20261110/crowd/c06.png
+原型/assets_codex_20261110/crowd/b06_act.png
+原型/assets_codex_20261110/crowd/b08_idle.png
+原型/assets_codex_20261110/crowd/b02_idle.png
+原型/assets_codex_20261110/crowd/b03_idle.png
+原型/assets_codex_20261110/crowd/b07_act.png
+原型/assets_codex_20261110/crowd/README.md
+原型/assets_codex_20261110/crowd/b02_act.png
+原型/assets_codex_20261110/crowd/b06_idle.png
+原型/assets_codex_20261110/crowd/b07_idle.png
+原型/assets_codex_20261110/crowd/b03_act.png
+原型/assets_codex_20261110/crowd/b08_act.png
+原型/assets_codex_20261110/crowd/a09.png
+原型/assets_codex_20261110/crowd/a08.png
+原型/assets_codex_20261110/crowd/c08.png
+原型/assets_codex_20261110/crowd/b01_act.png
+原型/assets_codex_20261110/crowd/b01_idle.png
+原型/assets_codex_20261110/README.md
+設計/美術/原型截圖/原型_觀眾剪紙.png
+設計/美術/原型截圖/原型_早上装匣.png
+設計/美術/原型截圖/原型_傍晚灯坊.png
+設計/美術/原型截圖/原型_戲台.png
+設計/美術/原型截圖/原型_卡面一覽.png
+設計/美術/V17_MOBILE_LAYOUT_RESULT.md
+設計/美術/claude_v16_continue_20261112-1226_prev.log
+設計/美術/claude_v17_door_mirror.log
+設計/美術/codex_v18_faces.log
+設計/美術/美術任務清單.md
+設計/美術/claude_v17_20261113.log
+設計/美術/feedback_v17/01_v15_audience.jpg
+原型/assets_codex_20261110/draft/s2_listen_a_line.png
+原型/assets_codex_20261110/draft/s3_crowd_c.png
+原型/assets_codex_20261110/draft/s3_crowd_b.png
+原型/assets_codex_20261110/draft/s2_listen_a_accent.png
+原型/assets_codex_20261110/draft/s3_crowd_a.png
+原型/assets_codex_20261110/draft/s1_changqiang_c_accent.png
+原型/assets_codex_20261110/draft/s2_listen_c_accent.png
+原型/assets_codex_20261110/draft/s1_changqiang_a_line.png
+原型/assets_codex_20261110/draft/rival_xiaofeng.png
+原型/assets_codex_20261110/draft/s1_changqiang_a_accent.png
+原型/assets_codex_20261110/draft/README.md
+原型/assets_codex_20261110/draft/s1_changqiang_b_accent.png
+原型/assets_codex_20261110/draft/rival_wei.png
+原型/assets_codex_20261110/draft/rival_yulou.png
+原型/assets_codex_20261110/draft/s2_listen_c_line.png
+原型/assets_codex_20261110/draft/s2_listen_b_line.png
+原型/assets_codex_20261110/draft/s4_chuanghua_a.png
+原型/assets_codex_20261110/draft/s2_listen_b_accent.png
+原型/assets_codex_20261110/draft/s5_back_a.png
+原型/assets_codex_20261110/draft/s5_back_c.png
+原型/assets_codex_20261110/draft/sun_shifu.png
+原型/assets_codex_20261110/draft/s4_chuanghua_b.png
+原型/assets_codex_20261110/draft/s4_chuanghua_c.png
+原型/assets_codex_20261110/draft/s1_changqiang_b_line.png
+原型/assets_codex_20261110/draft/s1_changqiang_c_line.png
+原型/assets_codex_20261110/draft/s5_back_b.png
+原型/assets_codex_20261110/draft/rival_jinbao.png
+原型/assets_codex_20261110/draft/rival_yuexian.png
+原型/assets_codex_20261110/deco/chuanghua_04.png
+原型/assets_codex_20261110/deco/shoujiu.png
+原型/assets_codex_20261110/deco/chuanghua_01.png
+原型/assets_codex_20261110/deco/chuanghua_03.png
+原型/assets_codex_20261110/deco/README.md
+原型/assets_codex_20261110/deco/chuanghua_02.png
+原型/assets_codex_20261110/deco/lianpu_04.png
+原型/assets_codex_20261110/deco/lampaper.png
+原型/assets_codex_20261110/deco/chest_lid.png
+原型/assets_codex_20261110/deco/lianpu_02.png
+原型/assets_codex_20261110/deco/lianpu_03.png
+原型/assets_codex_20261110/deco/lianpu_01.png
+原型/assets_codex_20261110/deco/carpet.png
+設計/美術/V16_PROGRESS.md
+設計/美術/V16_RESULT.md
+設計/美術/codex_生圖需求_v2.md
+設計/美術/claude_v17_mobile_layout.log
+設計/美術/claude_v17.log
+設計/美術/claude_v16.log
+設計/美術/claude_v16_continue.log
+設計/美術/V17_CLAUDE_BRIEF_RESUME.md
+設計/美術/插畫師繪製要求.md
+設計/美術/V17_RESULT.md
+設計/美術/V17_DOOR_MIRROR_BRIEF.md
+設計/美術/CODEX_ART_RESULT.md
+設計/美術/CODEX_ART_BRIEF.md
+設計/美術/V16_CLAUDE_BRIEF_CONTINUE_0224.md
+設計/v1.1_戲城_引導版.md
+設計/v1.5_戲城_引導重做.md
+設計/模擬/sim.py
+設計/模擬/story.py
+設計/v0.2_遊戲概念草稿.md
+原型/assets_codex_20261110/ui/paper_dark.png
+設計/說明PDF/template.html
+原型/assets_codex_20261110/ui/wick_on.png
+原型/assets_codex_20261110/ui/seal_square.png
+原型/assets_codex_20261110/ui/look_talk.png
+原型/assets_codex_20261110/ui/README.md
+原型/assets_codex_20261110/ui/paper_light.png
+原型/assets_codex_20261110/ui/scar_mark.png
+原型/assets_codex_20261110/ui/look_tired.png
+原型/assets_codex_20261110/ui/look_wait.png
+原型/assets_codex_20261110/ui/wick_out.png
+原型/assets_codex_20261110/ui/seal_round.png
+原型/assets_codex_20261110/ui/look_busy.png
+原型/assets_codex_20261110/ui/brush_underline.png
+設計/v0.6_戲城_三幕版.md
+設計/v0.1_疊面具x雙賬本.md
+設計/底色_遊戲概念說明.pdf
+設計/v0.7_戲城_預告版.md
+設計/說明PDF/build.py
+設計/v1.4_戲城_中刪版.md
+設計/說明PDF/底色說明.html
+設計/美術/feedback_v17/phone_morning_day2.jpg
+設計/美術/feedback_v17/02_event_blocks_ui.jpg
+設計/美術/V17_PROGRESS.md
+設計/美術/claude_v16_continue_20261112-2125_prev.log
+設計/美術/V16_CLAUDE_BRIEF.md
+設計/美術/V16_CLAUDE_BRIEF_CONTINUE_211223.md
+設計/美術/V17_CLAUDE_BRIEF.md
+設計/美術/V17_DOOR_MIRROR_PROGRESS.md
+設計/美術/codex_生圖需求.md
+設計/美術/claude_v16_continue_20261112-2148_prev.log
+設計/美術/V17_MOBILE_LAYOUT_PROGRESS.md
+設計/美術/V17_MOBILE_LAYOUT_BRIEF.md
+設計/美術/V16_CLAUDE_BRIEF_CONTINUE.md
+設計/美術/CODEX_ART_PROGRESS.md
+設計/美術/claude_v17_resume_high.log
+設計/美術/V17_DOOR_MIRROR_RESULT.md
+設計/美術/V18_FACES_CODEX_BRIEF.md
+設計/美術/美術規劃.md
+設計/美術/claude_v17_resume.log
+設計/美術/feedback_v17/qa_mobile/01_morning_day2_360x800.png
+設計/美術/feedback_v17/qa_mobile/01_morning_day2_375x812.png
+設計/美術/feedback_v17/qa_mobile/11_stage_1440x900_desk.png
+設計/美術/feedback_v17/qa_mobile/08_night_390x844.png
+設計/美術/feedback_v17/qa_mobile/06_door_390x844.png
+設計/美術/feedback_v17/qa_mobile/01_morning_day2_390x680.png
+設計/美術/feedback_v17/qa_mobile/09_morning_shop_day3_390x844.png
+設計/美術/feedback_v17/qa_mobile/03_morning_day2_1440x900_desk.png
+設計/美術/feedback_v17/qa_mobile/02_morning_day2_844x390_land.png
+設計/美術/feedback_v17/qa_mobile/07_evening_390x844.png
+設計/美術/feedback_v17/qa_mobile/05_stage_390x844.png
+設計/美術/feedback_v17/qa_mobile/01_morning_day2_390x844.png
+設計/美術/feedback_v17/qa_mobile/10_rules_390x844.png
+設計/美術/feedback_v17/qa_mobile/04_mirror_crop_390x844.png
+設計/美術/feedback_v17/qa_mobile/00_before_390x844_morning_day2.png
+設計/美術/feedback_v17/03_speech_blocks_cards.jpg
+設計/美術/feedback_v17/04_no_continue_btn.jpg
+設計/美術/feedback_v17/qa_mobile_door/06_door_desk_1440x900.png
+設計/美術/feedback_v17/qa_mobile_door/01_door_paint_360x800.png
+設計/美術/feedback_v17/qa_mobile_door/11_packed_door_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/05_door_after_clean_all_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/00_before_door_390x844_paint.png
+設計/美術/feedback_v17/qa_mobile_door/10_morning_390x844_regress.png
+設計/美術/feedback_v17/qa_mobile_door/03_door_towel_c_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/01_door_paint_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/02_mirror_crop_paint.png
+設計/美術/feedback_v17/qa_mobile_door/00_before_door_390x844_clean.png
+設計/美術/feedback_v17/qa_mobile_door/08_night_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/04_door_after_wipe_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/07_door_land_844x390.png
+設計/美術/feedback_v17/qa_mobile_door/02_mirror_crop_after_wipe.png
+設計/美術/feedback_v17/qa_mobile_door/02_mirror_crop_clean.png
+設計/美術/feedback_v17/qa_mobile_door/03_door_towel_a_390x844.png
+設計/美術/feedback_v17/qa_mobile_door/01_door_paint_390x680.png
+設計/美術/feedback_v17/qa/phone_08_drag_stage.png
+設計/美術/feedback_v17/qa/desk_10_shop_refresh_btn.png
+設計/美術/feedback_v17/qa/small_03_combo_no_block.png
+設計/美術/feedback_v17/qa/phone_08_after_play.png
+設計/美術/feedback_v17/qa/desk_05_morning_shop_entry.png
+設計/美術/feedback_v17/qa/phone_08_peek_stage.png
+設計/美術/feedback_v17/qa/phoneL_03_combo_no_block.png
+設計/美術/feedback_v17/qa/low_03_morning_event.png
+設計/美術/feedback_v17/qa/phone_04_lastwipe_continue.png
+設計/美術/feedback_v17/qa/desk_08_after_play.png
+設計/美術/feedback_v17/qa/narrow_03_peek.png
+設計/美術/feedback_v17/qa/desk_08_drag_stage.png
+設計/美術/feedback_v17/qa/desk_07_boxcap_base3.png
+設計/美術/feedback_v17/qa/phone_10_shop_after_refresh.png
+設計/美術/feedback_v17/qa/phone_01_combo4.png
+設計/美術/feedback_v17/qa/desk_08_peek_stage.png
+設計/美術/feedback_v17/qa/phone_08_peek_morning.png
+設計/美術/feedback_v17/qa/phone_08_0.png
+設計/美術/feedback_v17/qa/phone_09_after_wipe.png
+設計/美術/feedback_v17/qa/phone_04_lastwipe_before.png
+設計/美術/feedback_v17/qa/phone_02_event_open.png
+設計/美術/feedback_v17/qa/desk_08_0.png
+設計/美術/feedback_v17/qa/phone_05_morning_shop_entry.png
+設計/美術/feedback_v17/qa/phone_07_boxcap_base6.png
+設計/美術/feedback_v17/qa/desk_08_peek_morning.png
+設計/美術/feedback_v17/qa/desk_04_lastwipe_continue.png
+設計/美術/feedback_v17/qa/phone_10_shop_refresh_btn.png
+設計/美術/feedback_v17/qa/phone_09_door_wipe_left.png
+設計/美術/feedback_v17/qa/desk_09_door_wipe_left.png
+設計/美術/feedback_v17/qa/low_04_lastwipe_continue.png
+設計/美術/feedback_v17/qa/desk_01_combo4.png
+設計/美術/feedback_v17/qa/desk_09_after_wipe.png
+設計/美術/feedback_v17/qa/desk_10_shop_after_refresh.png
+設計/美術/feedback_v17/qa_mobile_door/09_night_desk_1440x900.png
+設計/美術/feedback_v17/qa_mobile_door/01_door_paint_375x812.png
+設計/美術/feedback_v17/qa_mobile_door/03_door_towel_b_390x844.png
+設計/美術/feedback_v17/qa/desk_02_event_open.png
+
+codex
+這次只交美術與對比圖，不接入遊戲。我會使用 imagegen 技能，先核對既有圖像、色板和角色設定，再製作三組小樣與正式圖。
+exec
+/bin/zsh -lc 'cat 設計/美術/codex_生圖需求_v2.md' in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+# 《底色·戏城》生图需求 v2（给 Codex · gpt-6.1sol）
+
+> 你负责：卡面插图、卡纸质感、剪纸观众、装饰纸片、物件图标、界面小件、特效、夜景剪纸、同门木刻像草稿。
+> **不归你画**：阿檀、台上的主角、镜中的脸、结局牌、标题画——这些是插画师手绘。
+> **不要再画**：桌面、墙、地板、幕布、戏台、灯、木匣、镜框这些场景和道具的写实贴图。原型里的 3D 场景保留不动。
+> 总体规划见 `美術規劃.md`，打勾清单见 `美術任務清單.md`。
+
+## 〇、先看：上一轮哪里不对
+
+上一轮出的图**太写实**：像照片、有真实光影和材质，放进原型就跳出来。这一轮的目标完全不同：
+
+> **画在纸上的平面图形，摆进一个 3D 的桌面里。** 像《邪恶冥刻》的卡牌：3D 负责空间和光，卡面和纸片上的内容是平面的、画出来的。
+
+开工前先打开这几张，**新图要能放进这个画面里不违和**：
+
+| 文件 | 看什么 |
+|---|---|
+| `原型截圖/原型_卡面一覽.png` | 现在的卡牌版式：族徽、牌名、金、关键词、「接 →」、背面横条都由代码写。你的插图要放进牌名和「接」之间那块 |
+| `原型截圖/原型_觀眾剪紙.png` | 现在的观众：纯黑剪影、朱红纸边、小窗花镂空。这个做法保留，你要做的是让形状更丰富 |
+| `原型截圖/原型_戲台.png`、`原型_傍晚灯坊.png`、`原型_早上装匣.png` | 整体明暗与色调：暗、暖、朱红点题（截图的光比真机略暗） |
+
+## 一、风格
+
+### 1. 风格前缀（每条提示词前都加）
+
+> 平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。
+>
+> flat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.
+
+### 2. 反向词（每条都加）
+
+> 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。
+>
+> negative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.
+
+**生成器总往写实跑时**：先要一张「纯黑单色剪影」，再要求「把这张剪影改成木刻线稿，块面平涂」；或者加一句「像一枚印章／一张剪纸」。
+
+### 3. 颜色
+
+色板：墨黑 `#120E11`、宣纸白 `#ECE3D4`、朱红 `#A8202B`、赭金 `#B8913F`、土褐 `#8F6338`、灰墨 `#8D8487`。
+四族颜色固定：唱＝朱红、念＝墨黑、做＝土褐、打＝赭金。
+
+### 4. 分层交图（重要）
+
+卡面插图、物件图标都**拆两层交**，同一画布、同一位置：
+
+- `_line.png`：**纯黑**（`#000`）线稿和块面，透明底。代码会把它染成卡面需要的颜色（红底牌上染成米白，金底牌上染成墨黑）。
+- `_accent.png`：只有**朱红**的点题块面（唇、花、一点火光），透明底；没有就不交。
+
+这样同一张插图放在四种底色的牌上都对，也绝不会出现写实的明暗。
+
+## 二、风格锁定小样（先做，过了再往下）
+
+每项出 3 版，放进 `draft/`。我会把它们贴进原型截图里给插画师挑。**这 5 项没定稿，后面不开工。**
+
+| 编号 | 文件名 | 内容 | 过关的样子 |
+|---|---|---|---|
+| S1 | `draft/s1_changqiang_a.png`（b、c） | 卡面插图「长腔」，按第三节的格式分两层 | 贴进红底牌后像印上去的木刻；缩到 90px 高还认得出 |
+| S2 | `draft/s2_listen_a.png`（b、c） | 家里面插图「倾听」，分两层 | 贴进米白牌后安静、留白多 |
+| S3 | `draft/s3_crowd_a.png`（b、c） | 一张图里 6 个观众剪影并排（不同的人） | 和 `原型_觀眾剪紙.png` 一个路子，但形状更有意思 |
+| S4 | `draft/s4_chuanghua_a.png`（b、c） | 一张朱红窗花剪纸 | 纯色、镂空清楚 |
+| S5 | `draft/s5_back_a.png`（b、c） | 牌背 | 平面对称构成，三四个颜色 |
+
+## 三、卡面插图（C5）· 31 张
+
+**格式**：每张 1024×1024，透明底，主体居中，整体轮廓大致塞进直径 900 的圆里；`_line` 与 `_accent` 两层。
+**怎么画**：一个主体，木刻刻线或白描线，块面分明；可以对称；**不画背景**。
+**放哪**：牌名下面、「接 →」上面那一块（台上面约 240×110，家里面约 240×180，代码按高度缩放）。
+
+| 文件名前缀 | 牌 | 主体 |
+|---|---|---|
+| `cards/art_changqiang` | 唱·长腔 | 一把半开的折扇，扇后三道悠长的弧线 |
+| `cards/art_liangsang` | 唱·亮嗓 | 一把全开的折扇，扇面外一圈圈同心弧 |
+| `cards/art_bai` | 念·白 | 一块醒木压着一卷半展开的戏本（纸上不要字） |
+| `cards/art_kuaiban` | 念·快板 | 一副交叠的竹板，几道短促的节奏线 |
+| `cards/art_shenduan` | 做·身段 | 一个旦角背影，衣袖甩成一道弧 |
+| `cards/art_shuixiu` | 做·水袖 | 两条交缠翻飞的水袖，对称 |
+| `cards/art_liangxiang` | 打·亮相 | 两根交叉的雉鸡翎 |
+| `cards/art_fanshen` | 打·翻身 | 一个翻身的武生剪影，衣摆旋成一个圆 |
+| `cards/art_jie_kutou` | 借·哭头 | 一只掩面的水袖，袖口一滴泪 |
+| `cards/art_jie_guankou` | 借·贯口 | 一串连绵的墨点与笔锋（不成字） |
+| `cards/art_jie_dadao` | 借·大刀 | 一柄竖立的青龙偃月刀 |
+| `cards/art_manban` | 后台·慢板（重彩） | 一炷香的烟，绕着一只缓缓垂下的长袖 |
+| `cards/art_tazhuan` | 后台·踏转（重彩） | 一双厚底靴，脚下旋起的衣摆 |
+| `cards/art_qiba` | 后台·起霸（重彩） | 武将背后的四面靠旗，扇形展开 |
+| `cards/art_daoban` | 后台·导板（百搭） | 一面小鼓和一面锣，左右对称 |
+| `cards/art_shuban` | 后台·数板（百搭） | 一束展开的竹简（简上不要字） |
+| `cards/art_jijifeng` | 后台·急急风（百搭） | 一对交叉的鼓槌，几道疾风线 |
+| `cards/art_yunbai` | 后台·韵白（压轴） | 一轮圆月，前面一把收拢的扇 |
+| `cards/art_woyu` | 后台·卧鱼（压轴） | 一个后仰卧倒的旦角剪影，身边一朵牡丹 |
+| `cards/art_qingchang` | 后台·清唱（素） | 一盏清茶，茶面上一缕气息，四周空着 |
+| `cards/art_dingchang` | 后台·定场诗（素） | 一块醒木压着一张素笺（笺上不要字） |
+| `cards/art_tuoqiang` | 后台·托腔（托） | 一把京胡的琴弓，托着一道上扬的长弧 |
+| `cards/art_tangma` | 后台·趟马（托） | 一根马鞭，鞭穗扬起，几道奔马的风线 |
+| `cards/art_tang` | 家常·热汤 | 一碗冒热气的汤 |
+| `cards/art_fan` | 家常·同桌 | 两只碗、两双筷子，对称 |
+| `cards/art_xin` | 家常·旧信 | 一封用红线扎着的旧信（信上不要字） |
+| `cards/art_zhi` | 家常·剪纸 | 一朵朱红剪纸花 |
+| `cards/art_home_listen` | 家里面·倾听 | 一盏小油灯，灯旁一圈圈声音的弧 |
+| `cards/art_home_comp` | 家里面·陪伴 | 两只并排的茶杯 |
+| `cards/art_home_care` | 家里面·照顾 | 一碗汤和一条叠好的热毛巾 |
+| `cards/art_home_labor` | 家里面·共劳 | 两双手一起糊一片灯纸 |
+
+插画师交了八枚纹章（唱、念、做、打；倾听、陪伴、照顾、共劳）以后，**同族的插图要用纹章里的线条习惯**（线的粗细、转角、留白），看起来是一套。
+
+**验收**：31 张线的粗细、块面大小一致；染成米白放在红底上、染成墨黑放在金底上都清楚；没有一张有明暗渐变。
+
+## 四、卡纸质感（C4）
+
+| 编号 | 文件名 | 尺寸 | 透明 | 内容 | 验收 |
+|---|---|---|---|---|---|
+| C4-1 | `cards/paper_01.png` … `_04.png` | 600×900 | 否 | 卡纸纹理，**灰度**：细纤维、四角轻微磨圆起毛、一两处很淡的折痕或水渍。整体是 50% 中灰，起伏很小（代码用「叠加」盖在卡面上） | 盖上去卡面颜色几乎不变，只多了纸感 |
+| C4-2 | `cards/border_stage.png` | 600×900 | 是 | 台上面的边框纹样：**纯黑**细线，对称的回纹或云纹，沿四边一圈，四角各一个小角花；中间全空 | 和现在原型的缺角边框位置一致（边距约 28px） |
+| C4-3 | `cards/border_home.png` | 600×900 | 是 | 家里面的边框：比 C4-2 简单，一道细线加四个小角花 | 安静 |
+| C4-4 | `cards/back.png` | 600×900 | 否 | 牌背：平面对称构成，深朱红底，中间一个大圆环（扇形格、同心圆，像一面锣或一枚团花），墨黑与灰点缀；中心直径约 200px 留空 | 和 S5 定稿一致 |
+
+## 五、剪纸观众（C2）· 40 张
+
+**格式**：每张 512×640，透明底；**纯黑 `#0B0809`** 剪影，**不要画红边**（代码加）；底边水平切齐；身上留 1–3 处**镂空**（窗花、衣纹、扇骨），镂空是透明的。头和肩为主，可以带一只手或道具；背对或四分之三背对我们。
+**提示词**：〈风格前缀〉一张中国剪纸观众剪影，纯黑色，背对观者，头和肩，身上镂空几处窗花，透明背景：〈人物〉。
+
+| 组 | 编号 | 人物 |
+|---|---|---|
+| 前排（坐着看戏） | `crowd/a01` … `a16` | 瓜皮帽中年男人；毡帽老人；斗笠挑夫；光头小伙；发髻插簪妇人；发髻插花少女；两个丫髻的小孩；头巾老妇；长辫青年；摇折扇的书生；抱孩子的母亲（孩子从肩上探头）；骑在父亲肩上的小孩；靠在一起的两个人；戴圆眼镜的先生；方巾老先生；端茶碗的人 |
+| 动作对（同一个人两张：平常／反应） | `crowd/b01_idle`、`b01_act` … `b08` | 叫好：抱胸 → 双手举高；鼓掌：手放膝上 → 举手拍；挥帕子的老太太：帕子垂着 → 帕子甩起；胖商人：坐着 → 站起来挥帽子。倒彩：摆手嘘；捂耳朵；扭头背过身；扬手扔出一把瓜子壳 |
+| 后排（远处小影） | `crowd/c01` … `c08` | 两三个人连在一起的一片头和肩，轮廓简单，镂空少 |
+
+**验收**：40 张轮廓一眼能分；没有灰阶；动作对的两张底边、大小、位置一致（叠起来只有动作在变）。
+
+## 六、装饰纸片（D）
+
+贴在原型已有的 3D 物件上，给场景加细节，**不改场景结构**。
+
+| 编号 | 文件名 | 尺寸 | 透明 | 内容 | 贴在哪 |
+|---|---|---|---|---|---|
+| D1 | `deco/shoujiu.png` | 1536×1024 | 否 | 戏台后面的「守旧」背幕：朱红底，正中一团对称的团花或双凤（抽象成几何），四边回纹；平面、只用三四个颜色 | 小戏台的后墙 |
+| D2 | `deco/carpet.png` | 1024×1024 | 否 | 台毯纹样：暗朱红底，低对比的团花与回纹，**能无缝平铺** | 戏台台面 |
+| D3 | `deco/chuanghua_01.png` … `_04.png` | 512×512 | 是 | 朱红窗花剪纸，纯色，镂空清楚：如意、蝙蝠、牡丹、灯笼各一 | 灯坊的窗、后台墙 |
+| D4 | `deco/lianpu_01.png` … `_04.png` | 512×640 | 是 | 脸谱剪纸：单色（朱红或墨黑）的抽象脸谱，**不照抄任何真实谱式** | 后台墙上 |
+| D5 | `deco/lampaper.png` | 256×256 | 是 | 灯纸纹样：极淡的墨线小团花，能平铺 | 灯坊那盏灯的每片纸 |
+| D6 | `deco/chest_lid.png` | 512×512 | 是 | 一个对称的单色线描纹样（如意云头） | 木匣盖子 |
+
+## 七、物件图标（C6）· 7 张
+
+1024×1024，透明底，`_line` + `_accent` 两层；一个物件，外面一圈细圆环（也在 `_line` 里）。木刻刻线，块面分明。
+
+| 文件名前缀 | 物件 |
+|---|---|
+| `relics/qinshi` | 琴师：一把京胡 |
+| `relics/gujing` | 锣鼓经：一面小锣、一面单皮鼓 |
+| `relics/cha` | 护嗓茶：一把茶壶、一只小茶盅，一缕热气 |
+| `relics/lian` | 妆奁：一个带小抽屉的妆奁 |
+| `relics/jin` | 熟手巾：一条卷起来的毛巾 |
+| `relics/you` | 灯油：一只小油罐，一截灯芯 |
+| `relics/luo` | 小锣：一面小手锣和锣槌 |
+
+## 八、界面小件（C7）
+
+全部透明底、平面、纯色。
+
+| 编号 | 文件名 | 尺寸 | 内容 |
+|---|---|---|---|
+| C7-1 | `ui/paper_light.png`、`ui/paper_dark.png` | 1024×1024 | 宣纸面板（米白）和深色纸面板（近墨黑），毛边，纤维极淡；四边各留 96px 做九宫格 |
+| C7-2 | `ui/seal_square.png`、`ui/seal_round.png` | 512×512 | 空白朱红印章底，边缘有石刻的崩口；**印面不要字** |
+| C7-3 | `ui/look_wait.png`、`look_tired.png`、`look_busy.png`、`look_talk.png` | 256×256 | 她的四种样子，单色木刻小图标：两副碗筷；托腮闭眼的侧脸；灯笼骨架；微张的嘴和一缕气 |
+| C7-4 | `ui/wick_on.png`、`ui/wick_out.png` | 128×128 | 一截灯芯：亮的顶上一点朱红小火；熄的芯头焦黑、一丝烟 |
+| C7-5 | `ui/scar_mark.png` | 64×192 | 一道斜的墨色划痕，起笔重、尾巴飞白 |
+| C7-6 | `ui/brush_underline.png` | 1024×64 | 一道朱红毛笔横划 |
+
+## 九、特效（C8）
+
+每张 1024×1024，4×4 格，每格 256×256 一个，透明底，纯色无渐变。
+
+| 文件名 | 内容 |
+|---|---|
+| `fx/paper_flakes.png` | 16 片朱红和米白的小纸屑，有的卷曲 |
+| `fx/gold_leaf.png` | 16 片赭金箔碎片（平涂，用一道深色线表示褶） |
+| `fx/ink_drops.png` | 16 个墨点、甩墨、溅墨 |
+| `fx/paper_burnt.png` | 16 片烧焦卷边的朱红灯纸碎片（焦边用墨黑平涂） |
+| `fx/ribbon.png` | 单独一张 2048×128：一条横向飘的朱红彩绸，两端收细 |
+
+## 十、夜景剪纸（C9）
+
+更夫报更那一屏。**分层剪纸**，代码叠起来做视差：每层 2560×720，透明底，纯色。
+
+| 文件名 | 内容 |
+|---|---|
+| `night/layer_1_far.png` | 最远：灰墨色的远山和城墙，轮廓平缓 |
+| `night/layer_2_roofs.png` | 中间：墨黑的屋脊、檐角、一座小戏楼的轮廓 |
+| `night/layer_3_near.png` | 最近：墨黑的屋檐和一串小灯笼（灯笼朱红） |
+| `night/moon.png` | 512×512：一轮米白圆月，剪纸边 |
+
+画面中间要留大片空（游戏会在中间竖排写字）。
+
+## 十一、同门木刻像草稿（C10，插画师会修）
+
+6 张 600×900，**黑底白刻线**的木刻半身像，像一张人物卡；刻线粗、块面分明，不画背景。放 `draft/`。
+
+| 文件名 | 人物 |
+|---|---|
+| `draft/rival_wei.png` | 魏老板：班主，五十多岁，富态，长衫，手里一串念珠 |
+| `draft/rival_jinbao.png` | 金宝：武生，二十多岁，浓眉，练功服，意气风发 |
+| `draft/rival_yuexian.png` | 月仙：青衣，二十多岁，清冷，发髻一根素簪 |
+| `draft/rival_yulou.png` | 玉楼：丑角，三十多岁，圆脸，笑眯眯 |
+| `draft/rival_xiaofeng.png` | 小凤：花旦，十八九岁，病后清瘦，裹着披肩 |
+| `draft/sun_shifu.png` | 孙师父：老琴师，七十岁，瘦，灰白胡子，怀里抱着京胡 |
+
+## 十二、交付与自查
+
+1. 输出放到仓库 `原型/assets/` 下对应子目录；每个子目录一个 `README.md`，一行一张：编号、文件名、尺寸、透明与否、一句说明。
+2. **自查三步**，每张都过：
+   - 放大看：有没有渐变、明暗、写实纹理？有就重做。
+   - 缩小看：卡面插图缩到 90px 高、观众缩到 60px 高，还认得出吗？
+   - 放进去看：贴到 `原型截圖/` 里对应的原型截图上，色调和周围一致吗？
+3. 拿不准的（构图、某个东西的样子），先出两三个小样放进 `draft/`，等确认。
+
+**合计**：小样 15（5 项各 3 版）、卡面插图 31（×2 层）、卡纸 7、观众 40、装饰纸片 12、物件 7（×2 层）、界面 12、特效 5、夜景 4、同门草稿 6。
+
+exec
+/bin/zsh -lc 'cat 設計/美術/CODEX_ART_RESULT.md; cat 原型/assets_codex_20261110/cards/README.md; cat 原型/assets_codex_20261110/draft/README.md; cat CLAUDE.md; git status --short' in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+# 《底色·戲城》v2 生圖結果
+
+時間：2026-11-11T01:59:02.192990+08:00（Asia/Shanghai）
+
+狀態：已生成全量候選，供作者評選；未接入遊戲。
+
+目前交付 183/183 個 PNG，依 v2 唯一清單。使用內建 imagegen；原始生成及完整提示詞集合：`原型/assets_compare/work/v2/prompts.jsonl`，逐項語義需求：`plan.json`。
+
+|類別|規定數量|PNG檔|
+|---|---:|---:|
+|風格小樣|15（S1、S2雙層）|21|
+|卡面|31雙層|62|
+|卡紙、邊框、牌背|7|7|
+|剪紙觀眾|40|40|
+|裝飾紙片|12|12|
+|物件|7雙層|14|
+|界面|12|12|
+|特效|5|5|
+|夜景|4|4|
+|同門草稿|6|6|
+
+## 自選風格（已鎖定，按作者授權繼續）
+
+- S1 選 **c**：半開扇與三道長弧最直接；沒有包圍圓框，適合狹長卡面插圖區。
+- S2 選 **a**：小油燈和三道聲音弧，輪廓簡單、留白明確；朱紅只落在火焰。
+- S3 選 **c**：背影、帽形與髮髻可分辨，鏤空少，最接近現有觀眾的塊面密度。
+- S4 選 **c**：曲線牡丹與大鏤空較安靜，純朱紅適合窗與牆面的貼紙。
+- S5 選 **c**：四向扇格環與中央留空，對稱且主次清楚；延續深朱紅牌背。
+
+返工：首輪 S1-c、S2-a 加入需求外人物／裝飾，已移出正式交付並重生。正式檔已轉為規定純色與透明分層，無連續色階。所有素材仍需全量縮圖及截圖貼合驗收。
+
+## 交付位置
+
+- 候選新圖：`原型/assets_codex_20261110/`（每個子目錄附README，根manifest逐檔列出尺寸、透明、分層與雜湊）。
+- 前後對比：`原型/assets_compare/對比/`。
+- 改前：原65張保持不動，另外補匯出7個現有物件字形與4個LOOK_ICON SVG到原before下的relics/ui，只補缺失檔。來源見 `supplement-provenance.json`。
+
+## 主要對比圖
+
+- `原型/assets_compare/對比/draft-new-overview.png`
+- `原型/assets_compare/對比/rivals-new-overview.png`
+- `原型/assets_compare/對比/cards-before-after.png`
+- `原型/assets_compare/對比/cards-four-colors-90px.png`
+- `原型/assets_compare/對比/crowd-before-after.png`
+- `原型/assets_compare/對比/card-back-before-after.png`
+- `原型/assets_compare/對比/border-stage-before-after.png`
+- `原型/assets_compare/對比/border-home-before-after.png`
+- `原型/assets_compare/對比/paper-before-after.png`
+- `原型/assets_compare/對比/relics-before-after.png`
+- `原型/assets_compare/對比/ui-before-after.png`
+- `原型/assets_compare/對比/deco-new-overview.png`
+- `原型/assets_compare/對比/fx-new-overview.png`
+- `原型/assets_compare/對比/night-new-overview.png`
+- `原型/assets_compare/對比/night-before-new-composition.png`
+- `原型/assets_compare/對比/readability-90px-60px.png`
+- `原型/assets_compare/對比/crowd-motion-registration-1.png`
+- `原型/assets_compare/對比/crowd-motion-registration-2.png`
+- `原型/assets_compare/對比/carpet-tile-2x2.png`
+- `原型/assets_compare/對比/lampaper-tile-2x2.png`
+
+另有 `qa-*.png` 逐頁驗收、`context-*.png` 對應原型截圖色調檢查，以及31張 `art_*-placement-proof.png` 卡面靜態貼合。所有貼合圖明標 STATIC PROOF，沒有改動遊戲。
+
+## 哪些沒有1.0獨立對應
+
+- 卡面、觀眾、牌背、邊框有既有匯出，可直接對照。觀眾新40張與舊19張是同類輪廓比較，並非全部一對一角色。
+- 物件的舊版是CSS漢字卡面，狀態小件的舊版是SVG，補匯出後作同功能比較。
+- 卡紙只有舊卡表面裁片，沒有獨立紙張圖。
+- 裝飾紙片、特效圖集、界面紙面板／空印章／筆劃、夜景分層與同門木刻草稿，無既有獨立點陣對應，交新圖總覽與原場景色調參考。
+- 夜間原圖近乎全黑，夜景對比明標為新增分層構成，不把它稱作既有景物的替換。
+
+## 自查
+
+- 尺寸／透明／純色／分層數據檢查：183檔；問題0項。詳見 `原型/assets_compare/work/v2/audit.json`。
+- 卡面與物件兩層同畫布同位置；line只含#000，accent只含#A8202B；觀眾只含#0B0809，鏤空為透明。
+- 交付檔採限定色與透明遮罩，排除連續明暗色階；卡紙是v2特別要求的極低起伏中灰覆蓋層。
+- D2採暗朱紅三檔平塗（#68141D／#581219／#481017），並由生成圖鏡像配邊成無縫重複；附2×2平鋪圖。
+- 觀眾動作對同畫布、同底邊；頭部位置目視接近重合，生成編輯仍有少量輪廓差異，附疊色圖供作者複核。
+- 目視、縮圖、截圖貼合的逐項記錄見 `visual-review.md`；未通過的項目重生後才計入最終通過。
+- 保護檢查：原65張before及開工時363個已跟蹤檔案，雜湊變化0項。
+- 未生成寫實場景貼圖、未生成阿檀／主角／鏡中臉／標題畫／結局牌；同門六張為作者允許的插畫師修稿用草稿。
+- 未接入1.0、未覆蓋現有遊戲資源，未commit、未push。
+
+## 返工記錄
+
+首輪 S1-c、S2-a 加入需求外人物與多色裝飾，退回重做，不列為完成。採用更嚴格的單物件提示詞。
+卡面首批目視：長腔、亮嗓、快板輪廓清楚；白的醒木有斜透視側面，列入重生隊列，改為正面平面矩形，不畫厚度或側面。
+醒木已重生為正面純黑長方形，無側面厚度；已複查替代圖。卡面前16張已在米白背景總覽中逐張目視，保留純色塊與透明刻線。
+第17–24張目視：定場詩的素笺／醒木仍帶斜側面、托腔誤加完整京胡、韻白扇子張得太開，三項已送重生。其餘主體與90px縮圖可辨。
+觀眾 a11 原圖誤生成彩色正面戲服母子，與純黑背影規格不符，列入重生；後續提示已強調普通百姓、日常衣服、後腦勺，禁戲服與正臉。
+a10 已補上伸出肩旁的折扇；a11 已改為朴素母子背影；a13 已改為普通短髮與發髻二人；a16 已補上肩旁茶碗。四張返工目視通過。
+b03_idle 原圖誤為正面彩色老太太，已先停止其反應版相依生成並重做，現為普通發髻背影持垂帕，通過後才繼續動作編輯。
+裝飾D2限定色匯出初版丟失暗紅團花，已改為三檔暗朱紅平塗分色（#68141D/#581219/#481017），並以生成圖作鏡像循環配邊；2×2平鋪目視通過，無連續色階。
+C2-c06原圖誤有六人，已重生為兩人組。C6-gujing生成工具曾回傳錯誤，已用純樂器圖示提示重試。
+
+界面燈芯初稿誤為完整油盞／蠟燭，已改為單截燈芯重生；朱紅筆劃匯出改以原生筆劃有效範圍對齊1024×64長條。
+C8墨點初稿誤成戲曲道具圖集，退回改為純黑隨機墨斑重生；彩綢匯出改按有效輪廓填入2048×128長條。
+圓月首稿為空心環，第二稿誤加全場景；依作者允許的純黑剪影回退法重生實心圓，匯出為單一米白，無光暈與漸層。
+
+# cards — v2 獨立候選素材
+
+由內建 imagegen 生成，未接入遊戲；分層與尺寸為生成原圖的確定性匯出。
+
+- C5-changqiang | `art_changqiang_line.png` | 1024×1024 | 透明 | 半开的折扇，扇后三道悠长弧线 / half-open folding fan with three long arcs
+- C5-changqiang | `art_changqiang_accent.png` | 1024×1024 | 透明 | 半开的折扇，扇后三道悠长弧线 / half-open folding fan with three long arcs
+- C5-liangsang | `art_liangsang_line.png` | 1024×1024 | 透明 | 全开的折扇，扇外同心弧 / fully open fan and concentric arcs
+- C5-liangsang | `art_liangsang_accent.png` | 1024×1024 | 透明 | 全开的折扇，扇外同心弧 / fully open fan and concentric arcs
+- C5-bai | `art_bai_line.png` | 1024×1024 | 透明 | 醒木压半展开的空白戏本 / wooden clapper on half unrolled blank script
+- C5-bai | `art_bai_accent.png` | 1024×1024 | 透明 | 醒木压半展开的空白戏本 / wooden clapper on half unrolled blank script
+- C5-kuaiban | `art_kuaiban_line.png` | 1024×1024 | 透明 | 交叠竹板，短促节奏线 / overlapping bamboo clappers and short rhythm marks
+- C5-kuaiban | `art_kuaiban_accent.png` | 1024×1024 | 透明 | 交叠竹板，短促节奏线 / overlapping bamboo clappers and short rhythm marks
+- C5-shenduan | `art_shenduan_line.png` | 1024×1024 | 透明 | 旦角背影，衣袖甩成弧 / anonymous dan opera performer BACK silhouette with arcing sleeve
+- C5-shenduan | `art_shenduan_accent.png` | 1024×1024 | 透明 | 旦角背影，衣袖甩成弧 / anonymous dan opera performer BACK silhouette with arcing sleeve
+- C5-shuixiu | `art_shuixiu_line.png` | 1024×1024 | 透明 | 两条翻飞水袖对称交缠 / two symmetrically intertwined long water sleeves
+- C5-shuixiu | `art_shuixiu_accent.png` | 1024×1024 | 透明 | 两条翻飞水袖对称交缠 / two symmetrically intertwined long water sleeves
+- C5-liangxiang | `art_liangxiang_line.png` | 1024×1024 | 透明 | 两根交叉雉鸡翎 / two crossed pheasant plumes
+- C5-liangxiang | `art_liangxiang_accent.png` | 1024×1024 | 透明 | 两根交叉雉鸡翎 / two crossed pheasant plumes
+- C5-fanshen | `art_fanshen_line.png` | 1024×1024 | 透明 | 翻身武生剪影，衣摆旋圆 / anonymous martial opera performer somersault silhouette with circular swirling hem
+- C5-fanshen | `art_fanshen_accent.png` | 1024×1024 | 透明 | 翻身武生剪影，衣摆旋圆 / anonymous martial opera performer somersault silhouette with circular swirling hem
+- C5-jie_kutou | `art_jie_kutou_line.png` | 1024×1024 | 透明 | 掩面的水袖，袖口一滴朱红泪 / sleeve covering an implied face, one red teardrop, do not show face
+- C5-jie_kutou | `art_jie_kutou_accent.png` | 1024×1024 | 透明 | 掩面的水袖，袖口一滴朱红泪 / sleeve covering an implied face, one red teardrop, do not show face
+- C5-jie_guankou | `art_jie_guankou_line.png` | 1024×1024 | 透明 | 连绵墨点与笔锋，不成字 / rhythmic connected abstract ink dots and brush tips, NOT writing
+- C5-jie_guankou | `art_jie_guankou_accent.png` | 1024×1024 | 透明 | 连绵墨点与笔锋，不成字 / rhythmic connected abstract ink dots and brush tips, NOT writing
+- C5-jie_dadao | `art_jie_dadao_line.png` | 1024×1024 | 透明 | 竖立青龙偃月刀 / one upright crescent-bladed guandao opera prop
+- C5-jie_dadao | `art_jie_dadao_accent.png` | 1024×1024 | 透明 | 竖立青龙偃月刀 / one upright crescent-bladed guandao opera prop
+- C5-manban | `art_manban_line.png` | 1024×1024 | 透明 | 一炷香的烟绕缓缓垂下的长袖 / incense stick and flat curling smoke wrapping one hanging long sleeve
+- C5-manban | `art_manban_accent.png` | 1024×1024 | 透明 | 一炷香的烟绕缓缓垂下的长袖 / incense stick and flat curling smoke wrapping one hanging long sleeve
+- C5-tazhuan | `art_tazhuan_line.png` | 1024×1024 | 透明 | 厚底靴与旋起衣摆 / pair of thick-soled opera boots and whirling robe hem
+- C5-tazhuan | `art_tazhuan_accent.png` | 1024×1024 | 透明 | 厚底靴与旋起衣摆 / pair of thick-soled opera boots and whirling robe hem
+- C5-qiba | `art_qiba_line.png` | 1024×1024 | 透明 | 四面靠旗扇形展开 / four triangular Chinese opera back flags opening in a fan
+- C5-qiba | `art_qiba_accent.png` | 1024×1024 | 透明 | 四面靠旗扇形展开 / four triangular Chinese opera back flags opening in a fan
+- C5-daoban | `art_daoban_line.png` | 1024×1024 | 透明 | 小鼓与锣左右平衡 / one small drum and one gong, symmetrical balance
+- C5-daoban | `art_daoban_accent.png` | 1024×1024 | 透明 | 小鼓与锣左右平衡 / one small drum and one gong, symmetrical balance
+- C5-shuban | `art_shuban_line.png` | 1024×1024 | 透明 | 展开无字竹简 / open bundle of blank bamboo slips
+- C5-shuban | `art_shuban_accent.png` | 1024×1024 | 透明 | 展开无字竹简 / open bundle of blank bamboo slips
+- C5-jijifeng | `art_jijifeng_line.png` | 1024×1024 | 透明 | 交叉鼓槌与疾风线 / crossed drumsticks and swift wind streaks
+- C5-jijifeng | `art_jijifeng_accent.png` | 1024×1024 | 透明 | 交叉鼓槌与疾风线 / crossed drumsticks and swift wind streaks
+- C5-yunbai | `art_yunbai_line.png` | 1024×1024 | 透明 | 圆月前一把收拢的扇 / closed folding fan in front of round moon represented by black ring
+- C5-yunbai | `art_yunbai_accent.png` | 1024×1024 | 透明 | 圆月前一把收拢的扇 / closed folding fan in front of round moon represented by black ring
+- C5-woyu | `art_woyu_line.png` | 1024×1024 | 透明 | 后仰卧倒旦角剪影旁一朵朱红牡丹 / anonymous dan performer reclining backbend silhouette beside a vermilion peony
+- C5-woyu | `art_woyu_accent.png` | 1024×1024 | 透明 | 后仰卧倒旦角剪影旁一朵朱红牡丹 / anonymous dan performer reclining backbend silhouette beside a vermilion peony
+- C5-qingchang | `art_qingchang_line.png` | 1024×1024 | 透明 | 一盏清茶一缕气，四周留空 / one quiet teacup with one wisp, much empty space
+- C5-qingchang | `art_qingchang_accent.png` | 1024×1024 | 透明 | 一盏清茶一缕气，四周留空 / one quiet teacup with one wisp, much empty space
+- C5-dingchang | `art_dingchang_line.png` | 1024×1024 | 透明 | 醒木压空白素笺 / wooden clapper on one blank sheet
+- C5-dingchang | `art_dingchang_accent.png` | 1024×1024 | 透明 | 醒木压空白素笺 / wooden clapper on one blank sheet
+- C5-tuoqiang | `art_tuoqiang_line.png` | 1024×1024 | 透明 | 京胡琴弓托上扬长弧 / jinghu bow supporting one upward long arc
+- C5-tuoqiang | `art_tuoqiang_accent.png` | 1024×1024 | 透明 | 京胡琴弓托上扬长弧 / jinghu bow supporting one upward long arc
+- C5-tangma | `art_tangma_line.png` | 1024×1024 | 透明 | 马鞭鞭穗扬起与奔马风线 / opera horsewhip with lifted tassels and running wind streaks
+- C5-tangma | `art_tangma_accent.png` | 1024×1024 | 透明 | 马鞭鞭穗扬起与奔马风线 / opera horsewhip with lifted tassels and running wind streaks
+- C5-tang | `art_tang_line.png` | 1024×1024 | 透明 | 一碗冒气的汤 / one bowl of steaming soup
+- C5-tang | `art_tang_accent.png` | 1024×1024 | 透明 | 一碗冒气的汤 / one bowl of steaming soup
+- C5-fan | `art_fan_line.png` | 1024×1024 | 透明 | 两只碗两双筷子对称 / two bowls and two pairs of chopsticks symmetrically arranged
+- C5-fan | `art_fan_accent.png` | 1024×1024 | 透明 | 两只碗两双筷子对称 / two bowls and two pairs of chopsticks symmetrically arranged
+- C5-xin | `art_xin_line.png` | 1024×1024 | 透明 | 红线捆着的无字旧信 / blank old folded letter tied with vermilion thread
+- C5-xin | `art_xin_accent.png` | 1024×1024 | 透明 | 红线捆着的无字旧信 / blank old folded letter tied with vermilion thread
+- C5-zhi | `art_zhi_line.png` | 1024×1024 | 透明 | 一朵剪纸花 / one paper-cut flower; black structural flower, small red central petal
+- C5-zhi | `art_zhi_accent.png` | 1024×1024 | 透明 | 一朵剪纸花 / one paper-cut flower; black structural flower, small red central petal
+- C5-home_listen | `art_home_listen_line.png` | 1024×1024 | 透明 | 小油灯旁一圈圈声音弧 / one small oil lamp and quiet sound arcs beside it
+- C5-home_listen | `art_home_listen_accent.png` | 1024×1024 | 透明 | 小油灯旁一圈圈声音弧 / one small oil lamp and quiet sound arcs beside it
+- C5-home_comp | `art_home_comp_line.png` | 1024×1024 | 透明 | 两只并排茶杯 / two side-by-side teacups
+- C5-home_comp | `art_home_comp_accent.png` | 1024×1024 | 透明 | 两只并排茶杯 / two side-by-side teacups
+- C5-home_care | `art_home_care_line.png` | 1024×1024 | 透明 | 汤碗与叠好热毛巾 / bowl of soup and folded warm towel
+- C5-home_care | `art_home_care_accent.png` | 1024×1024 | 透明 | 汤碗与叠好热毛巾 / bowl of soup and folded warm towel
+- C5-home_labor | `art_home_labor_line.png` | 1024×1024 | 透明 | 两双手一起糊一片灯纸 / TWO PAIRS of hands together pasting one sheet of lantern paper
+- C5-home_labor | `art_home_labor_accent.png` | 1024×1024 | 透明 | 两双手一起糊一片灯纸 / TWO PAIRS of hands together pasting one sheet of lantern paper
+- C4-1-1 | `paper_01.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 1. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-1-2 | `paper_02.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 2. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-1-3 | `paper_03.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 3. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-1-4 | `paper_04.png` | 600×900 | 不透明 | Flat GRAYSCALE card stock overlay, average 50 percent gray #808080, extremely faint fiber marks and subtly rounded frayed corners, one or two barely visible flat crease marks. Variation 4. No lighting, no shading, no photographed texture. Tiny tonal variation only.
+- C4-2 | `border_stage.png` | 600×900 | 透明 | Pure black thin symmetrical Chinese meander/cloud border, one small corner flower in each corner, margin 28px; center completely TRANSPARENT. Broken-corner card frame.
+- C4-3 | `border_home.png` | 600×900 | 透明 | Very quiet thin black rectangular card border, four small minimal corner flowers, margin 28px, completely TRANSPARENT empty center.
+- C4-4 | `back.png` | 600×900 | 不透明 | Flat symmetric Chinese opera card BACK, deep vermilion background, a large circular ring of fan sectors and concentric circles like a gong, ink black gray accents, center diameter 200px empty. Three or four solid colors.
+# draft — v2 獨立候選素材
+
+由內建 imagegen 生成，未接入遊戲；分層與尺寸為生成原圖的確定性匯出。
+
+- S1-a | `s1_changqiang_a_line.png` | 1024×1024 | 透明 | One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. broad bold shapes, symmetric, sparse cutouts
+- S1-a | `s1_changqiang_a_accent.png` | 1024×1024 | 透明 | One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. broad bold shapes, symmetric, sparse cutouts
+- S1-b | `s1_changqiang_b_line.png` | 1024×1024 | 透明 | One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. angular carved geometry, generous empty space, strong rhythm
+- S1-b | `s1_changqiang_b_accent.png` | 1024×1024 | 透明 | One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. angular carved geometry, generous empty space, strong rhythm
+- S1-c | `s1_changqiang_c_line.png` | 1024×1024 | 透明 | One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. flowing elegant carved curves, balanced asymmetry, very few details
+- S1-c | `s1_changqiang_c_accent.png` | 1024×1024 | 透明 | One half-open folding fan, THREE long sweeping arcs behind fan, tiny red fan pivot. flowing elegant carved curves, balanced asymmetry, very few details
+- S2-a | `s2_listen_a_line.png` | 1024×1024 | 透明 | One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. broad bold shapes, symmetric, sparse cutouts
+- S2-a | `s2_listen_a_accent.png` | 1024×1024 | 透明 | One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. broad bold shapes, symmetric, sparse cutouts
+- S2-b | `s2_listen_b_line.png` | 1024×1024 | 透明 | One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. angular carved geometry, generous empty space, strong rhythm
+- S2-b | `s2_listen_b_accent.png` | 1024×1024 | 透明 | One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. angular carved geometry, generous empty space, strong rhythm
+- S2-c | `s2_listen_c_line.png` | 1024×1024 | 透明 | One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. flowing elegant carved curves, balanced asymmetry, very few details
+- S2-c | `s2_listen_c_accent.png` | 1024×1024 | 透明 | One small oil lamp and quiet concentric sound arcs beside lamp, small vermilion flame. flowing elegant carved curves, balanced asymmetry, very few details
+- S3-a | `s3_crowd_a.png` | 1536×640 | 透明 | SIX distinct Chinese theater spectators side by side in one horizontal row, viewed FROM BEHIND, head and shoulders only: melon cap man, felt hat elder, conical hat porter, bald youth, hairpin bun woman, double-bun child. broad bold shapes, symmetric, sparse cutouts
+- S3-b | `s3_crowd_b.png` | 1536×640 | 透明 | SIX distinct Chinese theater spectators side by side in one horizontal row, viewed FROM BEHIND, head and shoulders only: melon cap man, felt hat elder, conical hat porter, bald youth, hairpin bun woman, double-bun child. angular carved geometry, generous empty space, strong rhythm
+- S3-c | `s3_crowd_c.png` | 1536×640 | 透明 | SIX distinct Chinese theater spectators side by side in one horizontal row, viewed FROM BEHIND, head and shoulders only: melon cap man, felt hat elder, conical hat porter, bald youth, hairpin bun woman, double-bun child. flowing elegant carved curves, balanced asymmetry, very few details
+- S4-a | `s4_chuanghua_a.png` | 512×512 | 透明 | ONE symmetrical vermilion Chinese window paper-cut peony flower, clearly cut out negative spaces. broad bold shapes, symmetric, sparse cutouts
+- S4-b | `s4_chuanghua_b.png` | 512×512 | 透明 | ONE symmetrical vermilion Chinese window paper-cut peony flower, clearly cut out negative spaces. angular carved geometry, generous empty space, strong rhythm
+- S4-c | `s4_chuanghua_c.png` | 512×512 | 透明 | ONE symmetrical vermilion Chinese window paper-cut peony flower, clearly cut out negative spaces. flowing elegant carved curves, balanced asymmetry, very few details
+- S5-a | `s5_back_a.png` | 600×900 | 不透明 | Flat symmetric Chinese opera card BACK design. Dark vermilion rectangular background, a large central circular ring formed from fan sectors and concentric rings like a gong or rosette; ink black and gray accents, small ochre details. Keep center circle diameter 200px EMPTY of symbols. broad bold shapes, symmetric, sparse cutouts
+- S5-b | `s5_back_b.png` | 600×900 | 不透明 | Flat symmetric Chinese opera card BACK design. Dark vermilion rectangular background, a large central circular ring formed from fan sectors and concentric rings like a gong or rosette; ink black and gray accents, small ochre details. Keep center circle diameter 200px EMPTY of symbols. angular carved geometry, generous empty space, strong rhythm
+- S5-c | `s5_back_c.png` | 600×900 | 不透明 | Flat symmetric Chinese opera card BACK design. Dark vermilion rectangular background, a large central circular ring formed from fan sectors and concentric rings like a gong or rosette; ink black and gray accents, small ochre details. Keep center circle diameter 200px EMPTY of symbols. flowing elegant carved curves, balanced asymmetry, very few details
+- C10-rival_wei | `rival_wei.png` | 600×900 | 不透明 | 魏老板 / boss Wei, portly troupe leader in his fifties, long gown, holding a string of prayer beads
+- C10-rival_jinbao | `rival_jinbao.png` | 600×900 | 不透明 | 金宝 / Jinbao, martial opera actor in twenties, strong eyebrows, training clothes, confident
+- C10-rival_yuexian | `rival_yuexian.png` | 600×900 | 不透明 | 月仙 / Yuexian, qingyi actress in twenties, cool reserved expression, bun with ONE plain hairpin
+- C10-rival_yulou | `rival_yulou.png` | 600×900 | 不透明 | 玉楼 / Yulou, clown actor in thirties, round face, smiling gently
+- C10-rival_xiaofeng | `rival_xiaofeng.png` | 600×900 | 不透明 | 小凤 / Xiaofeng, young adult huadan actress aged nineteen, thin after illness, wrapped in shawl
+- C10-sun_shifu | `sun_shifu.png` | 600×900 | 不透明 | 孙师父 / master Sun, old jinghu player aged seventy, thin, gray-white beard, holding jinghu
+# 底色（game-dise）
+
+## 專案放哪裡
+
+- 工作副本放在 `~/Projects/game-dise`，GitHub 上的 repo 是正本。
+- 不要把這個 repo 放進 iCloud Drive。iCloud 會把 `.git` 裡的檔案移到雲端，git 會逾時或損壞。
+- Blender 原始檔、QA 截圖這類製作過程的素材放 iCloud，不進 repo。會進遊戲的成品才放進 repo。
+- 單檔不要超過 100 MB（GitHub 上限）。
+
+## 同步規則
+
+git 操作由 Claude 處理，不需要使用者自己下指令。
+
+- 開工前先執行 `git pull --ff-only`。
+- 改完並確認能跑之後，commit 並 push 到 GitHub。
+- pull 失敗或遠端有分歧時，先停下來用白話說明，不要 force push，也不要覆蓋遠端。
+?? "\345\216\237\345\236\213/v1.8-workbuddy/"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/V18_FACES_CODEX_BRIEF.md"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/codex_v18_faces.log"
+
+exec
+/bin/zsh -lc "rg -n '阿檀|鏡|镜|底色|妻子|素臉|素脸|貼片|贴片|青衣|頭面|头面' 設計/v0.3* 設計/v0.6* 設計/v1.* 設計/旦角模型_第二版细修说明.md" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+設計/v0.3_戲城_妝匣版.md:4:> 世界觀：B《底色》（戲城）
+設計/v0.3_戲城_妝匣版.md:12:- **資源**：金箔（貨幣與業績）、妝匣（每日帶入的牌數）、底色（隱藏累積）。
+設計/v0.3_戲城_妝匣版.md:22:| 傍晚 | 排家中牌順序；最上層殘留作用於第一張家中牌 | 家中牌離開妝匣 | 妻子反應當場 |
+設計/v0.3_戲城_妝匣版.md:23:| 夜 | 用剩餘妝匣清剩下的層；更夫報一句；可選晾布推理 | 剩下的牌拿來清層，否則作廢；沒清的層變底色 | 底色，次日 |
+設計/v0.3_戲城_妝匣版.md:40:算法：不靠被擦時，演 5 ＋ 清 5 ＋ 家 5 ＝ 15；有被擦時，演 5 ＋ 家 7 ＋ 清 3 ＝ 15，另外 2 層由阿檀在門口擦掉，不耗牌。兩條完美路線都正好用完，沒有浪費，也沒有富餘。
+設計/v0.3_戲城_妝匣版.md:52:| 做 | 金箔中，動作精準時加成 | 表演感：底色 +1 | 做工 |
+設計/v0.3_戲城_妝匣版.md:71:| 族 | 例子 | 對妻子的效果 | 張位 | 面具層 |
+設計/v0.3_戲城_妝匣版.md:89:- **被擦之布**：由阿檀收入木匣。
+設計/v0.3_戲城_妝匣版.md:100:## 八、妻子狀態與需求
+設計/v0.3_戲城_妝匣版.md:116:| 3 對鏡 | 想一起做事 | 共勞兩次 | 4 張位 | ①「糊紙」共勞卡 ②燈骨完成，解鎖元宵劇本 |
+設計/v0.3_戲城_妝匣版.md:148:| 業績未過線（末位摘牌） | 素臉 | 更夫 |
+設計/v0.3_戲城_妝匣版.md:159:| 2 | 借妝 | 小鳳病倒；同週是阿檀生日 | 加演夜場（金箔增加，占 2 張位，被看見 −1）或陪生日（被看見 +1，金箔不增，占 1 張陪伴位） |
+設計/v0.3_戲城_妝匣版.md:160:| 3 | 對鏡 | 班主選新的頭牌；夜裡對鏡，一次性看見底色深淺 | 無 |
+設計/v0.3_戲城_妝匣版.md:161:| 4 | 元宵 | 最後一場戲、阿檀點燈、小鳳託你代演 | 三選一：上台、回家點燈、替小鳳代演 |
+設計/v0.3_戲城_妝匣版.md:169:| 貪心 | 演 9（9 層，剩 6 張） | 不清 | 沒有家中牌，空宅，安心 −1 | 用 6 張清 6 層，3 層變底色 | 金箔最高，底色 +3，安心 −1 |
+設計/v0.3_戲城_妝匣版.md:170:| 完美 | 演 5（剩 10 張） | 被擦清 2 層（不耗牌） | 家中 7（剩 3 張） | 用 3 張清剩下的 3 層 | 金箔中等，底色 0，安心和被看見上升，沒有作廢 |
+設計/v0.3_戲城_妝匣版.md:173:三條路線都有代價，只是顯形的時間不同。貪心當天最亮，代價在夜裡變成底色；完美要事先經營安心；只顧家守住了關係，卻交不出金箔。
+設計/v0.3_戲城_妝匣版.md:181:- 底色：夜裡每層未清 +1。
+設計/v1.2_戲城_主次版.md:29:| 夜里 | 睡前还有 **2** 层 · 过夜就渗进底色 | 睡吧 | 水牌、物件 |
+設計/v1.1_戲城_引導版.md:10:| 2 | 教学先说了「怨气」「底色」，前面没介绍过 | 第 1 天上台前加一段**开场导览**（8 步）：先认桌子——木牌、水牌、家（灯、熄、痕）、镜子（油彩、底色）、戏台和台下（怨气、情报）、牌的两面、图鉴和词条。镜子、戏台两步镜头会转过去，框指着 3D 里的东西。之后才开始教打牌 |
+設計/v1.1_戲城_引導版.md:13:| 5 | 灯和痕太不显眼 | 左边原来的妆匣小格换成「**家 · 阿檀**」一块：纸色底，一盏十五片的小灯、灯数大字，熄（五个圈）和痕（四道）各一行，旁边写「满 5 她走」「到 4 她走」。快到线时整块红边一闪一闪 |
+設計/v1.1_戲城_引導版.md:21:| 13 | 规则复杂、词条多，信息过载 | ①开场导览先认东西再教规则；②**词条**：教学和规矩里的关键词带虚线，鼠标停上去就有解释（卖座、起手、接口、连击、怨气、油彩、底色、被染、痕、熄、情报、考核、家常牌、完美、让她擦）；③**颜色分区**：木头色＝台上的事（木牌、水牌），纸色＝家里的事（家那一块、她的需要） |
+設計/v1.1_戲城_引導版.md:29:┌家 · 阿檀（纸色）┐                                   │差多少 · 考核  │
+設計/v1.1_戲城_引導版.md:48:4. 家 · 阿檀（灯、熄、痕，她会走）
+設計/v1.1_戲城_引導版.md:49:5. 镜子 · 你的脸（油彩、底色）——镜头转到镜子
+設計/v1.1_戲城_引導版.md:50:6. 戏台 · 台下（怨气、情报）——镜头回到戏台
+設計/v1.4_戲城_中刪版.md:16:| 4 | 第 5 張、滲色 | 台上最多 5 張；第 5 層直接滲進底色 | 台上最多 4 張（月仙搶戲那天 3 張）；臉上幾層都掛著，不滲 |
+設計/v1.4_戲城_中刪版.md:20:| 8 | 第三幕底色蓋字 | 底色到 2，演得最多那一族推出去算被染 | 沒有。底色只讓妝匣變小 |
+設計/v1.4_戲城_中刪版.md:49:一副牌兩面用、起手與接口、油彩與卸妝、被染、底色縮妝匣、家常牌、幕末考核、同門的事（金寶唱紅、月仙搶戲、魏老闆壓軸、小鳳病／回來）、元宵三選一、九種結局。
+設計/v1.4_戲城_中刪版.md:85:5. 如果中刪後還是難懂，下一步可以試方案 C（再刪後台物件、底色縮妝匣）。
+設計/v1.6_戲城_美術接入.md:35:| 場景裝飾 | 12 張 | 守旧背幕（只在戲台鏡頭出現，往後仰對著鏡頭，免得擋住別的鏡頭裡對面的阿檀）、台毯（平鋪台板）、窗花四張（後牆格窗）、臉譜四張（裱在一張宣紙上貼牆）、燈紙紋樣（那盞燈的每片紅紙）、木匣蓋的如意雲頭（染赭金） | 印在布、紙上的紋樣，跟著場景的光；台毯、背幕壓暗，免得蓋過台上的牌 |
+設計/v1.6_戲城_美術接入.md:49:- **阿檀**（對面的 3D 人物）、**台上的你**（3D 人物）、**鏡中的臉**：這一包沒有這幾張，沿用 v1.5 的程式畫法。沒有拿觀眾圖或別的圖頂替。
+設計/v1.6_戲城_美術接入.md:50:- 3D 場景本身（桌子、房間、小戲台、幕、竿、蠟燭、鏡框、燈骨、木匣、妝匣、晾繩）：照美術規劃，本來就保留 3D，只在上面貼紋樣。
+設計/v1.6_戲城_美術接入.md:67:- 灯坊鏡頭前面有一大片紅幕擋著，v1.5 就是這樣，這一版沒動。
+設計/v1.6_戲城_美術接入.md:68:- 同門頭像是草稿；臉譜、窗花在灯坊、門口鏡頭裡的大小與亮度，請實際玩時看一眼。
+設計/v0.6_戲城_三幕版.md:11:每张牌正面是台上面（白天赚金），背面是家里面（傍晚推给阿檀）。一张牌每天只能用一面。
+設計/v0.6_戲城_三幕版.md:29:- 对面坐着阿檀，她今晚的样子（等、累、忙、想说）看得见。
+設計/v0.6_戲城_三幕版.md:35:- **油彩**：每打一张，脸上多一层。第 5 层起直接渗进底色。
+設計/v0.6_戲城_三幕版.md:52:- 剩下的牌继续卸妆，没卸掉的层每层变成 1 点底色。
+設計/v0.6_戲城_三幕版.md:70:- 玩家以为只要擦干净，就能兼顾一切。桌面整洁，阿檀对你笑。
+設計/v0.6_戲城_三幕版.md:74:- 染色每晚最多 2 张。底色每 2 点，妆匣 −1。
+設計/v0.6_戲城_三幕版.md:76:- 幕末，镜子第一次映出底色。
+設計/v0.6_戲城_三幕版.md:81:- 底色 ≥2：你演得最多的那一族，家里面被台上面的字盖住，推出去就算被染。底色 ≥4 涉及两族。
+設計/v0.6_戲城_三幕版.md:82:- 痕 ≥3：阿檀的座位空了，不再有样子，灯也不再糊。
+設計/v0.6_戲城_三幕版.md:94:- **右**：镜子，映出脸上的油彩。
+設計/v0.6_戲城_三幕版.md:95:- **下**：晾绳，挂着自卸的布；被擦的布进阿檀的木匣。
+設計/v0.6_戲城_三幕版.md:96:- **对面**：阿檀的座位，她在糊灯骨。
+設計/v0.6_戲城_三幕版.md:104:- **妻子状态**：美满（痕 ≤2，且元宵回家点灯）；破裂（痕 ≥4）；守住（其余）。
+設計/v0.6_戲城_三幕版.md:106:| 排名＼妻子 | 美滿 | 守住 | 破裂 |
+設計/v0.6_戲城_三幕版.md:110:| 摘牌 | 卸盡 | 素臉 | 更夫 |
+設計/v0.6_戲城_三幕版.md:136:- 运气只影响过程，不决定结局：前期落后，后期可以补第 5 张，代价是一点底色。
+設計/v1.3_可刪機制清單.md:22:| 4 | 第 5 张、第 5 层直接渗进底色 | 一个上限、一个例外 | 每天最多打 4 张，或者油彩不设上限 |
+設計/v1.3_可刪機制清單.md:26:| 8 | 第三幕「底色盖字」：演得最多那一族推给她就算被染 | 一条后期才出现的隐藏规则，还要一页「镜子」来解释 | 底色只让妆匣变小，再加上结局时脸上的颜色 |
+設計/v1.5_戲城_引導重做.md:40:5. 門口：看一眼鏡子（你的臉，一次「好」）→ 點牌卸妝直到卸乾淨。
+設計/旦角模型_第二版细修说明.md:13:配色和头面方向是对的，要保留；问题集中在大形：身体像一只钟，袖子像两截木块，脸是怒相，衣襟方向也反了。
+設計/旦角模型_第二版细修说明.md:18:- 珍珠、绿地、红点的头面造型和两侧珠串
+設計/旦角模型_第二版细修说明.md:46:| 7 | 鬓发 | 两条黑带垂在脸侧，左右粗细不同，右边外侧还露出一块白色头模。 | 改成贴片子：额前约 7 个小弯，两侧各一条长纺沿脸颊垂到下颌，框出鹅蛋脸。薄片或贴图都行。 | 左右对称，额线连贯，没有露出的头模。 |
+設計/旦角模型_第二版细修说明.md:47:| 8 | 头面 | 配色和层次好，但像发箍扣在圆球上，看不出发髻；珠串笔直、珠子太密。 | 保留造型，补出发髻和后脑。每侧珠串减到 3–4 串、能摆动。远看看不清的小珠改用贴图。 | 三角面不超过 6,000；250 像素高时仍看得出珠串和红点。 |
+設計/旦角模型_第二版细修说明.md:49:| 10 | 梅花 | 两列同样大的花，左右镜像，像钉上去的扣子。 | 画进贴图，不做几何。不对称地聚在裙摆和一侧前襟，下大上小，花枝减到 2–3 组。 | 小尺寸读成一片纹样，不是两排点。 |
+設計/旦角模型_第二版细修说明.md:79:| 滚边、头面金件 | 金 | `#b8913f` |
+設計/旦角模型_第二版细修说明.md:82:| 头面底色 | 石绿 | `#3c6762` |
+設計/旦角模型_第二版细修说明.md:94:| 尺寸 | 发顶 1.67 m，不算头面，缩放由游戏处理 |
+設計/旦角模型_第二版细修说明.md:95:| 三角面 | 全身不超过 25,000，其中头面不超过 6,000 |
+設計/旦角模型_第二版细修说明.md:115:这些位置按游戏画脸的代码换算，接入时游戏这边会去掉现有的横向压缩。另交两张同 UV 的 1024 px PNG：`face_base` 是素脸，`face_full` 是满妆，用来渲染和对照。
+設計/旦角模型_第二版细修说明.md:137:4. 做脸、贴片子、头面。
+設計/旦角模型_第二版细修说明.md:160:| 行当气质 | 温婉的青衣、闺门旦 | 活泼的花旦，衣服和表情都要跟着改 |
+設計/旦角模型_第二版细修说明.md:161:| 头面底色 | 石绿，接近第一版 | 点翠蓝，更贴近传统头面 |
+
+exec
+/bin/zsh -lc "cat 設計/美術/CODEX_ART_RESULT.md; cat 設計/旦角模型_第二版细修说明.md; cat 設計/v0.6_戲城_三幕版.md; sed -n '95,122p' 設計/v0.3_戲城_妝匣版.md; rg --files -g 'AGENTS.md' /Users/tsun/Projects/game-dise /Users/tsun/.codex | head -40" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+# 《底色·戲城》v2 生圖結果
+
+時間：2026-11-11T01:59:02.192990+08:00（Asia/Shanghai）
+
+狀態：已生成全量候選，供作者評選；未接入遊戲。
+
+目前交付 183/183 個 PNG，依 v2 唯一清單。使用內建 imagegen；原始生成及完整提示詞集合：`原型/assets_compare/work/v2/prompts.jsonl`，逐項語義需求：`plan.json`。
+
+|類別|規定數量|PNG檔|
+|---|---:|---:|
+|風格小樣|15（S1、S2雙層）|21|
+|卡面|31雙層|62|
+|卡紙、邊框、牌背|7|7|
+|剪紙觀眾|40|40|
+|裝飾紙片|12|12|
+|物件|7雙層|14|
+|界面|12|12|
+|特效|5|5|
+|夜景|4|4|
+|同門草稿|6|6|
+
+## 自選風格（已鎖定，按作者授權繼續）
+
+- S1 選 **c**：半開扇與三道長弧最直接；沒有包圍圓框，適合狹長卡面插圖區。
+- S2 選 **a**：小油燈和三道聲音弧，輪廓簡單、留白明確；朱紅只落在火焰。
+- S3 選 **c**：背影、帽形與髮髻可分辨，鏤空少，最接近現有觀眾的塊面密度。
+- S4 選 **c**：曲線牡丹與大鏤空較安靜，純朱紅適合窗與牆面的貼紙。
+- S5 選 **c**：四向扇格環與中央留空，對稱且主次清楚；延續深朱紅牌背。
+
+返工：首輪 S1-c、S2-a 加入需求外人物／裝飾，已移出正式交付並重生。正式檔已轉為規定純色與透明分層，無連續色階。所有素材仍需全量縮圖及截圖貼合驗收。
+
+## 交付位置
+
+- 候選新圖：`原型/assets_codex_20261110/`（每個子目錄附README，根manifest逐檔列出尺寸、透明、分層與雜湊）。
+- 前後對比：`原型/assets_compare/對比/`。
+- 改前：原65張保持不動，另外補匯出7個現有物件字形與4個LOOK_ICON SVG到原before下的relics/ui，只補缺失檔。來源見 `supplement-provenance.json`。
+
+## 主要對比圖
+
+- `原型/assets_compare/對比/draft-new-overview.png`
+- `原型/assets_compare/對比/rivals-new-overview.png`
+- `原型/assets_compare/對比/cards-before-after.png`
+- `原型/assets_compare/對比/cards-four-colors-90px.png`
+- `原型/assets_compare/對比/crowd-before-after.png`
+- `原型/assets_compare/對比/card-back-before-after.png`
+- `原型/assets_compare/對比/border-stage-before-after.png`
+- `原型/assets_compare/對比/border-home-before-after.png`
+- `原型/assets_compare/對比/paper-before-after.png`
+- `原型/assets_compare/對比/relics-before-after.png`
+- `原型/assets_compare/對比/ui-before-after.png`
+- `原型/assets_compare/對比/deco-new-overview.png`
+- `原型/assets_compare/對比/fx-new-overview.png`
+- `原型/assets_compare/對比/night-new-overview.png`
+- `原型/assets_compare/對比/night-before-new-composition.png`
+- `原型/assets_compare/對比/readability-90px-60px.png`
+- `原型/assets_compare/對比/crowd-motion-registration-1.png`
+- `原型/assets_compare/對比/crowd-motion-registration-2.png`
+- `原型/assets_compare/對比/carpet-tile-2x2.png`
+- `原型/assets_compare/對比/lampaper-tile-2x2.png`
+
+另有 `qa-*.png` 逐頁驗收、`context-*.png` 對應原型截圖色調檢查，以及31張 `art_*-placement-proof.png` 卡面靜態貼合。所有貼合圖明標 STATIC PROOF，沒有改動遊戲。
+
+## 哪些沒有1.0獨立對應
+
+- 卡面、觀眾、牌背、邊框有既有匯出，可直接對照。觀眾新40張與舊19張是同類輪廓比較，並非全部一對一角色。
+- 物件的舊版是CSS漢字卡面，狀態小件的舊版是SVG，補匯出後作同功能比較。
+- 卡紙只有舊卡表面裁片，沒有獨立紙張圖。
+- 裝飾紙片、特效圖集、界面紙面板／空印章／筆劃、夜景分層與同門木刻草稿，無既有獨立點陣對應，交新圖總覽與原場景色調參考。
+- 夜間原圖近乎全黑，夜景對比明標為新增分層構成，不把它稱作既有景物的替換。
+
+## 自查
+
+- 尺寸／透明／純色／分層數據檢查：183檔；問題0項。詳見 `原型/assets_compare/work/v2/audit.json`。
+- 卡面與物件兩層同畫布同位置；line只含#000，accent只含#A8202B；觀眾只含#0B0809，鏤空為透明。
+- 交付檔採限定色與透明遮罩，排除連續明暗色階；卡紙是v2特別要求的極低起伏中灰覆蓋層。
+- D2採暗朱紅三檔平塗（#68141D／#581219／#481017），並由生成圖鏡像配邊成無縫重複；附2×2平鋪圖。
+- 觀眾動作對同畫布、同底邊；頭部位置目視接近重合，生成編輯仍有少量輪廓差異，附疊色圖供作者複核。
+- 目視、縮圖、截圖貼合的逐項記錄見 `visual-review.md`；未通過的項目重生後才計入最終通過。
+- 保護檢查：原65張before及開工時363個已跟蹤檔案，雜湊變化0項。
+- 未生成寫實場景貼圖、未生成阿檀／主角／鏡中臉／標題畫／結局牌；同門六張為作者允許的插畫師修稿用草稿。
+- 未接入1.0、未覆蓋現有遊戲資源，未commit、未push。
+
+## 返工記錄
+
+首輪 S1-c、S2-a 加入需求外人物與多色裝飾，退回重做，不列為完成。採用更嚴格的單物件提示詞。
+卡面首批目視：長腔、亮嗓、快板輪廓清楚；白的醒木有斜透視側面，列入重生隊列，改為正面平面矩形，不畫厚度或側面。
+醒木已重生為正面純黑長方形，無側面厚度；已複查替代圖。卡面前16張已在米白背景總覽中逐張目視，保留純色塊與透明刻線。
+第17–24張目視：定場詩的素笺／醒木仍帶斜側面、托腔誤加完整京胡、韻白扇子張得太開，三項已送重生。其餘主體與90px縮圖可辨。
+觀眾 a11 原圖誤生成彩色正面戲服母子，與純黑背影規格不符，列入重生；後續提示已強調普通百姓、日常衣服、後腦勺，禁戲服與正臉。
+a10 已補上伸出肩旁的折扇；a11 已改為朴素母子背影；a13 已改為普通短髮與發髻二人；a16 已補上肩旁茶碗。四張返工目視通過。
+b03_idle 原圖誤為正面彩色老太太，已先停止其反應版相依生成並重做，現為普通發髻背影持垂帕，通過後才繼續動作編輯。
+裝飾D2限定色匯出初版丟失暗紅團花，已改為三檔暗朱紅平塗分色（#68141D/#581219/#481017），並以生成圖作鏡像循環配邊；2×2平鋪目視通過，無連續色階。
+C2-c06原圖誤有六人，已重生為兩人組。C6-gujing生成工具曾回傳錯誤，已用純樂器圖示提示重試。
+
+界面燈芯初稿誤為完整油盞／蠟燭，已改為單截燈芯重生；朱紅筆劃匯出改以原生筆劃有效範圍對齊1024×64長條。
+C8墨點初稿誤成戲曲道具圖集，退回改為純黑隨機墨斑重生；彩綢匯出改按有效輪廓填入2048×128長條。
+圓月首稿為空心環，第二稿誤加全場景；依作者允許的純黑剪影回退法重生實心圓，匯出為單一米白，無光暈與漸層。
+
+# 《戏城》旦角 3D 模型第二版细修说明
+
+2026-11-06
+
+第二版的目标：在游戏里约 250 像素高时，一眼看出是一位清秀的旦角，水袖能舞起来，导出后能直接接进网页游戏。
+
+这份说明给 Codex，在 Blender 里做第二版。模型默认是玩家的台上扮相，站在桌上的小戏台上表演，引擎是 Three.js r128。
+
+评审只看了一张正面偏 3/4 的渲染图。背面、线框、UV 和骨骼都没看到，下面只评能看见的部分。
+
+## 第一版总评
+
+配色和头面方向是对的，要保留；问题集中在大形：身体像一只钟，袖子像两截木块，脸是怒相，衣襟方向也反了。
+
+保留这些：
+
+- 奶白衣身配朱红和金的主色
+- 珍珠、绿地、红点的头面造型和两侧珠串
+- A 字长裙的整体方向
+- 白底脸和小红唇
+- 梅花的纹样主题
+
+图上的编号对应下一节的清单。
+
+![第一版渲染图，红色编号标出 12 处要改的地方](旦角模型_第一版标注.png)
+
+## 细修清单
+
+前 6 项先修，它们决定这是不是一位旦角；后 6 项在大形确认后再做。H 表示头高（发顶到下巴）。
+
+### 必须先修
+
+| # | 部位 | 现状 | 改法 | 验收 |
+| --- | --- | --- | --- | --- |
+| 1 | 衣襟 | 从图上看是左衽：穿着者的右襟压左襟。红衣领像一根圆管，金线压在布外。 | 改成右衽：穿着者的左襟压右襟。衣领改成贴身的平布带，宽约 0.2H，金边画在贴图上。 | 正面看是小写 y 形：上层领从观众右肩斜到观众左腰。没有圆管截面。 |
+| 2 | 眉眼 | 眉头压向鼻梁，粉色硬线斜在眉上，视线偏向一侧，读起来在生气。 | 改细长柳叶眉：眉头平，眉尾微扬。胭脂从眼窝向脸颊晕开，取代粉色硬线。眼尾上挑，视线正前。 | 头部缩到约 50 像素高，表情是温婉或冷静，不是怒。 |
+| 3 | 肩和袖 | 肩头有三角硬面，袖子几乎和头一样粗，袖口是硬折角。 | 溜肩，袖子与衣身连成一体，从肩到袖口渐渐放宽。平滑着色，清掉 N-gon。 | 看不到三角面和硬折角，肩到袖口是一条顺线。 |
+| 4 | 水袖 | 几条并排的硬条挂在手下，像木板，末端平切，和袖口不相连。 | 从袖口整圈接出一整幅薄绸，垂下 3–4 道自然褶，末端有波浪。单层薄片，双面显示，带 5 节骨骼。 | 侧面看是薄片。挥起来没有硬折线，不穿进身体。 |
+| 5 | 手 | 手是一个胶囊，压在水袖上。 | 手从袖口伸出，指尖半藏在水袖里。做手套式分组就够：拇指加并拢的四指。 | 看不出胶囊形，水袖是从袖口出来的，不是从手上挂下来的。 |
+| 6 | 头颈 | 颈是粗短圆柱，领口有一圈缝，下巴和脖子分不开。 | 颈收细，加一道白色护领盖住领口。脸改成鹅蛋形，下巴收尖。 | 任何角度都看不到领口内部。下巴线清楚。 |
+
+### 大形确认后再做
+
+| # | 部位 | 现状 | 改法 | 验收 |
+| --- | --- | --- | --- | --- |
+| 7 | 鬓发 | 两条黑带垂在脸侧，左右粗细不同，右边外侧还露出一块白色头模。 | 改成贴片子：额前约 7 个小弯，两侧各一条长纺沿脸颊垂到下颌，框出鹅蛋脸。薄片或贴图都行。 | 左右对称，额线连贯，没有露出的头模。 |
+| 8 | 头面 | 配色和层次好，但像发箍扣在圆球上，看不出发髻；珠串笔直、珠子太密。 | 保留造型，补出发髻和后脑。每侧珠串减到 3–4 串、能摆动。远看看不清的小珠改用贴图。 | 三角面不超过 6,000；250 像素高时仍看得出珠串和红点。 |
+| 9 | 腰与裙 | 腰线只有一根金线，上身和裙子连成一只钟，没有褶。 | 收腰，加一条朱红腰带，宽约 0.2H，前面垂两条带尾。裙身加 6–8 道长褶，裙摆加一道朱红边。 | 轮廓看得到收腰；250 像素高时红腰带和红裙边清楚。 |
+| 10 | 梅花 | 两列同样大的花，左右镜像，像钉上去的扣子。 | 画进贴图，不做几何。不对称地聚在裙摆和一侧前襟，下大上小，花枝减到 2–3 组。 | 小尺寸读成一片纹样，不是两排点。 |
+| 11 | 裙摆金线 | 断断续续的细管，浮在布外。 | 改成贴图上连续的两道滚边，贴着红裙边。 | 没有细管几何，放大看不浮空。 |
+| 12 | 底盘 | 黑色圆盘。 | 只留在渲染图里，不导出。 | GLB 里没有底盘。 |
+
+## 比例目标
+
+从约 4.5 头身拉到 5.5 头身：头仍偏大，小戏台上看得清脸，但不再像娃娃。现状是从图上量的估算，目标允许 ±10%。
+
+| 部位 | 现状 | 第二版目标 |
+| --- | --- | --- |
+| 全身（发顶到裙摆） | 4.5H | 5.5H |
+| 颈宽 | 0.36H | 0.27H |
+| 上臂处袖粗 | 0.55H | 0.4H |
+| 袖口宽 | 0.55H | 0.6H |
+| 腰宽 | 1.1H | 0.85H |
+| 腰线位置（从发顶往下） | 2.4H | 2.2H |
+| 裙摆宽 | 2.1H | 2.4H |
+| 水袖长（从袖口算） | 1.5H | 2H |
+
+## 材质与配色
+
+颜色和纹样都画进 Base Color，不要靠光泽表现质感。游戏用三档明暗的 Toon 材质加黑色描边，金属度、粗糙度和环境反射都会被丢掉。布褶的深浅也画一点进贴图。
+
+色值大多沿用游戏里现有的人物：
+
+| 用在 | 颜色 | 色值 |
+| --- | --- | --- |
+| 衣身、袖子 | 奶白 | `#f3ede3` |
+| 水袖 | 绸白，比衣身浅一点 | `#f7f1ea` |
+| 衣领、腰带、裙边 | 朱红 | `#a8202b` |
+| 滚边、头面金件 | 金 | `#b8913f` |
+| 梅花 | 淡粉 | `#d99aa4` |
+| 梅枝、叶 | 灰绿 | `#5d7a62` |
+| 头面底色 | 石绿 | `#3c6762` |
+| 头发 | 墨黑 | `#151115` |
+| 皮肤 | 暖白 | `#f2e8de` |
+
+## 接进游戏的技术规格
+
+模型要在浏览器里跑，还要能让游戏实时往脸上画油彩。下面是硬性要求，数字是上限。
+
+| 项目 | 要求 |
+| --- | --- |
+| 文件 | 一个 GLB（glTF 2.0），只含角色，不含相机、灯光和底盘 |
+| 朝向和原点 | Blender 里面朝 -Y，导出后朝 +Z；原点在两脚中心的地面上；变换全部 Apply |
+| 尺寸 | 发顶 1.67 m，不算头面，缩放由游戏处理 |
+| 三角面 | 全身不超过 25,000，其中头面不超过 6,000 |
+| 材质 | 4 个：`robe`、`headdress`、`hair`、`face` |
+| 贴图 | `robe` 2048 px，`headdress` 1024 px，PNG；GLB 总大小不超过 5 MB |
+| 网格 | 主要部件闭合、法线平滑、没有重叠面。描边靠沿法线外推，细管和开口会露馅 |
+| 骨骼 | Root、Hips、Spine、Chest、Neck、Head；双臂 UpperArm、ForeArm、Hand；每只水袖 5 节；腰带尾和珠串各 2 节。总数不超过 40，每顶点不超过 4 个权重，静止姿势用 A-pose |
+
+### 脸部
+
+脸单独一块网格，材质叫 `face`。游戏会在运行时往这张贴图上画 6 层油彩：眼周、脸颊、额头、鼻梁、下巴、全脸。
+
+所以眼、眉、唇不要做成凸起的几何，妆也不要烤死在模型上。UV 用正面平面投影，铺满 0–1 方形。五官落在下表的位置，V 从贴图顶部往下算。
+
+| 部位 | U | V |
+| --- | --- | --- |
+| 脸轮廓 | 0.22–0.78 | 0.12–0.82 |
+| 眉（内端到外端） | 0.45–0.30、0.55–0.70 | 0.39–0.35 |
+| 眼睛中心 | 0.38、0.62 | 0.45 |
+| 鼻 | 0.50 | 0.49–0.57 |
+| 嘴 | 0.44–0.56 | 0.65 |
+
+这些位置按游戏画脸的代码换算，接入时游戏这边会去掉现有的横向压缩。另交两张同 UV 的 1024 px PNG：`face_base` 是素脸，`face_full` 是满妆，用来渲染和对照。
+
+### 动画
+
+6 段烘进 GLB，名字要完全一致。除 `idle` 外，每段不超过 1.2 秒，首尾都回到 `idle` 的姿势。水袖要跟着动。
+
+| 名字 | 用在 | 动作 |
+| --- | --- | --- |
+| `idle` | 待机，循环 3–4 秒 | 轻微呼吸，水袖微摆 |
+| `sing` | 出唱牌 | 抬头，双臂向两侧展开抬起 |
+| `speak` | 出念牌 | 上身微前倾，右手向前指 |
+| `act` | 出做牌 | 左手前伸，右手向外高举，水袖甩出 |
+| `fight` | 出打牌 | 上身前倾，双手向前举起 |
+| `bow` | 收场 | 低头欠身，双手收在身前 |
+
+## 工作顺序与交付
+
+先交一次灰模，确认大形再做细节，避免贴图和绑定返工。
+
+1. 按比例表改大形：肩、袖、头颈、腰。
+2. 修衣襟方向和衣领，加腰带和裙褶。
+3. 交灰模：正、侧、背、正面 3/4 四张图，等确认。
+4. 做脸、贴片子、头面。
+5. 做水袖和手。
+6. 画贴图，绑骨骼，做 6 段动画。
+7. 导出 GLB，按下面的清单自检。
+
+第二版交付：
+
+- [ ] `dan_v2.glb` 和 `dan_v2.blend`
+- [ ] 贴图 PNG：`robe`、`headdress`、`face_base`、`face_full`
+- [ ] 正、侧、背、正面 3/4 四张渲染，光照相同；一张线框图
+- [ ] 游戏效果测试图：简化成三档明暗加黑描边，深色背景，缩到 250 像素高
+- [ ] 6 段动画各一张关键帧拼图或一段短视频
+- [ ] 数据：每个网格的三角面数、骨骼总数、GLB 大小
+- [ ] 清单 12 项逐项说明改了什么，没改的说明原因
+
+## 待作者拍板
+
+没有另行通知就按默认做法做。
+
+| 事项 | 默认做法 | 另一种选择 |
+| --- | --- | --- |
+| 这是谁 | 玩家的台上扮相 | 小凤，或两人共用一个模型换贴图 |
+| 头身比 | 5.5 头身，清秀的人偶 | 保留现在约 4.5 头身的娃娃感 |
+| 行当气质 | 温婉的青衣、闺门旦 | 活泼的花旦，衣服和表情都要跟着改 |
+| 头面底色 | 石绿，接近第一版 | 点翠蓝，更贴近传统头面 |
+# 《戲城》三幕版设定（当前版）
+
+> 所有数字都是占位，待试玩校准。
+
+## 一、定位
+
+短流程、强叙事：10 天，约 55 分钟，分三幕。每天只有一个核心动作：**排牌接连击**。变化靠叙事直接改写规则，不靠堆系统。
+
+## 二、一副牌，两面用
+
+每张牌正面是台上面（白天赚金），背面是家里面（傍晚推给阿檀）。一张牌每天只能用一面。
+
+| 台上牌 | 金 | 接 | 家里面 | 她的样子 |
+|---|---|---|---|---|
+| 唱·长腔 | 2 | 念 | 倾听 | 想说 |
+| 唱·亮嗓 | 2 | 打 | 倾听 | 想说 |
+| 念·白 | 1 | 做 | 陪伴 | 等 |
+| 念·快板 | 1 | 唱 | 陪伴 | 等 |
+| 做·身段 | 1 | 打 | 照顾 | 累 |
+| 做·水袖 | 1 | 唱 | 照顾 | 累 |
+| 打·亮相 | 3 | 唱 | 共劳 | 忙 |
+| 打·翻身 | 3 | 念 | 共劳 | 忙 |
+
+## 三、一天五步
+
+**1. 早**
+- 从卡组挑 10 张进妆匣。
+- 木牌上写着今日起手族，妆匣里没有这一族的牌，不能出发。
+- 对面坐着阿檀，她今晚的样子（等、累、忙、想说）看得见。
+
+**2. 白天（台上面，最多 5 张）**
+- **起手**：第一张必须打起手族，不算连击。起手对上，「开得正」+1 金。
+- **接上**：下一张打上一张右边写的那一族，连击 +1。第 2 张多得 1 金，第 3 张多 2，第 4 张多 3，封顶 +3。
+- **打断**：连击从头算，已拿的金不扣。
+- **油彩**：每打一张，脸上多一层。第 5 层起直接渗进底色。
+- **收场**：连击 ≥3，掷 1 颗骰，≥4 为完美，金 ×1.5。没中不扣金。
+
+**3. 门口**
+- **被擦**：痕 ≤2 时，她愿意替你擦 2 层，不耗牌。代价是那晚她只听得下 1 张牌。
+- **自卸**：每层弃 1 张牌。
+
+**4. 傍晚（家里面，最多推 3 张）**
+- **染色**：没擦掉的层数，决定前几张牌被染（每晚上限见各幕）。
+- **干净的牌**：灯 +1；对上她的样子，灯 +2。
+- **被染的牌**：灯上留一道痕，永久，并播放她的一个小反应。
+  - 倾听被染：她不再开口。
+  - 陪伴被染：她也开始汇报。
+  - 照顾被染：她接了，却不信。
+  - 共劳被染：灯纸被划破。
+
+**5. 夜**
+- 剩下的牌继续卸妆，没卸掉的层每层变成 1 点底色。
+- 剩牌作废，次日全部回卡组。
+- 更夫报一句回放，只描述画面。
+
+## 四、起手族
+
+| 幕 | 天 | 起手 |
+|---|---|---|
+| 一 | 1 / 2 / 3 | 唱 / 念 / 做 |
+| 二 | 4 / 5 / 6 / 7 | 打 / 唱 / 念 / 做 |
+| 三 | 8 / 9 | 念 / 打 |
+| 三 | 10（元宵） | 上台起手打，代演起手唱，回家不演 |
+
+## 五、三幕
+
+**第一幕 开锣（3 天，约 15–20 分钟）**
+- 第 1 天只有白天和门口，其余自动结算；第 2 天加上傍晚；第 3 天自由玩，末尾揭晓水牌。
+- 染色每晚最多 1 张。第 2 天会染上第一道痕。
+- 玩家以为只要擦干净，就能兼顾一切。桌面整洁，阿檀对你笑。
+
+**第二幕 借妆（4 天，约 20–25 分钟）**
+- 小鳳病倒，魏老闆借你她的 3 张牌：金很高，但背面是空白，推出去灯不涨。
+- 染色每晚最多 2 张。底色每 2 点，妆匣 −1。
+- 早上不再显示她的样子，只剩更夫的回放。
+- 幕末，镜子第一次映出底色。
+- 桌面上油彩渍爬到桌边，灯骨只糊了一半，她的座位离得更远。
+
+**第三幕 卸妆（3 天，约 15–20 分钟）**
+- 染色每晚最多 3 张。
+- 底色 ≥2：你演得最多的那一族，家里面被台上面的字盖住，推出去就算被染。底色 ≥4 涉及两族。
+- 痕 ≥3：阿檀的座位空了，不再有样子，灯也不再糊。
+- 第 10 天元宵，三选一：
+  - **上台**：金 ×2，不回家，灯由她一个人点，结局上限是压台。
+  - **回家点灯**：不演，灯点亮，只有这条路能到美满。
+  - **替小鳳代演**：金记在她名下，她留在水牌上。
+- 最后一层油彩由玩家亲手卸下，再进入揭晓。
+
+## 六、桌子就是故事
+
+玩家坐在戏班的桌前，没有血条和按钮。
+- **中央**：小戏台，牌打在上面，台下有叫好声。
+- **左**：妆匣，10 个格子，异常会出现在这里。
+- **右**：镜子，映出脸上的油彩。
+- **下**：晾绳，挂着自卸的布；被擦的布进阿檀的木匣。
+- **对面**：阿檀的座位，她在糊灯骨。
+- **更夫**：只有声音。
+
+规则的变化都用桌面的变化呈现，不弹说明。
+
+## 七、水牌与结局
+
+- 水牌共 6 格，对手的金是固定数字，没有骰子。魏老闆稳居头牌，约 150；小鳳病后停在最低。
+- **妻子状态**：美满（痕 ≤2，且元宵回家点灯）；破裂（痕 ≥4）；守住（其余）。
+
+| 排名＼妻子 | 美滿 | 守住 | 破裂 |
+|---|---|---|---|
+| 第一 | 滿堂彩 | 壓台 | 頭牌 |
+| 2–5 | 留白 | 半台 | 戲散 |
+| 摘牌 | 卸盡 | 素臉 | 更夫 |
+
+- **揭晓**：水牌 → 回家 → 木匣（被擦之布按日展开）→ 更夫叫你的小名。
+
+## 八、卡面与提示
+
+**小卡**只放四样：族色、牌名与金、「接 → X」、背面牌名。
+
+**长按放大**，每面最多三行，每行不超过 14 字。
+
+> **台上面**：打出得 2 金。接上上一张，连击 +1。下一张请打：念。
+> **家里面**：灯 +1；她「想说」时灯 +2。有没擦的油彩，这张被染。
+
+**操作提示**
+- 起手时只有起手族的牌亮边，打出后改为亮出能接上的牌。
+- 打出后显示「连击 ×2，下一张 +2」，右边色块闪向下一族。
+- 接错了，连击归零，台下一声低低的嘘。
+- 傍晚对上她样子的牌发光，没擦的油彩在牌角显示一小块红。
+- 「连击、接口、被染」三个词第一次出现时用小框解释，之后只用图标。
+
+## 九、数值自检
+
+- **一条 4 张链**：长腔 → 白 → 身段 → 亮相，基础 13 金，加开得正 14，完美后约 21。
+- **平均**：每天约 16 金，10 天约 160，魏老闆定在约 150。
+- **妆匣 10 的账**：4 张打 + 4 张卸 + 2 张推，刚好用完。打第 5 张，就要放弃推牌，或者留一层。
+- **3 张链**：约 9 金一天，排第 4。只顾家 0 金，排第 6。
+- 运气只影响过程，不决定结局：前期落后，后期可以补第 5 张，代价是一点底色。
+
+## 十、待你确认
+
+1. 「开得正」+1 金是否保留。
+2. 小鳳是否固定为最后一名。
+3. 每幕末的「三选一加一张牌」具体给哪三张。
+4. 第 2 天染上的第一道痕是否算数。我建议算，美满的门槛已留了余量。
+5. 灯的总量与美满的门槛（目前写的是元宵回家点灯），试玩后再定。
+- **上限**：每天最多清 2 層，不耗牌。
+- **只在門口**：被擦只發生在門口，夜裡沒有。放在夜裡的話，省下的牌已經沒有地方用。
+- **延遲**：照顧牌提高的安心，要到次日門口才能用於被擦。今天的付出，明天才能省牌。
+- **設計意圖**：她替你擦完，你帶進家門的牌才是乾淨的。被擦省下的牌，才有價值。
+
+## 八、妻子狀態與需求
+
+**狀態**（關係狀態，不是資源）
+
+- **安心** 0–5：決定能否被擦臉。
+- **被看見** 0–5：影響妝匣大小和木匣內容。
+- **裂痕** 0–4：3 為警戒，4 為崩盤，不可逆。門變成布景，再也推不開。
+
+**空宅規則**：傍晚沒有家中出牌，安心 −1。
+
+**需求**（隱藏，每幕一個，分兩階段）
+
+| 幕 | 需求 | 判定 | 張位 | 階段獎勵 |
+|---|---|---|---|---|
+| 1 開鑼 | 想有人一起吃飯 | 同一晚：照顧 → 陪伴 | 傍晚留 2 張家中位 | ①「熱湯」照顧卡 ②「飯後閒聊」陪伴卡 |
+| 2 借妝 | 想被聽見她的一天 | 傾聽兩次，中間無念殘留 | 2 張位 | ①「認真聽」真臉卡 ②市集出現燈料，燈進度 +1 |
+| 3 對鏡 | 想一起做事 | 共勞兩次 | 4 張位 | ①「糊紙」共勞卡 ②燈骨完成，解鎖元宵劇本 |
+| 4 元宵 | 想你別帶妝進門 | 門口清淨（自清或被擦皆可），且傍晚有陪伴或傾聽 | — | 點亮燈，決定元宵畫面 |
+
+需求內容不在介面上顯示。玩家只看得到她的反應（抬眼、低頭、沒反應）和晚上的回放線索，要靠猜和驗證來推斷。
+
+## 九、卡牌獲取與卡組編輯
+
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image,ImageDraw
+from pathlib import Path
+from collections import Counter
+root=Path('原型/assets_codex_20261110'); files=sorted(root.rglob('*.png'))
+out=Path('原型/assets_codex_faces_20261115'); (out/'work').mkdir(parents=True,exist_ok=True)
+for group in ['cards','crowd','deco','night','ui','draft','relics','fx']:
+ fs=sorted((root/group).glob('*.png')); w=1000; cellw=125; cellh=150
+ sheet=Image.new('RGB',(w,((len(fs)+7)//8)*cellh),'#b9ad98'); d=ImageDraw.Draw(sheet)
+ for i,p in enumerate(fs):
+  im=Image.open(p).convert('RGBA'); im.thumbnail((115,120)); x=(i%8)*cellw; y=(i//8)*cellh; sheet.paste(im,(x+(125-im.width)//2,y),im); d.text((x+2,y+122),p.stem[:20],fill='black')
+ sheet.save(out/'work'/f'reference_{group}.jpg')
+cs=Counter()
+for p in files:
+ im=Image.open(p).convert('RGBA'); cs.update((r,g,b) for r,g,b,a in im.getdata() if a>240)
+print('PNG count:',len(files),'palette common:',cs.most_common(16))
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 10359ms:
+PNG count: 183 palette common: [((0, 0, 0), 10538175), ((11, 8, 9), 5818188), ((168, 32, 43), 4018979), ((236, 227, 212), 3736776), ((18, 14, 17), 2946880), ((127, 127, 127), 2081168), ((104, 20, 29), 555532), ((184, 145, 63), 450919), ((88, 18, 25), 339796), ((141, 132, 135), 315081), ((72, 16, 23), 153248), ((143, 99, 56), 40682), ((134, 134, 134), 34085), ((135, 135, 135), 14079), ((133, 133, 133), 12858), ((128, 128, 128), 9621)]
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image,ImageDraw
+from pathlib import Path
+import hashlib,json
+root=Path('.'); out=root/'原型/assets_codex_faces_20261115/work'
+fs=list(Path('原型截圖').glob('*.png'))+[Path('設計/旦角模型_第一版标注.png'),Path('設計/美術/feedback_v17/qa_mobile_door/06_door_desk_1440x900.png'),Path('設計/美術/feedback_v17/qa_mobile/03_morning_day2_1440x900_desk.png')]
+s=Image.new('RGB',(1600,((len(fs)+1)//2)*520),'#b9ad98');d=ImageDraw.Draw(s)
+for i,p in enumerate(fs):
+ im=Image.open(p).convert('RGB');im.thumbnail((790,490));x=i%2*800;y=i//2*520;s.paste(im,(x,y));d.text((x,y+495),p.stem,fill='black')
+s.save(out/'screens.jpg')
+protected={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for base in ['原型/assets_codex_20261110','原型截圖'] for p in Path(base).rglob('*') if p.is_file()}
+for p in Path('原型').glob('v*/**/*'):
+ if p.is_file():protected[str(p)]=hashlib.sha256(p.read_bytes()).hexdigest()
+(out/'protected-before.json').write_text(json.dumps(protected,ensure_ascii=False))
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 288ms:
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+codex
+已通看既有素材與截圖。現有目錄實際有 183 張 PNG（含小樣與雙層檔），主要使用黑色塊面、粗刻線和少量朱紅；取色也確認了紙白與赭金。阿檀會延續樸素髮髻與家常衣著，旦角保留右衽、長水袖和珠串造型，配色則遵守本次較嚴格的既有色板要求。
+exec
+/bin/zsh -lc "mkdir -p 原型/assets_codex_faces_20261115/draft 原型/assets_codex_faces_20261115/atan 原型/assets_codex_faces_20261115/actor 原型/assets_codex_faces_20261115/mirror 原型/assets_codex_faces_20261115/對比; cat > 設計/美術/V18_FACES_PROGRESS.md <<'EOF'
+# V18 三張臉進度
+
+- 已完整閱讀 V18 任務、v2 風格前綴／反向詞、上一輪結果與選定小樣、旦角第二版規格、v0.3／v0.6 與 v1.x 的角色敘述。
+- 已通看 cards、crowd、deco、night、ui、同門像及原型截圖；原資源實際為 183 PNG（含小樣與雙層），非 brief 的概數 162。
+- 已取色並保存保護檔雜湊。此次僅寫入新美術目錄及 V18 進度／結果；不接遊戲、不 commit、不 push、不操作其他會話。
+- 使用內建 imagegen，正在製作阿檀／旦角／鏡中臉各三版小樣；自選後繼續全部正式姿勢。
+- 正式人物採 1024×1024，純黑 line／朱紅 accent 透明分層；鏡臉三狀態另保留一致基底與對齊檢查。
+EOF" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "cp /Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-5191e765-134c-433b-b587-4635b0009891.png 原型/assets_codex_faces_20261115/work/atan_a_raw.png; python3 - <<'PY'
+from PIL import Image
+im=Image.open('原型/assets_codex_faces_20261115/work/atan_a_raw.png').convert('RGBA');bg=Image.new('RGBA',im.size,'#ece3d4');bg.alpha_composite(im);bg.convert('RGB').save('原型/assets_codex_faces_20261115/work/atan_a_preview.jpg')
+print(im.size,im.getextrema())
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 6ms:
+(1254, 1254) ((0, 255), (0, 255), (0, 255), (0, 255))
+
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-0ed0c583-e7bc-49a1-8031-c0c29c07725c.png' '原型/assets_codex_faces_20261115/work/atan_c_raw.png'" in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-3943ed26-aa73-4d0f-a40a-d55c43c441ff.png' '原型/assets_codex_faces_20261115/work/atan_b_raw.png'" in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-d9123525-95f2-4a29-9951-985267723c8e.png' '原型/assets_codex_faces_20261115/work/actor_a_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+ succeeded in 0ms:
+ succeeded in 0ms:
+codex
+第一張阿檀小樣已完成，髮髻、衣褶與五官都維持平面刻線，沒有寫實光影。其餘小樣正在生成；接著會並排比較，選出線條密度最接近既有觀眾與同門像的版本。
+codex
+阿檀三版已完成，目前較傾向 A：朱紅面積最少，衣褶留白也最接近既有木刻像。旦角與鏡臉小樣仍在生成；正式輸出時會檢查並整理成精確純色分層，避免生成圖中的細微色差混入成品。
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-8edc5c52-19c6-477b-9728-2b7fea27246e.png' '原型/assets_codex_faces_20261115/work/mirror_a_raw.png'" in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-9eab8f92-50c4-4d00-a228-82c3d39e9f7c.png' '原型/assets_codex_faces_20261115/work/actor_b_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-c4e1b0b9-4029-474d-9de7-837163c6c793.png' '原型/assets_codex_faces_20261115/work/actor_c_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "ls 原型/assets_codex_faces_20261115/work; rg -n '阿檀|atan|wife|reach|鏡|face' 原型/v1.7*/index.html | head -65" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+actor_a_raw.png
+actor_b_raw.png
+actor_c_raw.png
+atan_a_preview.jpg
+atan_a_raw.png
+atan_b_raw.png
+atan_c_raw.png
+mirror_a_raw.png
+protected-before.json
+reference_cards.jpg
+reference_crowd.jpg
+reference_deco.jpg
+reference_draft.jpg
+reference_fx.jpg
+reference_night.jpg
+reference_relics.jpg
+reference_ui.jpg
+screens.jpg
+301:.bookd .faces { display: flex; gap: 8px; }
+324:.lastwipe .face { position: relative; width: min(340px, 78vw, 54vh); aspect-ratio: 4 / 5; }
+369:.flip img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; backface-visibility: hidden; box-shadow: 0 6px 14px rgba(0, 0, 0, .5); }
+566:.sub .sface { width: 42px; height: 42px; border-radius: 50%; vertical-align: middle; margin: -4px 8px 0 0; box-shadow: 0 0 0 2px var(--red), 0 3px 10px rgba(0, 0, 0, .7); }
+605:@media (max-width: 760px) { .watch .nite .mn { right: 8%; top: 5vh; } .sub .sface { width: 34px; height: 34px; } }
+666:.evcard .sface { width: 36px; height: 36px; border-radius: 50%; vertical-align: middle; margin-right: 6px; box-shadow: 0 0 0 2px var(--red); }
+684:.lastwipe .face { width: min(340px, 78vw, 46vh); flex: none; }
+688:@media (max-height: 560px) { .lastwipe { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-auto-rows: auto; align-content: safe center; justify-items: center; column-gap: 20px; row-gap: 8px; padding: 10px 16px 0; } .lastwipe .face { grid-column: 1; grid-row: 1 / span 4; width: min(230px, 38vw, 64vh); } .lastwipe > :not(.face):not(.lwbar) { grid-column: 2; } .lastwipe .lwbar { grid-column: 1 / -1; } }
+690:   3D 鏡頭只對著頂欄和字幕之間那一帶構圖，見 camBand() ── */
+877:  tip: { who: '玉楼', tx: '玉楼路过灯坊，回来跟你说了一句阿檀今晚的事。' },
+1155:  forecast(S, 'wife');
+1213:  forecast(S, 'wife');
+1308:function wifeOf(S) {
+1318:  return ENDING_N[S.fired || rank === R.ranks ? 2 : rank === 1 ? 0 : 1][wifeOf(S)];
+1372:// 圖檔一律不改：染色、紅紙邊、紙紋都在這裡做。阿檀、台上的你、鏡中的臉這一包沒有圖，沿用 v1.5 畫法。
+1540:function faceURL(name, size = 64) {
+1543:  const k = `face|${name}|${size}`;
+1550:const faceTag = (name, cls = 'av') => { const u = faceURL(name); return u ? `<img class="${cls}" src="${u}" alt="">` : ''; };
+1628:      const a = Math.atan2(y1 - y0, x1 - x0), L = s * 0.32;
+1799:// ── 臉（鏡子、手邊小像、3D 頭上的貼圖共用）──────────────
+1843:  if (o.who === 'wife') { x.fillStyle = '#b3202b'; x.beginPath(); x.moveTo(cx, cy - s * 0.58); x.quadraticCurveTo(cx + s * 0.05, cy - s * 0.5, cx, cy - s * 0.44); x.quadraticCurveTo(cx - s * 0.05, cy - s * 0.5, cx, cy - s * 0.58); x.fill(); }
+1845:// 鏡中與手邊的小像：髮、臉、台上臉
+1919:  reach: { pitch: 0.14, lean: 0.12, aR: [-1.45, -0.08] },
+1937:  const faceCv = document.createElement('canvas'); faceCv.width = faceCv.height = 512;
+1938:  const faceTex = new THREE.CanvasTexture(faceCv);
+1939:  const face = new THREE.Mesh(new THREE.SphereGeometry(0.1063, 32, 24, Math.PI * 0.08, Math.PI * 0.84, Math.PI * 0.18, Math.PI * 0.62), toon(0xffffff, faceTex)); face.scale.copy(sc); head.add(face);
+1978:    redraw() { drawSphereFace(faceCv, { who: o.who, layers: this.layers, eyes: blinkEnd > 0 ? 'closed' : this.expr.eyes, smile: this.expr.smile }); faceTex.needsUpdate = true; },
+2002:      if (o.who === 'wife' && root.visible) {
+2024:// 中央小戲台、左妝匣、右鏡子、下晾繩、對面阿檀。鏡頭在桌上移動，規則的變化都擺在桌面上
+2027:let glOK = !!window.THREE, renderer, scene, camera, clock, grad, tweens = [], wife = null, actor = null, towel = null, backTex = null;
+2094:  // 中間不擋：看得見對面的阿檀，只有兩邊的幕和一根掛燈的竿
+2254:    // 往後仰，正面朝著俯看的鏡頭
+2301:  const face = new THREE.Mesh(new THREE.CircleGeometry(0.31, 48), new THREE.MeshLambertMaterial({ map: mirrorTex, emissive: 0x333333 })); face.position.y = 0.46; m.add(face);
+2313:  // 阿檀的座位、燈骨、木匣
+2317:  wife = makeFigure({ who: 'wife', robe: '#d6d1ca', pat: '#7a7478', hem: '#3a3236', sash: 0xa8202b, cuff: 0.11, seed: 5, ribbons: true, pin: true });
+2318:  g.add(wife.root);
+2380:  // 守舊：小戲台後面那幅背幕，往後仰一點對著戲台鏡頭；只在台上出現（別的鏡頭要看得見對面的阿檀）
+2392:  // 窗花：後牆格窗的窗紙上，如意、蝙蝠、牡丹、燈籠各一（灯坊、門口、夜裡的鏡頭看得見）
+2428:// 換鏡頭時：守舊只在戲台上出現
+2433:// 鏡頭：全桌、戲台、門口（她起身伸手過來）、對面、夜裡的鏡子
+2450:// v1.7 手機直屏修正：直屏手機（窄而高）。早上不用全桌俯視（全桌塞進窄畫面，鏡子會被擠出右邊），改用 tableP：
+2451:// 鏡頭往右挪、拉近一點：她在左、鏡子在右，兩個都整個入鏡（妝匣本身就是底下那排手牌）
+2454:// 續做（士淳回饋「卸妝的時候鏡子還是被遮擋了」）：門口卸妝在直屏也一樣，全桌拉遠鏡子就出畫。doorP 比 tableP 低、平一點，
+2455:// 像剛進門站著看桌子：她在左（起身伸手遞毛巾），鏡子在右，臉上的油彩看得見擦掉沒有
+2457:// 夜裡（睡前卸妝、守夜）同一個問題：原本鏡子只露一半。nightP 沿用 doorP 的思路，略低、略近
+2465:  // 直屏專用鏡頭按 390×844 調的；更窄的手機（如 360×800）照比例再退一點，鏡子才不會貼邊
+2473:// 直屏手機：上面頂欄、下面字幕和手牌把畫面上下各吃掉一截。鏡頭的中心挪到中間真正看得見的那一帶（不改縮放，只平移投影），
+2474:// 桌子和鏡子才不會被 HUD 切掉。寬螢幕、橫屏不動。
+2487:  // 換時段（鏡頭本來就要轉）或剛開局：直接到位；同一個時段裡字幕變高變矮，在 loop 裡慢慢跟
+2545:  wife?.update(dt, t); actor?.update(dt, t);
+2568:  wife.root.visible = !empty;
+2569:  if (!empty) wife.root.position.set(0, -0.32, z);
+2758:  // 只挪位置（鏡頭在動）：不重建，免得說明框重播淡入
+2840:// 指著 3D 東西的步驟：鏡頭在動，框跟著挪
+2841:// 只在鏡頭真的挪了位置時重畫，免得說明框一直重播淡入
+3001:  '戏园门口的水牌刚刷过。阿檀说，晚上早点回。',
+3008:  '元宵快到了。阿檀的灯，还差几片纸。',
+3053:  tip: () => `玉楼路过灯坊，回来跟你说：阿檀今晚要${K(recipeShort(needOf(S)))}。`,
+3067:  el.innerHTML = `<div class="evcard" role="dialog" aria-label="同门的事：${esc(ev.who)}"><button class="evx" data-act="evclose" aria-label="关上">×</button>${faceTag(ev.who, 'sface')}<span class="who">${esc(ev.who)}</span><div class="tx">${EV_TX[k]()}</div><button class="btn small go" data-act="evclose">知道了</button></div>`;
+3069:const evChip = () => { const k = S.events[S.day]; return k && EV_SHORT[k] && (evSeen() || view !== 'morning') ? `<button class="ic ev" data-act="evopen" title="点开再看一遍">${faceTag(EVENTS[k].who, 'evf')}<span class="d">同门</span>${EV_SHORT[k]}</button>` : ''; };
+3255:const whoHTML = who => (who ? `${faceTag(who, 'sface')}<span class="who">${esc(who)}</span><br>` : '');
+3282:      <p class="intro">你坐在戏班的桌前。十天，三幕。白天把牌排上戏台，傍晚把它翻过来，推给对面的阿檀。</p>
+3305:  灯: '阿檀糊的灯。推给她对路的牌 +2，家常牌 +3。糊满 30、一回没熄过、痕不超过 1、元宵回家点灯，才是美满。',
+3454:  hp.innerHTML = `<div class="hh"><span>家 · 阿檀</span><span>${S.left ? '她走了' : seatEmpty(S) ? '座位空了' : ''}</span></div>
+3517:      body = `<div class="bookd"><div class="faces"><figure><img src="${cardArt(k, 'stage').url}" alt="">台上面</figure>${tp.home ? '' : `<figure><img src="${cardArt(k, 'home').url}" alt="">家里面</figure>`}</div>
+
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-cf785e21-fed5-440a-a066-3ea96eed1f82.png' '原型/assets_codex_faces_20261115/work/mirror_b_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-a2f7dbd0-2b4a-482e-8637-3f967810f4c8.png' '原型/assets_codex_faces_20261115/work/mirror_c_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image,ImageDraw
+from pathlib import Path
+root=Path('原型/assets_codex_faces_20261115');s=Image.new('RGB',(1200,1320),'#ece3d4');d=ImageDraw.Draw(s)
+for row,c in enumerate(['atan','actor','mirror']):
+ for col,v in enumerate('abc'):
+  im=Image.open(root/'work'/f'{c}_{v}_raw.png').convert('RGBA'); im.thumbnail((390,410));x=col*400;y=row*440;s.paste(im,(x+(400-im.width)//2,y),im);d.text((x+15,y+415),f'{c} {v.upper()}',fill='black')
+s.save(root/'work/draft-review.jpg')
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 137ms:
+codex
+九張小樣已完成。我選阿檀 A（黑塊與少量朱紅最接近觀眾剪紙）、旦角 B（水袖輪廓最清楚）、鏡臉 C（弧線刻法較接近月仙木刻像）。接著補齊動作；鏡臉三階段會共用同一份五官基底，確保疊換時臉型不跳動。
+exec
+/bin/zsh -lc "cat > 原型/assets_codex_faces_20261115/work/export_assets.py <<'PY'
+\"\"\"Deterministic delivery export: exact palette, masks, canvas and reference proofs.
+Appearance is generated with imagegen; this script only separates/resamples delivery layers.
+\"\"\"
+from PIL import Image,ImageDraw,ImageFont
+from pathlib import Path
+import numpy as np,json,hashlib
+ROOT=Path(__file__).resolve().parents[1]
+BLACK=(0,0,0); RED=(168,32,43); PAPER=(236,227,212)
+def separate(path,allow_paper=False):
+ im=Image.open(path).convert('RGBA').resize((1024,1024),Image.Resampling.LANCZOS)
+ a=np.array(im); rgb=a[:,:,:3].astype(int); active=a[:,:,3]>=128
+ red=active & (rgb[:,:,0]>rgb[:,:,1]*1.4+20) & (rgb[:,:,0]>rgb[:,:,2]*1.25+10)
+ paper=active & (rgb.mean(axis=2)>150) & ~red
+ black=active & ~red & ~paper
+ masks={'line':black,'accent':red}
+ if allow_paper:masks['paper']=paper
+ return masks
+
+def mask_image(mask,color):
+ a=np.zeros((1024,1024,4),dtype=np.uint8); a[mask,:3]=color;a[mask,3]=255;return Image.fromarray(a)
+def export_pair(raw,stem):
+ masks=separate(raw)
+ for k,c in [('line',BLACK),('accent',RED)]:mask_image(masks[k],c).save(ROOT/f'{stem}_{k}.png')
+ return masks
+if __name__=='__main__':
+ for char in ['atan','actor','mirror']:
+  for v in 'abc':
+   p=ROOT/'work'/f'{char}_{v}_raw.png'
+   if p.exists():
+    masks=separate(p,True);c=Image.new('RGBA',(1024,1024))
+    for k,col in [('paper',PAPER),('line',BLACK),('accent',RED)]:c.alpha_composite(mask_image(masks[k],col))
+    c.save(ROOT/'draft'/f'{char}_{v}.png')
+ export_pair(ROOT/'work/atan_a_raw.png','atan/seated')
+ export_pair(ROOT/'work/actor_b_raw.png','actor/standing')
+PY
+python3 原型/assets_codex_faces_20261115/work/export_assets.py" in /Users/tsun/Projects/game-dise
+ succeeded in 944ms:
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-abd77556-ee4c-4141-b337-45248a08f49a.png' '原型/assets_codex_faces_20261115/work/atan_reach_raw.png'" in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-f9819bde-3117-489e-b1ad-aef313a9c21b.png' '原型/assets_codex_faces_20261115/work/actor_pose_raw.png'" in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-6992736f-afbe-49e0-b34b-9f6fa5253924.png' '原型/assets_codex_faces_20261115/work/atan_lowered_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+ succeeded in 0ms:
+ succeeded in 0ms:
+codex
+阿檀的起身伸手、低頭，以及旦角亮相姿勢都已生成，正在核對角色是否一致。鏡臉會接著製作上妝、半卸與卸淨版本，再統一檢查透明分層、90px 縮圖和畫面對比。
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-8193e35a-7c35-42bc-a333-567e609343ee.png' '原型/assets_codex_faces_20261115/work/mirror_clean_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image,ImageDraw
+from pathlib import Path
+root=Path('原型/assets_codex_faces_20261115');s=Image.new('RGB',(1600,650),'#ece3d4');d=ImageDraw.Draw(s)
+for i,n in enumerate(['atan_reach','atan_lowered','actor_pose','mirror_clean']):
+ im=Image.open(root/'work'/f'{n}_raw.png').convert('RGBA');im.thumbnail((395,610));s.paste(im,(i*400,0),im);d.text((i*400+10,620),n,fill='black')
+s.save(root/'work/pose-review.jpg')
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 69ms:
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-5e6fd9a9-c6b9-4a06-b9e3-8a6c98449753.png' '原型/assets_codex_faces_20261115/work/mirror_painted_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image
+from pathlib import Path
+for n in ['mirror_clean','mirror_painted']:
+ im=Image.open(Path('原型/assets_codex_faces_20261115/work')/(n+'_raw.png'));print(n,im.size)
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+mirror_clean (1254, 1254)
+mirror_painted (1254, 1254)
+
+exec
+/bin/zsh -lc "cp '/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-43edeff4-c090-4b21-a4fa-49673f38ddd7.png' '原型/assets_codex_faces_20261115/work/mirror_half_raw.png'" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+codex
+所有姿勢與鏡臉狀態都已生成。鏡臉改用較收斂的眼上弧塊和頰紅，避免小樣中的尖翼妝形讀成臉譜；半卸則留下不規則色塊。現在進入匯出與驗收，會附上每張圖的原場景並排、深淺底顯示及 90px 可讀性檢查。
+exec
+/bin/zsh -lc "cat > 原型/assets_codex_faces_20261115/work/prompts.json <<'EOF'
+[
+  {
+    \"id\": \"draft/atan_a\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Asset type: single game paper-cut character style study. Match existing project images, not a new illustration style. Atan, adult Chinese wife in an old opera town, plain high coiled bun with one simple hairpin, unpainted gentle oval face, calm small eyes, practical plain crossed-collar home jacket, no theatrical headdress, no jewelry. FRONT seated upper body and lap, both hands quietly resting at lap, not hidden behind a table. No chair or props. Recognition: quiet waiting, warm but restrained.\\nBroad bold black shapes, sparse cutouts, minimum facial strokes, density like audience paper-cut a05.\\nSquare canvas. ONE figure only, centered within 88% height, transparent background. Pure black #000000 structural line/block shapes and tiny flat vermilion #A8202B accents ONLY. Face and clothing highlights are transparent cutouts, not white fill. No paper rectangle. No gray pixels or texture, no hatching that implies shading. Bold clean cuts 6-12px at 1024. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"result\": \"Generated images are saved to /Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905 as /Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-5191e765-134c-433b-b587-4635b0009891.png by default.\\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-5191e765-134c-433b-b587-4635b0009891.png\"
+  },
+  {
+    \"id\": \"draft/atan_b\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character style study. Atan, adult Chinese wife in an old opera town, plain high coiled bun with one simple hairpin, unpainted gentle oval face, calm small eyes, practical plain crossed-collar home jacket, no theatrical headdress, no jewelry. FRONT seated upper body and lap, both hands quietly resting at lap, not hidden behind a table. No chair or props. Recognition: quiet waiting, warm but restrained.\\nAngular carved geometry, generous empty space and strong rhythmic cuts, same coarse line weight as woodcut troupe portraits.\\nMatch reference line weight and flat blocks. Square canvas ONE figure only centered within 88% height, generous margins, transparent background. Pure black #000000 structural line/block shapes and flat vermilion #A8202B accent ONLY. Face and light fabric are transparent carved cutouts, not opaque white fill. No paper rectangle. No gray, texture or tonal hatching. Clean bold 6-12px cuts at 1024. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-3943ed26-aa73-4d0f-a40a-d55c43c441ff.png\"
+  },
+  {
+    \"id\": \"draft/actor_a\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character style study. The player's adult Chinese opera qingyi / guimendan stage persona. Full body frontal standing, slender 5.5 heads tall, sloping shoulders, narrow waist, A-line long skirt with 6 carved folds, long flowing water sleeves continuous with cuffs, fingertips partially visible. RIGHT overlapping robe: upper collar from VIEWER RIGHT shoulder to VIEWER LEFT waist (lowercase y). Restrained plum-blossom pattern at ONE side of skirt hem, black hair with seven forehead scallops and cheek side locks, a high bun, simplified pearl headdress and three hanging pearl strands each side, small red dots, gentle willow brows, forward gaze and small red lips. No base/platform.\\nBroad bold black shapes, sparse cutouts, minimum facial strokes, density like audience paper-cut a05.\\nMatch reference line weight and flat blocks. Square canvas ONE figure only centered within 88% height, generous margins, transparent background. Pure black #000000 structural line/block shapes and flat vermilion #A8202B accent ONLY. Face and light fabric are transparent carved cutouts, not opaque white fill. No paper rectangle. No gray, texture or tonal hatching. Clean bold 6-12px cuts at 1024. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-d9123525-95f2-4a29-9951-985267723c8e.png\"
+  },
+  {
+    \"id\": \"draft/atan_c\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character style study. Atan, adult Chinese wife in an old opera town, plain high coiled bun with one simple hairpin, unpainted gentle oval face, calm small eyes, practical plain crossed-collar home jacket, no theatrical headdress, no jewelry. FRONT seated upper body and lap, both hands quietly resting at lap, not hidden behind a table. No chair or props. Recognition: quiet waiting, warm but restrained.\\nFlowing elegant carved curves, balanced sparse detail, restrained black-and-vermilion block composition, like selected existing S3-c silhouettes and rival_yuexian portrait. Clear facial expression at 90px height.\\nMatch reference line weight and flat blocks. Square canvas ONE figure only centered within 88% height, generous margins, transparent background. Pure black #000000 structural line/block shapes and flat vermilion #A8202B accent ONLY. Face and light fabric are transparent carved cutouts, not opaque white fill. No paper rectangle. No gray, texture or tonal hatching. Clean bold 6-12px cuts at 1024. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-0ed0c583-e7bc-49a1-8031-c0c29c07725c.png\"
+  },
+  {
+    \"id\": \"draft/actor_b\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character style study. The player's adult Chinese opera qingyi / guimendan stage persona. Full body frontal standing, slender 5.5 heads tall, sloping shoulders, narrow waist, A-line long skirt with 6 carved folds, long flowing water sleeves continuous with cuffs, fingertips partially visible. RIGHT overlapping robe: upper collar from VIEWER RIGHT shoulder to VIEWER LEFT waist (lowercase y). Restrained plum-blossom pattern at ONE side of skirt hem, black hair with seven forehead scallops and cheek side locks, a high bun, simplified pearl headdress and three hanging pearl strands each side, small red dots, gentle willow brows, forward gaze and small red lips. No base/platform.\\nAngular carved geometry, generous empty space and strong rhythmic cuts, same coarse line weight as woodcut troupe portraits.\\nMatch reference black carved blocks and facial economy, not manga. Square canvas ONE figure only centered within 88% height. Transparent background. Pure black #000000 structural lines/block shapes and vermilion #A8202B accent ONLY. Face and light fabric are transparent cutouts, no white painted fill. Black fills MUST be perfectly uniform ink. Red fills MUST be uniform. Bold clean 6-12px cuts at 1024. No paper rectangle. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-9eab8f92-50c4-4d00-a228-82c3d39e9f7c.png\"
+  },
+  {
+    \"id\": \"draft/mirror_a\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character style study. One isolated front-facing head and short neck of the SAME adult Chinese opera performer, oval tapering face, calm straight-facing eyes, gentle thin brows, small mouth, hair tightly combed into plain high bun, no headdress, no jewelry, no shoulders. FULL opera makeup as geometric vermilion flat shapes around eyes and cheeks and tiny lips, paper-white face. Make it human and restrained, NOT a lianpu mask, no demon features, no ornament ring or mirror frame.\\nBroad bold black shapes, sparse cutouts, minimum facial strokes, density like audience paper-cut a05.\\nMatch reference black carved blocks and facial economy, not manga. Square canvas ONE figure only centered within 88% height. Transparent background. Pure black #000000 structural lines/block shapes and vermilion #A8202B accent ONLY. Face and light fabric are transparent cutouts, no white painted fill. Black fills MUST be perfectly uniform ink. Red fills MUST be uniform. Bold clean 6-12px cuts at 1024. No paper rectangle. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-8edc5c52-19c6-477b-9728-2b7fea27246e.png\"
+  },
+  {
+    \"id\": \"draft/actor_c\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character style study. The player's adult Chinese opera qingyi / guimendan stage persona. Full body frontal standing, slender 5.5 heads tall, sloping shoulders, narrow waist, A-line long skirt with 6 carved folds, long flowing water sleeves continuous with cuffs, fingertips partially visible. RIGHT overlapping robe: upper collar from VIEWER RIGHT shoulder to VIEWER LEFT waist (lowercase y). Restrained plum-blossom pattern at ONE side of skirt hem, black hair with seven forehead scallops and cheek side locks, a high bun, simplified pearl headdress and three hanging pearl strands each side, small red dots, gentle willow brows, forward gaze and small red lips. No base/platform.\\nFlowing elegant carved curves, balanced sparse detail, restrained black-and-vermilion block composition, like selected existing S3-c silhouettes and rival_yuexian portrait. Clear facial expression at 90px height.\\nMatch reference black carved blocks and facial economy, not manga. Square canvas ONE figure only centered within 88% height. Transparent background. Pure black #000000 structural lines/block shapes and vermilion #A8202B accent ONLY. Face and light fabric are transparent cutouts, no white painted fill. Black fills MUST be perfectly uniform ink. Red fills MUST be uniform. Bold clean 6-12px cuts at 1024. No paper rectangle. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-c4e1b0b9-4029-474d-9de7-837163c6c793.png\"
+  },
+  {
+    \"id\": \"draft/mirror_b\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character face style study. One isolated front-facing head and short neck of the SAME adult Chinese opera performer, oval tapering face, calm straight-facing eyes, gentle thin brows, small mouth, hair tightly combed into plain high bun, no headdress, no jewelry, no shoulders. FULL opera makeup as geometric vermilion flat shapes around eyes and cheeks and tiny lips, paper-white face. Make it human and restrained, NOT a lianpu mask, no demon features, no ornament ring or mirror frame.\\nAngular carved geometry, generous empty space and strong rhythmic cuts, same coarse line weight as woodcut troupe portraits.\\nSquare canvas ONE face only centered within 85% height with clear margins. Transparent background. Pure black #000000 structural lines and hair blocks; solid paper white #ECE3D4 face; tiny flat vermilion #A8202B makeup ONLY. Large bold cuts. Exactly flat uniform colors. No gray, no texture, no realistic shading. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-cf785e21-fed5-440a-a066-3ea96eed1f82.png\"
+  },
+  {
+    \"id\": \"draft/mirror_c\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: stylized-concept. Single game character face style study. One isolated front-facing head and short neck of the SAME adult Chinese opera performer, oval tapering face, calm straight-facing eyes, gentle thin brows, small mouth, hair tightly combed into plain high bun, no headdress, no jewelry, no shoulders. FULL opera makeup as geometric vermilion flat shapes around eyes and cheeks and tiny lips, paper-white face. Make it human and restrained, NOT a lianpu mask, no demon features, no ornament ring or mirror frame.\\nFlowing elegant carved curves, balanced sparse detail, restrained black-and-vermilion block composition, like selected existing S3-c silhouettes and rival_yuexian portrait. Clear facial expression at 90px height.\\nSquare canvas ONE face only centered within 85% height with clear margins. Transparent background. Pure black #000000 structural lines and hair blocks; solid paper white #ECE3D4 face; tiny flat vermilion #A8202B makeup ONLY. Large bold cuts. Exactly flat uniform colors. No gray, no texture, no realistic shading. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-a2f7dbd0-2b4a-482e-8637-3f967810f4c8.png\"
+  },
+  {
+    \"id\": \"atan/reach\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: identity-preserve. Asset type: final game paper-cut sprite. EDIT TARGET the first image Atan. Preserve her EXACT adult face identity, high single coiled bun with simple vermilion plum hairpin, plain black crossed-collar home jacket and two tiny red knot buttons. Change ONLY pose: she has risen from sitting, body front facing and leaning gently forward, HER RIGHT arm reaches diagonally forward toward VIEWER LEFT with an open flat hand offering to wipe the player's face, other hand rests near waist. Flat orthographic paper-cut gesture, no foreshortening. Full figure down to mid shins, plain black skirt. Restrained kind expression. No objects, no chair, no table.\\nFirst reference is EDIT TARGET, other image is established style reference. Preserve existing coarse carved line weight and negative-space cuts. Square canvas with at least 6% margins, isolated single figure. Transparent background. Only perfectly uniform BLACK #000000 structural lines/blocks and very small uniform VERMILION #A8202B accent. Light parts of face/fabric are transparent cutouts. NO additional colors, gray, fine hatching, texture. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-abd77556-ee4c-4141-b337-45248a08f49a.png\"
+  },
+  {
+    \"id\": \"atan/lowered\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: identity-preserve. Asset type: final game paper-cut sprite. EDIT TARGET the first image Atan. Preserve EXACT character identity, single high coiled bun, plain vermilion plum hairpin, black home jacket with two tiny vermilion knot buttons, seated body silhouette and folded hands in lap. Change ONLY her head tilt and eyes: head lowered gently toward hands, gaze down and eyelids lowered, tired quiet waiting without tears. Same centered canvas alignment and scale as source. No extra objects, no chair, no table.\\nFirst reference is EDIT TARGET, other image is established style reference. Preserve existing coarse carved line weight and negative-space cuts. Square canvas with at least 6% margins, isolated single figure. Transparent background. Only perfectly uniform BLACK #000000 structural lines/blocks and very small uniform VERMILION #A8202B accent. Light parts of face/fabric are transparent cutouts. NO additional colors, gray, fine hatching, texture. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-6992736f-afbe-49e0-b34b-9f6fa5253924.png\"
+  },
+  {
+    \"id\": \"actor/pose\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: identity-preserve. Asset type: final game paper-cut sprite. EDIT TARGET first image the adult qingyi actor. Preserve EXACT identity, headdress with pearl strands, seven forehead scallops, gentle brows, right-overlap y collar, narrow waist, long folded A-line skirt and small vermilion plum branch on ONE side. Change ONLY pose to a clear stage liangxiang: HER LEFT arm raised gracefully outward at head level toward VIEWER RIGHT, right hand extends to VIEWER LEFT at waist level, continuous water sleeves form two broad sweeping carved arcs, sleeve ends in waves. Head FRONT facing calm expression. Full body, same height and center, no props, no stage, no floating symbols. Maintain five-and-half head proportions.\\nFirst reference is EDIT TARGET, other image is established style reference. Preserve existing coarse carved line weight and negative-space cuts. Square canvas with at least 6% margins, isolated single figure. Transparent background. Only perfectly uniform BLACK #000000 structural lines/blocks and very small uniform VERMILION #A8202B accent. Light parts of face/fabric are transparent cutouts. NO additional colors, gray, fine hatching, texture. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-f9819bde-3117-489e-b1ad-aef313a9c21b.png\"
+  },
+  {
+    \"id\": \"mirror/clean\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: identity-preserve. EDIT first image mirror C. Keep EXACT head silhouette, same hair bun and carved hair cutouts, same oval face outline, same jaw, ears and neck, same eye centers, nose and mouth position. Change ONLY makeup: COMPLETELY REMOVE all red eye/cheek paint and red lip makeup, revealing a calm adult Chinese opera performer's bare face. Keep simple thin black eyes looking front, willow brows relaxed and level, small closed mouth drawn with one black stroke. The skin is uniform opaque rice-paper white #ECE3D4, hair and structural strokes pure black #000000. No shading or pink skin. No shoulders, clothing, mirror or decoration. Same canvas and EXACT pixel placement. Transparent background outside head. Single isolated front-facing head only. No extra red anywhere. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-8193e35a-7c35-42bc-a333-567e609343ee.png\"
+  },
+  {
+    \"id\": \"mirror/painted\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: identity-preserve. EDIT TARGET attached CLEAN mirror face. Keep EXACT pixel-position face silhouette, eyes, brows, nose, mouth, hair cutouts, bun, neck and canvas alignment. Change ONLY theatrical makeup by adding small broad FLAT VERMILION #A8202B patches: simple rounded red crescents above the outer eyelids and broad soft-edged BUT HARD FLAT FILLED oval cheek patches below eyes, small red closed lips. Keep forehead, nose bridge and jaw paper-white. This is an adult gentle qingyi performer's makeup, NOT a lianpu mask, NOT wing-shaped superhero mask, no sharp red wings or facepaint stripe across nose. White skin #ECE3D4 and black #000000 strokes and hair stay EXACTLY as input. No new black strokes. RED MUST NOT cover black eyes. Three flat colors only, no blush gradient. Single head, no shoulders, no mirror frame. Transparent background. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-5e6fd9a9-c6b9-4a06-b9e3-8a6c98449753.png\"
+  },
+  {
+    \"id\": \"mirror/half\",
+    \"prompt\": \"平面图形插画，木刻版画与中国剪纸的质感。粗细分明的刻线或白描线，大块面纯色平涂，像印在纸上的版画。不画光影、不画投影、没有渐变、没有透视。构图居中，对称或有明确的几何结构，有设计感。颜色只用墨黑、宣纸白、朱红，少量赭金。题材是中国戏曲。\\nflat 2D graphic illustration, woodcut print and Chinese paper-cut style, bold carved lines, flat solid fills, printed-on-paper look, no shading, no gradient, no lighting, no cast shadow, no perspective, centered symmetric composition, limited palette: ink black, rice-paper white, vermilion red, a little ochre gold.\\nUse case: identity-preserve. EDIT TARGET first image painted mirror face. Keep EXACT face identity, silhouette, all black eyes, brows, nose, mouth, hair, bun and neck, unchanged pixel positions and canvas. Change ONLY vermilion makeup to HALF REMOVED: completely remove cheek and eyelid red on VIEWER LEFT, exposing uniform paper white skin. On VIEWER RIGHT retain only a smaller irregular flat red cheek fragment and a small outer-eyelid crescent, as if a cloth wiped diagonal curved bites out of the paint. Lip paint half removed, a small remaining red patch on VIEWER RIGHT lip. Hard flat carved edges with broad simple cuts, no translucent smears, no gradient, no towel or hand. Exactly three solid colors: black #000000, paper white #ECE3D4, vermilion #A8202B. Transparent outside head, not within skin. No new strokes or artifacts. 不要：照片、写实、3D 渲染、真实材质、木纹、丝绒、金属反光、高光、景深、虚化、柔光、体积光、渐变、阴影、透视空间、背景场景、文字、字母、数字、签名、水印、印章里的字。\\nnegative: photorealistic, realistic, 3D render, CGI, realistic texture, wood grain, velvet, metallic, glossy, specular, depth of field, bokeh, soft light, volumetric light, gradient, drop shadow, perspective, background scenery, text, letters, numbers, signature, watermark.\",
+    \"source\": \"/Users/tsun/.codex/generated_images/01a1defc-3cba-7483-b0d3-54de2db25905/exec-43edeff4-c090-4b21-a4fa-49673f38ddd7.png\"
+  }
+]
+EOF" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "cat >> 原型/assets_codex_faces_20261115/work/export_assets.py <<'PY'
+ for char,pose in [('atan','reach'),('atan','lowered'),('actor','pose')]:
+  export_pair(ROOT/'work'/f'{char}_{pose}_raw.png',f'{char}/{pose}')
+ # All states share the very same clean base; generation supplies only red paint masks.
+ clean=separate(ROOT/'work/mirror_clean_raw.png',True)
+ base=Image.new('RGBA',(1024,1024))
+ base.alpha_composite(mask_image(clean['paper'],PAPER));base.alpha_composite(mask_image(clean['line'],BLACK))
+ skin=clean['paper'];base.save(ROOT/'mirror/base.png')
+ full=separate(ROOT/'work/mirror_painted_raw.png')['accent'] & skin
+ half=separate(ROOT/'work/mirror_half_raw.png')['accent'] & full
+ # Protect base black strokes. Half-mask is a strict subset of the full paint mask.
+ for state,m in [('painted',full),('half',half),('clean',np.zeros_like(full))]:
+  paint=mask_image(m,RED);paint.save(ROOT/f'mirror/{state}_accent.png')
+  c=base.copy();c.alpha_composite(paint);c.save(ROOT/f'mirror/{state}.png')
+ mask_image(clean['line'],BLACK).save(ROOT/'mirror/face_line.png')
+ mask_image(clean['paper'],PAPER).save(ROOT/'mirror/face_paper.png')
+PY
+python3 原型/assets_codex_faces_20261115/work/export_assets.py" in /Users/tsun/Projects/game-dise
+ succeeded in 1635ms:
+exec
+/bin/zsh -lc "ls /System/Library/Fonts | head -30; python3 - <<'PY'
+from PIL import Image
+from pathlib import Path
+r=Path('原型/assets_codex_faces_20261115');s=Image.new('RGB',(1536,600),'#ece3d4')
+for i,n in enumerate(['painted','half','clean']):
+ im=Image.open(r/'mirror'/f'{n}.png');im.thumbnail((500,580));s.paste(im,(i*512,0),im)
+s.save(r/'work/mirror-review.png')
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 16ms:
+ADTNumeric.ttc
+Apple Braille Outline 6 Dot.ttf
+Apple Braille Outline 8 Dot.ttf
+Apple Braille Pinpoint 6 Dot.ttf
+Apple Braille Pinpoint 8 Dot.ttf
+Apple Braille.ttf
+Apple Color Emoji.ttc
+Apple Symbols.ttf
+AppleSDGothicNeo.ttc
+AquaKana.ttc
+ArialHB.ttc
+Avenir Next Condensed.ttc
+Avenir Next.ttc
+Avenir.ttc
+CJKSymbolsFallback.ttc
+Courier.ttc
+DecoTypeNastaleeqUrdu.ttc
+GeezaPro.ttc
+Geneva.ttf
+HelveLTMM
+Helvetica.ttc
+HelveticaNeue.ttc
+Hiragino Sans GB.ttc
+Keyboard.ttf
+Kohinoor.ttc
+KohinoorBangla.ttc
+KohinoorGujarati.ttc
+KohinoorTelugu.ttc
+LastResort.otf
+LucidaGrande.ttc
+
+exec
+/bin/zsh -lc "cat > 原型/assets_codex_faces_20261115/work/build_proofs.py <<'PY'
+from export_assets import *
+FONT='/System/Library/Fonts/Hiragino Sans GB.ttc'
+def font(n):return ImageFont.truetype(FONT,n)
+def label(canvas,xy,text,size=22,fill='#120e11'):ImageDraw.Draw(canvas).text(xy,text,font=font(size),fill=fill)
+def fit(im,w,h):
+ im=im.copy();im.thumbnail((w,h),Image.Resampling.LANCZOS);return im
+def stamp(canvas,im,box,crop=False):
+ if crop and im.getbbox():im=im.crop(im.getbbox())
+ x,y,w,h=box;im=fit(im,w,h);canvas.paste(im,(x+(w-im.width)//2,y+(h-im.height)//2),im if im.mode=='RGBA' else None)
+def pair(stem,tint=None):
+ a=Image.open(ROOT/f'{stem}_line.png').convert('RGBA')
+ if tint:
+  ar=np.array(a);ar[ar[:,:,3]>0,:3]=tint;a=Image.fromarray(ar)
+ a.alpha_composite(Image.open(ROOT/f'{stem}_accent.png'));return a
+items=[
+ ('atan/seated','阿檀・正面坐姿','原型截圖/原型_早上装匣.png'),
+ ('atan/reach','阿檀・起身伸手','設計/美術/feedback_v17/qa_mobile_door/06_door_desk_1440x900.png'),
+ ('atan/lowered','阿檀・低頭','原型截圖/原型_傍晚灯坊.png'),
+ ('actor/standing','台上的你・站姿','原型截圖/原型_戲台.png'),
+ ('actor/pose','台上的你・亮相','原型截圖/原型_戲台.png'),
+ ('mirror/painted','鏡中臉・上妝','設計/美術/feedback_v17/qa_mobile_door/01_door_paint_390x844.png'),
+ ('mirror/half','鏡中臉・半卸','設計/美術/feedback_v17/qa_mobile_door/04_door_after_wipe_390x844.png'),
+ ('mirror/clean','鏡中臉・卸淨（底色）','設計/美術/feedback_v17/qa_mobile_door/05_door_after_clean_all_390x844.png')]
+def art(stem):return Image.open(ROOT/f'{stem}.png').convert('RGBA') if stem.startswith('mirror') else pair(stem)
+for stem,title,scene in items:
+ s=Image.new('RGB',(1600,1000),'#ece3d4');d=ImageDraw.Draw(s)
+ label(s,(35,25),f'{title}  |  靜態審圖・未接入遊戲',30)
+ label(s,(35,90),'現有畫面（原圖）',22);label(s,(1010,90),'新圖・紙白底',22)
+ im=Image.open(scene).convert('RGB');stamp(s,im,(25,130,950,640))
+ a=art(stem);stamp(s,a,(1010,130,550,640))
+ label(s,(35,800),f'來源：{scene}',16)
+ label(s,(35,850),'90px 主體高：',20);small=fit(a.crop(a.getbbox()),160,90);s.paste(small,(250,850),small)
+ d.rectangle((1010,800,1560,970),fill='#120e11')
+ da=art(stem) if stem.startswith('mirror') else pair(stem,PAPER)
+ stamp(s,da,(1020,810,150,150),True)
+ label(s,(1190,840),'深底顯示參考',20,fill='#ece3d4')
+ label(s,(1190,880),'人物 line 染紙白；朱紅原色',16,fill='#ece3d4')
+ label(s,(35,955),'並排僅供風格／輪廓評審；不是遊戲替換截圖。圖中標題不屬於素材本體。',17)
+ s.save(ROOT/'對比'/f'{stem.replace(\"/\",\"_\")}-scene.png')
+# Nine style studies with choice and exact ninety-pixel thumbnails.
+s=Image.new('RGB',(1500,1830),'#ece3d4')
+choices={'atan':'a','actor':'b','mirror':'c'}
+for row,c in enumerate(['atan','actor','mirror']):
+ for col,v in enumerate('abc'):
+  x=col*500;y=row*610;im=Image.open(ROOT/f'draft/{c}_{v}.png').convert('RGBA')
+  label(s,(x+20,y+15),f'{c} {v.upper()}'+('・選用' if choices[c]==v else ''),25)
+  stamp(s,im,(x+20,y+65,460,410));stamp(s,im,(x+200,y+495,100,90),True)
+s.save(ROOT/'對比/draft-selection.png')
+# Formal thumbnails true 90px high; generated large preview separately.
+s=Image.new('RGB',(1600,510),'#ece3d4')
+label(s,(30,20),'全八張・90px 主體高／原尺寸像素觀看',27)
+for i,(stem,title,_) in enumerate(items):
+ x=i*200;a=art(stem);stamp(s,a,(x+15,100,170,90),True);label(s,(x+8,210),title.replace('・','\\n'),17)
+ d=ImageDraw.Draw(s);d.rectangle((x+5,300,x+195,490),fill='#120e11')
+ a=art(stem) if stem.startswith('mirror') else pair(stem,PAPER);stamp(s,a,(x+15,335,170,90),True)
+s.save(ROOT/'對比/readability-90px.png')
+s=Image.new('RGB',(1600,1100),'#ece3d4')
+for i,(stem,title,_) in enumerate(items):
+ x=(i%4)*400;y=(i//4)*550;label(s,(x+15,y+15),title,22);stamp(s,art(stem),(x+10,y+55,380,475))
+s.save(ROOT/'對比/final-overview.png')
+# Registered makeup states and difference visualization.
+s=Image.new('RGB',(1600,850),'#ece3d4');label(s,(25,20),'同一五官基底・三階段逐像素對齊',28)
+for i,st in enumerate(['painted','half','clean']):
+ stamp(s,art('mirror/'+st),(i*520+20,80,500,550));label(s,(i*520+25,650),st+' | 1024 × 1024',24)
+label(s,(25,745),'黑線與外輪廓完全相同；只替換朱紅遮罩。半卸色塊為上妝遮罩的子集。',24)
+s.save(ROOT/'對比/mirror-registration.png')
+# New vs existing sampled production and locked drafts.
+refs=[('crowd',n+'.png') for n in ['a01','a05','a06','a08','a13','b02_act','b03_idle','c05']]
+refs += [('cards',n+'_line.png') for n in ['art_shenduan','art_woyu','art_fanshen','art_shuixiu','art_home_labor','art_changqiang']]
+refs += [('draft',n+'.png') for n in ['rival_yuexian','rival_xiaofeng','rival_jinbao','sun_shifu']]
+refs += [('deco',n+'.png') for n in ['chuanghua_03','chest_lid','lianpu_04','shoujiu']]
+refs += [('ui','look_tired.png'),('night','layer_2_roofs.png')]
+s=Image.new('RGB',(1800,1550),'#ece3d4');label(s,(30,20),'新圖 × 現有素材抽樣・同一木刻／剪紙語彙',32)
+label(s,(30,80),'上排：本次八張；下方：既有 183 PNG 中抽樣 24 張（含同門像）',23)
+for i,(stem,title,_) in enumerate(items):
+ x=i*225;stamp(s,art(stem),(x+10,135,205,270));label(s,(x+5,420),stem,17)
+for i,(group,name) in enumerate(refs):
+ x=i%8*225;y=500+(i//8)*335;im=Image.open(ROOT.parents[0]/'assets_codex_20261110'/group/name).convert('RGBA')
+ stamp(s,im,(x+10,y+5,205,260));label(s,(x+5,y+275),group+'/'+Path(name).stem,14)
+s.save(ROOT/'對比/style-consistency-overview.png')
+PY
+python3 原型/assets_codex_faces_20261115/work/build_proofs.py" in /Users/tsun/Projects/game-dise
+ succeeded in 1722ms:
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+exec
+/bin/zsh -lc "cat > 原型/assets_codex_faces_20261115/work/audit.py <<'PY'
+from export_assets import *
+files=[];issues=[]
+allowed={BLACK,RED,PAPER}
+for folder in ['draft','atan','actor','mirror']:
+ for p in sorted((ROOT/folder).glob('*.png')):
+  im=Image.open(p).convert('RGBA');a=np.array(im);visible=a[a[:,:,3]>0];colors={tuple(c) for c in visible[:,:3]};alphas=set(np.unique(a[:,:,3]).tolist())
+  rel=str(p.relative_to(ROOT));entry={'file':rel,'width':im.width,'height':im.height,'mode':im.mode,'colors':['#%02X%02X%02X'%c for c in sorted(colors)],'alpha_values':sorted(alphas),'bbox':im.getbbox(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+  if im.size"'!=(1024,1024):issues.append(rel+'"': size')
+  if not colors<=allowed:issues.append(rel+': palette')
+  if not alphas<={0,255}:issues.append(rel+': continuous alpha')
+  if p.name.endswith('_line.png') and colors"'!={BLACK}:issues.append(rel+'"': line')
+  if p.name.endswith('_accent.png') and not colors<={RED}:issues.append(rel+': accent')
+  if a[0,0,3]"'!=0 or a[-1,-1,3]!=0:issues.append(rel+'"': corner transparency')
+  files.append(entry)
+for group,poses in [('atan',['seated','reach','lowered']),('actor',['standing','pose'])]:
+ for pose in poses:
+  x=np.array(Image.open(ROOT/f'{group}/{pose}_line.png'));y=np.array(Image.open(ROOT/f'{group}/{pose}_accent.png'))
+  if np.any((x[:,:,3]>0)&(y[:,:,3]>0)):issues.append(group+'/'+pose+': layer overlap')
+base=np.array(Image.open(ROOT/'mirror/base.png'));full=np.array(Image.open(ROOT/'mirror/painted.png'));half=np.array(Image.open(ROOT/'mirror/half.png'));clean=np.array(Image.open(ROOT/'mirror/clean.png'))
+fullmask=np.all(full[:,:,:3]==RED,axis=2)&(full[:,:,3]>0);halfmask=np.all(half[:,:,:3]==RED,axis=2)&(half[:,:,3]>0)
+registration={'same_alpha_all_states':bool(np.array_equal(full[:,:,3],clean[:,:,3]) and np.array_equal(half[:,:,3],clean[:,:,3])),'same_nonpaint_pixels':bool(np.array_equal(full[~fullmask],base[~fullmask]) and np.array_equal(half[~halfmask],base[~halfmask])),'half_subset_full':bool(not np.any(halfmask&~fullmask)),'clean_equals_base':bool(np.array_equal(base,clean)),'painted_red_pixels':int(fullmask.sum()),'half_red_pixels':int(halfmask.sum())}
+if not all(v for k,v in registration.items() if not k.endswith('_pixels')):issues.append('mirror registration')
+protected=json.loads((ROOT/'work/protected-before.json').read_text());changed=[p for p,h in protected.items() if not Path(p).exists() or hashlib.sha256(Path(p).read_bytes()).hexdigest()"'!=h]
+report={'"'asset_png_count':len(files),'files':files,'issues':issues,'mirror_registration':registration,'protected_files_count':len(protected),'protected_changes':changed,'proof_count':len(list((ROOT/'對比').glob('*.png')))}
+(ROOT/'manifest.json').write_text(json.dumps(files,ensure_ascii=False,indent=2));(ROOT/'work/audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+print(json.dumps({k:v for k,v in report.items() if k"'!='"'files'},ensure_ascii=False,indent=2))
+PY
+python3 原型/assets_codex_faces_20261115/work/audit.py" in /Users/tsun/Projects/game-dise
+ succeeded in 2927ms:
+{
+  "asset_png_count": 28,
+  "issues": [],
+  "mirror_registration": {
+    "same_alpha_all_states": true,
+    "same_nonpaint_pixels": true,
+    "half_subset_full": true,
+    "clean_equals_base": true,
+    "painted_red_pixels": 16333,
+    "half_red_pixels": 5024
+  },
+  "protected_files_count": 258,
+  "protected_changes": [],
+  "proof_count": 13
+}
+
+codex
+總覽與並排圖已完成，90px 下可辨認三種阿檀姿態、兩種旦角姿態和三個卸妝階段。純色匯出也已完成；最後正在核對鏡臉的像素對齊、逐檔清單，以及原素材與遊戲程式是否保持不變。
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image,ImageDraw
+from pathlib import Path
+r=Path('原型/assets_codex_faces_20261115');s=Image.new('RGB',(1600,1300),'#ece3d4')
+files=list((r/'對比').glob('*-scene.png'))
+for i,p in enumerate(files):
+ im=Image.open(p);im.thumbnail((395,625));s.paste(im,((i%4)*400,(i//4)*650))
+s.save(r/'work/scene-review.jpg')
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 79ms:
+exec
+/bin/zsh -lc "python3 - <<'PY'
+p='原型/assets_codex_faces_20261115/work/build_proofs.py'
+s=open(p).read().replace(\"('atan/lowered','阿檀・低頭','原型截圖/原型_傍晚灯坊.png')\",\"('atan/lowered','阿檀・低頭','設計/美術/feedback_v17/qa_mobile/07_evening_390x844.png')\")
+open(p,'w').write(s)
+PY
+python3 原型/assets_codex_faces_20261115/work/build_proofs.py" in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc "cat > 原型/assets_codex_faces_20261115/README.md <<'EOF'
+# V18 三張臉・美術審圖包
+
+2026-11-15。內建 imagegen 生成；僅交美術，未接入遊戲。
+
+先看 "'`對比/final-overview.png`、`對比/draft-selection.png`、`對比/style-consistency-overview.png`。
+
+- `draft/`：三個角色各 A/B/C，1024×1024 RGBA，共九張。選阿檀 A、旦角 B、鏡臉 C；鏡臉正式妝形另修為收斂頰紅。
+- `atan/`：seated 坐姿、reach 起身伸手、lowered 低頭，各 line / accent。
+- `actor/`：standing 站姿、pose 亮相，各 line / accent。
+- `mirror/`：painted 上妝、half 半卸、clean 卸淨，完整 RGBA 三張；另附共用 base、face_line、face_paper 和三張 accent 遮罩。
+- `對比/`：八張新圖各一張場景並排，以及小樣選版、正式總覽、90px、鏡臉配準、風格抽樣，共十三張。
+- `manifest.json`：28 張交付素材的逐檔尺寸、色值、透明範圍及 SHA-256。
+- `work/`：原始生成、完整逐次提示詞、參考拼圖、匯出／審圖／驗證腳本及 audit.json，非正式素材目錄。
+
+人物 line = 純黑 #000000，accent = 純朱紅 #A8202B，皆透明底、同畫布同位置。淺色衣身與臉的留白採透明鏤空，和卡面一致。深底需將 line 染成既有紙白 #ECE3D4；對比圖下方已示範。鏡臉另有實心紙白皮膚，背景透明。
+
+本包是平面紙片角色圖，並非 3D 模型、骨架或動畫；依 V18 brief 不接遊戲。所有圖內均無文字；對比圖的標題和標籤僅供審圖。
+
+報告：`設計/美術/V18_FACES_RESULT.md`。
+EOF
+cat > 原型/assets_codex_faces_20261115/draft/README.md <<'"'EOF'
+# 小樣選版
+
+每角色三張，均 1024×1024 透明 PNG，精確黑／朱紅／紙白色板。
+
+- 阿檀 A：選用。黑色衣身、少量紅扣、寬刻線與觀眾 a05／a06 的髮髻和黑塊密度最接近。B 的紅裙、C 的紅腰帶面積偏大，保留供比較。
+- 旦角 B：選用。雙袖展開留白最清楚，長褶與既有 art_shenduan、art_shuixiu 的流線刻法一致，珠串仍讀得出。A 雙手收中、C 上身黑面較重。
+- 鏡臉 C：選其臉型與髮線。弧形刻線、黑髮留白接近 rival_yuexian。三小樣的尖翼妝形偏強，正式版另外生成卸淨共用基底，再生成較簡單的眼上弧塊／頰紅；未將尖翼妝當正式圖。
+
+逐張：atan_a.png、atan_b.png、atan_c.png；actor_a.png、actor_b.png、actor_c.png；mirror_a.png、mirror_b.png、mirror_c.png。
+
+前綴全部 P-v2，原封沿用 codex_生圖需求_v2.md 中英前綴／反向詞。完整提示詞見 ../work/prompts.json。
+EOF" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+ succeeded in 1759ms:
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from pathlib import Path
+import json
+root=Path('原型/assets_codex_faces_20261115')
+files=json.loads((root/'manifest.json').read_text());audit=json.loads((root/'work/audit.json').read_text());logs=json.loads((root/'work/prompts.json').read_text())
+print('generation calls',len(logs),'formal/draft',len(files))
+for folder in ['atan','actor','mirror']:
+ rows=['# '+folder+' 交付清單','','全部 1024×1024 RGBA。前綴 P-v2。詳見根 README 與 manifest.json。','']
+ for f in files:
+  if f['file'].startswith(folder+'/'):rows.append('- "'`'"'+f['file'].split('/')[-1]+'"'`：'"'+', '.join(f['colors'])+'；透明底。')
+ (root/folder/'README.md').write_text('\\n'.join(rows)+'\\n')
+notes={
+'atan/seated':'坐姿、雙手收於膝上；平靜等待；與觀眾髮髻黑塊一致。',
+'atan/reach':'起身、右手往觀者左側伸出；無透視縮短；紅扣／髮簪與坐姿一致。',
+'atan/lowered':'垂眼低頭、雙手收中；安靜疲倦；衣褶和坐姿同一套刻法。',
+'actor/standing':'溜肩、收腰、右衽、長褶、水袖與三列珠串；神情平靜。',
+'actor/pose':'一手高一手低，袖形兩道弧；延續站姿服飾／梅花位置。',
+'mirror/painted':'雙側眼上弧塊、頰紅與唇妝；平塗，非尖翼臉譜。',
+'mirror/half':'觀者左側已卸，右側留弧塊與缺口頰紅；與上妝同一臉。',
+'mirror/clean':'移除表面朱紅，露出共用紙白底色／五官；未另加數值化永久染色。'}
+text='''# V18 三張臉交付結果
+
+2026-11-15。已完成全部靜態美術交付，未接進遊戲、未 commit、未 push。
+
+## 先看
+
+- [八張正式圖總覽](../../原型/assets_codex_faces_20261115/對比/final-overview.png)
+- [九張小樣與自選](../../原型/assets_codex_faces_20261115/對比/draft-selection.png)
+- [新圖與既有素材風格並排](../../原型/assets_codex_faces_20261115/對比/style-consistency-overview.png)
+- [90px 深／淺底檢查](../../原型/assets_codex_faces_20261115/對比/readability-90px.png)
+- [鏡中臉三階段配準](../../原型/assets_codex_faces_20261115/對比/mirror-registration.png)
+
+交付根目錄："'`原型/assets_codex_faces_20261115/`。九張小樣、五個姿勢的十張分層圖、三張鏡臉及六張輔助層，共 **28 張素材 PNG**；另 **13 張對比 PNG**。所有正式／小樣素材均 1024×1024。
+
+## 參考、前綴與選版
+
+已閱讀 V18 brief、v2 生圖需求、CODEX_ART_RESULT、旦角第二版說明及 v0.3／v0.6／v1.x 角色設定，通看指定類別與原型截圖、第一版標註。現有目錄實際有 **183 PNG**（含小樣、分層），brief 的 162 為概數；風格總覽從中抽樣 24 張。
+
+所有生成均使用 **P-v2**：原封沿用 `codex_生圖需求_v2.md` 的中英文風格前綴與反向詞。並以既有 crowd、同門木刻像拼圖作風格參照。色值實際取自既有檔案：黑 `#000000`（卡面 line 規格）、朱紅 `#A8202B`、紙白 `#ECE3D4`；沒有新增綠／粉／膚色。旦角造型沿用右衽、5.5 頭身方向、溜肩、長水袖、收腰長裙、珠串與單側梅花；3D 規格中的石綠在此依 V18 限色要求轉成黑／鏤空。
+
+- **阿檀選 A**：黑衣大塊面、寬衣褶留白，接近 crowd/a05、a06 與同門像；紅只落髮簪和兩個扣結。B／C 紅裙或紅腰帶偏重。
+- **旦角選 B**：雙袖舒展、長褶清楚，接近 art_shenduan／art_shuixiu；珠串與花飾密度接近 rival_xiaofeng。亮相延用同一衣飾。
+- **鏡臉選 C 的臉型和髮線**：弧線刻法接近 rival_yuexian。小樣尖翼妝形過強，正式另生成卸淨基底與簡單頰紅，未採用尖翼妝形。
+
+使用內建 imagegen，共 15 次生成／編輯；原始圖保存在 `work/*_raw.png`。完整逐次前綴、反向詞、主體敘述、參照與原始來源見 [prompts.json](../../原型/assets_codex_faces_20261115/work/prompts.json)。Python 僅負責尺寸統一、限定色匯出、分層遮罩、配準與對比拼版；不以程式繪製人物代替生成。
+
+## 正式逐圖自查
+
+下表每列的 line／accent 都是同畫布同位置透明 PNG。line 僅純黑，accent 僅朱紅；留白為透明鏤空，和卡面規格相同。深底審圖把 line 染為既有紙白，對比圖已示範。
+
+| 主體／檔案 | 前綴 | 放大／色板 | 90px／並排觀察 |
+|---|---|---|---|
+'"'''
+for stem in ['atan/seated','atan/reach','atan/lowered','actor/standing','actor/pose']:
+ text+=f'| "'`{stem}_line.png`、`{stem}_accent.png` | P-v2 | 通過；純色、透明鏤空，無漸變／投影／寫實紋理 | {notes[stem]} |'"\\n'
+for stem in ['mirror/painted','mirror/half','mirror/clean']:
+ text+=f'| "'`{stem}.png` | P-v2 | 通過；黑／紙白／朱紅限定色，外底透明 | {notes[stem]} |'"\\n'
+text+='''
+90px 主體高時，坐／伸手／低頭、站姿／亮相、上妝／半卸／卸淨可分辨；人物神情保持平靜或垂眼。旦角細小珠粒與眉眼細節仍以放大圖審看。視覺判斷為本輪自查，作者可直接由並排圖複核風格。
+
+鏡臉採 **同一份 base.png** 組合三個妝色遮罩。半卸遮罩取生成半卸圖的紅區，並裁限為滿妝遮罩子集；黑線、皮膚、髮髻與外輪廓不動。不是三張獨立生成臉直接疊換。
+
+## 每張素材清單
+
+以下均相對交付根目錄；所有前綴為 P-v2（衍生層沿用其生成來源）。機器檢查均通過，RGBA、1024×1024、僅允許色與 0／255 alpha。輔助空遮罩 "'`clean_accent.png` 為刻意全透明。
+
+| 檔案 | 前綴 | 匯出色值 | 自查 |
+|---|---|---|---|
+'"'''
+for f in files:
+ text+=f'| "'`{f["file"]}` | P-v2 | {", ".join(f["colors"]) or "全透明"} | 通過 |'"\\n'
+text+='''
+小樣三版均保留以供回看；鏡臉尖翼妝只存在 draft，不在正式 mirror 目錄。"'`mirror/base.png` 與 `clean.png` 一致；face_line／face_paper 為共用黑線／紙白層；painted／half／clean_accent 為可檢視的妝色層。
+
+## 對比檔案
+
+每張正式圖都在對應既有截圖旁並排，保留原截圖，右側為新圖，附 90px 和深底參考。這是靜態風格審圖，並非已接入的遊戲截圖。早期 `原型_傍晚灯坊.png` 幾乎全黑，低頭圖改用現有 v17 傍晚 QA 截圖。
+
+'"'''
+for p in sorted((root/'對比').glob('*.png')):text+=f'- "'`對比/{p.name}`'"\\n'
+text+=f'''
+## 驗證與保護
+
+- [manifest.json](../../原型/assets_codex_faces_20261115/manifest.json) 列每檔尺寸、色值、alpha、有效範圍與 SHA-256。
+- [audit.json](../../原型/assets_codex_faces_20261115/work/audit.json)：28 張素材，0 項尺寸／色板／透明／分層問題；alpha 僅 0／255，沒有連續明暗。
+- 三張鏡臉 alpha 完全一致；非妝區像素與基底完全一致；卸淨等於 base；半卸朱紅 5,024 px，滿妝 16,333 px，半卸是滿妝子集。
+- 已目視九張小樣、八張正式總覽、90px 深淺底、八張場景並排及風格抽樣總覽。未見背景場景、投影、透視體積、文字、字母、數字或水印混入素材。
+- 開工前保存的 **{audit['protected_files_count']} 個原素材／截圖／原型 v*/ 檔案雜湊，交付時變化 0**。未覆蓋既有 assets_codex_20261110；assets_compare/before 此工作副本不存在，未建立或寫入。
+- 未操作其他專案、其他本機會話、版本控制同步或遊戲程式。原先未追蹤的 v1.8-workbuddy 與日誌保留原狀。
+
+此次交付的是平面角色美術與審圖資料，不含 3D 模型、骨架、動畫或遊戲接線；範圍依 V18 brief。
+'''
+Path('設計/美術/V18_FACES_RESULT.md').write_text(text)
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+generation calls 15 formal/draft 28
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image
+from pathlib import Path
+r=Path('原型/assets_codex_faces_20261115')
+s=Image.new('RGB',(1600,700),'#ece3d4')
+for i,stem in enumerate(['atan/seated','atan/reach','atan/lowered','actor/standing','actor/pose']):
+ im=Image.open(r/(stem+'_line.png')).convert('RGBA');im.alpha_composite(Image.open(r/(stem+'_accent.png')))
+ # Top portion enlarged to check carved edge/face, displayed on paper.
+ box=im.getbbox();cx=(box[0]+box[2])//2;crop=im.crop((max(0,cx-150),max(0,box[1]-5),min(1024,cx+150),min(1024,box[1]+330)))
+ crop=crop.resize((320,360),Image.Resampling.NEAREST);s.paste(crop,(i*320,20),crop)
+s.save(r/'work/closeup-review.png')
+p=r/'work/prompts.json';import json
+logs=json.loads(p.read_text())
+for item in logs:
+ id=item['id']
+ if id=='draft/atan_a' or (id.startswith('draft/') and id not in ['draft/mirror_b','draft/mirror_c']):refs=['work/reference_draft.jpg','work/reference_crowd.jpg']
+ elif id in ['draft/mirror_b','draft/mirror_c']:refs=['work/reference_draft.jpg','work/mirror_a_raw.png']
+ elif id.startswith('atan/'):refs=['work/atan_a_raw.png','work/reference_draft.jpg']
+ elif id=='actor/pose':refs=['work/actor_b_raw.png','work/reference_draft.jpg']
+ elif id=='mirror/clean':refs=['work/mirror_c_raw.png']
+ elif id=='mirror/painted':refs=['work/mirror_clean_raw.png']
+ else:refs=['work/mirror_painted_raw.png']
+ item['reference_paths_relative_to_delivery']=refs;item['tool']='built-in image_gen.imagegen';item['transparent_background']=True
+p.write_text(json.dumps(logs,ensure_ascii=False,indent=2))
+PY" in /Users/tsun/Projects/game-dise
+ succeeded in 13ms:
+exec
+/bin/zsh -lc "cat > 設計/美術/V18_FACES_PROGRESS.md <<'EOF'
+# V18 三張臉進度
+
+2026-11-15，全部完成，已交結果供士淳審圖；未接入遊戲。
+
+1. **參考鎖定完成**：完整讀 V18、v2 提示詞、既有結果／選版、旦角造型、v0.3／v0.6／v1.x 角色敘述；通看 cards、crowd、deco、night、ui、同門像、原型截圖及第一版標註。既有素材實際 183 PNG（含小樣／雙層），已從原檔取色。
+2. **小樣完成**：阿檀、旦角、鏡臉各三版，共九張；自選阿檀 A／旦角 B／鏡臉 C 的臉型髮線，理由見 draft/README.md 和結果文件。未中途等待人挑。
+3. **正式圖完成**：阿檀坐姿／起身伸手／低頭三姿勢，旦角站姿／亮相兩姿勢，各純黑 line＋朱紅 accent。鏡臉上妝／半卸／卸淨三狀態，共用五官基底。所有素材 1024×1024 透明 PNG。
+4. **返修完成**：鏡臉小樣尖翼妝偏強，正式另生成簡化頰紅；生成原圖中的細微色差已於限定色與二值 alpha 匯出排除，原始生成保留在 work，未放進正式目錄。
+5. **對比完成**：八張正式圖各一張原場景並排；另附小樣選版、正式總覽、90px 深淺底、鏡臉配準、風格抽樣，共十三張對比圖。早期傍晚截圖近全黑，改用現有 v17 傍晚 QA 圖。
+6. **目視驗收完成**：九張小樣、八張正式圖、放大五官刻線、90px 人物／表情／姿態、八張場景並排與 24 張既有抽樣均已檢視。
+7. **資料驗證完成**：28 張素材；尺寸／色值／透明／分層零問題。鏡臉三狀態 alpha 與非妝區像素完全一致；半卸妝遮罩為滿妝子集。詳見 work/audit.json。
+8. **保護檢查完成**：開工前 258 個原資源／截圖／v*/ 檔案雜湊變化零；不接遊戲、不 commit、不 push，不操作 game-Loop-Town 或其他本機會話。
+
+交付："'`原型/assets_codex_faces_20261115/`。
+
+完整結果、逐張檔案、P-v2 前綴與自查：[V18_FACES_RESULT.md](V18_FACES_RESULT.md)。逐次完整提示詞／內建生成來源：`work/prompts.json`；匯出與對比腳本可重現，所有正式檔有 SHA-256 manifest。
+EOF
+python3 原型/assets_codex_faces_20261115/work/audit.py
+' in /Users/tsun/Projects/game-dise
+exec
+/bin/zsh -lc 'git status --short; du -sh 原型/assets_codex_faces_20261115; git diff --stat' in /Users/tsun/Projects/game-dise
+ succeeded in 0ms:
+?? "\345\216\237\345\236\213/assets_codex_faces_20261115/"
+?? "\345\216\237\345\236\213/v1.8-workbuddy/"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/V18_FACES_CODEX_BRIEF.md"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/V18_FACES_PROGRESS.md"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/V18_FACES_RESULT.md"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/V18_STANDEE_CLAUDE_BRIEF.md"
+?? "\350\250\255\350\250\210/\347\276\216\350\241\223/codex_v18_faces.log"
+ 17M	原型/assets_codex_faces_20261115
+
+ succeeded in 2468ms:
+{
+  "asset_png_count": 28,
+  "issues": [],
+  "mirror_registration": {
+    "same_alpha_all_states": true,
+    "same_nonpaint_pixels": true,
+    "half_subset_full": true,
+    "clean_equals_base": true,
+    "painted_red_pixels": 16333,
+    "half_red_pixels": 5024
+  },
+  "protected_files_count": 258,
+  "protected_changes": [],
+  "proof_count": 13
+}
+
+mcp: pacer_progress/report_progress started
+mcp: pacer_progress/report_progress (completed)
+codex
+已完整執行，交付九張小樣、八張正式圖（含透明分層與鏡臉三階段），以及十三張對比圖。
+
+- [正式圖總覽](/Users/tsun/Projects/game-dise/原型/assets_codex_faces_20261115/對比/final-overview.png)
+- [小樣選版與理由](/Users/tsun/Projects/game-dise/原型/assets_codex_faces_20261115/對比/draft-selection.png)
+- [風格一致性對比](/Users/tsun/Projects/game-dise/原型/assets_codex_faces_20261115/對比/style-consistency-overview.png)
+- [完整結果與逐檔自查](/Users/tsun/Projects/game-dise/設計/美術/V18_FACES_RESULT.md)
+
+尺寸、色板、透明分層及鏡臉對齊檢查通過；258 個原檔雜湊無變化。未接入遊戲、未 commit、未 push。
+tokens used
+127,721
+已完整執行，交付九張小樣、八張正式圖（含透明分層與鏡臉三階段），以及十三張對比圖。
+
+- [正式圖總覽](/Users/tsun/Projects/game-dise/原型/assets_codex_faces_20261115/對比/final-overview.png)
+- [小樣選版與理由](/Users/tsun/Projects/game-dise/原型/assets_codex_faces_20261115/對比/draft-selection.png)
+- [風格一致性對比](/Users/tsun/Projects/game-dise/原型/assets_codex_faces_20261115/對比/style-consistency-overview.png)
+- [完整結果與逐檔自查](/Users/tsun/Projects/game-dise/設計/美術/V18_FACES_RESULT.md)
+
+尺寸、色板、透明分層及鏡臉對齊檢查通過；258 個原檔雜湊無變化。未接入遊戲、未 commit、未 push。
