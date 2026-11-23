@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>班鼓點題朱紅</title>
+  <g fill="#a8202b">
+    <ellipse cx="512" cy="354" rx="72" ry="28"/>
+    <path d="M492 528 L512 502 L532 528 L512 554 Z"/>
+    <circle cx="332" cy="454" r="14"/>
+    <circle cx="692" cy="454" r="14"/>
+    <path d="M570 704 L610 682 L626 716 L586 738 Z"/>
+    <path d="M454 704 L414 682 L398 716 L438 738 Z"/>
+  </g>
+</svg>

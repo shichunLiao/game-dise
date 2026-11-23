@@ -1,6 +1,6 @@
 // 引導檢查（v1.9 引導）：用真的瀏覽器跑第 1–4 天，確認新手提示有出現、只出現一次。
 // 需要：本機裝了 Google Chrome，和 playwright-core（npm i playwright-core）。
-// 用法：node 原型/v1.8-workbuddy/check_guide.js [desktop|mobile] [截圖資料夾]
+// 用法：node 原型/v1.9/check_guide.js [desktop|mobile] [截圖資料夾]
 //（playwright-core 裝在別處時，用 NODE_PATH=那裡的 node_modules 指過去）
 // 會自己在 127.0.0.1 開一個臨時的靜態伺服器（根目錄是 原型/），跑完關掉。
 const http = require('http');
