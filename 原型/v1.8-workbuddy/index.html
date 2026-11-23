@@ -3456,7 +3456,7 @@ const CROWD = {
   fin: ['压轴压得住！', '留到最后的，才是真本事。'],
   seep: ['这脸，彩都要渗进肉里了。'],
   blank: ['小凤的牌，到他手里也一样响。'],
-  perfect: ['满堂彩！', '这一场，值了！'],
+  perfect: ['好——！叫绝了！', '这一场，值了！'],
   hot: ['满堂红！', '再来一个！', '这一串，绝了！', '后排的都站起来了！'],
 };
 // 同門的事：早上有人告訴你，台下也有人在聊
@@ -4580,9 +4580,10 @@ function comboFx(p) {
   if (n >= 4) { spawn('foil', 130); spawn('ribbon', 10); [260, 620].forEach(d => setTimeout(() => { spawn('petal', 90); spawn('foil', 50); }, d)); burst(40); if (glOK && camPos) camPos.lerp(camAim, 0.08); }
   if (n >= 5) [0, 350, 700].forEach(d => setTimeout(() => spawn('fw', 60, { x: innerWidth * (0.2 + Math.random() * 0.6), y: innerHeight * (0.12 + Math.random() * 0.2) }), d));
 }
-// ── v1.9 散戲的金：依擲骰的加成分四等 ──
-// 1 叫好：連擊沒到 3、沒擲骰；2 喝彩：擲了沒中；3 滿堂彩：擲中 ×1.5；4 滿堂彩·六點：擲出 6
-const GOLD_TIER = [null, { n: '叫好', s: '散戏', coins: 6 }, { n: '喝彩', s: '差一点就满堂彩', coins: 12 }, { n: '满堂彩', s: '掷中 · 金 ×1.5', coins: 22 }, { n: '满堂彩', s: '掷出六点 · 彩声震瓦', coins: 32 }];
+// ── v1.9 散戲的金：依擲骰的加成分四等，名字照台下的反應 ──
+// 按台下的反應分級（不用「滿堂彩」，那是結局的名字）：
+// 1 叫好：連擊沒到 3、沒擲骰；2 喝彩：擲了沒中；3 彩聲雷動：擲中 ×1.5；4 台下炸窩：擲出 6（戲班話：台下炸了窩，全場站起來叫好）
+const GOLD_TIER = [null, { n: '叫好', s: '散戏', coins: 6 }, { n: '喝彩', s: '差一点就彩声雷动', coins: 12 }, { n: '彩声雷动', s: '掷中 · 金 ×1.5', coins: 22 }, { n: '台下炸窝', s: '掷出六点 · 满园站起来叫好', coins: 32 }];
 const goldTier = t => (!t.gold ? 0 : t.perfect ? (t.die >= 6 ? 4 : 3) : t.die !== null ? 2 : 1);
 async function goldFx(gain, tier, feng = false) {
   const g = GOLD_TIER[tier];
@@ -4716,7 +4717,7 @@ const onEndStage = () => run(async () => {
   if (t.die !== null) await showDice({ label: '连击到 3：掷到 4 以上，金 ×1.5', v: t.die, ok: t.perfect, result: t.perfect ? '完美' : '没中，不扣金' });
   if (t.gold) { burst(t.gold * 2); sfx('cheer'); crowdKick('big'); }
   if (t.perfect) { bubble(esc(pick(CROWD.perfect)), 'n'); spawn('foil', 140); spawn('ribbon', 8); [0, 300, 600, 900].forEach(d => setTimeout(() => spawn('fw', 70, { x: innerWidth * (0.15 + Math.random() * 0.7), y: innerHeight * (0.1 + Math.random() * 0.25) }), d)); }
-  // v1.9：散戲的金分等級亮出來（叫好／喝彩／滿堂彩／滿堂彩·六點），銅錢飛進左上的賣座
+  // v1.9：散戲的金分等級亮出來（叫好／喝彩／彩聲雷動／台下炸窩），銅錢飛進左上的賣座
   if (t.gold && S.choice !== 'cover') await goldFx(t.gold, goldTier(t));
   else if (t.gold) await goldFx(t.gold, goldTier(t), true);
   stageHeat = t.perfect ? 2.4 : 0.6;
