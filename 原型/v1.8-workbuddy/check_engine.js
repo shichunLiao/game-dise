@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const html = fs.readFileSync(process.env.HTML_PATH || path.join(__dirname, 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
 const code = html.split('/* ENGINE START */')[1].split('/* ENGINE END */')[0];
 const E = new Function(`${code}; return { R, T, FAM, HOME, BASIC, SHOP, GIFT, SPELLS, RIVALS, EVENTS, LOOK_HOME, ENDING_N, RELICS, lack, lookOfCard, newGame, beginDay, choose, toggleBox, canAdd, clearBox,
   canBuy, buy, purseOf, canRefresh, refreshShop, refreshWhy, canDepart, depart, canStage, playStage, fits, hearCrowd, canEndStage, endStage, nextFam, nextBonus, canWipe, wipe, canClean, selfClean, dyeOf,
@@ -22,9 +22,6 @@ const famOfLook = look => Object.keys(E.FAM).find(f => E.HOME[E.FAM[f].home].loo
 {
   const S = E.newGame('测', 11);
   ok(S.phase === 'stage' && S.T.box.length === 10, '第 1 天直接上台，妝匣已裝好 10 張');
-  ok(S.rivalForm.reduce((a, x) => a + x, 0) === E.RIVALS.reduce((a, x) => a + x.g, 0), '同門當季檔位洗牌後，總強度不變');
-  ok(S.rivalForm[4] === E.RIVALS[4].g && [6, 14, 17, 21].every(x => S.rivalForm.slice(0, 4).includes(x)), '四位當季檔位會洗牌，小鳳保留病休曲線');
-  ok(JSON.stringify(S.rivalForm) === JSON.stringify(E.newGame('测', 11).rivalForm) && JSON.stringify(S.rivalForm) !== JSON.stringify(E.newGame('测', 12).rivalForm), '同一種子可重現當季強敵，不同種子會變');
   ok(E.nextFam(S) === 'sing' && !E.canStage(S, take(S, 'bai')), '第 1 天起手唱，第一張必須打起手族');
   ['changqiang', 'bai', 'shenduan', 'liangxiang'].forEach(t => E.playStage(S, take(S, t)));
   ok(S.T.stageGold + S.T.comboGold === 13 && S.T.openGold === 1, '四張鏈基礎 13，開得正 +1');
@@ -435,21 +432,18 @@ const chaos = r => ({
 });
 const STATS = {};
 function stats(name, make, n) {
-  const ends = {}, ranks = {}, rivalFirst = {}, rivalSecond = {};
+  const ends = {}, ranks = {};
   let gold = 0, lamp = 0, scars = 0, base = 0, outs = 0, met = 0, bought = 0, gifts = 0, left = 0, fired = 0, endd = 0;
   for (let s = 1; s <= n; s++) {
     const S = run(1000 + s, make(rnd(s)));
     const e = E.endingOf(S), k = E.rankOf(S, E.endDay(S));
-    const board = E.boardOf(S, E.endDay(S));
-    if (!board[0].me) rivalFirst[board[0].n] = (rivalFirst[board[0].n] || 0) + 1;
-    if (!board[1].me) rivalSecond[board[1].n] = (rivalSecond[board[1].n] || 0) + 1;
     left += S.left ? 1 : 0; fired += S.fired ? 1 : 0; endd += E.endDay(S);
     ends[e] = (ends[e] || 0) + 1; ranks[k] = (ranks[k] || 0) + 1;
     gold += S.gold; lamp += S.lamp; scars += S.scars; base += S.base; outs += S.outs; met += S.log.filter(x => x.met).length; bought += S.bought.length; gifts += S.gifts.length;
   }
   const f = v => (v / n).toFixed(1);
-  STATS[name] = { ranks, ends, n, left: left / n, fired: fired / n, rivalFirst, rivalSecond };
-  console.log(`\n${name}\n  她走 ${(left / n * 100).toFixed(0)}%  摘牌 ${(fired / n * 100).toFixed(0)}%  考核通過 ${((1 - fired / n) * 100).toFixed(1)}%  平均结束于第 ${f(endd)} 天\n  卖座 ${f(gold)}  灯 ${f(lamp)}  痕 ${f(scars)}  底色 ${f(base)}  满足 ${f(met)} 晚  灭灯 ${f(outs)} 次  买 ${f(bought)} 张  家常牌 ${f(gifts)}\n  名次 ${JSON.stringify(ranks)}\n  對手第一 ${JSON.stringify(rivalFirst)}\n  對手第二 ${JSON.stringify(rivalSecond)}\n  结局 ${JSON.stringify(ends)}`);
+  STATS[name] = { ranks, ends, n, left: left / n, fired: fired / n };
+  console.log(`\n${name}\n  她走 ${(left / n * 100).toFixed(0)}%  摘牌 ${(fired / n * 100).toFixed(0)}%  平均结束于第 ${f(endd)} 天\n  卖座 ${f(gold)}  灯 ${f(lamp)}  痕 ${f(scars)}  底色 ${f(base)}  满足 ${f(met)} 晚  灭灯 ${f(outs)} 次  买 ${f(bought)} 张  家常牌 ${f(gifts)}\n  名次 ${JSON.stringify(ranks)}\n  结局 ${JSON.stringify(ends)}`);
 }
 
 if (!QUIET) for (let s = 1; s <= 1000; s++) run(s, chaos(rnd(s)));
@@ -467,7 +461,7 @@ stats('F 只顾家：不演，推够需要', () => plan({ len: 0, push: 'need', 
 stats('乱走', r => chaos(r), +process.env.N || 300);
 
 // 第十節的難度目標
-ok(W('E 乱打够五张、推三张', 1) < 0.005, '乱打够数量幾乎不能拿第一');
+ok(W('E 乱打够五张、推三张', 1) === 0, '乱打够数量不能拿第一');
 ok(W('B 照需要配匣、四张链、不买牌、元宵回家', 1) < 0.15, '不买牌很难拿第一');
 ok(W('A 照需要配匣、四张链、精打细算地买、元宵回家', 1) > W('B 照需要配匣、四张链、不买牌、元宵回家', 1) + 0.05, '精打细算地买，比不买好');
 ok(W('A+ 照需要配匣、见什么买什么、元宵回家', 1) < 0.05, '见什么买什么：卖座花光，拿不到第一');
@@ -478,7 +472,7 @@ ok(STATS['C 五张贪心、买牌、不管她、元宵上台'].left > 0.8 && W('
 ok(STATS['A 照需要配匣、四张链、精打细算地买、元宵回家'].left < 0.1 && STATS['A 照需要配匣、四张链、精打细算地买、元宵回家'].fired < 0.02, '会配匣的打法：她不会走，也几乎不会被摘牌');
 ok(STATS['B 照需要配匣、四张链、不买牌、元宵回家'].fired < 0.05, '不买牌也过得了考核');
 ok(STATS['F 只顾家：不演，推够需要'].fired > 0.9, '只顾家、不演：第一次考核就被摘牌');
-ok(End('E 乱打够五张、推三张', '满堂彩') === 0 && W('乱走', 1) < 0.005, '乱打走不到满堂彩，也幾乎拿不到第一');
+ok(End('E 乱打够五张、推三张', '满堂彩') === 0 && W('乱走', 1) === 0, '乱打走不到满堂彩，也拿不到第一');
 ok(End('D 四张链、买牌、只推一张、每天让她擦', '满堂彩') < 0.2, '天天让她擦、只推一张：到不了满堂彩');
 console.log(fails ? `\n${fails} 项不对` : '\n全部通过');
 process.exit(fails ? 1 : 0);

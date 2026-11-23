@@ -60,6 +60,11 @@
 | `原型/v1.7/index.packed.html` | v1.7 單檔版：圖已內嵌，雙擊就能玩。由 `pack.js` 產生，不要直接改 |
 | `原型/v1.7/pack.js` | 打包：`node 原型/v1.7/pack.js` |
 | `原型/v1.7/check_engine.js` | 核對 v1.7：保底擦臉次數、刷新、新物件新牌、燈油、妝匣少格，外加機器人難度對照（與 v1.6 接近） |
+| `原型/v1.9/index.html` | v1.9（底色 1.9）：在 v1.8-workbuddy（v1.7 加新貨圖）上做士淳 14 點細節調整（引導與教學、銅錢圖示與散戲分等、HUD 任務清單、商店不用捲、圖鑑懸浮、借來的牌、燈的回饋置中等），加上對手隨機化（每季當紅的同門不同，總強度不變） |
+| `原型/v1.9/index.packed.html` | v1.9 單檔版：圖已內嵌，雙擊就能玩。由 `pack.js` 產生，不要直接改 |
+| `原型/v1.9/pack.js` | 打包：`node 原型/v1.9/pack.js` |
+| `原型/v1.9/check_engine.js` | 核對 v1.9 規則引擎（含對手隨機化） |
+| `原型/v1.9/check_guide.js` | 用真的瀏覽器跑第 1–4 天，核對引導提示（需要 Google Chrome 與 playwright-core）：`node 原型/v1.9/check_guide.js desktop`／`mobile` |
 
 ## 執行
 
@@ -81,6 +86,8 @@ node 原型/v1.6/check_engine.js
 node 原型/v1.6/pack.js         # 改過 v1.6 的 index.html 之後，重新產出雙擊用的單檔
 node 原型/v1.7/check_engine.js
 node 原型/v1.7/pack.js         # 改過 v1.7 的 index.html 之後，重新產出雙擊用的單檔
+node 原型/v1.9/check_engine.js
+node 原型/v1.9/pack.js         # 改過 v1.9 的 index.html 之後，重新產出雙擊用的單檔
 python3 設計/說明PDF/build.py  # 需要 Google Chrome
 ```
 
@@ -105,3 +112,9 @@ python3 設計/說明PDF/build.py  # 需要 Google Chrome
 - **直接玩**：雙擊 `原型/v1.7/index.packed.html`。
 - **改程式、除錯**：同 v1.6，在專案根目錄 `python3 -m http.server 8000`，瀏覽器開 `http://localhost:8000/原型/v1.7/index.html`；改完跑 `node 原型/v1.7/pack.js`。
 - 存檔：v1.7 存在 `dise-v17`，不會蓋掉 v1.6 的存檔（`dise-v13`）；第一次打開時會把 v1.6 的存檔搬過來接著玩，保底擦臉照已擦過的晚數扣。
+
+### v1.9 怎麼打開
+
+- **直接玩**：雙擊 `原型/v1.9/index.packed.html`。
+- **改程式、除錯**：同 v1.6，瀏覽器開 `http://localhost:8000/原型/v1.9/index.html`；改完跑 `node 原型/v1.9/pack.js`。
+- 存檔：v1.9 存在 `dise-v19`，和 v1.7／v1.8-workbuddy 共用的 `dise-v17` 分開，兩版切換不會互相蓋掉；也因此第一次打開 v1.9 不會接著 v1.8 的那一局。教學「看過」的紀錄在 `dise-v19-seen`（v1.9 才有）；「帶教學小框」和背景音樂的開關（`dise-v15-tut`、`dise-music`）各版共用。

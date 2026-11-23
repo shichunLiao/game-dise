@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>班鼓：單皮鼓與雙鼓槌</title>
+  <defs>
+    <mask id="drum-carve" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="white"/>
+      <g fill="black" stroke="black" stroke-linecap="round">
+        <ellipse cx="512" cy="354" rx="222" ry="94" fill="none" stroke-width="22"/>
+        <ellipse cx="512" cy="354" rx="148" ry="54" fill="none" stroke-width="15"/>
+        <path d="M350 492 Q512 548 674 492 M338 574 Q512 638 686 574" fill="none" stroke-width="18"/>
+        <path d="M398 448 L378 604 M626 448 L646 604" fill="none" stroke-width="16"/>
+        <path d="M446 506 L430 624 M578 506 L594 624" fill="none" stroke-width="13"/>
+      </g>
+    </mask>
+  </defs>
+  <circle cx="512" cy="512" r="438" fill="none" stroke="#000" stroke-width="18"/>
+  <g fill="#000" mask="url(#drum-carve)">
+    <path d="M282 350 C282 240 388 188 512 188 C636 188 742 240 742 350 L710 592 C700 688 612 730 512 730 C412 730 324 688 314 592 Z"/>
+  </g>
+  <g fill="#000">
+    <path d="M286 378 Q242 366 232 410 Q226 452 278 462 L302 430 Z"/>
+    <path d="M738 378 Q782 366 792 410 Q798 452 746 462 L722 430 Z"/>
+    <circle cx="252" cy="496" r="34"/>
+    <circle cx="772" cy="496" r="34"/>
+    <path d="M352 666 L322 754 L404 754 L424 704 Z"/>
+    <path d="M672 666 L702 754 L620 754 L600 704 Z"/>
+  </g>
+  <g fill="none" stroke="#000" stroke-linecap="round">
+    <path d="M196 796 L610 682" stroke-width="34"/>
+    <path d="M828 796 L414 682" stroke-width="34"/>
+    <path d="M176 240 Q118 320 132 410 M848 240 Q906 320 892 410" stroke-width="20"/>
+    <path d="M214 196 Q192 218 178 250 M810 196 Q832 218 846 250" stroke-width="16"/>
+  </g>
+  <g fill="#000">
+    <circle cx="196" cy="796" r="42"/>
+    <circle cx="828" cy="796" r="42"/>
+  </g>
+</svg>

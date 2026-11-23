@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>耍牙：戲曲臉譜與一對長牙</title>
+  <defs>
+    <mask id="face-carve" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="white"/>
+      <g fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M330 390 Q404 340 466 400 Q400 382 350 430 Z"/>
+        <path d="M694 390 Q620 340 558 400 Q624 382 674 430 Z"/>
+        <path d="M493 414 L512 520 L531 414 L512 448 Z"/>
+        <path d="M384 534 Q512 586 640 534 Q612 650 512 664 Q412 650 384 534 Z"/>
+        <path d="M342 474 Q372 500 394 514 M682 474 Q652 500 630 514" fill="none" stroke-width="18"/>
+        <path d="M390 286 Q438 318 468 348 M634 286 Q586 318 556 348" fill="none" stroke-width="17"/>
+        <path d="M452 724 Q512 746 572 724" fill="none" stroke-width="16"/>
+      </g>
+    </mask>
+  </defs>
+  <g fill="#000">
+    <path d="M512 142 C558 142 590 172 596 214 C668 202 724 246 716 310 C766 344 774 410 738 452 C766 540 736 650 674 716 C626 768 574 806 512 842 C450 806 398 768 350 716 C288 650 258 540 286 452 C250 410 258 344 308 310 C300 246 356 202 428 214 C434 172 466 142 512 142 Z" mask="url(#face-carve)"/>
+    <path d="M350 488 C264 452 196 500 190 590 C184 680 236 734 302 742 C254 696 254 634 286 594 C318 554 364 564 414 606 L444 556 C410 526 382 504 350 488 Z"/>
+    <path d="M674 488 C760 452 828 500 834 590 C840 680 788 734 722 742 C770 696 770 634 738 594 C706 554 660 564 610 606 L580 556 C614 526 642 504 674 488 Z"/>
+    <path d="M330 760 Q278 800 236 858 Q330 846 404 790 Z"/>
+    <path d="M694 760 Q746 800 788 858 Q694 846 620 790 Z"/>
+  </g>
+  <g fill="none" stroke="#000" stroke-linecap="round">
+    <path d="M222 602 Q250 540 322 548" stroke-width="18"/>
+    <path d="M802 602 Q774 540 702 548" stroke-width="18"/>
+    <path d="M332 184 Q282 142 254 184 Q300 188 320 228" stroke-width="22"/>
+    <path d="M692 184 Q742 142 770 184 Q724 188 704 228" stroke-width="22"/>
+  </g>
+</svg>

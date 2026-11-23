@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>手抄折子點題朱紅</title>
+  <g fill="#a8202b">
+    <path d="M486 190 L512 174 L538 190 L538 704 L512 738 L486 704 Z"/>
+    <path d="M480 784 L512 840 L544 784 L512 806 Z"/>
+    <path d="M676 644 L734 624 L734 686 L676 706 Z"/>
+    <circle cx="184" cy="440" r="14"/>
+    <circle cx="844" cy="440" r="14"/>
+  </g>
+</svg>
