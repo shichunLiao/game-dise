@@ -3014,6 +3014,14 @@ const LOOK_ICON = {
 const TUT_KEY = 'dise-v15-tut';
 const tutPref = () => { try { return localStorage.getItem(TUT_KEY) !== '0'; } catch (e) { return true; } };
 const setTutPref = on => { try { localStorage.setItem(TUT_KEY, on ? '1' : '0'); } catch (e) { /* 存不了就算了 */ } };
+// v1.9 引導：看過的教學框、小提示跨局記住，下一季不再重複；開場重新勾「帶教學小框」就清掉重來
+const SEEN_KEY = 'dise-v19-seen';
+const seenLoad = () => { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '{}') || {}; } catch (e) { return {}; } };
+const seenSave = k => { try { const m = seenLoad(); m[k] = true; localStorage.setItem(SEEN_KEY, JSON.stringify(m)); } catch (e) { /* 存不了就算了 */ } };
+const seenClear = () => { try { localStorage.removeItem(SEEN_KEY); } catch (e) { /* 存不了就算了 */ } };
+const markSeen = k => { S.tut.seen[k] = true; seenSave(k); };
+// 門口卸妝、第一次組牌都要看得到她今晚要什麼；底色讓妝匣少了幾格
+const lostSlots = S => R.box + (has(S, 'lian') ? 1 : 0) - S.T.cap;
 const handOf = t => { const id = S.T.box.find(x => cardOf(S, x).t === t && !S.T.used[x]); return id === undefined ? null : document.querySelector(`.hc[data-id="${id}"]`); };
 const famOfLook = look => Object.keys(FAM).find(f => FAM[f].home === LOOK_HOME[look]);
 // 她要的：「累」照顧 ×2 + 「忙」共勞 ×1
@@ -3044,8 +3052,12 @@ const LESSONS = {
   chain2: [
     { at: handCards, place: 'left', until: () => S.T.plays.length >= 4 || S.T.ended, text: () => '金框的牌都接得上。照「接」再打两张。' },
   ],
+  // v1.9：第 1 天四張後不再只能收場；可以再打一張，但先說清楚第 5 層會滲進底色
   end: [
-    { at: () => [$('[data-act="endstage"]')], until: () => S.T.ended, text: () => '四张了，脸上也有四层油彩。见好就收：点收场。', tap: '点收场' },
+    { at: () => [$('[data-act="endstage"]')], until: () => S.T.ended, tap: '点收场',
+      text: () => `${'零一两三四五'[S.T.plays.length] || S.T.plays.length}张了，脸上${S.T.layers.length >= R.layerMax ? `已经挂满 ${R.layerMax} 层油彩` : `有 ${S.T.layers.length} 层油彩`}。见好就收：点收场。`,
+      rule: () => `也能再打一张。可脸上最多挂 ${R.layerMax} 层，多的直接渗进底色：卸不掉，往后每 ${R.basePerSlot} 点，妆匣少一格`,
+      alt: { label: '再打一张', act: 'coachmore' } },
   ],
   door: [
     { at: () => [glOK ? anchor('mirror', new THREE.Vector3(1.32, TOP + 0.46, -0.02), 200, 200) : $('#topmid')], follow: true, title: '你的脸', text: () => '台上打几张，脸上就有几层油彩。', rule: '进门前卸掉；没卸的，会染到推给她的牌' },
@@ -3063,6 +3075,17 @@ const LESSONS = {
   ],
   pick: [
     { at: () => [$('.spread')], title: '自己装妆匣', text: () => '上面是你的卡组：点一张，放进妆匣（下面一排）；点下面的，拿回去。', rule: '起手那一族一定要带；印着「家」的是她今晚要的' },
+    // v1.9：第一次組牌也是商店第一次開門，指一下這兩顆鈕
+    { at: () => [$('[data-act="shop"]')], title: '后台商店', text: () => '孙师父卖牌和物件，每天换一批。', rule: '花的就是卖座，水牌名次会掉；越早买越划算' },
+    { at: () => [$('[data-act="depart"]')], title: '出门', text: () => '妆匣装好了，点出门上台。', rule: '今天只有妆匣里的牌：台上打、卸妆弃、回家推给她，都从这一匣里出' },
+  ],
+  // v1.9：底色第一次讓妝匣少了格
+  cap: [
+    { at: () => [$('.capl')], title: '妆匣少了一格', text: () => `这几天没卸掉的油彩，渗进脸里成了底色，现在 ${S.base} 点。`, rule: () => `底色只多不少：每 ${R.basePerSlot} 点，妆匣少一格（最少 ${R.boxMin} 格）` },
+  ],
+  // v1.9：第一次被染、灯上留痕
+  scar: [
+    { at: () => [$('#homep')], title: '痕', text: () => '被染的牌推给她，她看见的不是你，是台上的戏。灯上划了一道痕。', rule: () => `痕只多不少，到 ${R.brokenScar} 道，她就走` },
   ],
 };
 // 小提示：不擋畫面、不用按；每條只出一次，同一時刻只有一條
@@ -3070,9 +3093,12 @@ const NUDGES = {
   board: { at: () => $('#wboard'), when: () => view === 'morning' && S.day >= 2, tx: () => `<b>水牌</b>你和同门按卖座排名。第 3 天散戏后垫底，就被摘牌。` },
   book: { at: () => $('#bookBtn'), when: () => view === 'morning' && S.day >= 2 && S.tut.seen.board, tx: () => '<b>图鉴</b>看不懂的牌和词，都在这里。' },
   crowd: { at: () => $('.bub.intel'), when: () => view === 'stage', tx: () => '<b>台下的话</b>金框那句说的是她今晚要什么，会记在上面那一排。' },
+  // v1.9：染色、底色第一次要發生之前，貼在那顆鈕旁邊說一句
+  full: { at: () => $('[data-act="endstage"]'), when: () => view === 'stage' && !S.T.ended && S.T.layers.length >= R.layerMax && S.T.plays.length < S.T.stageMax, tx: () => `<b>脸上满了</b>${R.layerMax} 层油彩挂满了。再打，多的直接渗进底色，卸不掉。` },
+  dye: { at: () => $('[data-act="enter"]'), when: () => view === 'door' && S.day > 1 && dyeOf(S) > 0, tx: () => `<b>被染</b>没卸的油彩跟你进门：前 ${dyeOf(S)} 张推给她的牌会被染，染一张，灯上一道痕。` },
+  seep: { at: () => $('[data-act="sleep"]'), when: () => view === 'night' && S.T.layers.length > 0 && !$('#lampfb:not([hidden])'), tx: () => `<b>底色</b>脸上还有 ${S.T.layers.length} 层，睡一觉就渗进去，卸不掉。底色每 ${R.basePerSlot} 点，妆匣少一格。` },
   wipe: { at: () => $('[data-act="wipe"]'), when: () => view === 'door', tx: () => `<b>让她擦</b>一次擦 ${R.wipeLayers} 层，不耗牌，今晚照样能推满。整季只有 ${R.wipes} 次，按钮上写着还剩几次。` },
   stakes: { at: () => $('#homep'), when: () => view === 'night' && S.day >= 2 && !$('#lampfb:not([hidden])'), tx: () => `<b>她会走</b>灯熄满 ${R.brokenOuts} 回，或痕到 ${R.brokenScar} 道。` },
-  shop: { at: () => $('[data-act="shop"]'), when: () => view === 'morning', tx: () => '<b>后台</b>孙师父卖牌和物件。花的就是卖座，名次会掉；越早买越划算。' },
   wild: { at: () => $('.hc[data-wild].play'), when: () => view === 'stage', tx: () => '<b>百搭</b>前后都接得上，还能起手。链要断的时候用它。' },
   grudge: { at: () => $('.nowline'), when: () => view === 'stage' && S.T.grudge > 0, tx: () => '<b>怨气</b>接错了，嘘声跟你回家：今晚多染一张牌。' },
   gift: { at: () => $('.spread .spc[data-t^="home_"]') || $('.spread'), when: () => view === 'morning' && S.gifts.length > 0 && !lockedBox(S), tx: () => '<b>家常牌</b>她送的，不上台。对上她的需要，一张算两张。' },
@@ -3089,7 +3115,9 @@ function lessonNow() {
   if (d === 1 && view === 'door' && t.layers.length) return 'door';
   if (d === 1 && view === 'night') return 'home';
   if (d === 2 && view === 'evening' && t.pushed.length === 0) return 'need';
+  if (view === 'evening' && t.scarsToday > 0) return 'scar';
   if (view === 'morning' && !lockedBox(S) && d === 3) return 'pick';
+  if (view === 'morning' && !lockedBox(S) && S.choice !== 'lamp' && lostSlots(S) > 0) return 'cap';
   if (view === 'morning' && d === 2) return 'intel';
   return null;
 }
@@ -3098,10 +3126,11 @@ function coachNext() {
   if (!coach.lesson) return;
   coach.i += 1;
   if (coach.i < LESSONS[coach.lesson].length) return;
-  S.tut.seen[coach.lesson] = true;
+  markSeen(coach.lesson);
   coach.lesson = null;
-  if ([...Object.keys(LESSONS), ...Object.keys(NUDGES)].every(k => S.tut.seen[k])) setTutPref(false);
 }
+// 第 1 天四張後選「再打一張」：這一課算教過，臉上滿了的提醒也一起算說過
+function coachMore() { if (coach.lesson !== 'end') return; markSeen('end'); markSeen('full'); coach.lesson = null; }
 function coachSkip() { S.tut.off = true; coach.lesson = null; setTutPref(false); nudgeHide(true); }
 // 狀態一變就看一次：要玩家做的事做到了就往下；這個時段還沒教過就開始教
 function coachTick() {
@@ -3109,7 +3138,7 @@ function coachTick() {
   for (let n = 0; n < 4; n++) {
     if (coach.lesson) {
       // 換了場景：這一課就算教完了，不跟著帶過去
-      if (view !== coach.view) { S.tut.seen[coach.lesson] = true; coach.lesson = null; continue; }
+      if (view !== coach.view) { markSeen(coach.lesson); coach.lesson = null; continue; }
       const st = LESSONS[coach.lesson][coach.i];
       if (!st.until || !st.until()) return;
       coachNext();
@@ -3141,7 +3170,7 @@ function coachRender(geom = false) {
   const keep = geom && coach.shown === key && el.querySelector('.cbox') && !!el.querySelector('.ring') === !!r;
   if (!keep) el.innerHTML = `<div class="dim"></div><div class="shield"></div>${r ? `<div class="ring" ${act && st.tap ? `data-tap="${esc(st.tap)}"` : ''}></div>` : ''}
     <div class="cbox" role="dialog" aria-label="${esc(st.title || '教学')}" aria-describedby="coachX">${steps.length > 1 && !act ? `<span class="step">${coach.i + 1}/${steps.length}</span>` : ''}${st.title && !act ? `<h4 id="coachT">${st.title}</h4>` : ''}${st.vis ? st.vis() : ''}<div class="tx" id="coachX">${termify(st.text())}</div>${st.rule ? `<p class="rule">${termify(typeof st.rule === 'function' ? st.rule() : st.rule)}</p>` : ''}
-      <div class="row">${doing}<button class="skip" data-act="coachskip">不用教了</button></div><i class="arrow" aria-hidden="true"></i></div>`;
+      <div class="row">${doing}${st.alt ? `<button class="btn small alt" data-act="${st.alt.act}">${esc(st.alt.label)}</button>` : ''}<button class="skip" data-act="coachskip">不用教了</button></div><i class="arrow" aria-hidden="true"></i></div>`;
   const path = `path(evenodd, 'M0 0H${W}V${H}H0Z${r ? `M${r.l} ${r.t}H${r.r}V${r.b}H${r.l}Z` : ''}')`;
   el.querySelector('.dim').style.clipPath = path;
   el.querySelector('.shield').style.clipPath = act ? path : 'none';
@@ -3186,7 +3215,7 @@ function nudgeTick() {
 }
 function nudgeShow(k) {
   nudge.k = k;
-  S.tut.seen[k] = true;
+  markSeen(k);
   let el = $('#nudge');
   if (!el) { el = document.createElement('div'); el.id = 'nudge'; el.setAttribute('role', 'note'); document.body.appendChild(el); el.addEventListener('click', () => nudgeHide()); }
   el.className = '';
@@ -3831,7 +3860,8 @@ function renderTop() {
   else if (view === 'morning') goal = '妆匣装好了 <small>出门</small>';
   else if (view === 'door') goal = n ? `进门前卸妆 <b>${n}</b> 层 <small>没卸的会染牌</small>` : '脸是干净的 <small>进门</small>';
   else if (view === 'night') goal = n ? `睡前还有 <b>${n}</b> 层 <small>过夜就渗进底色</small>` : '夜深了 <small>睡吧</small>';
-  m.innerHTML = `${goal ? `<div class="goal">${goal}</div>` : ''}${['morning', 'night'].includes(view) ? intelHTML() : ''}`;
+  // v1.9：卸妝時也看得到她今晚要什麼（決定哪些牌別弃）
+  m.innerHTML = `${goal ? `<div class="goal">${goal}</div>` : ''}${['morning', 'night'].includes(view) ? intelHTML() : view === 'door' ? intelHTML(true) : ''}`;
 }
 // ── 介面分批出現：第 1 天台上只有木牌、連擊、手牌；第一次回家才有「家」；第 2 天早上才有水牌和圖鑑 ──
 const uiOn = {
@@ -4267,7 +4297,7 @@ function renderHand() {
   const tx = {
     morning: lockedBox(S) ? '点牌看说明' : t.box.length ? '妆匣 · 点看牌 · 拖回卡组拿出' : '妆匣是空的 · 把上面的牌拖下来',
     stage: ids.some(keepHint) ? '金框的能打 · 「家」留着回家 · 拖上台打出' : '点看牌 · 拖上台打出',
-    door: t.layers.length ? '点看牌 · 拖上去卸一层' : '',
+    door: t.layers.length ? (ids.some(keepHint) ? '「家」是她今晚要的，别弃 · 拖上去卸一层' : '点看牌 · 拖上去卸一层') : '',
     evening: t.pushed.length >= t.homeCap ? '她听不下了' : '点看牌 · 拖上去推给她',
     night: t.layers.length ? '点看牌 · 拖上去卸一层' : '',
   }[view];
@@ -4617,7 +4647,7 @@ function toDay() {
 }
 function startGame(name) {
   S = newGame(name, ((Date.now() % 2147483647) ^ Math.floor(Math.random() * 2147483647)) >>> 0);
-  S.tut = { off: !tutPref(), seen: {} };
+  S.tut = { off: !tutPref(), seen: seenLoad() };
   saved = null; panel = null; coach.lesson = null;
   $('#watch').hidden = true;
   toDay();
@@ -4986,10 +5016,11 @@ document.addEventListener('click', e => {
   if (!b || b.disabled) return;
   const a = b.dataset.act, arg = b.dataset.arg, id = Number(arg);
   switch (a) {
-    case 'start': setTutPref(!!$('#tutChk')?.checked); startGame((draftName.trim() || '小满').slice(0, 6)); return;
+    case 'start': { const on = !!$('#tutChk')?.checked; if (on && !tutPref()) seenClear(); setTutPref(on); } startGame((draftName.trim() || '小满').slice(0, 6)); return;
     case 'cont': continueGame(); return;
     case 'coachnext': coachNext(); break;
     case 'coachskip': coachSkip(); break;
+    case 'coachmore': coachMore(); break;
     case 'rules': panel = panel === 'rules' ? null : 'rules'; break;
     case 'close': panel = null; break;
     case 'opt': S.opt[arg] = !S.opt[arg]; break;
