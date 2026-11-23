@@ -733,6 +733,313 @@ body.dragging { cursor: grabbing; }
   .plate .g { font-size: 10px; }
   .side .tools .tool { padding: 2px 5px; }
 }
+
+/* ══ v1.9 介面（任務 B）：銅錢與圖示、散戲的金、唱戲時的 HUD 與任務清單、置中對齊、天亮、圖鑑懸浮、後台、組牌、借來的牌、燈的回饋 ══ */
+/* 圖示：內嵌 SVG，跟著字的大小與顏色 */
+.ico { display: inline-block; width: 1em; height: 1em; vertical-align: -.14em; flex: none; overflow: visible; }
+.cn { display: inline-flex; align-items: center; gap: .18em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cn .ico { width: 1.05em; height: 1.05em; }
+.cn.big b { font-family: var(--display); font-weight: 400; font-size: 1.3em; }
+.gainf .ico { width: .8em; height: .8em; margin-right: .08em; vertical-align: -.06em; }
+/* 木牌：天數底下常駐「還剩幾場」；賣座是一枚銅錢 */
+.plate .left { font-size: 12px; letter-spacing: .12em; color: #e0c98f; cursor: help; white-space: nowrap; pointer-events: auto; }
+.plate .left b { font-family: var(--display); font-weight: 400; font-size: 20px; color: #fff3cf; margin: 0 2px; }
+.plate .left.hot b { color: #ff9a8a; }
+.plate .g { display: flex; align-items: center; justify-content: center; gap: 4px; cursor: help; pointer-events: auto; }
+.plate .g .ico { width: 20px; height: 20px; }
+.plate .g b { margin-left: 0; }
+.plate .g.bump b, .plate .g.bump .ico { animation: gbump .26s ease; }
+@keyframes gbump { 50% { transform: scale(1.4); } }
+/* 右上的工具鈕：音樂、規矩換成圖示（說明在滑過的小籤和讀屏） */
+.tool.ib { display: inline-flex; align-items: center; justify-content: center; width: 34px; min-height: 34px; padding: 0; }
+.tool.ib .ico { width: 20px; height: 20px; }
+.tool.bookb .bkl { display: inline-flex; align-items: center; gap: 6px; }
+.tool.bookb .bkl .ico { width: 16px; height: 16px; }
+/* 頂上一排：寬螢幕用三欄，中間那塊（連擊、她的需要、情報）真的在畫面正中，左右兩塊寬窄變了也不跟著偏 */
+@media (min-width: 761px) {
+  .top { display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); align-items: start; }
+  .top > .plate { justify-self: start; }
+  .top > .side { justify-self: end; }
+}
+/* 傍晚她的需要：每一行和底下的小字都置中 */
+.need .nt { text-align: center; }
+.need .nr { justify-content: center; }
+/* 左上：家（阿檀）不再變淡；放大一點；底下是任務清單 */
+.hud[data-v] .homep:not(.warn) { opacity: 1; }
+@media (min-width: 761px) and (min-height: 561px) {
+  .leftcol { width: 188px; }
+  .homep { padding: 6px 10px 9px; }
+  .homep .hh { font-size: 12px; }
+  .homep .hl .lampsvg { width: 68px; height: 68px; }
+  .homep .hl b { font-size: 36px; }
+  .homep .hrow { font-size: 13px; }
+}
+.tasks { list-style: none; margin: 7px 0 0; padding: 6px 0 0; border-top: 1px solid rgba(28, 23, 25, .2); display: flex; flex-direction: column; gap: 3px; }
+.tasks li { display: flex; align-items: center; gap: 6px; font-size: 12px; line-height: 1.35; cursor: help; color: var(--ink); }
+.tasks li em { font-style: normal; margin-left: auto; font-size: 11px; color: #5a5156; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tk { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 17px; height: 17px; border-radius: 50%; font-style: normal; }
+.tk .ico { width: 12px; height: 12px; }
+li.ok > .tk { background: #b8913f; color: #1c1719; }
+li.bad > .tk { background: var(--red); color: #f6ecd9; }
+li.warn > .tk { background: #e0a03a; color: #1c1719; }
+li.run > .tk, li.todo > .tk { color: #8d8487; }
+.tasks .ts, .goals .ts { display: none; }
+@media (max-width: 760px) and (orientation: portrait) { .homep .tasks .ts, .goals .ts { display: inline; } .goals .tl { display: none; } }
+.tasks li.bad span { color: var(--red); text-decoration: line-through; text-decoration-color: rgba(168, 32, 43, .5); }
+.tasks li.warn em { color: #a8202b; font-weight: 700; }
+/* 右上：水牌底下的考核任務清單；物件只放圖示，和水牌拉開 */
+.wb .exm { display: none; }
+@media (min-width: 761px) { #wboard { display: flex; flex-direction: column; align-items: stretch; } #wboard .relics { align-self: flex-end; } }
+.goals { pointer-events: auto; list-style: none; margin: 0; padding: 5px 9px 6px; min-width: 150px; background: rgba(233, 220, 196, .94); color: var(--ink); border: 1px solid #1d120b; border-top: 0; box-shadow: 0 6px 16px rgba(0, 0, 0, .5); display: flex; flex-direction: column; gap: 3px; margin-top: -6px; }
+.goals li { display: flex; align-items: center; gap: 6px; font-size: 12px; line-height: 1.35; cursor: help; white-space: nowrap; }
+.goals li.cur { font-weight: 700; }
+.goals li.done span { color: #7a7074; }
+.goals li.bad.cur span { color: var(--red); }
+.goals li small { margin-left: auto; font-size: 10px; letter-spacing: .1em; background: var(--red); color: var(--paper); padding: 0 5px; font-weight: 400; }
+.relics { margin-top: 10px; gap: 5px; max-width: 250px; }
+/* 攤開後台、圖鑑、規矩時，右上只留水牌，任務清單和物件先收起（後台裡有自己的「已有」），紙才夠高、不用捲 */
+.hud[data-p="shop"] .goals, .hud[data-p="shop"] .relics, .hud[data-p="book"] .goals, .hud[data-p="book"] .relics, .hud[data-p="rules"] .goals, .hud[data-p="rules"] .relics { display: none; }
+#lampfb .row.sm { font-size: 13px; color: var(--wash); margin-top: -4px; }
+
+.relics .rel { width: 36px; height: 36px; padding: 0; justify-content: center; }
+.relics .rel .ri { width: 28px; height: 28px; margin: 0; }
+.rtx { color: #1c1719; }
+.rtx .ico { width: 74%; height: 74%; }
+.relics .rel .rtx { background: none; color: #f2d48a; }
+/* 天亮：大一號、框清楚 */
+.watch .dawnb { display: inline-flex; align-items: center; gap: 12px; font-size: 32px; letter-spacing: .24em; padding: 12px 40px 12px 30px; min-height: 66px; border: 2px solid #f2d48a; box-shadow: 0 0 0 5px rgba(242, 212, 138, .16), 0 10px 30px rgba(0, 0, 0, .6); }
+.watch .dawnb .ico { width: 34px; height: 34px; color: #f6dc96; }
+.watch .dawnb:hover, .watch .dawnb:focus-visible { box-shadow: 0 0 0 7px rgba(242, 212, 138, .3), 0 10px 30px rgba(0, 0, 0, .6); }
+/* 吃完飯的燈：電腦版也置中，燈環放大（照手機版的做法），標題不折行 */
+#lampfb { align-items: center; padding: 16px; }
+@media (min-width: 760px) { #lampfb { justify-content: center; padding-left: 16px; } }
+#lampfb .lf { max-width: min(540px, calc(100vw - 32px)); padding: 22px 36px 18px; gap: 10px; }
+#lampfb .big { white-space: nowrap; font-size: clamp(26px, 4.4vw, 46px); }
+#lampfb .lampsvg { width: clamp(160px, 30vh, 250px); height: clamp(160px, 30vh, 250px); }
+#lampfb .lfok { min-width: 140px; font-size: 18px; }
+/* 散戲的金：分等級的大字、往上數的數字、銅錢飛進賣座 */
+#goldfx { position: fixed; inset: 0; z-index: 37; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+#goldfx[hidden] { display: none; }
+#goldfx .gfx { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 56px 16px; background: radial-gradient(ellipse at center, rgba(20, 12, 10, .88) 0, rgba(20, 12, 10, .62) 55%, rgba(20, 12, 10, 0) 72%); animation: gfIn .55s cubic-bezier(.2, 1.4, .4, 1) both; }
+#goldfx .gt { font-family: var(--display); font-size: clamp(38px, 6vw, 72px); line-height: 1.1; letter-spacing: .16em; color: #f6dc96; text-shadow: 0 0 2px #3a0a0e, 0 4px 0 #7d1219, 0 0 30px rgba(242, 212, 138, .7); }
+#goldfx .gn { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-size: clamp(36px, 5vw, 60px); line-height: 1; color: #fff3cf; text-shadow: 0 3px 0 #7d1219, 0 0 18px rgba(242, 212, 138, .6); font-variant-numeric: tabular-nums; }
+#goldfx .gn b { font-weight: 400; }
+#goldfx .gn .ico { width: 1em; height: 1em; animation: coinSpin 1.1s linear infinite; filter: drop-shadow(0 0 10px rgba(242, 212, 138, .8)); }
+#goldfx .gs { font-size: 15px; letter-spacing: .3em; color: #f2d48a; text-shadow: 0 2px 6px #000; }
+#goldfx.t1 .gt { font-size: clamp(30px, 4.4vw, 52px); }
+#goldfx.t3 .gt, #goldfx.t4 .gt { font-size: clamp(56px, 10vw, 128px); color: #fff1c8; text-shadow: 0 0 2px #3a0a0e, 0 6px 0 #a8202b, 0 0 50px rgba(255, 200, 120, .95); }
+#goldfx.t3 .gfx::before, #goldfx.t4 .gfx::before { content: ""; position: absolute; left: 50%; top: 50%; z-index: -1; width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%); background: repeating-conic-gradient(rgba(242, 212, 138, .3) 0 5deg, transparent 5deg 15deg); -webkit-mask: radial-gradient(circle, #000 18%, transparent 68%); mask: radial-gradient(circle, #000 18%, transparent 68%); animation: rays 7s linear infinite; }
+#goldfx.t4 .gfx::before { background: repeating-conic-gradient(rgba(255, 228, 150, .45) 0 6deg, transparent 6deg 12deg); }
+#goldfx.out { opacity: 0; transition: opacity .45s ease; }
+@keyframes gfIn { from { transform: scale(1.8); opacity: 0; filter: blur(4px); } to { transform: none; opacity: 1; filter: none; } }
+@keyframes coinSpin { to { transform: rotateY(360deg); } }
+@keyframes rays { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.coinfly { position: fixed; left: 0; top: 0; z-index: 38; width: 24px; height: 24px; margin: -12px 0 0 -12px; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .55)); will-change: transform; }
+.coinfly .ico { width: 100%; height: 100%; display: block; }
+.nowline .cn.big b { color: var(--gold); font-size: 26px; }
+.nowline small .cn .ico { width: 13px; height: 13px; }
+@media (prefers-reduced-motion: reduce) { #goldfx .gfx, #goldfx .gn .ico, #goldfx .gfx::before { animation: none; } }
+/* 圖鑑：詞條分組、對齊 */
+.termg { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2px 30px; align-items: start; }
+.termg h4 { margin: 10px 0 2px; padding-bottom: 3px; border-bottom: 2px solid rgba(168, 32, 43, .55); font-size: 19px; color: var(--red); letter-spacing: .1em; }
+.bookt { grid-template-columns: 4.2em minmax(0, 1fr); gap: 0; align-items: stretch; }
+.bookt dt, .bookt dd { padding: 6px 0 7px; border-bottom: 1px dashed rgba(28, 23, 25, .16); }
+.bookt dd { padding-top: 9px; }
+.bookt dt { font-size: 19px; line-height: 1.4; letter-spacing: .04em; white-space: nowrap; color: var(--red); }
+.bookt dd { font-size: 14px; line-height: 1.6; padding-left: 8px; }
+.bookr li { display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 10px; align-items: start; }
+.bookr li > :not(.bri) { grid-column: 2; }
+.bookr .bri { float: none; grid-row: 1 / span 3; margin: 0; }
+.bookr .brt { display: flex; align-items: baseline; gap: 8px; }
+.bookr .brt small { margin-left: auto; }
+/* 圖鑑的牌：滑過出資訊卡 */
+.bc { cursor: help; }
+#bookpop { position: fixed; z-index: 72; width: min(460px, calc(100vw - 16px)); display: flex; gap: 12px; background: var(--paper); color: var(--ink); border: 1px solid #1d120b; border-top: 5px solid var(--red); padding: 10px 14px 12px; box-shadow: 0 16px 40px rgba(0, 0, 0, .6); pointer-events: none; animation: peekIn .12s ease-out both; }
+#bookpop[hidden] { display: none; }
+#bookpop .faces { display: flex; gap: 6px; flex: none; }
+#bookpop figure { margin: 0; text-align: center; font-size: 11px; color: #5a5156; }
+#bookpop figure img { width: 92px; display: block; border-radius: 5px; margin-bottom: 2px; }
+#bookpop .bt { min-width: 0; }
+#bookpop h3 { font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1.2; margin: 0 0 2px; }
+#bookpop h3 small { display: block; font-family: var(--body); font-size: 12px; color: #5a5156; }
+#bookpop h4 { font-family: var(--display); font-weight: 400; font-size: 16px; margin: 6px 0 1px; color: var(--red); }
+#bookpop p { font-size: 13px; line-height: 1.55; margin: 0; }
+#bookpop .lore { color: #5a5156; }
+#bookpop .bw { color: #2f6e8c; font-weight: 700; }
+/* 借來的牌：石青虛線框＋「借」字圓章（卡面上也畫了，縮小疊緊時也看得出） */
+.hc.borrow::after, .spc.borrow::after { content: ""; position: absolute; inset: -4px; border: 3px dashed #6fb3d4; border-radius: 10px; pointer-events: none; }
+.btag { position: absolute; left: -7px; top: 22%; z-index: 3; width: 26px; height: 26px; border-radius: 50%; background: #3f86a8; color: #f4ecdc; font-family: var(--display); font-size: 16px; line-height: 26px; text-align: center; box-shadow: 0 0 0 2px #f4ecdc, 0 2px 6px rgba(0, 0, 0, .55); pointer-events: none; }
+.bc.borrow img { outline: 3px dashed #3f86a8; outline-offset: 2px; }
+.hud .hand.fit .hc.borrow:not(:last-child):not(.play:hover) .btag { left: -4px; }
+/* 後台：一頁看完，不用捲 */
+.panel.shopp { width: min(1000px, 100%); padding-bottom: 10px; }
+.shopp .shh { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+.shopp .shh h2 { margin: 0; font-size: 28px; flex: none; }
+.shopp .sunf { width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 0 0 2px #1c1719; flex: none; display: inline-flex; align-items: center; justify-content: center; background: #e0d5c2; color: #7d1219; }
+.shopp .sunf .ico { width: 28px; height: 28px; }
+.shopp .purse { display: flex; align-items: center; gap: 14px; margin-left: auto; font-size: 13px; color: #3b3337; }
+.shopp .purse b { margin: 0 3px; }
+.shopp .purse .cn .ico { width: 20px; height: 20px; }
+.shopp .purse .cn b { color: var(--red); font-size: 24px; }
+.shopp .qm { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; align-items: center; justify-content: center; font-style: normal; font-size: 14px; border: 1px solid #5a5156; color: #5a5156; cursor: help; }
+.shopp .refb { display: inline-flex; align-items: center; gap: 6px; }
+.shopp .shq { margin: 6px 0 8px; display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
+.shopp .owned { margin-left: auto; display: inline-flex; gap: 4px; align-items: center; font-style: normal; color: #5a5156; }
+.shopp .owned .rel { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: #5e0f15; border: 1px solid #b8913f; cursor: help; }
+.shopp .owned .ri { width: 24px; height: 24px; }
+.shopp .owned .rtx { background: none; color: #f2d48a; }
+.shop { grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 12px; margin-top: 0; }
+.offer { padding: 10px 10px 12px; gap: 6px; }
+.offer img.spc, .offer .relic { width: 104px; height: 156px; flex: none; }
+.offer img.spc { border-radius: 6px; box-shadow: 0 4px 10px rgba(0, 0, 0, .35); cursor: zoom-in; }
+.offer .relic.pic .rpi { width: 88px; height: 88px; display: block; }
+.offer .relic.pic .rtx { width: 88px; height: 88px; background: none; color: #7d1219; }
+.offer .ot { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; width: 100%; }
+.offer h3 { font-family: var(--display); font-weight: 400; font-size: 24px; line-height: 1.15; margin: 0; }
+.offer h3 small { display: block; font-family: var(--body); font-size: 12px; color: #5a5156; }
+.offer .kw { min-height: 0; font-size: 12px; line-height: 1.5; }
+.offer .kw .mut { color: #6a6064; }
+.offer .pv { min-height: 0; font-size: 12px; line-height: 1.45; }
+.offer .pv.ab { color: #3b3337; }
+.offer .pv.ab .ico { width: 13px; height: 13px; }
+.btn.buyb { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; min-height: 42px; margin-top: auto; }
+.btn.buyb .cn .ico { width: 20px; height: 20px; }
+.btn.buyb .cn b { font-family: var(--display); font-weight: 400; font-size: 22px; }
+.btn.buyb:disabled { opacity: .55; cursor: not-allowed; }
+.offer.sold .btn.buyb { background: transparent; }
+@media (max-width: 760px) {
+  .shopp .shh h2 { font-size: 22px; }
+  .shopp .sunf { width: 34px; height: 34px; }
+  .shopp .purse { margin-left: 0; order: 5; flex-basis: 100%; gap: 10px; }
+  .shopp .clb { margin-left: auto; }
+  .shopp .shq { font-size: 12px; margin: 4px 0 6px; }
+  .shop { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .offer { flex-direction: row; align-items: center; text-align: left; padding: 8px; gap: 10px; }
+  .offer img.spc, .offer .relic { width: 62px; height: 93px; }
+  .offer .relic.pic .rpi, .offer .relic.pic .rtx { width: 54px; height: 54px; }
+  .offer .ot { align-items: flex-start; gap: 2px; }
+  .offer h3 { font-size: 20px; }
+  .offer h3 small { display: inline; margin-left: 6px; }
+  .offer .kw, .offer .pv { font-size: 11px; }
+  .offer .pv:not(.ab) { display: none; }
+  .btn.buyb { width: auto; flex: none; flex-direction: column; gap: 0; min-width: 66px; margin-top: 0; padding: 4px 8px; font-size: 14px; }
+}
+/* 後台：矮一點的螢幕（筆電 720 高、小手機）把圖縮小、孫師父那句話收起，四樣貨也不用捲 */
+@media (min-width: 761px) and (max-height: 820px) {
+  .offer img.spc, .offer .relic { width: 84px; height: 126px; }
+  .offer .relic.pic .rpi, .offer .relic.pic .rtx { width: 72px; height: 72px; }
+  .offer { gap: 4px; padding: 8px 8px 10px; }
+  .offer h3 { font-size: 21px; }
+  .shopp .shq .sq { display: none; }
+  .shopp .shq { margin: 2px 0 4px; min-height: 0; }
+  .shopp .sunf { width: 38px; height: 38px; }
+  .shopp .shh h2 { font-size: 24px; }
+}
+@media (min-width: 761px) and (max-height: 740px) {
+  .offer .kw, .offer .pv { font-size: 11px; line-height: 1.38; }
+  .offer .kw .mut { display: none; }
+  .btn.buyb { min-height: 36px; }
+}
+@media (max-width: 760px) and (max-height: 860px) {
+  .shopp .shq .sq { display: none; }
+  .shopp .shq { margin: 2px 0 4px; }
+  .offer .kw .mut { display: none; }
+  .offer { padding: 6px 8px; }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .offer .kw { display: none; }
+  .offer { padding: 4px 8px; }
+  .shop { gap: 5px; }
+  .offer img.spc, .offer .relic { width: 52px; height: 78px; }
+  .offer .relic.pic .rpi, .offer .relic.pic .rtx { width: 44px; height: 44px; }
+}
+/* 組牌（出發前）：後台在左下、出門在右下，手牌放大一號 */
+.opt.depb, .opt.shopb { display: inline-flex; align-items: center; gap: 10px; }
+.opt.depb { font-size: 28px; padding: 8px 26px 8px 20px; }
+.opt.depb .ico { width: 34px; height: 34px; }
+.opt.depb small { color: #f4d9d9; margin-left: 2px; }
+.opt.shopb { font-size: 22px; }
+.opt.shopb .ico { width: 30px; height: 30px; color: #f2d48a; }
+.opt.depb:disabled { opacity: .5; }
+@media (min-width: 761px) {
+  .hud[data-v="morning"] #departBtn, .hud[data-v="morning"] #shopBtn { position: fixed; bottom: max(22px, env(safe-area-inset-bottom, 0px)); z-index: 6; min-height: 64px; }
+  .hud[data-v="morning"] #departBtn { right: max(22px, env(safe-area-inset-right, 0px)); }
+  .hud[data-v="morning"] #shopBtn { left: max(22px, env(safe-area-inset-left, 0px)); }
+  .hud[data-v="morning"] .choices { min-height: 0; }
+  .hud[data-v="morning"] .hand { padding-inline: 230px; }
+}
+@media (min-width: 761px) and (min-height: 561px) {
+  .hud[data-v="morning"] .hand.on { min-height: 172px; padding-top: 12px; }
+  .hud[data-v="morning"] .hc { width: 96px; height: 144px; margin: 0 -4px; }
+}
+/* 矮螢幕（手機橫放）：任務清單只留眼前那一條、家的清單壓成一行短字，頂欄不長高；組牌的兩顆鈕小一號 */
+@media (max-height: 560px) {
+  .goals li:not(.cur) { display: none; }
+  .goals { margin-top: 0; padding: 2px 7px 3px; min-width: 0; }
+  .goals li { font-size: 11px; }
+  .goals .tl, .homep .tasks .tl { display: none; }
+  .goals .ts, .homep .tasks .ts { display: inline; }
+  .homep .tasks { flex-direction: row; flex-wrap: wrap; gap: 1px 8px; margin-top: 3px; padding-top: 3px; }
+  .homep .tasks li { font-size: 11px; gap: 3px; }
+  .homep .tasks li em { margin-left: 2px; font-size: 10px; }
+  .homep .tasks li[data-task="need"] em, .homep .tasks li[data-task="scar"] em { display: none; }
+  .tk { width: 14px; height: 14px; }
+  .tk .ico { width: 10px; height: 10px; }
+  .plate .left { font-size: 11px; letter-spacing: 0; }
+  .plate .left b { font-size: 16px; }
+  .relics { margin-top: 4px; }
+  /* 太矮放不下兩個角落：回到手牌上面一排，後台在左、出門在右，置中 */
+  .hud[data-v="morning"] #departBtn, .hud[data-v="morning"] #shopBtn { position: static; min-height: 44px; }
+  .hud[data-v="morning"] #shopBtn { order: -1; }
+  .hud[data-v="morning"] .choices { gap: 2px 18px; }
+  .opt.depb { font-size: 22px; padding: 4px 16px 4px 12px; }
+  .opt.depb .ico { width: 26px; height: 26px; }
+  .opt.shopb { font-size: 18px; }
+  .hud[data-v="morning"] .hand { padding-inline: 0; }
+  .shopp .shq { display: none; }
+}
+@media (max-width: 760px) {
+  .hud[data-v="morning"] .choices { justify-content: space-between; flex-wrap: nowrap; gap: 8px; padding-inline: 2px; width: 100%; }
+  .hud[data-v="morning"] #shopBtn { order: -1; }
+  .opt.depb { font-size: 22px; padding: 4px 16px 4px 12px; }
+  .opt.depb .ico { width: 26px; height: 26px; }
+  .opt.shopb { font-size: 18px; padding: 4px 12px 4px 8px; }
+  .opt.shopb .ico { width: 24px; height: 24px; }
+  .hud[data-v="morning"] .hc { width: 62px; height: 93px; }
+  .hud[data-v="morning"] .hand.on { min-height: 104px; }
+}
+/* 手機直屏：木牌、家、水牌的新東西壓小 */
+@media (max-width: 760px) and (orientation: portrait) {
+  .plate .left { font-size: 11px; letter-spacing: 0; }
+  .plate .left b { font-size: 15px; }
+  .plate .g .ico { width: 16px; height: 16px; }
+  .side .tools .tool.ib { width: 30px; min-height: 30px; }
+  .side .tools .tool.ib .ico { width: 18px; height: 18px; }
+  .hud[data-v="morning"] .homep:not(.warn) { opacity: 1; }
+  .homep { flex-wrap: wrap; row-gap: 2px; }
+  .homep .tasks { flex-basis: 100%; flex-direction: row; flex-wrap: wrap; gap: 2px 10px; margin: 0; padding: 2px 0 1px; border-top: 1px solid rgba(28, 23, 25, .15); }
+  .homep .tasks li { font-size: 11px; gap: 3px; }
+  .homep .tasks li em { margin-left: 2px; font-size: 10px; }
+  .homep .tasks li[data-task="need"] em, .homep .tasks li[data-task="scar"] em { display: none; }
+  .tk { width: 14px; height: 14px; }
+  .tk .ico { width: 10px; height: 10px; }
+  .goals { margin-top: 0; padding: 2px 7px 3px; min-width: 0; border-top: 1px solid #1d120b; }
+  .goals li:not(.cur) { display: none; }
+  .goals li { font-size: 11px; }
+  .relics { margin-top: 3px; }
+  .relics .rel { width: 30px; height: 30px; }
+  .relics .rel .ri { width: 22px; height: 22px; }
+  #bookpop { flex-direction: column; }
+  .plate .left .l1, .plate .st { font-size: 0; }
+  .plate .st .fc { font-size: 14px; }
+  .plate { gap: 6px; padding: 3px 8px; }
+  .homep .tasks .tl { display: none; }
+  .goals li span { overflow: hidden; text-overflow: ellipsis; }
+  .goals li { max-width: 100%; }
+  .shopp .sn { display: none; }
+  #bookpop .faces { justify-content: center; }
+  #bookpop figure img { width: 76px; }
+}
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -745,7 +1052,7 @@ body.dragging { cursor: grabbing; }
   <div class="top">
     <div class="plate" id="plate"></div>
     <div class="topmid" id="topmid"></div>
-    <div class="side"><div class="tools"><button class="tool" data-act="music" id="musicBtn" aria-pressed="false">乐</button><button class="tool" data-act="rules">规矩</button></div><div id="wboard"></div></div>
+    <div class="side"><div class="tools"><button class="tool ib" data-act="music" id="musicBtn" aria-pressed="false" aria-label="背景音乐"></button><button class="tool ib" data-act="rules" id="rulesBtn" aria-label="规矩（规则、技巧、声音、重开）" data-tip="规矩|规则、技巧、开关声音、重开一局。"></button></div><div id="wboard"></div></div>
   </div>
   <div class="leftcol" id="leftcol"><div class="homep" id="homep"></div><button class="tool bookb" data-act="book" id="bookBtn">图鉴</button></div>
   <div class="mid" id="mid"></div>
@@ -1379,6 +1686,45 @@ const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// ── v1.9 圖示（任務 B）：銅錢、音樂、規矩、圖鑑、出門、後台；物件缺圖時的佔位圖示 ──
+// 全是內嵌 SVG（24 見方），除了銅錢都跟著 currentColor 上色；文字換成圖示的地方，字都留在 aria-label 與滑過的說明裡
+const SVGI = (body, cls = '') => `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${body}</svg>`;
+const ICON = {
+  // 方孔錢：外圈、內緣、方孔，四個字的位置各一塊
+  coin: SVGI('<circle cx="12" cy="12" r="10.6" fill="#e7c36a" stroke="#6e4a14" stroke-width="1.3"/><path d="M5.2 8.4A7.6 7.6 0 0 1 10 4.6" fill="none" stroke="#fff3cf" stroke-width="1.2" stroke-linecap="round" opacity=".8"/><circle cx="12" cy="12" r="8.4" fill="none" stroke="#9a6d22" stroke-width=".9"/><rect x="9" y="9" width="6" height="6" fill="#2a1b0e" stroke="#6e4a14" stroke-width="1"/><rect x="7.7" y="7.7" width="8.6" height="8.6" fill="none" stroke="#9a6d22" stroke-width=".8"/><g fill="#8a5e1c"><rect x="10.9" y="4.6" width="2.2" height="2.2" rx=".4"/><rect x="10.9" y="17.2" width="2.2" height="2.2" rx=".4"/><rect x="4.6" y="10.9" width="2.2" height="2.2" rx=".4"/><rect x="17.2" y="10.9" width="2.2" height="2.2" rx=".4"/></g>', 'coin'),
+  music: SVGI('<path d="M9 17.6a2.6 2.1 0 1 1-1.1-1.7V5.2L19 3v11.9a2.6 2.1 0 1 1-1.1-1.7V6.6L9 8.2z" fill="currentColor"/>'),
+  musicOff: SVGI('<path d="M9 17.6a2.6 2.1 0 1 1-1.1-1.7V5.2L19 3v11.9a2.6 2.1 0 1 1-1.1-1.7V6.6L9 8.2z" fill="currentColor" opacity=".45"/><path d="M3.5 3.5l17 17" stroke="#d8434c" stroke-width="2.2" stroke-linecap="round"/>'),
+  // 規矩：一卷攤開的戲規
+  rules: SVGI('<path d="M6 3.5h10.5a2 2 0 0 1 2 2V20H8a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 18a2 2 0 0 1 2-2h10.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 7.5h6M9.5 10.5h6M9.5 13.2h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'),
+  // 圖鑑：翻開的冊子
+  book: SVGI('<path d="M12 6.2C10 4.6 6.6 4.2 3.5 4.8v13.6c3.1-.6 6.5-.2 8.5 1.4 2-1.6 5.4-2 8.5-1.4V4.8c-3.1-.6-6.5-.2-8.5 1.4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.2v13.6" stroke="currentColor" stroke-width="1.4"/>'),
+  // 出門上戲：戲台的門簾，箭頭往裡走
+  depart: SVGI('<path d="M4 21V5.5L12 3l8 2.5V21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7.5 21v-9.5a4.5 4.5 0 0 1 9 0V21" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9.2 15.6h5.2m-2.2-2.4 2.4 2.4-2.4 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'),
+  // 後台商店：一個錢袋
+  shop: SVGI('<path d="M9 4.2h6l-1.6 3h-2.8z" fill="currentColor"/><path d="M10.6 7.2c-4.4 1.6-6.8 5-6.8 8.6 0 3 2.6 4.6 8.2 4.6s8.2-1.6 8.2-4.6c0-3.6-2.4-7-6.8-8.6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="14.6" r="3.1" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="13.6" width="2" height="2" fill="currentColor"/>'),
+  ok: SVGI('<path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'),
+  no: SVGI('<path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>'),
+  warn: SVGI('<path d="M12 5v8.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><circle cx="12" cy="18.2" r="1.7" fill="currentColor"/>'),
+  todo: SVGI('<circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>'),
+  sun: SVGI('<circle cx="12" cy="14" r="4.6" fill="currentColor"/><path d="M3 18.5h18M12 3.5v3M4.8 7.2l2 2M19.2 7.2l-2 2M2.8 13.8h2.6M18.6 13.8h2.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'),
+};
+// 後台物件的佔位圖示：正式的雙層插圖（原型/assets/relics、art_kimi）載不到時用，不再只放一個漢字（待正式美術替換，清單見 PR）
+const RELIC_SVG = {
+  qinshi: '<path d="M12 2.5v15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="8.6" y="16" width="6.8" height="5.5" rx="1.2" fill="currentColor"/><path d="M10 4.5h4M10 7h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4 20.5C7 13 15 7 21 6" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+  gujing: '<path d="M4 5h7.2l.8 1 .8-1H20v14h-7.2l-.8 1-.8-1H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8" cy="10" r="1.4" fill="currentColor"/><circle cx="8" cy="14.5" r="1.4" fill="currentColor"/><path d="M15 8.5v7M17.4 9.5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  cha: '<path d="M5 10h12v2.5a6 6 0 0 1-12 0z" fill="currentColor"/><path d="M17 11.2h1.6a2 2 0 0 1 0 4H16.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 7.5c-1-1.6 1-2.4 0-4M13 7.5c-1-1.6 1-2.4 0-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',
+  lian: '<rect x="4" y="11" width="16" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.2 11h17.6" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="6.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.6 15.5h2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  jin: '<path d="M4 7c2-1.6 4-1.6 6 0s4 1.6 6 0 3-1.2 4-.8v11c-1-.4-2-.4-4 .8s-4 1.6-6 0-4-1.6-6 0z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 11.5h8M8 14.5h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',
+  you: '<path d="M4 14h16c0 3.6-3.6 6-8 6s-8-2.4-8-6z" fill="currentColor"/><path d="M12 4c2.2 2.6 2.8 4.4 2.8 5.8a2.8 2.8 0 0 1-5.6 0C9.2 8.4 9.8 6.6 12 4z" fill="#d8434c"/><path d="M12 13v-1.4" stroke="currentColor" stroke-width="1.6"/>',
+  luo: '<path d="M12 2.8v3" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="13.5" r="7.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="13.5" r="3" fill="currentColor"/><path d="M19.5 3.5l-3.6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  bangu: '<ellipse cx="11" cy="10" rx="7.5" ry="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 10v5c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 3.5l7 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="11" cy="10" r="1.6" fill="currentColor"/>',
+  xiangfen: '<ellipse cx="12" cy="15" rx="8" ry="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 15v2.4c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2V15" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="8" r="3.6" fill="currentColor"/><path d="M12 4.4V2.6" stroke="currentColor" stroke-width="1.5"/>',
+  zhezi: '<path d="M3.5 6l4.2-1.8v15.6L3.5 18zM7.7 4.2 12 6v15.6l-4.3-1.8zM12 6l4.3-1.8v15.6L12 21.6zM16.3 4.2 20.5 6v12l-4.2 1.8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.6 9v6M14.2 9v6" stroke="currentColor" stroke-width="1.2"/>',
+};
+const relicSVG = (k, cls = '') => SVGI(RELIC_SVG[k] || '<circle cx="12" cy="12" r="7" fill="currentColor"/>', `rph ${cls}`);
+// 一個銅錢加數字：畫面上的金一律這樣寫；讀屏念「n 金」
+const coinN = (n, cls = '') => `<span class="cn ${cls}" role="img" aria-label="${n} 金">${ICON.coin}<b>${n}</b></span>`;
+
 // ── v1.6 美術：從 原型/assets/ 載圖（打包的單檔從內嵌資料載）────────────
 // 載不到的圖、或瀏覽器不讓讀（file:// 直接開，畫進 canvas 會被擋），都退回 v1.5 的程式繪製，不會出現空白。
 // 圖檔一律不改：染色、紅紙邊、紙紋都在這裡做。阿檀、台上的你、鏡中的臉這一包沒有圖，沿用 v1.5 畫法。
@@ -1734,8 +2080,8 @@ function drawStageFace(x, t) {
   if (!paper) clothLines(x, fg, r);
   const vg = x.createRadialGradient(CW / 2, CH / 2, CH * 0.25, CW / 2, CH / 2, CH * 0.72); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(10,3,5,${paper ? 0.24 : 0.45})`); x.fillStyle = vg; x.fillRect(0, 0, CW, CH);
   x.restore();
-  // 借來的牌：金邊
-  if (!borderArt(x, 'stage', tp.blank ? '#f2d48a' : fg)) { x.strokeStyle = tp.blank ? '#f2d48a' : fg; x.lineWidth = tp.blank ? 6 : 2.5; notch(x, 14, 14, CW - 28, CH - 28, 20); x.stroke(); }
+  // 借來的牌：邊框染成石青（v1.9；原本是金邊，和後台牌的金分不開）
+  if (!borderArt(x, 'stage', tp.blank ? '#a9d6ea' : fg)) { x.strokeStyle = tp.blank ? '#a9d6ea' : fg; x.lineWidth = tp.blank ? 6 : 2.5; notch(x, 14, 14, CW - 28, CH - 28, 20); x.stroke(); }
   // v1.6：插圖印在牌名底下、「接 →」上面；有關鍵詞或「借」字時往下讓
   const ib = kwOf(tp) ? [44, 231, 212, 64] : tp.blank ? [44, 221, 212, 72] : [40, 190, 220, 102];
   if (!drawDuo(x, `cards/art_${t}`, ...ib, fg, accentOn(f))) { x.globalAlpha = 0.34; EMBLEM[f](x, CW / 2 - 4, 232, 46, P); x.globalAlpha = 1; }
@@ -1745,7 +2091,7 @@ function drawStageFace(x, t) {
   x.font = '66px "Ma Shan Zheng", serif'; x.textAlign = 'left'; x.fillText(String(tp.g), CW - 72, 88);
   // 牌名
   x.textAlign = 'center'; x.font = `${tp.n.length > 1 ? 74 : 96}px "Ma Shan Zheng", serif`; x.fillText(tp.n, CW / 2, 182);
-  if (tp.blank) { x.font = '28px "Noto Serif SC", serif'; x.fillText('借', CW / 2, 216); }
+  if (tp.blank) borrowMark(x, 'stage');
   // 後台的牌：一個詞說它強在哪
   if (kwOf(tp)) {
     x.font = '30px "Ma Shan Zheng", serif'; const kw = kwOf(tp), w = x.measureText(kw).width + 26;
@@ -1761,6 +2107,20 @@ function drawStageFace(x, t) {
   x.fillStyle = '#f4ecdc'; x.font = '32px "Ma Shan Zheng", serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
   x.fillText(tp.blank ? '背 空白' : `背 ${HOME[FAM[f].home].n}`, CW / 2, 398);
   paperOver(x, t);
+  if (tp.blank) borrowFrame(x);
+}
+// v1.9：借來的牌（小鳳病著時魏老闆推給你的，第 8 天收回）：石青虛線框＋「借 · 临时」籤，四族都沒有這個顏色，一眼看得出不是自己的牌
+const BORROW_COL = '#3f86a8';
+function borrowFrame(x) {
+  x.save(); x.strokeStyle = BORROW_COL; x.lineWidth = 9; x.setLineDash([22, 12]); rr(x, 5, 5, CW - 10, CH - 10, 14); x.stroke(); x.restore();
+}
+function borrowMark(x, side) {
+  const y = side === 'stage' ? 196 : 40, w = 150, h = 38;
+  x.save();
+  x.fillStyle = BORROW_COL; rr(x, CW / 2 - w / 2, y, w, h, 6); x.fill();
+  x.strokeStyle = '#f4ecdc'; x.lineWidth = 2; rr(x, CW / 2 - w / 2 + 4, y + 4, w - 8, h - 8, 4); x.stroke();
+  x.fillStyle = '#f4ecdc'; x.font = '28px "Ma Shan Zheng", serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('借 · 临时', CW / 2, y + h / 2 + 1);
+  x.restore();
 }
 function drawHomeFace(x, t, over) {
   const tp = T[t], f = tp.f, h = FAM[f].home, r = rng(hash(t + 'h')), line = '#1c1719', P = { base: '#ebe2d3', line, carve: '#ebe2d3', hi: '#a8202b' };
@@ -1776,6 +2136,7 @@ function drawHomeFace(x, t, over) {
     // 借來的牌：家裡面是空白，不貼插圖
     x.globalAlpha = 0.25; x.font = '74px "Ma Shan Zheng", serif'; x.fillText('空白', CW / 2, 190); x.globalAlpha = 1;
     x.font = '38px "Ma Shan Zheng", serif'; x.fillText('灯不涨', CW / 2, 340);
+    borrowMark(x, 'home');
   } else {
     x.font = '74px "Ma Shan Zheng", serif'; x.fillText(HOME[h].n, CW / 2, 112);
     // v1.6：家裡面的插圖（倾听、陪伴、照顾、共劳）；家常牌用它自己的那一張
@@ -1789,6 +2150,7 @@ function drawHomeFace(x, t, over) {
     x.save(); x.translate(CW / 2, 200); x.rotate(-0.16); x.globalAlpha = 0.92; x.fillStyle = FCOL[f]; x.font = `${tp.n.length > 1 ? 112 : 150}px "Ma Shan Zheng", serif`; x.textBaseline = 'middle'; x.fillText(tp.n, 0, 0); x.restore();
   }
   paperOver(x, t + 'h');
+  if (tp.blank) borrowFrame(x);
 }
 function drawCard(t, side, over) {
   const c = document.createElement('canvas'); c.width = CW * 2; c.height = CH * 2;
@@ -1811,7 +2173,7 @@ function stageLines(t) {
 }
 function homeLines(t) {
   const tp = T[t], look = HOME[FAM[tp.f].home].look;
-  if (tp.blank) return ['背面是空白。', '推出去，灯不涨。'];
+  if (tp.blank) return ['背面是空白。', '推出去，灯不涨。', '借来的：第 8 天就收回去。'];
   if (tp.home) return [`她「${look}」时：算两张，灯 +3。`, '有没擦的油彩，这张被染。'];
   return [`她「${look}」时：记一张，灯 +2。`, '不对路灯不涨；被染留一道痕。'];
 }
@@ -3283,13 +3645,16 @@ function sayH(who, html, gain) {
 const fc = f => `<i class="fc" style="background:${FCOL[f]};${f === 'fight' ? 'color:#1c1719' : ''}">${FAM[f].n}</i>`;
 function refresh() {
   const on = view !== 'title';
+  const rb = $('#rulesBtn'); if (rb && !rb.firstChild) rb.innerHTML = ICON.rules;
   $('#hud').hidden = !on; $('#title').hidden = on;
   if (!on) { renderTitle(); $('#coach').hidden = true; hidePeek(); return; }
   // 規矩、後台、水牌攤開時，字幕先收起來，紙用整個中間
   document.querySelector('.talk').hidden = !!panel;
   $('#hud').dataset.v = view;
-  const mb = $('#musicBtn'); mb.setAttribute('aria-pressed', String(musicOn)); mb.textContent = musicOn ? '乐 开' : '乐 关'; mb.title = musicOn ? '背景音乐：开着（点一下关）' : '背景音乐：关着（点一下开）';
+  $('#hud').dataset.p = panel || '';
+  const mb = $('#musicBtn'); mb.setAttribute('aria-pressed', String(musicOn)); mb.innerHTML = musicOn ? ICON.music : ICON.musicOff; mb.setAttribute('aria-label', musicOn ? '背景音乐：开着（点一下关）' : '背景音乐：关着（点一下开）'); mb.dataset.tip = musicOn ? '背景音乐|开着。点一下关。' : '背景音乐|关着。点一下开。';
   renderPlate(); renderBoardChip(); renderTop(); renderLeft(); renderMid(); renderEvent(); renderChoices(); renderHand(); fitSpread(); peekSync(); renderSmear();
+  if (bookPopAt && !bookPopAt.isConnected) { const k = bookPopAt.dataset.bk, el = $(`#mid .bc[data-bk="${k}"]`); if (el) bookPopShow(el); else bookPopHide(); }
   updateTable();
   camBand();
   coachUpdate();
@@ -3367,13 +3732,31 @@ const scarsHTML = () => `<span class="scars">${Array.from({ length: R.brokenScar
 function renderPlate() {
   const st = starterOf(S);
   const stOn = st && ['morning', 'stage'].includes(view);
+  // v1.9：還剩幾場戲常駐在天數底下（今天這場也算）；賣座換成銅錢，滑過看「賣座」的說明
+  const left = daysLeft();
   $('#plate').innerHTML = `<div class="d">第 ${S.day} 天</div>
-    <div class="st" ${stOn ? '' : 'hidden'}>起手 ${stOn ? fc(st) : ''}</div><div class="g"><i class="term" data-term="卖座">卖座</i><b>${S.gold}</b></div>`;
+    <div class="left ${left <= 3 ? 'hot' : ''}" id="daysLeft" data-tip="还剩几场戏|今天这场也算。第 ${R.days} 天元宵是最后一场，演完这一季就结束。" aria-label="还剩 ${left} 场戏，这一季就结束"><span class="l1">还</span>剩 <b>${left}</b> 场</div>
+    <div class="st" ${stOn ? '' : 'hidden'}>起手 ${stOn ? fc(st) : ''}</div><div class="g" id="purse" data-term="卖座" tabindex="0" aria-label="卖座 ${S.gold} 金">${ICON.coin}<b>${S.gold}</b></div>`;
   // 左欄跟在木牌底下
   const lc = $('#leftcol'); lc.style.top = innerWidth > 760 ? `${Math.round($('#plate').getBoundingClientRect().bottom + 8)}px` : '';
 }
 // 考核的底線怎麼說
 const examTx = ne => (ne.fail === R.ranks ? '别垫底' : `别进倒数${['', '两', '三', '四'][R.ranks - ne.fail] || ''}名`);
+// v1.9：考核目標正面說——「保持前四名」（第 7 天排到第 5 才摘牌）
+const examGoal = fail => (fail === R.ranks ? '别垫底' : `保持前${['', '一', '两', '三', '四', '五'][fail - 1] || fail - 1}名`);
+// v1.9：水牌底下的任務清單，按幕排：第 3 天考核、第 7 天考核、元宵爭頭牌。過了的打勾，眼前的照現在名次亮綠或紅
+function boardGoals(rank, started) {
+  const ex = Object.keys(R.exam).map(Number), next = nextExam(S);
+  const rows = ex.map(d => {
+    const past = S.day > d || (S.day === d && ['board', 'watch'].includes(view)), cur = next && next.day === d && !past;
+    const st = past ? 'ok done' : cur ? (!started ? 'todo' : rank < R.exam[d] ? 'ok' : 'bad') : 'todo';
+    const when = cur && d - S.day <= 1 ? `<small>${d === S.day ? '今天' : '明天'}</small>` : '';
+    return `<li class="${st} ${cur ? 'cur' : ''}" data-tip="第 ${d} 天考核|第 ${d} 天散戏后看水牌：${examTx({ fail: R.exam[d] })}，排到第 ${R.exam[d]} 名${R.exam[d] < R.ranks ? '或更后' : ''}就摘牌，这一季提前结束。"><i class="tk">${past || (cur && started) ? (st.startsWith('ok') ? ICON.ok : ICON.no) : ICON.todo}</i><span><span class="tl">第 ${d} 天 · ${examGoal(R.exam[d])}</span><span class="ts">${d}天·${examGoal(R.exam[d]).replace('保持', '')}</span></span>${when}</li>`;
+  });
+  const fin = !next;
+  rows.push(`<li class="${fin ? (rank === 1 ? 'ok' : 'run') : 'todo'} ${fin ? 'cur' : ''}" data-tip="元宵|第 ${R.days} 天散戏后，水牌第一才是头牌（满堂彩、压台、头牌）。"><i class="tk">${fin && rank === 1 ? ICON.ok : ICON.todo}</i><span><span class="tl">元宵 · 争水牌第一</span><span class="ts">元宵·争第一</span></span></li>`);
+  return `<ul class="goals" aria-label="考核目标">${rows.join('')}</ul>`;
+}
 // 右上的水牌小牌：名次，和上一名差多少；下一次考核
 function renderBoardChip() {
   const el = $('#wboard');
@@ -3387,10 +3770,12 @@ function renderBoardChip() {
   const fresh = !(S.ui && S.ui.board);
   if (!S.ui) S.ui = {};
   S.ui.board = true;
-  el.innerHTML = `<button class="wb ${fresh ? 'popin' : ''}" data-act="water" aria-label="水牌第 ${i + 1}，${gap}${ne ? `，第 ${ne.day} 天考核${examTx(ne)}` : ''}。点开看全部"><span class="wbh"><span>水牌</span><span>第 <b>${i + 1}</b> / ${b.length}</span></span><ol>${rows}</ol><span class="dif">${gap}</span>${ex}</button>${S.relics.length ? `<div class="relics" aria-label="物件">${S.relics.map(r => `<button class="rel" data-tip="${esc(RELICS[r].n)}|${esc(RELICS[r].tx)}" aria-label="${esc(RELICS[r].n)}：${esc(RELICS[r].tx)}">${relicTag(r, 'ri', 44, '#f2d48a', '#f4ecdc')}${RELICS[r].n}</button>`).join('')}</div>` : ''}`;
+  // v1.9：考核那一行換成任務清單（.goals，點不開水牌，自己一塊）；物件只放圖示，滑過看名字與作用
+  el.innerHTML = `<button class="wb ${fresh ? 'popin' : ''}" data-act="water" aria-label="水牌第 ${i + 1}，${gap}${ne ? `，第 ${ne.day} 天考核${examTx(ne)}` : ''}。点开看全部"><span class="wbh"><span>水牌</span><span>第 <b>${i + 1}</b> / ${b.length}</span></span><ol>${rows}</ol><span class="dif">${gap}</span><span class="exm">${ex}</span></button>${boardGoals(i + 1, boardDay(S) >= 1)}${S.relics.length ? `<div class="relics" aria-label="物件">${S.relics.map(r => `<button class="rel" data-tip="${esc(RELICS[r].n)}|${esc(RELICS[r].tx)}" aria-label="${esc(RELICS[r].n)}：${esc(RELICS[r].tx)}">${relicTag(r, 'ri', 56, '#f2d48a', '#f4ecdc')}</button>`).join('')}</div>` : ''}`;
 }
 // v1.6：物件圖示（<img>）；沒有圖就是空字串
-const relicTag = (k, cls, size, line, acc) => { const u = relicIcon(k, size, line, acc); return u ? `<img class="${cls}" src="${u}" alt="">` : `<span class="${cls} rtx" aria-hidden="true">${RELICS[k].n[0]}</span>`; };
+// v1.9：沒有圖就用佔位的 SVG 圖示，不再放一個漢字
+const relicTag = (k, cls, size, line, acc) => { const u = relicIcon(k, size, line, acc); return u ? `<img class="${cls}" src="${u}" alt="">` : `<span class="${cls} rtx" aria-hidden="true">${relicSVG(k)}</span>`; };
 // 情報：聽來的需要，按段排；今晚的那一條亮著
 function intelHTML(onlyNow = false) {
   const evc = ['morning', 'stage'].includes(view) ? evChip() : '';
@@ -3418,12 +3803,12 @@ function renderTop() {
     }
     const last = t.plays[t.plays.length - 1], nx = nextFam(S);
     let line;
-    if (t.ended) line = `这一场 <b>${t.gold}</b> 金${t.perfect ? ' · 完美' : ''}`;
+    if (t.ended) line = `这一场 ${coinN(t.gold, 'big')}${t.perfect ? ' · 完美' : ''}`;
     else if (!last) line = `起手打 ${fc(nx)}`;
     else if (t.plays.length >= t.stageMax) line = `${t.stageMax === R.stageMax ? '五' : '四'}张打满了`;
     else if (last.broke) line = `<span class="bad">断了</span> 下一张接 ${nx === '*' ? '任意' : fc(nx)}`;
-    else if (nx === '*') line = `下一张接 <b>任意</b> <small>+${nextBonus(S)} 金</small>`;
-    else line = `下一张接 <i class="fc nx" style="background:${FCOL[nx]};${nx === 'fight' ? 'color:#1c1719' : ''}">${FAM[nx].n}</i> <small>${t.chain > 1 ? `连击 ×${t.chain} · ` : ''}+${nextBonus(S)} 金</small>`;
+    else if (nx === '*') line = `下一张接 <b>任意</b> <small>+${coinN(nextBonus(S))}</small>`;
+    else line = `下一张接 <i class="fc nx" style="background:${FCOL[nx]};${nx === 'fight' ? 'color:#1c1719' : ''}">${FAM[nx].n}</i> <small>${t.chain > 1 ? `连击 ×${t.chain} · ` : ''}+${coinN(nextBonus(S))}</small>`;
     if (t.grudge && !t.ended) line += ` <small class="bad">怨气 ${t.grudge}</small>`;
     m.innerHTML = `<div class="chain" id="chain"><div class="played">${parts.join('')}</div><div class="nowline">${line}</div></div>${intelHTML(true)}`;
     return;
@@ -3475,10 +3860,24 @@ function renderLeft() {
     <div class="hl" data-term="灯">${lampSVG(S.lamp)}<div><b>${S.lamp}</b><small>/${R.lampFull}</small></div></div>
     <div class="hrow ${S.outs >= R.brokenOuts - 2 ? 'hot' : ''}" data-term="熄"><span class="k">熄</span>${outsHTML()}${S.outs >= R.brokenOuts - 2 ? `<em>再 ${R.brokenOuts - S.outs} 回她走</em>` : ''}</div>
     <div class="hrow ${S.scars >= R.brokenScar - 1 ? 'hot' : ''}" data-term="痕"><span class="k">痕</span>${scarsHTML()}${S.scars >= R.brokenScar - 1 ? `<em>再 ${R.brokenScar - S.scars} 道她走</em>` : ''}</div>`;
+  hp.insertAdjacentHTML('beforeend', homeTasks());
   hp.setAttribute('aria-label', `家：灯 ${S.lamp}，熄过 ${S.outs} 回，痕 ${S.scars} 道；熄满 ${R.brokenOuts} 回或痕到 ${R.brokenScar} 道，她就走`);
   if (innerWidth <= 760) el.style.top = `${Math.round(Math.max($('#plate').getBoundingClientRect().bottom, $('#topmid').getBoundingClientRect().bottom) + 6)}px`;
   const seen = new Set(S.deck.map(c => c.t)).size;
-  $('#bookBtn').innerHTML = `图鉴<small>牌 ${seen}/${BOOK_CARDS.length}</small>`;
+  $('#bookBtn').innerHTML = `<span class="bkl">${ICON.book}图鉴</span><small>牌 ${seen}/${BOOK_CARDS.length}</small>`;
+}
+// v1.9：家底下的任務清單＝美滿要的幾樣。開局都是「做到了」；熄過一回、痕超過 1，那一項就打叉，補不回來
+function homeTasks() {
+  const gone = !!S.left, lit = S.choice === 'lamp', yuan = S.day === R.days;
+  const scarSt = S.scars === 0 ? 'ok' : S.scars <= R.happyScar ? 'warn' : 'bad';
+  const items = [
+    { k: 'need', st: gone || S.outs > R.happyOuts ? 'bad' : 'ok', tx: '每晚满足她', sh: '满足她', em: `熄 ${S.outs}`, tip: `每晚满足她|她每晚的需要都推够了，灯就不熄。熄过一回（现在 ${S.outs} 回），这一项就做不到了，也到不了美满。` },
+    { k: 'scar', st: gone ? 'bad' : scarSt, tx: '灯上不留痕', sh: '不留痕', em: `痕 ${S.scars}`, tip: `灯上不留痕|推了被染的牌，灯上划一道痕，永久。美满最多只能有 ${R.happyScar} 道（现在 ${S.scars} 道）${S.scars === R.happyScar ? '：再多一道就做不到了' : ''}。` },
+    { k: 'lamp', st: gone ? 'bad' : S.lamp >= R.happyLamp ? 'ok' : 'run', tx: '灯糊满', sh: '灯', em: `${S.lamp}/${R.happyLamp}`, tip: `灯糊满|推给她对路的牌灯 +2、家常牌 +3；元宵前糊满 ${R.happyLamp} 才算美满。` },
+    { k: 'yuan', st: gone || (yuan && S.choice && !lit) ? 'bad' : lit ? 'ok' : 'todo', tx: '元宵回家点灯', sh: '元宵点灯', em: '', tip: `元宵回家点灯|第 ${R.days} 天元宵三选一，只有「回家点灯」能到美满。` },
+  ];
+  const ic = st => ({ ok: ICON.ok, bad: ICON.no, warn: ICON.warn, run: ICON.todo, todo: ICON.todo })[st];
+  return `<ul class="tasks" aria-label="美满要的">${items.map(it => `<li class="${it.st}" data-task="${it.k}" data-tip="${it.tip}"><i class="tk">${ic(it.st)}</i><span><span class="tl">${it.tx}</span><span class="ts">${it.sh}</span></span>${it.em ? `<em>${it.em}</em>` : ''}</li>`).join('')}</ul>`;
 }
 // ── 圖鑑：每張牌、每樣物件、每個詞；順便講一點戲 ──
 const BOOK_CARDS = [...BASIC, ...BORROWED, ...SHOP, ...GIFTS];
@@ -3526,27 +3925,59 @@ const RELIC_LORE = {
   zhezi: '师父手抄的戏本子，一出一折，边角都翻毛了。',
 };
 let bookTab = 'cards', bookSel = null;
+// v1.9：詞條分四組（台上、回家、後台的牌、這一季），每組一塊；新加的詞沒分到組就放「其他」
+const TERM_GROUPS = (() => {
+  const g = [['台上', ['卖座', '起手', '接口', '连击', '完美', '怨气', '油彩']], ['回家', ['让她擦', '被染', '底色', '灯', '熄', '痕', '情报', '家常牌']], ['后台的牌', ['百搭', '重彩', '压轴', '素', '托']], ['这一季', ['考核']]];
+  const used = new Set(g.flatMap(x => x[1])), rest = Object.keys(TERMS).filter(k => !used.has(k));
+  return rest.length ? [...g, ['其他', rest]] : g;
+})();
+// 一張牌在圖鑑裡的說明：怎麼用、背面、戲裡的講究
+function bookLines(k) {
+  const tp = T[k];
+  const lines = tp.home ? ['不上台。', '对上她的需要，一张算两张，灯 +3。'] : stageLines(k);
+  return [...lines, ...(tp.home ? [] : [`背面：${tp.blank ? '空白（借来的牌，推给她灯不涨）' : `${HOME[FAM[tp.f].home].n}（她「${HOME[FAM[tp.f].home].look}」时要的）`}。`])];
+}
+function bookCardHTML(k) {
+  const tp = T[k], owned = S.deck.some(c => c.t === k);
+  const kind = tp.home ? '家常牌（她送的）' : BASIC.includes(k) ? '基础牌' : BORROWED.includes(k) ? '借来的牌 · 临时' : `后台的牌 · ${coinN(T[k].price)}`;
+  const lines = bookLines(k);
+  return `<div class="faces"><figure><img src="${cardArt(k, 'stage').url}" alt="">台上面</figure>${tp.home ? '' : `<figure><img src="${cardArt(k, 'home').url}" alt="">家里面</figure>`}</div>
+    <div class="bt"><h3>${tp.n}<small>${tp.home ? '' : FAM[tp.f].n + ' · '}${kind}${owned ? '' : ' · 还没拿到'}</small></h3>
+    <h4>怎么用</h4><p>${lines.map(esc).join('<br>')}${tp.blank ? '<br><b class="bw">小凤病着时借你的，第 8 天她回来就收走。</b>' : ''}</p>
+    <h4>${tp.home ? '这张牌' : '戏里的讲究'}</h4><p class="lore">${esc(LORE[k] || '')}</p></div>`;
+}
+// 圖鑑的牌：滑鼠移上去就出資訊卡，移開就收；鍵盤停上去也出；觸控點一下出、點別處收
+let bookPopAt = null;
+function bookPopShow(el) {
+  let p = $('#bookpop');
+  if (!p) { p = document.createElement('div'); p.id = 'bookpop'; p.setAttribute('role', 'tooltip'); document.body.appendChild(p); }
+  bookPopAt = el;
+  p.innerHTML = bookCardHTML(el.dataset.bk);
+  p.hidden = false;
+  const a = el.getBoundingClientRect(), W = innerWidth, H = innerHeight, pw = p.offsetWidth, ph = p.offsetHeight;
+  let left = a.right + 12, top = a.top + a.height / 2 - ph / 2;
+  if (left + pw > W - 8) left = a.left - 12 - pw;
+  if (left < 8) { left = (W - pw) / 2; top = a.bottom + 10 + ph < H ? a.bottom + 10 : a.top - 10 - ph; }
+  p.style.left = `${clamp(left, 8, Math.max(8, W - pw - 8))}px`;
+  p.style.top = `${clamp(top, 8, Math.max(8, H - ph - 8))}px`;
+}
+function bookPopHide() { bookPopAt = null; const p = $('#bookpop'); if (p) p.hidden = true; }
+document.addEventListener('pointerover', e => { if (e.pointerType !== 'mouse') return; const el = e.target.closest?.('.bc[data-bk]'); if (el) { if (el !== bookPopAt) bookPopShow(el); } else if (bookPopAt) bookPopHide(); });
+document.addEventListener('focusin', e => { const el = e.target.closest?.('.bc[data-bk]'); if (el) bookPopShow(el); else if (bookPopAt) bookPopHide(); });
+document.addEventListener('click', e => { const el = e.target.closest?.('.bc[data-bk]'); if (el) bookPopShow(el); else if (bookPopAt && !e.target.closest?.('#bookpop')) bookPopHide(); });
 function bookPanel() {
   const owned = new Set(S.deck.map(c => c.t));
   const tabs = [['cards', '牌'], ['relics', '物件'], ['terms', '词条']].map(([k, n]) => `<button class="btn small ${bookTab === k ? 'go' : ''}" data-act="booktab" data-arg="${k}" aria-pressed="${bookTab === k}">${n}</button>`).join('');
   let body = '';
   if (bookTab === 'cards') {
-    if (bookSel) {
-      const k = bookSel, tp = T[k], kind = tp.home ? '家常牌（她送的）' : BASIC.includes(k) ? '基础牌' : BORROWED.includes(k) ? '借来的牌' : `后台的牌 · ${T[k].price} 金`;
-      const lines = tp.home ? ['不上台。', `对上她的需要，一张算两张，灯 +3。`] : stageLines(k);
-      body = `<div class="bookd"><div class="faces"><figure><img src="${cardArt(k, 'stage').url}" alt="">台上面</figure>${tp.home ? '' : `<figure><img src="${cardArt(k, 'home').url}" alt="">家里面</figure>`}</div>
-        <div class="bt"><h3>${tp.n}<small>${tp.home ? '' : FAM[tp.f].n + ' · '}${kind}${owned.has(k) ? '' : ' · 还没拿到'}</small></h3>
-        <h4>怎么用</h4><p>${lines.map(esc).join('<br>')}${tp.home ? '' : `<br>背面：${tp.blank ? '空白（借来的牌，推给她灯不涨）' : `${HOME[FAM[tp.f].home].n}（她「${HOME[FAM[tp.f].home].look}」时要的）`}`}</p>
-        <h4>${tp.home ? '这张牌' : '戏里的讲究'}</h4><p>${esc(LORE[k] || '')}</p>
-        <button class="btn small" data-act="booksel" data-arg="">回到全部</button></div></div>`;
-    } else {
-      const grp = (title, ks) => `<h4>${title}</h4><div class="bookg">${ks.map(k => `<button class="bc ${owned.has(k) ? '' : 'un'}" data-act="booksel" data-arg="${k}" aria-label="${T[k].n}${owned.has(k) ? '' : '，还没拿到'}"><img src="${cardArt(k, 'stage').url}" alt=""><span>${T[k].n}</span></button>`).join('')}</div>`;
-      body = `<p class="note">点一张看它怎么用、戏里有什么讲究。暗着的是还没拿到的。</p>${grp('基础牌', BASIC)}${grp('借来的牌', BORROWED)}${grp('后台的牌', SHOP)}${grp('家常牌（她送的）', GIFTS)}`;
-    }
+    // v1.9：圖鑑的牌改成滑鼠移上去就看（#bookpop，見 bookPopShow）；手機點一下看。遊玩時手牌照舊點一下看
+    const grp = (title, ks) => `<h4>${title}</h4><div class="bookg">${ks.map(k => `<button class="bc ${owned.has(k) ? '' : 'un'} ${T[k].blank ? 'borrow' : ''}" data-bk="${k}" aria-label="${T[k].n}${owned.has(k) ? '' : '，还没拿到'}：${esc(bookLines(k).join(''))}"><img src="${cardArt(k, 'stage').url}" alt=""><span>${T[k].n}</span></button>`).join('')}</div>`;
+    body = `<p class="note">${matchMedia('(hover: hover)').matches ? '把鼠标移到一张牌上' : '点一张牌'}，看它怎么用、戏里有什么讲究。暗着的是还没拿到的。</p>${grp('基础牌', BASIC)}${grp('借来的牌（第 4–7 天，小凤病着时借你）', BORROWED)}${grp('后台的牌', SHOP)}${grp('家常牌（她送的）', GIFTS)}`;
   } else if (bookTab === 'relics') {
-    body = `<ul class="bookr">${RELIC_KEYS.map(k => `<li class="${S.relics.includes(k) ? 'own' : ''}">${relicTag(k, 'bri', 112)}<b>${RELICS[k].n}</b><small>${RELICS[k].price} 金${S.relics.includes(k) ? ' · 已有' : ''}</small><p>${esc(RELICS[k].tx)}</p><p class="lore">${esc(RELIC_LORE[k])}</p></li>`).join('')}</ul>`;
+    body = `<ul class="bookr">${RELIC_KEYS.map(k => `<li class="${S.relics.includes(k) ? 'own' : ''}">${relicTag(k, 'bri', 112)}<div class="brt"><b>${RELICS[k].n}</b><small>${coinN(RELICS[k].price)}${S.relics.includes(k) ? ' · 已有' : ''}</small></div><p>${esc(RELICS[k].tx)}</p><p class="lore">${esc(RELIC_LORE[k])}</p></li>`).join('')}</ul>`;
   } else {
-    body = `<dl class="bookt">${Object.entries(TERMS).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+    // v1.9：詞條分組、對齊：詞固定一欄寬、和說明首行對齊，每條之間一樣的間距
+    body = `<div class="termg">${TERM_GROUPS.map(([g, ks]) => `<section><h4>${g}</h4><dl class="bookt">${ks.filter(k => TERMS[k]).map(k => `<dt>${k}</dt><dd>${esc(TERMS[k])}</dd>`).join('')}</dl></section>`).join('')}</div>`;
   }
   return `<div class="panel tujian"><h2>图鉴<button class="btn small" style="float:right" data-act="close">关上</button></h2><div class="tabs">${tabs}</div>${body}</div>`;
 }
@@ -3587,7 +4018,7 @@ function morningPanel() {
   const cells = kinds.map(k => {
     const free = S.deck.filter(c => c.t === k && !t.box.includes(c.id)), can = free.length > 0;
     const nk = needKind(k);
-    return `<button class="spc ${nk && can ? 'want' : ''} ${can ? '' : 'none'}" ${can ? `data-act="pick" data-arg="${k}"` : 'aria-disabled="true"'} data-t="${k}" aria-label="${T[k].n}，还有 ${free.length} 张${nk ? '，背面是她今晚要的' : ''}"><img src="${cardArt(k, 'stage').url}" alt=""><span class="ct">${free.length}</span>${nk && can ? '<span class="wtag" aria-hidden="true">家</span>' : ''}</button>`;
+    return `<button class="spc ${nk && can ? 'want' : ''} ${can ? '' : 'none'} ${T[k].blank ? 'borrow' : ''}" ${can ? `data-act="pick" data-arg="${k}"` : 'aria-disabled="true"'} data-t="${k}" aria-label="${T[k].n}，还有 ${free.length} 张${nk ? '，背面是她今晚要的' : ''}"><img src="${cardArt(k, 'stage').url}" alt=""><span class="ct">${free.length}</span>${nk && can ? '<span class="wtag" aria-hidden="true">家</span>' : ''}${T[k].blank ? '<span class="btag" aria-hidden="true">借</span>' : ''}</button>`;
   }).join('');
   return `<div class="spread"><div class="sph">卡组 · 点看牌 · 拖到下面放进妆匣</div>${cells}</div>`;
 }
@@ -3676,27 +4107,30 @@ function afterBuy(k) {
   const p = priceOf(k), r0 = rankOf(S);
   S.gold -= p; const r1 = rankOf(S); S.gold += p;
   const ne = nextExam(S), risk = ne && r1 >= ne.fail;
-  return `买了：卖座 ${S.gold} → ${S.gold - p}，水牌第 ${r0} → <b class="${r1 > r0 ? 'bad' : ''}">${r1}</b>${risk ? `<br><span class="bad">第 ${ne.day} 天考核${examTx(ne)}，小心</span>` : ''}`;
+  return `买后 ${ICON.coin}${S.gold}→${S.gold - p} · 水牌第 ${r0}→<b class="${r1 > r0 ? 'bad' : ''}">${r1}</b>${risk ? `<br><span class="bad">第 ${ne.day} 天考核${examTx(ne)}，小心</span>` : ''}`;
 }
 // 後台：孫師父每天兩張牌、一樣物件
+// v1.9：後台一頁看完、不用捲：頂上一排是錢、名次、還剩幾場、換一批、回桌上；下面一排貨，每樣一顆「買」（價錢寫在鈕上）。
+// 長說明收進「？」與按鈕的滑過說明；已有的物件只放圖示，滑過看作用
 function shopPanel() {
   const t = S.T;
   const cells = t.offers.map(k => {
     const sold = t.sold.includes(k) || S.relics.includes(k), can = canBuy(S, k), rel = RELICS[k];
-    const ico = rel ? relicIcon(k, 176) : '';
-    const pic = rel ? (ico ? `<div class="relic pic" aria-hidden="true"><img src="${ico}" alt=""><span>${rel.n}</span></div>` : `<div class="relic" aria-hidden="true">${rel.n[0]}</div>`) : `<img src="${cardArt(k, 'stage').url}" alt="${T[k].n}" data-t="${k}" class="spc" style="width:96px;height:144px">`;
-    const kw = rel ? `<b>物件 · ${rel.n}</b><br>${rel.tx}<br>买一次，整季都有用。` : `${stageLines(k).join('<br>')}<br>背面 ${HOME[FAM[T[k].f].home].n}`;
-    return `<div class="offer ${sold ? 'sold' : ''} ${rel ? 'isrel' : ''}">${pic}
-      <div class="kw">${kw}</div><div class="pv">${previewTx(k)}</div><div class="pr">${priceOf(k)} 金</div>${sold ? '' : `<div class="pv ab">${afterBuy(k)}</div>`}
-      <button class="btn small ${can ? 'go' : ''}" data-act="buy" data-arg="${k}" ${can ? '' : 'disabled'}>${sold ? '买下了' : can ? '买' : '钱不够'}</button></div>`;
+    const pic = rel ? `<div class="relic pic" aria-hidden="true">${relicTag(k, 'rpi', 176)}</div>` : `<img src="${cardArt(k, 'stage').url}" alt="${T[k].n}" data-t="${k}" class="spc ${T[k].blank ? 'borrow' : ''}">`;
+    const kw = rel ? `${esc(rel.tx)}<br><span class="mut">买一次，整季都有用</span>` : `${stageLines(k).slice(1).join('<br>')}<br><span class="mut">背面 ${HOME[FAM[T[k].f].home].n}</span>`;
+    const why = sold ? '买下了' : can ? '买' : '钱不够';
+    return `<div class="offer ${sold ? 'sold' : ''} ${rel ? 'isrel' : ''}">${pic}<div class="ot"><h3>${rel ? rel.n : T[k].n}<small>${rel ? '物件' : `${FAM[T[k].f].n} · 打出 ${T[k].g} 金`}</small></h3>
+      <div class="kw">${kw}</div><div class="pv">${previewTx(k)}</div>${sold ? '' : `<div class="pv ab">${afterBuy(k)}</div>`}</div>
+      <button class="btn buyb ${can ? 'go' : ''}" data-act="buy" data-arg="${k}" ${can ? '' : 'disabled'} aria-label="${why}${sold ? '' : `，${priceOf(k)} 金`}">${sold ? '' : coinN(priceOf(k))}<span>${why}</span></button></div>`;
   }).join('');
-  return `<div class="panel shopp"><h2>后台 · 孙师父<button class="btn small" style="float:right" data-act="close">回桌上</button></h2>
-    ${portraitURL('孙师父') ? `<div class="sunq"><img class="pt" src="${portraitURL('孙师父')}" alt="孙师父"><p class="note">“这几张，是我年轻时候的看家本事。拿去，别糟践了。”</p></div>` : '<p class="note">“这几张，是我年轻时候的看家本事。拿去，别糟践了。”</p>'}
-    <div class="purse"><span>卖座<b>${S.gold}</b></span><span>水牌第<b>${rankOf(S)}</b></span><span>还剩 <b>${daysLeft()}</b> 场</span></div>
-    <div class="refr"><button class="btn small ${canRefresh(S) ? 'go' : ''}" data-act="refresh" ${canRefresh(S) ? '' : 'disabled'}>换一批货 · ${R.refreshCost} 金</button><span class="note">${canRefresh(S) ? `花 ${R.refreshCost} 金（就是卖座，名次会掉），孙师父把今天这批收回去，另拿一批。一天一次。` : esc(refreshWhy(S)) + '。'}</span></div>
-    <p class="note">只有一种金：花的就是卖座，买了水牌马上往下掉，要靠往后几天多挣回来。买下的牌进卡组，以后每天都能装；物件买一次整季都在。明天孙师父换一批。</p>
-    ${S.relics.length ? `<p class="note">你已经有：${S.relics.map(r => RELICS[r].n).join('、')}</p>` : ''}
-    <div class="shop">${cells}</div></div>`;
+  const rf = canRefresh(S);
+  const sun = faceURL('孙师父', 96);
+  return `<div class="panel shopp"><div class="shh">${sun ? `<img class="sunf" src="${sun}" alt="">` : `<span class="sunf">${ICON.shop}</span>`}<h2>后台<span class="sn"> · 孙师父</span></h2>
+      <span class="purse"><span data-term="卖座" tabindex="0">${coinN(S.gold, 'big')}</span><span>水牌第<b>${rankOf(S)}</b></span><span>还剩<b>${daysLeft()}</b>场</span><i class="qm" tabindex="0" data-tip="后台怎么买|只有一种金：花的就是卖座，买了水牌马上往下掉，要靠往后几天多挣回来。买下的牌进卡组，以后每天都能装；物件买一次整季都在。明天孙师父换一批。" aria-label="后台怎么买">?</i></span>
+      <button class="btn small refb ${rf ? '' : ''}" data-act="refresh" ${rf ? '' : 'disabled'} data-tip="换一批货|${rf ? `花 ${R.refreshCost} 金（就是卖座，名次会掉），孙师父把今天这批收回去，另拿一批。一天一次。` : esc(refreshWhy(S)) + '。'}">换一批 ${coinN(R.refreshCost)}</button>
+      <button class="btn small go clb" data-act="close">回桌上</button></div>
+    <p class="note shq"><span class="sq">“这几张，是我年轻时候的看家本事。拿去，别糟践了。”</span>${S.relics.length ? `<span class="owned" aria-label="你已经有的物件">已有 ${S.relics.map(r => `<span class="rel" tabindex="0" data-tip="${esc(RELICS[r].n)}|${esc(RELICS[r].tx)}" aria-label="${esc(RELICS[r].n)}：${esc(RELICS[r].tx)}">${relicTag(r, 'ri', 56, '#f2d48a', '#f4ecdc')}</span>`).join('')}</span>` : ''}</p>
+    <div class="shop" style="--n:${t.offers.length}">${cells}</div></div>`;
 }
 function waterPanel() {
   const ev = eventOf(S), k = S.events[S.day];
@@ -3767,12 +4201,14 @@ function renderChoices() {
   const n = t.layers.length;
   if (view === 'morning') {
     const st = starterOf(S), yes = canDepart(S);
-    if (S.day !== R.days || S.choice) o(S.choice === 'lamp' ? '回家' : '出门', 'depart', yes ? (S.choice === 'lamp' ? '今天不上台' : '') : `还没带${st ? FAM[st].n : ''}`, !yes, undefined, yes);
-    // v1.7：後台商店固定在「出門」旁邊，一眼看得到
+    // v1.9：組牌時「後台商店」在左下、「出門」在右下，各帶一個圖示；id 固定（#shopBtn、#departBtn），給教學框指
+    if (S.day !== R.days || S.choice) {
+      const lamp = S.choice === 'lamp', sub = yes ? (lamp ? '今天不上台' : '') : `还没带${st ? FAM[st].n : ''}`;
+      opts.push(`<button class="opt pri depb" id="departBtn" data-act="depart" ${yes ? '' : 'disabled'} aria-label="${lamp ? '回家' : '出门上戏'}${sub ? `：${sub}` : ''}">${lamp ? ICON.sun : ICON.depart}<span>${lamp ? '回家' : '出门'}</span>${sub ? `<small>${sub}</small>` : ''}</button>`);
+    }
     if (t.offers.length) {
       const left = t.offers.filter(k => !t.sold.includes(k) && !S.relics.includes(k)).length;
-      const face = faceURL('孙师父', 64);
-      opts.push(`<button class="opt shopb" data-act="shop" aria-label="后台商店，孙师父，今天还有 ${left} 样">${face ? `<img class="sf" src="${face}" alt="">` : '<span class="sf">孙</span>'}后台商店<small>孙师父 · ${left} 样${t.refreshed ? ' · 已换过' : ''}</small></button>`);
+      opts.push(`<button class="opt shopb" id="shopBtn" data-act="shop" aria-label="后台商店，孙师父，今天还有 ${left} 样">${ICON.shop}<span>后台</span><small>${left} 样${t.refreshed ? ' · 已换过' : ''}</small></button>`);
     }
   }
   if (view === 'stage') {
@@ -3823,10 +4259,10 @@ function renderHand() {
   h.innerHTML = ids.map((id, i) => {
     const c = cardOf(S, id), ok = can(id), tp = T[c.t];
     const rot = (i - mid) * Math.min(2.6, 24 / Math.max(n, 1)), lift = Math.abs(i - mid) * 1.3;
-    const label = tp.home ? `${tp.n}，家常牌，不上台，背面${HOME[FAM[tp.f].home].n}` : `${tp.n}，${FAM[tp.f].n}，金 ${tp.g}，接${nextN(tp)}${kwOf(tp) ? `，${kwOf(tp)}` : ''}，背面${tp.blank ? '空白' : HOME[FAM[tp.f].home].n}`;
+    const label = tp.home ? `${tp.n}，家常牌，不上台，背面${HOME[FAM[tp.f].home].n}` : `${tp.blank ? '借来的临时牌（第 8 天收回），' : ''}${tp.n}，${FAM[tp.f].n}，金 ${tp.g}，接${nextN(tp)}${kwOf(tp) ? `，${kwOf(tp)}` : ''}，背面${tp.blank ? '空白' : HOME[FAM[tp.f].home].n}`;
     const dim = !ok && view !== 'morning';
     const home = ['morning', 'stage', 'door'].includes(view) && keepHint(id);
-    return `<button class="hc ${ok ? 'play' : ''} ${hot(id) ? 'hot' : ''} ${dim ? 'off' : ''} ${home ? 'want' : ''}" data-id="${id}" ${tp.wild ? 'data-wild="1"' : ''} style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'aria-disabled="true"'} aria-label="${esc(label)}${home ? '，她今晚要的' : ''}"><img src="${cardArt(c.t, side, covered.includes(tp.f) && !tp.home).url}" alt="">${view === 'evening' && canHome(S, id) && willDye(S, id) ? '<span class="stain"></span>' : ''}${home ? '<span class="wtag" aria-hidden="true">家</span>' : ''}</button>`;
+    return `<button class="hc ${ok ? 'play' : ''} ${hot(id) ? 'hot' : ''} ${dim ? 'off' : ''} ${home ? 'want' : ''} ${tp.blank ? 'borrow' : ''}" data-id="${id}" ${tp.wild ? 'data-wild="1"' : ''} style="transform:translateY(${lift}px) rotate(${rot}deg)" ${ok ? `data-act="card" data-arg="${id}"` : 'aria-disabled="true"'} aria-label="${esc(label)}${home ? '，她今晚要的' : ''}"><img src="${cardArt(c.t, side, covered.includes(tp.f) && !tp.home).url}" alt="">${view === 'evening' && canHome(S, id) && willDye(S, id) ? '<span class="stain"></span>' : ''}${home ? '<span class="wtag" aria-hidden="true">家</span>' : ''}${tp.blank ? '<span class="btag" aria-hidden="true">借</span>' : ''}</button>`;
   }).join('');
   const tx = {
     morning: lockedBox(S) ? '点牌看说明' : t.box.length ? '妆匣 · 点看牌 · 拖回卡组拿出' : '妆匣是空的 · 把上面的牌拖下来',
@@ -4092,7 +4528,7 @@ function banner(tx, sub, cls = '') {
 }
 function gainFloat(at, tx, bad) {
   if (calm()) return;
-  const el = document.createElement('div'); el.className = `gainf ${bad ? 'bad' : ''}`; el.textContent = tx;
+  const el = document.createElement('div'); el.className = `gainf ${bad ? 'bad' : ''}`; el.innerHTML = `${bad ? '' : ICON.coin}${esc(tx)}`;
   el.style.left = `${at.x}px`; el.style.top = `${at.y}px`; document.body.appendChild(el); setTimeout(() => el.remove(), 1300);
 }
 // 連擊越長，台上越熱鬧：火星 → 紙屑、幕晃、大字 → 金箔、彩綢、鏡頭推近 → 煙花
@@ -4113,6 +4549,40 @@ function comboFx(p) {
   if (n >= 3) { spawn('petal', 70 + (n - 3) * 60); const b = COMBO_TX[Math.min(n, 5)]; banner(b[0], b[1], n >= 4 ? 'big' : ''); stageHeat = Math.max(stageHeat, 0.8 + (n - 3) * 0.6); bubble(esc(pick(n >= 4 ? CROWD.hot : CROWD.big)), 'n'); }
   if (n >= 4) { spawn('foil', 130); spawn('ribbon', 10); [260, 620].forEach(d => setTimeout(() => { spawn('petal', 90); spawn('foil', 50); }, d)); burst(40); if (glOK && camPos) camPos.lerp(camAim, 0.08); }
   if (n >= 5) [0, 350, 700].forEach(d => setTimeout(() => spawn('fw', 60, { x: innerWidth * (0.2 + Math.random() * 0.6), y: innerHeight * (0.12 + Math.random() * 0.2) }), d));
+}
+// ── v1.9 散戲的金：依擲骰的加成分四等 ──
+// 1 叫好：連擊沒到 3、沒擲骰；2 喝彩：擲了沒中；3 滿堂彩：擲中 ×1.5；4 滿堂彩·六點：擲出 6
+const GOLD_TIER = [null, { n: '叫好', s: '散戏', coins: 6 }, { n: '喝彩', s: '差一点就满堂彩', coins: 12 }, { n: '满堂彩', s: '掷中 · 金 ×1.5', coins: 22 }, { n: '满堂彩', s: '掷出六点 · 彩声震瓦', coins: 32 }];
+const goldTier = t => (!t.gold ? 0 : t.perfect ? (t.die >= 6 ? 4 : 3) : t.die !== null ? 2 : 1);
+async function goldFx(gain, tier, feng = false) {
+  const g = GOLD_TIER[tier];
+  if (!g) return;
+  let el = $('#goldfx');
+  if (!el) { el = document.createElement('div'); el.id = 'goldfx'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+  el.className = `t${tier}`;
+  el.innerHTML = `<div class="gfx"><div class="gt">${g.n}</div><div class="gn">${ICON.coin}<b>+0</b></div><div class="gs">${feng ? '记在小凤名下' : esc(g.s)}</div></div>`;
+  el.hidden = false;
+  const num = el.querySelector('.gn b');
+  if (calm()) { num.textContent = `+${gain}`; await wait(1400); el.hidden = true; return; }
+  if (tier >= 3) { document.body.animate([{ boxShadow: 'inset 0 0 0 0 rgba(242,212,138,0)' }, { boxShadow: 'inset 0 0 160px 40px rgba(242,212,138,.55)' }, { boxShadow: 'inset 0 0 0 0 rgba(242,212,138,0)' }], { duration: 900 }); spawn('foil', tier === 4 ? 120 : 60); }
+  // 數字往上數
+  const t0 = performance.now(), dur = 520 + tier * 120;
+  await new Promise(res => { const step = now => { const k = Math.min(1, (now - t0) / dur); num.textContent = `+${Math.round(gain * (1 - Math.pow(1 - k, 3)))}`; if (k < 1) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); });
+  // 銅錢飛進左上的賣座（代演就不飛）
+  const to = !feng && $('#purse'), from = el.querySelector('.gn .coin').getBoundingClientRect();
+  if (to && to.getClientRects().length) {
+    const r = to.querySelector('.coin')?.getBoundingClientRect() || to.getBoundingClientRect();
+    for (let i = 0; i < g.coins; i++) {
+      const c = document.createElement('div'); c.className = 'coinfly'; c.innerHTML = ICON.coin; document.body.appendChild(c);
+      const sx = from.left + from.width / 2 + (Math.random() - 0.5) * 120, sy = from.top + from.height / 2 + (Math.random() - 0.5) * 60;
+      const mx = (sx + r.left) / 2 + (Math.random() - 0.5) * 240, my = Math.min(sy, r.top) - 60 - Math.random() * 120;
+      const a = c.animate([{ transform: `translate(${sx}px, ${sy}px) scale(.4)`, opacity: 0 }, { transform: `translate(${mx}px, ${my}px) scale(1.1) rotate(${200 + Math.random() * 200}deg)`, opacity: 1, offset: 0.45 }, { transform: `translate(${r.left + r.width / 2}px, ${r.top + r.height / 2}px) scale(.55) rotate(720deg)`, opacity: 0.9 }], { duration: 760 + Math.random() * 380, delay: i * 26, easing: 'cubic-bezier(.4,.1,.3,1)', fill: 'forwards' });
+      a.finished.then(() => { c.remove(); to.classList.remove('bump'); void to.offsetWidth; to.classList.add('bump'); }).catch(() => c.remove());
+    }
+  }
+  await wait(tier >= 3 ? 1400 : 800);
+  el.classList.add('out');
+  setTimeout(() => { el.hidden = true; el.className = ''; }, 500);
 }
 async function run(fn) { if (busy) return; busy = true; refresh(); try { await fn(); } finally { busy = false; refresh(); } }
 
@@ -4215,7 +4685,10 @@ const onEndStage = () => run(async () => {
   const t = S.T;
   if (t.die !== null) await showDice({ label: '连击到 3：掷到 4 以上，金 ×1.5', v: t.die, ok: t.perfect, result: t.perfect ? '完美' : '没中，不扣金' });
   if (t.gold) { burst(t.gold * 2); sfx('cheer'); crowdKick('big'); }
-  if (t.perfect) { stamp('完美'); bubble(esc(pick(CROWD.perfect)), 'n'); spawn('foil', 140); spawn('ribbon', 8); [0, 300, 600, 900].forEach(d => setTimeout(() => spawn('fw', 70, { x: innerWidth * (0.15 + Math.random() * 0.7), y: innerHeight * (0.1 + Math.random() * 0.25) }), d)); }
+  if (t.perfect) { bubble(esc(pick(CROWD.perfect)), 'n'); spawn('foil', 140); spawn('ribbon', 8); [0, 300, 600, 900].forEach(d => setTimeout(() => spawn('fw', 70, { x: innerWidth * (0.15 + Math.random() * 0.7), y: innerHeight * (0.1 + Math.random() * 0.25) }), d)); }
+  // v1.9：散戲的金分等級亮出來（叫好／喝彩／滿堂彩／滿堂彩·六點），銅錢飛進左上的賣座
+  if (t.gold && S.choice !== 'cover') await goldFx(t.gold, goldTier(t));
+  else if (t.gold) await goldFx(t.gold, goldTier(t), true);
   stageHeat = t.perfect ? 2.4 : 0.6;
   actor?.pose('bow');
   const who = S.choice === 'cover' ? `这 ${t.gold} 金，记在小凤名下。` : S.choice === 'stage' ? `元宵，金 ×2：${t.gold} 金。` : '';
@@ -4307,7 +4780,7 @@ async function lampFeedback(t) {
   const from = t.met ? now - t.lampGain : now + t.lampOut;
   const head = t.met ? `<div class="big">她的需要，满足了</div>` : `<div class="big">灯熄了一截</div>`;
   const rows = t.met
-    ? `<div class="row">今晚灯 <b>+${t.lampGain}</b>　现在 <b>${now}</b>/${R.lampFull}　（糊满才算美满）</div>${t.gift ? `<div class="row">两晚都对上：她送你一张「${T[t.gift].n}」</div>` : ''}`
+    ? `<div class="row">今晚灯 <b>+${t.lampGain}</b>　现在 <b>${now}</b>/${R.lampFull}</div><div class="row sm">糊满 ${R.lampFull} 才算美满</div>${t.gift ? `<div class="row">两晚都对上：她送你一张「${T[t.gift].n}」</div>` : ''}`
     : `<div class="row">灯 <b>${from}</b> → <b>${now}</b>　熄 ${outsHTML(true)} <b>${S.outs}</b>/${R.brokenOuts}</div><div class="warn">${S.outs >= R.brokenOuts ? '熄满五回了。' : `她今晚要的是 ${recipeShort(t.need)}。再熄 ${R.brokenOuts - S.outs} 回，她就走了。${S.outs === 1 ? '熄过了，这一季到不了美满。' : ''}`}</div>`;
   el.innerHTML = `<div class="lf ${t.met ? '' : 'bad'}">${head}<div class="lp">${lampSVG(from)}</div>${rows}<button class="btn go small lfok">${t.met ? '好' : '知道了'}</button></div>`;
   el.hidden = false;
@@ -4391,7 +4864,7 @@ const nightHTML = () => (document.documentElement.classList.contains('a-night') 
 function showWatch() {
   const w = $('#watch'), l = S.T.watch || { tx: '', hint: '' }; w.hidden = false;
   sfx('knock');
-  w.innerHTML = `${nightHTML()}<div class="knock">梆　梆　梆</div><div class="w">${esc(l.tx)}</div>${l.hint ? `<div class="w2">${esc(l.hint)}</div>` : ''}<button class="opt" data-act="dawn">天亮</button>`;
+  w.innerHTML = `${nightHTML()}<div class="knock">梆　梆　梆</div><div class="w">${esc(l.tx)}</div>${l.hint ? `<div class="w2">${esc(l.hint)}</div>` : ''}<button class="opt pri dawnb" id="dawnBtn" data-act="dawn">${ICON.sun}<span>天亮</span></button>`;
 }
 const onSleep = () => run(async () => {
   sleep(S);
