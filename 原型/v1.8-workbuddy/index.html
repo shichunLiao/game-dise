@@ -871,6 +871,10 @@ const PAT = { A1: [['A', 1]], A2: [['A', 2]], AB: [['A', 1], ['B', 1]], A2B: [['
 const ACT_N = ['开锣', '借妆', '卸妆'];
 // 同門與班主：每天的金有起伏，事件會讓某一天特別高
 const RIVALS = [{ n: '魏老板', g: 20, v: 0.12 }, { n: '金宝', g: 17, v: 0.3 }, { n: '月仙', g: 14, v: 0.3 }, { n: '玉楼', g: 7, v: 0.4 }, { n: '小凤', g: 9, v: 0.2, feng: 1 }];
+// 每季洗牌同一組強度檔位：總強度不變，只讓這一局當紅的人不同。
+// 人物自己的波動、事件和小鳳生病仍然留在本人身上。
+// 檔位總和仍是 67；頂檔略集中 1 金，抵銷當季強敵未必吃到魏老闆事件的差異。
+const RIVAL_FORM = [21, 17, 14, 6, 9];
 const FENG_SICK = [4, 7];
 // 同門的事：第 3 天固定玉樓遞話（教學），第 4、8 天是小鳳；其餘天從這裡挑
 const EVENTS = {
@@ -935,12 +939,19 @@ function newGame(name, seed) {
   const S = { v: 17, name, wipes: R.wipes, seed: s0, seed0: s0, day: 1, phase: 'morning', deck: [], nid: 1,
     gold: 0, spent: 0, lamp: 0, lit: false, litAlone: false, scars: 0, base: 0, baseSeen: false, fengGold: 0, outs: 0,
     played: { sing: 0, speak: 0, act: 0, fight: 0 }, scarLog: [], rope: [], chest: [], log: [], lines: {}, choice: null, lastBox: null,
-    looks: [], recipes: {}, pats: {}, events: {}, known: {}, met: [0, 0, 0, 0], gifts: [], bought: [], relics: [],
+    looks: [], recipes: {}, pats: {}, events: {}, known: {}, rivalForm: [], met: [0, 0, 0, 0], gifts: [], bought: [], relics: [],
     opt: { open: true }, left: 0, fired: 0, T: null };
   // 四段需要各是一種樣子，每局洗過
   const L = ['等', '累', '忙', '想说'];
   for (let i = L.length - 1; i > 0; i--) { const j = Math.floor(fixed(S, 900, i) * (i + 1)); [L[i], L[j]] = [L[j], L[i]]; }
   S.looks = L;
+  // 當季身手：用獨立的 fixed 亂數，不會吃掉玩家擲骰的種子序列。
+  S.rivalForm = RIVAL_FORM.slice();
+  // 小鳳的整季曲線包含四天病休和代演分成，不參與基準檔位洗牌，避免把病休變成隱性降難度。
+  for (let i = S.rivalForm.length - 2; i > 0; i--) {
+    const j = Math.floor(fixed(S, 920, i) * (i + 1));
+    [S.rivalForm[i], S.rivalForm[j]] = [S.rivalForm[j], S.rivalForm[i]];
+  }
   // 每晚的要求：從這一段的花樣挑一個；B 是另一種樣子
   SPELLS.forEach((sp, i) => {
     const others = ['等', '累', '忙', '想说'].filter(x => x !== L[i]);
@@ -1283,7 +1294,8 @@ function rivalDay(S, i, d) {
   if (r.feng && d >= FENG_SICK[0] && d <= FENG_SICK[1]) return 0;
   const ev = S.events[d] ? EVENTS[S.events[d]] : null;
   const mul = ev && ev.rival === r.n ? ev.mul : 1;
-  return Math.round(r.g * (1 + r.v * (fixed(S, 300, i, d) * 2 - 1)) * mul);
+  const form = S.rivalForm && S.rivalForm.length === RIVALS.length ? S.rivalForm[i] : r.g;
+  return Math.round(form * (1 + r.v * (fixed(S, 300, i, d) * 2 - 1)) * mul);
 }
 // 水牌記到哪一天：早上和台上還沒散戲，看的是昨天的
 const boardDay = S => (S.phase === 'morning' || (S.phase === 'stage' && !S.T.ended) ? S.day - 1 : S.day);
@@ -3718,8 +3730,9 @@ function shopPanel() {
 }
 function waterPanel() {
   const ev = eventOf(S), k = S.events[S.day];
+  const hot = RIVALS.map((r, i) => ({ n: r.n, g: S.rivalForm[i] })).filter(x => x.n !== '小凤').sort((a, b) => b.g - a.g).slice(0, 2).map(x => x.n).join('、');
   return `<div class="panel"><h2>水牌<button class="btn small" style="float:right" data-act="close">关上</button></h2>
-    <p class="note">记到第 ${boardDay(S)} 天。每天散戏后，加上当天挣的卖座。</p>${boardHTML()}
+    <p class="note">记到第 ${boardDay(S)} 天。每天散戏后，加上当天挣的卖座。这一季风头正盛：${hot}。</p>${boardHTML()}
     ${ev ? `<p class="note">今天：${EV_TX[k]()}</p>` : ''}</div>`;
 }
 function rulesPanel() {
