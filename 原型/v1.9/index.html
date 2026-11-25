@@ -4018,7 +4018,7 @@ function homeTasks() {
   const needOk = !gone && S.outs <= R.happyOuts, scarSt = gone ? 'bad' : S.scars === 0 ? 'ok' : S.scars <= R.happyScar ? 'warn' : 'bad', lampOk = S.lamp >= R.happyLamp;
   const items = [
     { k: 'need', st: needOk ? 'ok' : 'bad',
-      tx: needOk ? '每晚都满足了她的需要' : `有 ${S.outs} 晚没能满足她的需要`, sh: needOk ? '每晚都满足了她' : `${S.outs} 晚没满足她`, em: '',
+      tx: needOk ? '每晚都满足了她的需要' : `有 ${S.outs} 晚没能满足她的需要`, sh: needOk ? '满足她的期待' : `${S.outs} 晚没满足她`, em: '',
       tip: `每晚满足她的需要|每晚推够她要的牌，灯就不熄。${needOk ? '到现在一晚也没让她失望。' : `已经熄过 ${S.outs} 回，这一项做不到了，这一季到不了美满。`}` },
     { k: 'scar', st: scarSt,
       tx: scarSt === 'ok' ? '灯上一道痕也没有' : scarSt === 'warn' ? `灯上有 ${S.scars} 道痕：再多一道就不美满` : `灯上有 ${S.scars} 道痕：超过 ${R.happyScar} 道`, sh: scarSt === 'ok' ? '灯上没有痕' : scarSt === 'warn' ? `${S.scars} 道痕，不能再多` : `痕超过 ${R.happyScar} 道`, em: '',
