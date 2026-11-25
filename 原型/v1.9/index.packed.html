@@ -1041,6 +1041,63 @@ li.run > .tk, li.todo > .tk { color: #8d8487; }
   #bookpop .faces { justify-content: center; }
   #bookpop figure img { width: 76px; }
 }
+/* ══ v1.9 第二輪 ══ */
+/* 1. 名詞體系的顏色：深色底（字幕、教學框、小籤）用亮的一套；淺色紙（規矩、圖鑑、家、水牌）用深的一套 */
+:root { --tc-stage: #8cc8e6; --tc-face: #ff8f8a; --tc-home: #ffb070; --tc-gold: #f2d48a; --tc-rank: #cfaef0; }
+.panel, #bookpop, .homep, .wb, .goals, .offer { --tc-stage: #22617f; --tc-face: #a8202b; --tc-home: #a64a0c; --tc-gold: #7d5a0c; --tc-rank: #63388a; }
+.tm { font-weight: 700; font-style: normal; }
+.tm.t-stage { color: var(--tc-stage); }
+.tm.t-face { color: var(--tc-face); }
+.tm.t-home { color: var(--tc-home); }
+.tm.t-gold { color: var(--tc-gold); }
+.tm.t-rank { color: var(--tc-rank); }
+i.term.tm { border-bottom-color: currentColor; }
+.panel .syskey { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 6px 0 2px; }
+.panel .syskey b::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 4px; background: currentColor; vertical-align: 0; }
+.termg h4.tm { border-bottom-color: currentColor; }
+.bookt dt.tm { color: var(--tc-stage); }
+.bookt dt.tm.t-face { color: var(--tc-face); } .bookt dt.tm.t-home { color: var(--tc-home); } .bookt dt.tm.t-gold { color: var(--tc-gold); } .bookt dt.tm.t-rank { color: var(--tc-rank); }
+.bookt dt .ico { width: 18px; height: 18px; margin-right: 3px; vertical-align: -3px; }
+/* 3. 「+3」加銅錢、「+2」加蠟燭 */
+.cn.cp, .cn.lp { gap: .08em; }
+.cn.cp b, .cn.lp b { font-weight: 700; }
+.cn .lampi { width: 1.05em; height: 1.15em; vertical-align: -.2em; }
+.lampsvg .lampi { overflow: visible; }
+#lampfb .row .cn.lp b { font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--paper); }
+#lampfb .row .cn.lp .ico { width: 22px; height: 24px; }
+/* 5. 任務清單：完整句子 */
+.tsh { font-size: 11px; color: #5a5156; margin-top: 7px; padding-top: 5px; border-top: 1px solid rgba(28, 23, 25, .2); letter-spacing: .04em; }
+.homep .tasks { margin-top: 3px; padding-top: 0; border-top: 0; }
+.tasks li { align-items: flex-start; }
+.tasks li .tk { margin-top: 1px; }
+.tasks li.bad span { text-decoration: none; }
+/* 6. 電腦版左上的家放大：字 14–15px、燈環 84px；夠高的螢幕才放大，手機、矮螢幕照舊 */
+@media (min-width: 761px) and (min-height: 561px) {
+  .leftcol { width: 236px; }
+  .homep { padding: 8px 12px 11px; }
+  .homep .hh { font-size: 13px; padding-bottom: 3px; margin-bottom: 6px; }
+  .homep .hl { gap: 12px; }
+  .homep .hl .lampsvg { width: 84px; height: 84px; }
+  .homep .hl b { font-size: 42px; }
+  .homep .hl small { font-size: 13px; }
+  .homep .hrow { font-size: 14px; margin-top: 7px; gap: 8px; }
+  .homep .hrow .k { font-size: 20px; }
+  .homep .hrow em { font-size: 12px; }
+  .homep .outs i { width: 12px; height: 21px; }
+  .homep .scars i { width: 10px; height: 25px; }
+  .tsh { font-size: 12.5px; margin-top: 9px; }
+  .tasks { gap: 5px; }
+  .tasks li { font-size: 14px; line-height: 1.4; gap: 7px; }
+  .tasks li em { font-size: 13px; }
+  .tk { width: 19px; height: 19px; }
+  .tk .ico { width: 13px; height: 13px; }
+  .tool.bookb { font-size: 14px; min-height: 36px; }
+}
+@media (max-width: 760px) and (orientation: portrait), (max-height: 560px) {
+  .tsh { display: none; }
+  .homep .tasks { border-top: 1px solid rgba(28, 23, 25, .15); padding-top: 2px; }
+  .tasks li { align-items: center; }
+}
 </style>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -1096,7 +1153,7 @@ const R = {
 const RELICS = {
   qinshi: { n: '琴师', price: 12, tx: '每接上一张，再 +1 金。' },
   gujing: { n: '锣鼓经', price: 10, tx: '开得正：+4 金（不是 +1）。' },
-  cha: { n: '护嗓茶', price: 13, tx: '收场掷骰，3 以上就算完美。' },
+  cha: { n: '护嗓茶', price: 13, tx: '收场掷骰的门槛低 1 点：平时 3 以上就算完美（魏老板捧场那天 2 以上）。' },
   lian: { n: '妆奁', price: 13, tx: '妆匣多一格。' },
   jin: { n: '熟手巾', price: 11, tx: '她替你擦脸，一次擦 3 层。' },
   you: { n: '灯油', price: 9, tx: '没满足她的需要，灯只熄 1（不是 3）。' },
@@ -1346,6 +1403,11 @@ function buy(S, k) {
     S.relics.push(k);
     // 妝奩：今天就多一格
     if (k === 'lian') S.T.cap += 1;
+    // v1.9 修：護嗓茶、小鑼原本只在每天早上 beginDay 讀一次，當天早上買了，當天沒效果（要等明天）。現在買下當場就生效
+    // 護嗓茶：今天收場的門檻就低 1（最低 2）
+    if (k === 'cha') S.T.perfectDie = Math.max(2, S.T.perfectDie - 1);
+    // 小鑼：今天第一次接錯就不記怨氣
+    if (k === 'luo') S.T.freeBreak = true;
     // 手抄折子：今天就多看一張
     if (k === 'zhezi') { const more = SHOP.filter(x => !S.T.offers.includes(x)); if (more.length) S.T.offers.splice(S.T.offers.length - 1, 0, more[Math.floor(fixed(S, 540, S.day) * more.length)]); }
     return { relic: k };
@@ -1708,6 +1770,10 @@ const ICON = {
   no: SVGI('<path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>'),
   warn: SVGI('<path d="M12 5v8.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><circle cx="12" cy="18.2" r="1.7" fill="currentColor"/>'),
   todo: SVGI('<circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>'),
+  // v1.9 第二輪：燈（蠟燭）亮著／熄了（變灰、只剩一縷煙）、痕（一道朱紅劃痕）
+  lamp: SVGI('<path d="M12 2.4c2.3 2.5 2.7 4 2.7 5.1a2.7 2.7 0 0 1-5.4 0c0-1.1.4-2.6 2.7-5.1z" fill="#f2a03a"/><path d="M12 5c1 1.2 1.3 2 1.3 2.6a1.3 1.3 0 0 1-2.6 0c0-.6.3-1.4 1.3-2.6z" fill="#ffe9a8"/><path d="M12 10.4V8.8" stroke="#3a2410" stroke-width="1"/><rect x="9" y="10.4" width="6" height="10.4" rx="1" fill="#efe2c8" stroke="#6e4a14" stroke-width="1"/><path d="M6.8 21.2h10.4" stroke="#6e4a14" stroke-width="1.5" stroke-linecap="round"/>', 'lampi'),
+  lampOut: SVGI('<path d="M12 8.8c-1.2-1.4 1.1-2.3 0-3.7s1-2.1 0-3.2" fill="none" stroke="#8d8487" stroke-width="1.1" stroke-linecap="round" opacity=".85"/><path d="M12 10.4V8.8" stroke="#3a3336" stroke-width="1"/><rect x="9" y="10.4" width="6" height="10.4" rx="1" fill="#8d8487" stroke="#4a4246" stroke-width="1"/><path d="M6.8 21.2h10.4" stroke="#4a4246" stroke-width="1.5" stroke-linecap="round"/>', 'lampi out'),
+  scar: SVGI('<path d="M8.5 20.5 15.5 3.5" stroke="#a8202b" stroke-width="3.2" stroke-linecap="round"/><path d="M11 21l6-13" stroke="#a8202b" stroke-width="1" stroke-linecap="round" opacity=".55"/>', 'scari'),
   sun: SVGI('<circle cx="12" cy="14" r="4.6" fill="currentColor"/><path d="M3 18.5h18M12 3.5v3M4.8 7.2l2 2M19.2 7.2l-2 2M2.8 13.8h2.6M18.6 13.8h2.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'),
 };
 // 後台物件的佔位圖示：正式的雙層插圖（原型/assets/relics、art_kimi）載不到時用，不再只放一個漢字（待正式美術替換，清單見 PR）
@@ -1724,6 +1790,18 @@ const RELIC_SVG = {
   zhezi: '<path d="M3.5 6l4.2-1.8v15.6L3.5 18zM7.7 4.2 12 6v15.6l-4.3-1.8zM12 6l4.3-1.8v15.6L12 21.6zM16.3 4.2 20.5 6v12l-4.2 1.8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.6 9v6M14.2 9v6" stroke="currentColor" stroke-width="1.2"/>',
 };
 const relicSVG = (k, cls = '') => SVGI(RELIC_SVG[k] || '<circle cx="12" cy="12" r="7" fill="currentColor"/>', `rph ${cls}`);
+// v1.9 第二輪：「+3」後面跟一枚銅錢（牌上、看牌、後台的說明一律這樣寫）；燈的增減是「+2」跟一根蠟燭，熄就是灰蠟燭
+const coinP = (n, sign = '+') => `<span class="cn cp" role="img" aria-label="${sign === '−' ? '少' : sign ? '多' : ''} ${n} 金"><b>${sign}${n}</b>${ICON.coin}</span>`;
+const lampP = (n, sign = '+') => `<span class="cn lp" role="img" aria-label="灯 ${sign}${n}"><b>${sign}${n}</b>${sign === '−' ? ICON.lampOut : ICON.lamp}</span>`;
+// 圖鑑詞條旁的小圖示：狀態不同用不同的圖（亮著的燈、熄了的灰燈、痕、銅錢）
+const TERM_ICON = { 卖座: () => ICON.coin, 灯: () => ICON.lamp, 熄: () => ICON.lampOut, 痕: () => ICON.scar, 家常牌: () => ICON.lamp };
+// 把字裡的「得 3 金」「+3 金」「3 金」換成數字加銅錢，「灯 +2」「灯 −3」換成數字加蠟燭（只動標籤外面的字，滑過的說明照舊是字）
+function goldify(html) {
+  // 一次比對全部的樣式（分幾次換的話，後面的會換到前面剛插進去的標籤裡）
+  const RE = /得 ?(\d+) ?金(?![宝箔])|[+＋]\s?(\d+) ?金(?![宝箔])|灯\s?[+＋]\s?(\d+)|灯\s?[−-]\s?(\d+)|(\d+) ?金(?![宝箔])/g;
+  return String(html).split(/(<[^>]+>)/).map(seg => (seg.startsWith('<') ? seg : seg.replace(RE, (m, a, b, c, d, e) =>
+    a ? coinP(a) : b ? coinP(b) : c ? lampP(c) : d ? lampP(d, '−') : coinP(e, '')))).join('');
+}
 // 一個銅錢加數字：畫面上的金一律這樣寫；讀屏念「n 金」
 const coinN = (n, cls = '') => `<span class="cn ${cls}" role="img" aria-label="${n} 金">${ICON.coin}<b>${n}</b></span>`;
 
@@ -2039,6 +2117,17 @@ const EMBLEM = {
     x.fillStyle = P.line; x.fillRect(cx - 16, cy - s * 0.98, 32, 10); x.fillRect(cx - 16, cy + s * 0.86, 32, 10);
   },
 };
+// 牌面上的銅錢（和 ICON.coin 同一個樣子）
+function drawCoin(x, cx, cy, r) {
+  x.save();
+  x.fillStyle = '#e7c36a'; x.strokeStyle = '#6e4a14'; x.lineWidth = r * 0.13; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2); x.fill(); x.stroke();
+  x.strokeStyle = '#9a6d22'; x.lineWidth = r * 0.08; x.beginPath(); x.arc(cx, cy, r * 0.8, 0, Math.PI * 2); x.stroke();
+  const h = r * 0.3; x.fillStyle = '#2a1b0e'; x.fillRect(cx - h, cy - h, h * 2, h * 2);
+  x.strokeStyle = '#9a6d22'; x.lineWidth = r * 0.07; x.strokeRect(cx - h * 1.4, cy - h * 1.4, h * 2.8, h * 2.8);
+  x.fillStyle = '#8a5e1c'; const q = r * 0.11;
+  [[0, -0.62], [0, 0.62], [-0.62, 0], [0.62, 0]].forEach(([a, b]) => x.fillRect(cx + a * r - q, cy + b * r - q, q * 2, q * 2));
+  x.restore();
+}
 // 小卡只放四樣：族色、牌名與金、「接 → X」、背面牌名。字要在手牌這個大小就讀得清
 function clothLines(x, line, r) {
   x.globalAlpha = 0.07; x.strokeStyle = line; x.lineWidth = 0.6;
@@ -2089,7 +2178,9 @@ function drawStageFace(x, t) {
   if (!drawDuo(x, `cards/art_${t}`, ...ib, fg, accentOn(f))) { x.globalAlpha = 0.34; EMBLEM[f](x, CW / 2 - 4, 232, 46, P); x.globalAlpha = 1; }
   // 族與金
   chip(x, 62, 64, 32, f, fg);
-  x.fillStyle = fg; x.font = '30px "Ma Shan Zheng", serif'; x.textAlign = 'right'; x.textBaseline = 'alphabetic'; x.fillText('金', CW - 76, 80);
+  // v1.9 第二輪：「金」字換成一枚方孔銅錢
+  drawCoin(x, CW - 94, 69, 16);
+  x.fillStyle = fg; x.textBaseline = 'alphabetic';
   x.font = '66px "Ma Shan Zheng", serif'; x.textAlign = 'left'; x.fillText(String(tp.g), CW - 72, 88);
   // 牌名
   x.textAlign = 'center'; x.font = `${tp.n.length > 1 ? 74 : 96}px "Ma Shan Zheng", serif`; x.fillText(tp.n, CW / 2, 182);
@@ -3265,7 +3356,7 @@ let peekAt = null, peekXY = null, peekHold = null, peekEat = false;
 function peekHTML(t) {
   const front = view !== 'evening';
   const covered = view === 'evening' && coveredFams(S).includes(T[t].f);
-  const fig = (side, on, name, lines, over) => `<figure class="${on ? 'on' : ''}"><img src="${cardArt(t, side, over).url}" alt=""><figcaption><b>${name}</b>${lines.join('<br>')}</figcaption></figure>`;
+  const fig = (side, on, name, lines, over) => `<figure class="${on ? 'on' : ''}"><img src="${cardArt(t, side, over).url}" alt=""><figcaption><b>${name}</b>${goldify(lines.join('<br>'))}</figcaption></figure>`;
   return fig('stage', front, `${T[t].n} · 台上面`, stageLines(t)) + fig('home', !front, `${HOME[FAM[T[t].f].home]?.n || T[t].n} · 家里面`, covered ? ['台上的字盖住了。', '推出去，就算被染。'] : homeLines(t), covered);
 }
 // 教學小框還在畫面上時不放大牌：先讀完教學，再看牌
@@ -3665,15 +3756,15 @@ function sfx(k) {
 }
 
 // 只有一個小籤（台上接上了、推牌的結果）
-function sayN(gain) { $('#sub').innerHTML = gain ? `<div class="sub n"><span class="gain">${esc(gain)}</span></div>` : ''; }
+function sayN(gain) { $('#sub').innerHTML = gain ? `<div class="sub n"><span class="gain">${goldify(esc(gain))}</span></div>` : ''; }
 // v1.6：同門、孫師父說話時，名字前面放一枚木刻頭像（沒有圖就只有名字）
 const whoHTML = who => (who ? `${faceTag(who, 'sface')}<span class="who">${esc(who)}</span><br>` : '');
 function say(who, tx, gain) {
-  $('#sub').innerHTML = tx ? `<div class="sub">${whoHTML(who)}<span class="tx">${esc(tx)}</span>${gain ? `<span class="gain">${esc(gain)}</span>` : ''}</div>` : '';
+  $('#sub').innerHTML = tx ? `<div class="sub">${whoHTML(who)}<span class="tx">${esc(tx)}</span>${gain ? `<span class="gain">${goldify(esc(gain))}</span>` : ''}</div>` : '';
 }
 // 帶高亮的字幕：需要、事件的詞會亮起來；gain 可以放情報小籤
 function sayH(who, html, gain) {
-  $('#sub').innerHTML = html ? `<div class="sub">${whoHTML(who)}<span class="tx">${html}</span>${gain ? `<span class="gain">${gain}</span>` : ''}</div>` : '';
+  $('#sub').innerHTML = html ? `<div class="sub">${whoHTML(who)}<span class="tx">${html}</span>${gain ? `<span class="gain">${goldify(gain)}</span>` : ''}</div>` : '';
 }
 const fc = f => `<i class="fc" style="background:${FCOL[f]};${f === 'fight' ? 'color:#1c1719' : ''}">${FAM[f].n}</i>`;
 function refresh() {
@@ -3729,18 +3820,40 @@ const TERMS = {
   素: '打出不上妆，脸上不添层。',
   托: '接上时，这一张的连击金翻倍。',
   家常牌: '她送你的牌，不上台。对上她的需要，一张算两张，灯 +3。',
-  完美: '收场时连击到 3，掷一颗骰，4 以上，这一场的金 ×1.5。',
+  完美: '收场时连击到 3，掷一颗骰，4 以上（有护嗓茶、魏老板捧场时更低），这一场的金 ×1.5。',
+  水牌: '戏园门口的排名牌，按卖座排。每天散戏后加上当天挣的。',
+  后台: '孙师父那里：第 3 天起每天早上卖两张牌、一样物件。花的是卖座，名次会掉。',
+  物件: '后台买的东西，买一次整季都有用，不进卡组。',
+  摘牌: '考核没过，牌子被摘下来，这一季提前结束。',
   让她擦: '卸妆的一种：保底擦脸，整季 2 次。她替你擦，一次 2 层、不耗牌，今晚照样能推满。',
 };
 // 自動加虛線的只取這幾個（單字的牌名關鍵詞不自動加，免得「素着脸」也冒虛線）
 const AUTO_TERMS = ['卖座', '起手', '接口', '连击', '怨气', '油彩', '底色', '被染', '痕', '熄', '情报', '考核', '家常牌', '完美', '让她擦'];
+// v1.9 第二輪：名詞分五個體系，同一體系同一種顏色（加粗）；顏色見樣式表 .tm.t-*（淺紙、深底各一套）
+// 台上（連擊）＝石青、臉（油彩、底色、染）＝朱紅、家（她、燈、痕）＝燈火橙、金（賣座、後台）＝金褐、考核（水牌、名次）＝黛紫
+const TERM_SYS = {
+  stage: ['起手', '开得正', '接口', '接上', '接错', '连击', '完美', '百搭', '重彩', '压轴', '托', '收场'],
+  face: ['油彩', '底色', '渗进', '被染', '怨气', '卸妆', '自卸', '让她擦', '保底擦脸'],
+  home: ['家常牌', '家里面', '她的需要', '对路', '灯', '熄', '痕', '情报', '美满', '她走'],
+  gold: ['卖座', '后台', '孙师父', '物件', '换一批'],
+  rank: ['考核', '水牌', '名次', '摘牌', '垫底', '倒数两名', '头牌'],
+};
+const SYS_OF = Object.fromEntries(Object.entries(TERM_SYS).flatMap(([k, ws]) => ws.map(w => [w, k])));
+const SYS_N = { stage: '台上·连击', face: '脸·油彩与底色', home: '家·她与灯', gold: '金·后台', rank: '考核·水牌' };
 const TERM_RE = new RegExp(AUTO_TERMS.sort((a, b) => b.length - a.length).join('|'), 'g');
-// 把一段 HTML 裡第一次出現的詞條包起來（標籤裡面的不動）
-function termify(html) {
+// 「灯」後面接這些字時是別的東西（灯油是物件、灯坊是地方），不算詞
+const ALL_RE = new RegExp(Object.keys(SYS_OF).sort((a, b) => b.length - a.length).map(w => (w === '灯' ? '灯(?![油坊纸骨笼单])' : w)).join('|'), 'g');
+// 把一段 HTML 裡的詞條包起來（標籤裡面的不動）：第一次出現的帶虛線、滑過有說明；all 為 true 時，之後每一次也加粗上色
+function termify(html, all = false) {
   const done = new Set();
-  return html.split(/(<[^>]+>)/).map((seg, i, all) => {
-    if (seg.startsWith('<') || (i > 0 && /class="term"/.test(all[i - 1]))) return seg;
-    return seg.replace(TERM_RE, w => (done.has(w) ? w : (done.add(w), `<i class="term" data-term="${w}" tabindex="0">${w}</i>`)));
+  return html.split(/(<[^>]+>)/).map((seg, i, parts) => {
+    if (seg.startsWith('<') || (i > 0 && /class="(term|tm)/.test(parts[i - 1]))) return seg;
+    return seg.replace(all ? ALL_RE : TERM_RE, w => {
+      const sys = SYS_OF[w], cls = sys ? `tm t-${sys}` : '';
+      const tip = TERMS[w] && (all || AUTO_TERMS.includes(w)) && !done.has(w);
+      if (tip) { done.add(w); return `<i class="term ${cls}" data-term="${w}" tabindex="0">${w}</i>`; }
+      return all && sys ? `<b class="${cls}">${w}</b>` : w;
+    });
   }).join('');
 }
 const tipEl = () => $('#tip');
@@ -3850,7 +3963,7 @@ function renderTop() {
     const nd = t.need, look = lookNow(S), got = gotOf(t), done = got >= nd.k;
     const rows = nd.items.map(x => { const g = Math.min(x.n, t.got[x.look] || 0); return `<div class="nr ${g >= x.n ? 'ok' : ''}">${LOOK_ICON[x.look]}<span><i class="lkn">她${x.look} → 要 </i><b class="hn">${HOME[LOOK_HOME[x.look]].n}</b></span><span class="pips">${Array.from({ length: x.n }, (_, i) => `<i class="${i < g ? 'on' : ''}"></i>`).join('')}</span></div>`; }).join('');
     m.innerHTML = `<div class="need ${done ? 'done' : ''}" role="status"><button class="lookb" data-act="look" aria-expanded="${lookOpen}" aria-label="她今晚的样子：${look}">${LOOK_ICON[look]}<span class="lb">${look}</span></button>
-      <div class="nt">${rows}<small>${done ? '都够了。再推对路的，灯 +2' : `还差 ${nd.k - got} 张${nd.items.length > 1 ? '，每一样都要够' : ''}`}</small></div></div>`;
+      <div class="nt">${rows}<small>${done ? goldify('都够了。再推对路的，灯 +2') : `还差 ${nd.k - got} 张${nd.items.length > 1 ? '，每一样都要够' : ''}`}</small></div></div>`;
     return;
   }
   // 早上、門口、夜裡：一條金字說這一步要做什麼
@@ -3902,16 +4015,26 @@ function renderLeft() {
 }
 // v1.9：家底下的任務清單＝美滿要的幾樣。開局都是「做到了」；熄過一回、痕超過 1，那一項就打叉，補不回來
 function homeTasks() {
-  const gone = !!S.left, lit = S.choice === 'lamp', yuan = S.day === R.days;
-  const scarSt = S.scars === 0 ? 'ok' : S.scars <= R.happyScar ? 'warn' : 'bad';
+  // v1.9 第二輪：每一條都寫成完整的一句，看得出是「做到了」還是「沒做到」、條件是什麼（手機用 sh 的短句，也要看得懂）
+  const gone = !!S.left, lit = S.choice === 'lamp', yuan = S.day === R.days, chose = yuan && S.choice;
+  const needOk = !gone && S.outs <= R.happyOuts, scarSt = gone ? 'bad' : S.scars === 0 ? 'ok' : S.scars <= R.happyScar ? 'warn' : 'bad', lampOk = S.lamp >= R.happyLamp;
   const items = [
-    { k: 'need', st: gone || S.outs > R.happyOuts ? 'bad' : 'ok', tx: '每晚满足她', sh: '满足她', em: `熄 ${S.outs}`, tip: `每晚满足她|她每晚的需要都推够了，灯就不熄。熄过一回（现在 ${S.outs} 回），这一项就做不到了，也到不了美满。` },
-    { k: 'scar', st: gone ? 'bad' : scarSt, tx: '灯上不留痕', sh: '不留痕', em: `痕 ${S.scars}`, tip: `灯上不留痕|推了被染的牌，灯上划一道痕，永久。美满最多只能有 ${R.happyScar} 道（现在 ${S.scars} 道）${S.scars === R.happyScar ? '：再多一道就做不到了' : ''}。` },
-    { k: 'lamp', st: gone ? 'bad' : S.lamp >= R.happyLamp ? 'ok' : 'run', tx: '灯糊满', sh: '灯', em: `${S.lamp}/${R.happyLamp}`, tip: `灯糊满|推给她对路的牌灯 +2、家常牌 +3；元宵前糊满 ${R.happyLamp} 才算美满。` },
-    { k: 'yuan', st: gone || (yuan && S.choice && !lit) ? 'bad' : lit ? 'ok' : 'todo', tx: '元宵回家点灯', sh: '元宵点灯', em: '', tip: `元宵回家点灯|第 ${R.days} 天元宵三选一，只有「回家点灯」能到美满。` },
+    { k: 'need', st: needOk ? 'ok' : 'bad',
+      tx: needOk ? '每晚都满足了她的需要' : `有 ${S.outs} 晚没能满足她的需要`, sh: needOk ? '每晚都满足了她' : `${S.outs} 晚没满足她`, em: '',
+      tip: `每晚满足她的需要|每晚推够她要的牌，灯就不熄。${needOk ? '到现在一晚也没让她失望。' : `已经熄过 ${S.outs} 回，这一项做不到了，这一季到不了美满。`}` },
+    { k: 'scar', st: scarSt,
+      tx: scarSt === 'ok' ? '灯上一道痕也没有' : scarSt === 'warn' ? `灯上有 ${S.scars} 道痕：再多一道就不美满` : `灯上有 ${S.scars} 道痕：超过 ${R.happyScar} 道`, sh: scarSt === 'ok' ? '灯上没有痕' : scarSt === 'warn' ? `${S.scars} 道痕，不能再多` : `痕超过 ${R.happyScar} 道`, em: '',
+      tip: `灯上的痕最多 ${R.happyScar} 道|推了被染的牌，灯上划一道痕，永久。美满最多只能有 ${R.happyScar} 道（现在 ${S.scars} 道）；到 ${R.brokenScar} 道她就走了。` },
+    { k: 'lamp', st: gone ? 'bad' : lampOk ? 'ok' : 'run',
+      tx: lampOk ? '灯糊满了' : '元宵前把灯糊满', sh: lampOk ? '灯糊满了' : '灯要糊满', em: `${S.lamp}/${R.happyLamp}`,
+      tip: `元宵前把灯糊满|推给她对路的牌灯 +2、家常牌 +3；糊满 ${R.happyLamp} 才算美满（现在 ${S.lamp}）。` },
+    { k: 'yuan', st: gone || (chose && !lit) ? 'bad' : lit ? 'ok' : 'todo',
+      tx: lit ? '元宵选了回家点灯' : chose ? '元宵没有回家点灯' : `第 ${R.days} 天元宵要回家点灯`, sh: lit ? '元宵回家点灯了' : chose ? '元宵没回家点灯' : '元宵要回家点灯', em: '',
+      tip: `元宵回家点灯|第 ${R.days} 天元宵三选一，只有「回家点灯」能到美满。` },
   ];
   const ic = st => ({ ok: ICON.ok, bad: ICON.no, warn: ICON.warn, run: ICON.todo, todo: ICON.todo })[st];
-  return `<ul class="tasks" aria-label="美满要的">${items.map(it => `<li class="${it.st}" data-task="${it.k}" data-tip="${it.tip}"><i class="tk">${ic(it.st)}</i><span><span class="tl">${it.tx}</span><span class="ts">${it.sh}</span></span>${it.em ? `<em>${it.em}</em>` : ''}</li>`).join('')}</ul>`;
+  const say = { ok: '做到了', bad: '没做到', warn: '快做不到了', run: '还在做', todo: '还没到' };
+  return `<div class="tsh">${gone ? '她走了，美满做不到了' : '想要美满，这几样都要做到：'}</div><ul class="tasks" aria-label="美满要做到的事">${items.map(it => `<li class="${it.st}" data-task="${it.k}" data-tip="${it.tip}" aria-label="${say[it.st]}：${it.tx}${it.em ? `，${it.em}` : ''}"><i class="tk">${ic(it.st)}</i><span><span class="tl">${it.tx}</span><span class="ts">${it.sh}</span></span>${it.em ? `<em>${it.em}</em>` : ''}</li>`).join('')}</ul>`;
 }
 // ── 圖鑑：每張牌、每樣物件、每個詞；順便講一點戲 ──
 const BOOK_CARDS = [...BASIC, ...BORROWED, ...SHOP, ...GIFTS];
@@ -3961,7 +4084,8 @@ const RELIC_LORE = {
 let bookTab = 'cards', bookSel = null;
 // v1.9：詞條分四組（台上、回家、後台的牌、這一季），每組一塊；新加的詞沒分到組就放「其他」
 const TERM_GROUPS = (() => {
-  const g = [['台上', ['卖座', '起手', '接口', '连击', '完美', '怨气', '油彩']], ['回家', ['让她擦', '被染', '底色', '灯', '熄', '痕', '情报', '家常牌']], ['后台的牌', ['百搭', '重彩', '压轴', '素', '托']], ['这一季', ['考核']]];
+  // v1.9 第二輪：照名詞體系分組，組名和詞用同一種顏色
+  const g = [['台上·连击', ['起手', '接口', '连击', '完美', '百搭', '重彩', '压轴', '素', '托']], ['脸·油彩与底色', ['油彩', '底色', '被染', '怨气', '让她擦']], ['家·她与灯', ['灯', '熄', '痕', '情报', '家常牌']], ['金·后台', ['卖座', '后台', '物件']], ['考核·水牌', ['考核', '水牌', '摘牌']]];
   const used = new Set(g.flatMap(x => x[1])), rest = Object.keys(TERMS).filter(k => !used.has(k));
   return rest.length ? [...g, ['其他', rest]] : g;
 })();
@@ -3977,7 +4101,7 @@ function bookCardHTML(k) {
   const lines = bookLines(k);
   return `<div class="faces"><figure><img src="${cardArt(k, 'stage').url}" alt="">台上面</figure>${tp.home ? '' : `<figure><img src="${cardArt(k, 'home').url}" alt="">家里面</figure>`}</div>
     <div class="bt"><h3>${tp.n}<small>${tp.home ? '' : FAM[tp.f].n + ' · '}${kind}${owned ? '' : ' · 还没拿到'}</small></h3>
-    <h4>怎么用</h4><p>${lines.map(esc).join('<br>')}${tp.blank ? '<br><b class="bw">小凤病着时借你的，第 8 天她回来就收走。</b>' : ''}</p>
+    <h4>怎么用</h4><p>${goldify(lines.map(esc).join('<br>'))}${tp.blank ? '<br><b class="bw">小凤病着时借你的，第 8 天她回来就收走。</b>' : ''}</p>
     <h4>${tp.home ? '这张牌' : '戏里的讲究'}</h4><p class="lore">${esc(LORE[k] || '')}</p></div>`;
 }
 // 圖鑑的牌：滑鼠移上去就出資訊卡，移開就收；鍵盤停上去也出；觸控點一下出、點別處收
@@ -4011,7 +4135,7 @@ function bookPanel() {
     body = `<ul class="bookr">${RELIC_KEYS.map(k => `<li class="${S.relics.includes(k) ? 'own' : ''}">${relicTag(k, 'bri', 112)}<div class="brt"><b>${RELICS[k].n}</b><small>${coinN(RELICS[k].price)}${S.relics.includes(k) ? ' · 已有' : ''}</small></div><p>${esc(RELICS[k].tx)}</p><p class="lore">${esc(RELIC_LORE[k])}</p></li>`).join('')}</ul>`;
   } else {
     // v1.9：詞條分組、對齊：詞固定一欄寬、和說明首行對齊，每條之間一樣的間距
-    body = `<div class="termg">${TERM_GROUPS.map(([g, ks]) => `<section><h4>${g}</h4><dl class="bookt">${ks.filter(k => TERMS[k]).map(k => `<dt>${k}</dt><dd>${esc(TERMS[k])}</dd>`).join('')}</dl></section>`).join('')}</div>`;
+    body = `<div class="termg">${TERM_GROUPS.map(([g, ks]) => `<section><h4 class="tm t-${SYS_OF[ks[0]] || 'stage'}">${g}</h4><dl class="bookt">${ks.filter(k => TERMS[k]).map(k => `<dt class="tm t-${SYS_OF[k] || 'stage'}">${TERM_ICON[k] ? TERM_ICON[k]() : ''}${k}</dt><dd>${goldify(termify(esc(TERMS[k]), true))}</dd>`).join('')}</dl></section>`).join('')}</div>`;
   }
   return `<div class="panel tujian"><h2>图鉴<button class="btn small" style="float:right" data-act="close">关上</button></h2><div class="tabs">${tabs}</div>${body}</div>`;
 }
@@ -4153,8 +4277,8 @@ function shopPanel() {
     const pic = rel ? `<div class="relic pic" aria-hidden="true">${relicTag(k, 'rpi', 176)}</div>` : `<img src="${cardArt(k, 'stage').url}" alt="${T[k].n}" data-t="${k}" class="spc ${T[k].blank ? 'borrow' : ''}">`;
     const kw = rel ? `${esc(rel.tx)}<br><span class="mut">买一次，整季都有用</span>` : `${stageLines(k).slice(1).join('<br>')}<br><span class="mut">背面 ${HOME[FAM[T[k].f].home].n}</span>`;
     const why = sold ? '买下了' : can ? '买' : '钱不够';
-    return `<div class="offer ${sold ? 'sold' : ''} ${rel ? 'isrel' : ''}">${pic}<div class="ot"><h3>${rel ? rel.n : T[k].n}<small>${rel ? '物件' : `${FAM[T[k].f].n} · 打出 ${T[k].g} 金`}</small></h3>
-      <div class="kw">${kw}</div><div class="pv">${previewTx(k)}</div>${sold ? '' : `<div class="pv ab">${afterBuy(k)}</div>`}</div>
+    return `<div class="offer ${sold ? 'sold' : ''} ${rel ? 'isrel' : ''}">${pic}<div class="ot"><h3>${rel ? rel.n : T[k].n}<small>${rel ? '物件' : `${FAM[T[k].f].n} · 打出 ${coinP(T[k].g)}`}</small></h3>
+      <div class="kw">${goldify(kw)}</div><div class="pv">${goldify(previewTx(k))}</div>${sold ? '' : `<div class="pv ab">${afterBuy(k)}</div>`}</div>
       <button class="btn buyb ${can ? 'go' : ''}" data-act="buy" data-arg="${k}" ${can ? '' : 'disabled'} aria-label="${why}${sold ? '' : `，${priceOf(k)} 金`}">${sold ? '' : coinN(priceOf(k))}<span>${why}</span></button></div>`;
   }).join('');
   const rf = canRefresh(S);
@@ -4177,12 +4301,13 @@ function rulesPanel() {
   const P = S.played;
   return `<div class="panel rules"><h2>规矩<button class="btn small" style="float:right" data-act="close">关上</button></h2>
     <h4>内账（试玩用）</h4><div class="ledger"><span>卖座 ${S.gold}</span><span>花掉 ${S.spent}</span><span>灯 ${S.lamp}</span><span>痕 ${S.scars}</span><span>灭灯 ${S.outs}</span><span>底色 ${S.base}</span><span>满足 ${S.met.join('/')}</span><span>小凤 +${S.fengGold}</span><span>唱 ${P.sing} 念 ${P.speak}</span><span>做 ${P.act} 打 ${P.fight}</span><span>水牌第 ${rankOf(S)}</span></div>
-    <h4>技巧</h4><ul class="tips">${TIPS.map(r => `<li>${r}</li>`).join('')}</ul>
+    <p class="note syskey">${Object.entries(SYS_N).map(([k, n]) => `<b class="tm t-${k}">${n}</b>`).join('　')}</p>
+    <h4>技巧</h4><ul class="tips">${TIPS.map(r => `<li>${goldify(termify(r, true))}</li>`).join('')}</ul>
     <h4>待你确认：可以开关</h4><ul>
       <li>「开得正」+1 金：<button class="btn small" data-act="opt" data-arg="open" aria-pressed="${S.opt.open}">${S.opt.open ? '保留' : '不要'}</button></li>
     </ul>
     <h4>待你确认：还没定</h4><ul>${PENDING.map(r => `<li>${r}</li>`).join('')}</ul>
-    <h4>规矩</h4><ol>${RULES.map(r => `<li>${termify(r)}</li>`).join('')}</ol>
+    <h4>规矩</h4><ol>${RULES.map(r => `<li>${goldify(termify(r, true))}</li>`).join('')}</ol>
     <h4>设定没写死、原型自拟的</h4><ul>${ASSUME.map(r => `<li>${r}</li>`).join('')}</ul>
     <div class="acts"><button class="btn" data-act="mute">${muted ? '开声音' : '关声音'}</button><button class="btn" data-act="again">重开一局</button></div></div>`;
 }
@@ -4718,7 +4843,8 @@ const onStage = id => run(async () => {
 const onEndStage = () => run(async () => {
   endStage(S);
   const t = S.T;
-  if (t.die !== null) await showDice({ label: '连击到 3：掷到 4 以上，金 ×1.5', v: t.die, ok: t.perfect, result: t.perfect ? '完美' : '没中，不扣金' });
+  // v1.9 修：門檻照今天實際的算（護嗓茶、魏老闆捧場會降低），不再寫死「4 以上」
+  if (t.die !== null) await showDice({ label: `连击到 3：掷到 ${t.perfectDie} 以上，金 ×1.5${t.perfectDie < R.perfectDie ? `（${[has(S, 'cha') ? '护嗓茶' : '', eventOf(S) && eventOf(S).die ? '捧场' : ''].filter(Boolean).join('、')}）` : ''}`, v: t.die, ok: t.perfect, result: t.perfect ? '完美' : '没中，不扣金' });
   if (t.gold) { burst(t.gold * 2); sfx('cheer'); crowdKick('big'); }
   if (t.perfect) { bubble(esc(pick(CROWD.perfect)), 'n'); spawn('foil', 140); spawn('ribbon', 8); [0, 300, 600, 900].forEach(d => setTimeout(() => spawn('fw', 70, { x: innerWidth * (0.15 + Math.random() * 0.7), y: innerHeight * (0.1 + Math.random() * 0.25) }), d)); }
   // v1.9：散戲的金分等級亮出來（叫好／喝彩／彩聲雷動／台下炸窩），銅錢飛進左上的賣座
@@ -4805,7 +4931,7 @@ function lampSVG(lamp, mark = {}) {
     const a0 = (-90 + i * LANG) * Math.PI / 180, a1 = (-90 + (i + 1) * LANG) * Math.PI / 180, fill = clamp(lamp - i * 2, 0, 2) / 2;
     seg.push(`<path class="sg ${mark[i] || ''}" d="M${cx} ${cy}L${(cx + r * Math.cos(a0)).toFixed(1)} ${(cy + r * Math.sin(a0)).toFixed(1)}A${r} ${r} 0 0 1 ${(cx + r * Math.cos(a1)).toFixed(1)} ${(cy + r * Math.sin(a1)).toFixed(1)}Z" fill="${fill ? '#c42433' : '#241d1f'}" opacity="${fill && fill < 1 ? 0.55 : 1}" stroke="#b89a5a" stroke-width="1.5"/>`);
   }
-  return `<svg class="lampsvg" viewBox="0 0 150 150" aria-hidden="true">${seg.join('')}<circle cx="${cx}" cy="${cy}" r="13" fill="#1c1719" stroke="#b89a5a"/>${lamp >= R.lampFull ? `<circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="none" stroke="#f2d48a" stroke-width="2.5"/>` : ''}</svg>`;
+  return `<svg class="lampsvg" viewBox="0 0 150 150" aria-hidden="true">${seg.join('')}<circle cx="${cx}" cy="${cy}" r="30" fill="#1c1719" stroke="#b89a5a"/><g transform="translate(${cx - 24} ${cy - 25}) scale(2)">${(lamp > 0 ? ICON.lamp : ICON.lampOut).replace(/<\/?svg[^>]*>/g, '')}</g>${lamp >= R.lampFull ? `<circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="none" stroke="#f2d48a" stroke-width="2.5"/>` : ''}</svg>`;
 }
 // 這幾片紙在兩個燈數之間變了
 const segsBetween = (a, b) => { const m = {}; for (let i = 0; i < LSEG; i++) if (clamp(a - i * 2, 0, 2) !== clamp(b - i * 2, 0, 2)) m[i] = 1; return m; };
@@ -4815,7 +4941,7 @@ async function lampFeedback(t) {
   const from = t.met ? now - t.lampGain : now + t.lampOut;
   const head = t.met ? `<div class="big">她的需要，满足了</div>` : `<div class="big">灯熄了一截</div>`;
   const rows = t.met
-    ? `<div class="row">今晚灯 <b>+${t.lampGain}</b>　现在 <b>${now}</b>/${R.lampFull}</div><div class="row sm">糊满 ${R.lampFull} 才算美满</div>${t.gift ? `<div class="row">两晚都对上：她送你一张「${T[t.gift].n}」</div>` : ''}`
+    ? `<div class="row">今晚 ${lampP(t.lampGain)}　现在 <b>${now}</b>/${R.lampFull}</div><div class="row sm">糊满 ${R.lampFull} 才算美满</div>${t.gift ? `<div class="row">两晚都对上：她送你一张「${T[t.gift].n}」</div>` : ''}`
     : `<div class="row">灯 <b>${from}</b> → <b>${now}</b>　熄 ${outsHTML(true)} <b>${S.outs}</b>/${R.brokenOuts}</div><div class="warn">${S.outs >= R.brokenOuts ? '熄满五回了。' : `她今晚要的是 ${recipeShort(t.need)}。再熄 ${R.brokenOuts - S.outs} 回，她就走了。${S.outs === 1 ? '熄过了，这一季到不了美满。' : ''}`}</div>`;
   el.innerHTML = `<div class="lf ${t.met ? '' : 'bad'}">${head}<div class="lp">${lampSVG(from)}</div>${rows}<button class="btn go small lfok">${t.met ? '好' : '知道了'}</button></div>`;
   el.hidden = false;

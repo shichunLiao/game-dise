@@ -64,6 +64,7 @@
 | `原型/v1.9/index.packed.html` | v1.9 單檔版：圖已內嵌，雙擊就能玩。由 `pack.js` 產生，不要直接改 |
 | `原型/v1.9/pack.js` | 打包：`node 原型/v1.9/pack.js` |
 | `原型/v1.9/check_engine.js` | 核對 v1.9 規則引擎（含對手隨機化） |
+| `原型/v1.9/check_items.js` | 道具檢查：後台每一樣物件的說明和實際效果一致，前一天買、當天才買、疊加、小鳳生病、事件那天都生效：`node 原型/v1.9/check_items.js` |
 | `原型/v1.9/check_guide.js` | 用真的瀏覽器跑第 1–4 天，核對引導提示（需要 Google Chrome 與 playwright-core）：`node 原型/v1.9/check_guide.js desktop`／`mobile` |
 
 ## 執行
@@ -87,6 +88,7 @@ node 原型/v1.6/pack.js         # 改過 v1.6 的 index.html 之後，重新產
 node 原型/v1.7/check_engine.js
 node 原型/v1.7/pack.js         # 改過 v1.7 的 index.html 之後，重新產出雙擊用的單檔
 node 原型/v1.9/check_engine.js
+node 原型/v1.9/check_items.js
 node 原型/v1.9/pack.js         # 改過 v1.9 的 index.html 之後，重新產出雙擊用的單檔
 python3 設計/說明PDF/build.py  # 需要 Google Chrome
 ```
