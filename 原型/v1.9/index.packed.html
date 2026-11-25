@@ -848,6 +848,10 @@ li.run > .tk, li.todo > .tk { color: #8d8487; }
 .bookt dd { padding-top: 9px; }
 .bookt dt { font-size: 19px; line-height: 1.4; letter-spacing: .04em; white-space: nowrap; color: var(--red); }
 .bookt dd { font-size: 14px; line-height: 1.6; padding-left: 8px; }
+@media (max-width: 760px) {
+  .termg { grid-template-columns: minmax(0, 1fr); }
+  .bookt, .bookt dd { min-width: 0; }
+}
 .bookr li { display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 10px; align-items: start; }
 .bookr li > :not(.bri) { grid-column: 2; }
 .bookr .bri { float: none; grid-row: 1 / span 3; margin: 0; }
@@ -1058,10 +1062,11 @@ i.term.tm { border-bottom-color: currentColor; }
 .bookt dt.tm { color: var(--tc-stage); }
 .bookt dt.tm.t-face { color: var(--tc-face); } .bookt dt.tm.t-home { color: var(--tc-home); } .bookt dt.tm.t-gold { color: var(--tc-gold); } .bookt dt.tm.t-rank { color: var(--tc-rank); }
 .bookt dt .ico { width: 18px; height: 18px; margin-right: 3px; vertical-align: -3px; }
-/* 3. 「+3」加銅錢、「+2」加蠟燭 */
-.cn.cp, .cn.lp { gap: .08em; }
-.cn.cp b, .cn.lp b { font-weight: 700; }
+/* 3. 資源數值：數字後跟銅錢、蠟燭或劃痕；整組不拆行 */
+.cn.cp, .cn.lp, .cn.sp { gap: .08em; vertical-align: -.16em; line-height: 1; }
+.cn.cp b, .cn.lp b, .cn.sp b { font-weight: 700; }
 .cn .lampi { width: 1.05em; height: 1.15em; vertical-align: -.2em; }
+.cn .scari { width: 1.05em; height: 1.15em; }
 .lampsvg .lampi { overflow: visible; }
 #lampfb .row .cn.lp b { font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--paper); }
 #lampfb .row .cn.lp .ico { width: 22px; height: 24px; }
@@ -1792,15 +1797,16 @@ const RELIC_SVG = {
 const relicSVG = (k, cls = '') => SVGI(RELIC_SVG[k] || '<circle cx="12" cy="12" r="7" fill="currentColor"/>', `rph ${cls}`);
 // v1.9 第二輪：「+3」後面跟一枚銅錢（牌上、看牌、後台的說明一律這樣寫）；燈的增減是「+2」跟一根蠟燭，熄就是灰蠟燭
 const coinP = (n, sign = '+') => `<span class="cn cp" role="img" aria-label="${sign === '−' ? '少' : sign ? '多' : ''} ${n} 金"><b>${sign}${n}</b>${ICON.coin}</span>`;
-const lampP = (n, sign = '+') => `<span class="cn lp" role="img" aria-label="灯 ${sign}${n}"><b>${sign}${n}</b>${sign === '−' ? ICON.lampOut : ICON.lamp}</span>`;
+const lampP = (n, sign = '+') => `<span class="cn lp" role="img" aria-label="灯 ${sign}${n}" data-term="灯" tabindex="0"><b>${sign}${n}</b>${sign === '−' ? ICON.lampOut : ICON.lamp}</span>`;
+const scarP = (n, prefix = '', label = `痕 ${n} 道`) => `<span class="cn sp" role="img" aria-label="${label}" data-term="痕" tabindex="0"><b>${prefix}${n}</b>${ICON.scar}</span>`;
 // 圖鑑詞條旁的小圖示：狀態不同用不同的圖（亮著的燈、熄了的灰燈、痕、銅錢）
 const TERM_ICON = { 卖座: () => ICON.coin, 灯: () => ICON.lamp, 熄: () => ICON.lampOut, 痕: () => ICON.scar, 家常牌: () => ICON.lamp };
-// 把字裡的「得 3 金」「+3 金」「3 金」換成數字加銅錢，「灯 +2」「灯 −3」換成數字加蠟燭（只動標籤外面的字，滑過的說明照舊是字）
+// 資源數值換成數字加行內圖示。只動標籤外的規則型短語，不把敘事裡普通的「燈」「痕」機械替換。
 function goldify(html) {
   // 一次比對全部的樣式（分幾次換的話，後面的會換到前面剛插進去的標籤裡）
-  const RE = /得 ?(\d+) ?金(?![宝箔])|[+＋]\s?(\d+) ?金(?![宝箔])|灯\s?[+＋]\s?(\d+)|灯\s?[−-]\s?(\d+)|(\d+) ?金(?![宝箔])/g;
-  return String(html).split(/(<[^>]+>)/).map(seg => (seg.startsWith('<') ? seg : seg.replace(RE, (m, a, b, c, d, e) =>
-    a ? coinP(a) : b ? coinP(b) : c ? lampP(c) : d ? lampP(d, '−') : coinP(e, '')))).join('');
+  const RE = /得 ?(\d+) ?金(?![宝箔])|[+＋]\s?(\d+) ?金(?![宝箔])|灯\s?[+＋]\s?(\d+)|灯\s?[−-]\s?(\d+)|(\d+) ?金(?![宝箔])|痕到\s?(\d+)(?:\s?道)?|(留一(?:道)?痕)|痕不超过\s?(\d+)|痕\s?≥\s?(\d+)/g;
+  return String(html).split(/(<[^>]+>)/).map(seg => (seg.startsWith('<') ? seg : seg.replace(RE, (m, a, b, c, d, e, f, leave, max, min) =>
+    a ? coinP(a) : b ? coinP(b) : c ? lampP(c) : d ? lampP(d, '−') : e ? coinP(e, '') : f ? scarP(f, '到 ', `痕到 ${f} 道`) : leave ? `留 ${scarP(1, '', '一道痕')}` : max ? scarP(max, '不超过 ', `痕不超过 ${max}`) : scarP(min, '≥', `痕至少 ${min} 道`)))).join('');
 }
 // 一個銅錢加數字：畫面上的金一律這樣寫；讀屏念「n 金」
 const coinN = (n, cls = '') => `<span class="cn ${cls}" role="img" aria-label="${n} 金">${ICON.coin}<b>${n}</b></span>`;
@@ -3811,7 +3817,7 @@ const TERMS = {
   被染: '脸上没卸掉的油彩和怨气，会染上你推给她的前几张牌（牌角有红）。推了被染的牌，灯上留一道痕。',
   痕: '推了被染的牌，灯上划一道，永久。痕到 4 道，她就走了；美满要痕不超过 1。',
   熄: '她当晚的需要没推够，灯熄一截（−3），记一回熄。熄满 5 回，她就走了；熄过一回，就到不了美满。',
-  灯: '阿檀糊的灯。推给她对路的牌 +2，家常牌 +3。糊满 30、一回没熄过、痕不超过 1、元宵回家点灯，才是美满。',
+  灯: '阿檀糊的灯。推给她对路的牌，灯 +2；家常牌，灯 +3。糊满 30、一回没熄过、痕不超过 1、元宵回家点灯，才是美满。',
   情报: '台下的闲话、她自己说的话里，藏着往后几晚她要什么。听到的记在上面那一排。',
   考核: '第 3 天散戏后垫底、第 7 天散戏后排倒数两名，牌子就被摘了，这一季提前结束。',
   百搭: '接在什么后面都算接上；它后面打哪一族也都接得上，还能起手。',
@@ -4135,7 +4141,7 @@ function bookPanel() {
     body = `<ul class="bookr">${RELIC_KEYS.map(k => `<li class="${S.relics.includes(k) ? 'own' : ''}">${relicTag(k, 'bri', 112)}<div class="brt"><b>${RELICS[k].n}</b><small>${coinN(RELICS[k].price)}${S.relics.includes(k) ? ' · 已有' : ''}</small></div><p>${esc(RELICS[k].tx)}</p><p class="lore">${esc(RELIC_LORE[k])}</p></li>`).join('')}</ul>`;
   } else {
     // v1.9：詞條分組、對齊：詞固定一欄寬、和說明首行對齊，每條之間一樣的間距
-    body = `<div class="termg">${TERM_GROUPS.map(([g, ks]) => `<section><h4 class="tm t-${SYS_OF[ks[0]] || 'stage'}">${g}</h4><dl class="bookt">${ks.filter(k => TERMS[k]).map(k => `<dt class="tm t-${SYS_OF[k] || 'stage'}">${TERM_ICON[k] ? TERM_ICON[k]() : ''}${k}</dt><dd>${goldify(termify(esc(TERMS[k]), true))}</dd>`).join('')}</dl></section>`).join('')}</div>`;
+    body = `<div class="termg">${TERM_GROUPS.map(([g, ks]) => `<section><h4 class="tm t-${SYS_OF[ks[0]] || 'stage'}">${g}</h4><dl class="bookt">${ks.filter(k => TERMS[k]).map(k => `<dt class="tm t-${SYS_OF[k] || 'stage'}">${TERM_ICON[k] ? TERM_ICON[k]() : ''}${k}</dt><dd>${termify(goldify(esc(TERMS[k])), true)}</dd>`).join('')}</dl></section>`).join('')}</div>`;
   }
   return `<div class="panel tujian"><h2>图鉴<button class="btn small" style="float:right" data-act="close">关上</button></h2><div class="tabs">${tabs}</div>${body}</div>`;
 }
@@ -4300,14 +4306,14 @@ function waterPanel() {
 function rulesPanel() {
   const P = S.played;
   return `<div class="panel rules"><h2>规矩<button class="btn small" style="float:right" data-act="close">关上</button></h2>
-    <h4>内账（试玩用）</h4><div class="ledger"><span>卖座 ${S.gold}</span><span>花掉 ${S.spent}</span><span>灯 ${S.lamp}</span><span>痕 ${S.scars}</span><span>灭灯 ${S.outs}</span><span>底色 ${S.base}</span><span>满足 ${S.met.join('/')}</span><span>小凤 +${S.fengGold}</span><span>唱 ${P.sing} 念 ${P.speak}</span><span>做 ${P.act} 打 ${P.fight}</span><span>水牌第 ${rankOf(S)}</span></div>
+    <h4>内账（试玩用）</h4><div class="ledger"><span>卖座 ${coinP(S.gold, '')}</span><span>花掉 ${coinP(S.spent, '')}</span><span>${lampP(S.lamp, '')}</span><span>${scarP(S.scars)}</span><span>灭灯 ${S.outs}</span><span>底色 ${S.base}</span><span>满足 ${S.met.join('/')}</span><span>小凤 ${coinP(S.fengGold, '+')}</span><span>唱 ${P.sing} 念 ${P.speak}</span><span>做 ${P.act} 打 ${P.fight}</span><span>水牌第 ${rankOf(S)}</span></div>
     <p class="note syskey">${Object.entries(SYS_N).map(([k, n]) => `<b class="tm t-${k}">${n}</b>`).join('　')}</p>
-    <h4>技巧</h4><ul class="tips">${TIPS.map(r => `<li>${goldify(termify(r, true))}</li>`).join('')}</ul>
+    <h4>技巧</h4><ul class="tips">${TIPS.map(r => `<li>${termify(goldify(r), true)}</li>`).join('')}</ul>
     <h4>待你确认：可以开关</h4><ul>
       <li>「开得正」+1 金：<button class="btn small" data-act="opt" data-arg="open" aria-pressed="${S.opt.open}">${S.opt.open ? '保留' : '不要'}</button></li>
     </ul>
     <h4>待你确认：还没定</h4><ul>${PENDING.map(r => `<li>${r}</li>`).join('')}</ul>
-    <h4>规矩</h4><ol>${RULES.map(r => `<li>${goldify(termify(r, true))}</li>`).join('')}</ol>
+    <h4>规矩</h4><ol>${RULES.map(r => `<li>${termify(goldify(r), true)}</li>`).join('')}</ol>
     <h4>设定没写死、原型自拟的</h4><ul>${ASSUME.map(r => `<li>${r}</li>`).join('')}</ul>
     <div class="acts"><button class="btn" data-act="mute">${muted ? '开声音' : '关声音'}</button><button class="btn" data-act="again">重开一局</button></div></div>`;
 }
