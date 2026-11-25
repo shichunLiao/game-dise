@@ -4021,7 +4021,7 @@ function homeTasks() {
   const items = [
     { k: 'need', st: needOk ? 'ok' : 'bad',
       tx: needOk ? '每晚都满足了她的需要' : `有 ${S.outs} 晚没能满足她的需要`, sh: needOk ? '满足她的期待' : `${S.outs} 晚没满足她`, em: '',
-      tip: `每晚满足她的需要|每晚推够她要的牌，灯就不熄。${needOk ? '到现在一晚也没让她失望。' : `已经熄过 ${S.outs} 回，这一项做不到了，这一季到不了美满。`}` },
+      tip: `满足她的期待|每晚推够她期待的牌，灯就不熄。${needOk ? '到现在一晚也没让她失望。' : `已经熄过 ${S.outs} 回，这一项做不到了，这一季到不了美满。`}` },
     { k: 'scar', st: scarSt,
       tx: scarSt === 'ok' ? '灯上一道痕也没有' : scarSt === 'warn' ? `灯上有 ${S.scars} 道痕：再多一道就不美满` : `灯上有 ${S.scars} 道痕：超过 ${R.happyScar} 道`, sh: scarSt === 'ok' ? '灯上没有痕' : scarSt === 'warn' ? `${S.scars} 道痕，不能再多` : `痕超过 ${R.happyScar} 道`, em: '',
       tip: `灯上的痕最多 ${R.happyScar} 道|推了被染的牌，灯上划一道痕，永久。美满最多只能有 ${R.happyScar} 道（现在 ${S.scars} 道）；到 ${R.brokenScar} 道她就走了。` },
