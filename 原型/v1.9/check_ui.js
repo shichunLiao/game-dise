@@ -37,7 +37,8 @@ const server = http.createServer((req, res) => {
   ok(!staleNames, `仓库作品名／Pages 链接审计无旧写法${staleNames ? `：\n${staleNames}` : ''}`);
   ok(fs.existsSync(path.join(repo, '設計', '戏城_遊戲概念說明.pdf')) && !fs.existsSync(path.join(repo, '設計', '底色_遊戲概念說明.pdf')), '概念说明下载文件名同步改为《戏城》');
   ok(/const KEY = 'dise-v19', OLD_KEY = null/.test(source), '继续使用 dise-v19，旧存档键不改名');
-  ok(/<title>戏城 v1\.9<\/title>/.test(source) && /property="og:title" content="戏城 v1\.9"/.test(source), '浏览器与 Open Graph 标题统一为《戏城》');
+  ok(/<title>戏城 v1\.9<\/title>/.test(source) && /property="og:title" content="戏城 v1\.9"/.test(source) && /name="twitter:title" content="戏城 v1\.9"/.test(source), '浏览器、Open Graph 与分享卡标题统一为《戏城》');
+  ok((source.match(/https:\/\/shichunliao\.github\.io\/game-xicheng\//g) || []).length >= 2 && !/github\.io\/game-dise/.test(source), 'canonical 与分享 URL 指向 game-xicheng');
   ok(!/<title>底色|<div class="t">底色<\/div>|底色[·]戏城|底色[·]戲城/.test(source), 'v1.9 没有把旧作品名留在标题位置');
 
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
