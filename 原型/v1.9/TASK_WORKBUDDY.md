@@ -1,9 +1,9 @@
-# 任務：改良「底色」原型 v1.7（副本 v1.8-workbuddy）
+# 任務：改良《戏城》原型 v1.7（副本 v1.8-workbuddy）
 
 工作目錄只限本資料夾 `原型/v1.8-workbuddy/`。不要修改 `v1.7/` 或其他版本、不要 git commit/push。
 
 ## 背景
-「底色」是單檔 HTML 遊戲原型（index.html，約 34 萬字元），check_engine.js 為檢查腳本，pack.js 產生 index.packed.html（內嵌資源）。素材在 `../assets/` 與 `../assets_codex_20261110/`。
+《戏城》是單檔 HTML 遊戲原型（index.html，約 34 萬字元），check_engine.js 為檢查腳本，pack.js 產生 index.packed.html（內嵌資源）。素材在 `../assets/` 與 `../assets_codex_20261110/`。
 
 ## 已知問題（優先修）
 1. **新貨無圖**：部分新商品／新貨沒有顯示圖片。找出哪些品項缺圖，若 assets 內已有對應圖檔就正確接上；真的沒有圖的，請**依照 `../assets/`、`../assets_codex_20261110/` 現有畫風（配色、線條、比例）用 SVG 繪製商品圖**，存到本資料夾 `art_kimi/`，並接進遊戲；同時保留一套統一的佔位樣式作為備案，可用一個常數切換「SVG 新圖／佔位」，方便士淳比較。結果檔列出缺圖清單與新畫了哪些圖。

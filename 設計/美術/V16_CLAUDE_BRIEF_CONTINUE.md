@@ -1,6 +1,6 @@
-# 續做：《底色·戲城》v1.6 美術接入（從 20% 接著完成）
+# 續做：《戏城》v1.6 美術接入（從 20% 接著完成）
 
-這是續做，不是重來。專案在 `/Users/tsun/Projects/game-dise`。完整任務見 `設計/美術/V16_CLAUDE_BRIEF.md`，請仍按那份清單做完。
+這是續做，不是重來。專案在 `/Users/tsun/Projects/game-xicheng`。完整任務見 `設計/美術/V16_CLAUDE_BRIEF.md`，請仍按那份清單做完。
 
 先前 Claude Code 做到約 20% 時，因 Anthropic 5 小時用量上限於 16:17（Asia/Shanghai）中斷。用量已於今晚 20:30 解除。請從現況接著做，不要重做已完成的部分。
 

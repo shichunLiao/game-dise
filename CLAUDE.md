@@ -1,8 +1,8 @@
-# 底色（game-dise）
+# 戏城（game-xicheng）
 
 ## 專案放哪裡
 
-- 工作副本放在 `~/Projects/game-dise`，GitHub 上的 repo 是正本。
+- 工作副本放在 `~/Projects/game-xicheng`，GitHub 上的 repo 是正本。
 - 不要把這個 repo 放進 iCloud Drive。iCloud 會把 `.git` 裡的檔案移到雲端，git 會逾時或損壞。
 - Blender 原始檔、QA 截圖這類製作過程的素材放 iCloud，不進 repo。會進遊戲的成品才放進 repo。
 - 單檔不要超過 100 MB（GitHub 上限）。

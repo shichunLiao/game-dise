@@ -1,6 +1,6 @@
-# 底色 v1.7 — 任務說明（從乾淨 v1.6 重做）
+# 戏城 v1.7 — 任務說明（從乾淨 v1.6 重做）
 
-2026-11-13。模型：claude-opus-5-5，effort medium（省用量）。專案：`/Users/tsun/Projects/game-dise`。新 session，不要 resume 舊對話。
+2026-11-13。模型：claude-opus-5-5，effort medium（省用量）。專案：`/Users/tsun/Projects/game-xicheng`。新 session，不要 resume 舊對話。
 
 ## 省用量（務必遵守）
 

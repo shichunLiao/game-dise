@@ -1,4 +1,4 @@
-# 底色·戏城 v1.7：修手机直屏早晨布局与镜子镜头
+# 戏城 v1.7：修手机直屏早晨布局与镜子镜头
 
 请先读完本说明再动手。这是对现有 v1.7 的局部修正，不是重做一版。
 
@@ -12,9 +12,9 @@
 
 玩家截图（请先打开看）：
 
-`/Users/tsun/Projects/game-dise/設計/美術/feedback_v17/phone_morning_day2.jpg`
+`/Users/tsun/Projects/game-xicheng/設計/美術/feedback_v17/phone_morning_day2.jpg`
 
-这是手机直屏、第 2 天早晨、妆匣已装好、准备出门的画面（可能在微信或系统浏览器打开 https://shichunliao.github.io/game-dise/）。能看到的问题：
+这是手机直屏、第 2 天早晨、妆匣已装好、准备出门的画面（可能在微信或系统浏览器打开 https://shichunliao.github.io/game-xicheng/）。能看到的问题：
 
 - 镜子只剩画面右侧一小角，里面的脸几乎看不清。玩家原话：「在这个角度看根本看不到镜子里的自己」。
 - 顶栏（天数、水牌、情报）占掉一截；左边「熄／痕」又和「图鉴」叠在 3D 场景中间。
@@ -25,7 +25,7 @@
 
 ## 假设（请自行验证，可推翻）
 
-主文件是单文件游戏 `/Users/tsun/Projects/game-dise/原型/v1.7/index.html`。
+主文件是单文件游戏 `/Users/tsun/Projects/game-xicheng/原型/v1.7/index.html`。
 
 镜头相关（约 2387–2410、4009–4014 行）：
 
@@ -61,7 +61,7 @@
 
 ## 范围与禁区
 
-只改 `/Users/tsun/Projects/game-dise/原型/v1.7/`（主要是 `index.html` 的镜头／CSS／必要的布局逻辑）。需要的话可以更新 `check_engine.js` 里与本次改动相关的检查。
+只改 `/Users/tsun/Projects/game-xicheng/原型/v1.7/`（主要是 `index.html` 的镜头／CSS／必要的布局逻辑）。需要的话可以更新 `check_engine.js` 里与本次改动相关的检查。
 
 不要做：
 
@@ -71,7 +71,7 @@
 - 不要自己画图或用程序生成新美术。缺图维持现状，记「需 Codex 补」。
 - 不要改玩法数值、卡牌效果、底色规则。
 - 不要改音乐／音频代码。
-- 不要把标题改离「底色·戏城 v1.7」（可在内部注释标明本次修正，但不要新开 v1.8）。
+- 不要把标题改离「戏城 v1.7」（可在内部注释标明本次修正，但不要新开 v1.8）。
 
 ## 验收
 

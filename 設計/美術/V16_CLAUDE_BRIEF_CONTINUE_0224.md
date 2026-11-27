@@ -1,6 +1,6 @@
-# 續做：《底色·戲城》v1.6 美術接入，並修手牌顯示 bug（2026-11-13 02:24）
+# 續做：《戏城》v1.6 美術接入，並修手牌顯示 bug（2026-11-13 02:24）
 
-這是續做，不是重來。專案在 `/Users/tsun/Projects/game-dise`。完整任務見 `設計/美術/V16_CLAUDE_BRIEF.md`，請仍按那份清單做完未完成的部分。
+這是續做，不是重來。專案在 `/Users/tsun/Projects/game-xicheng`。完整任務見 `設計/美術/V16_CLAUDE_BRIEF.md`，請仍按那份清單做完未完成的部分。
 
 先前 Claude Code（session `6a86d5cc`）在 2026-11-12 21:48（Asia/Shanghai）因五小時用量上限中斷。用量已於 2026-11-13 02:20 重置。請從現況接著做，不要重做已完成的部分，不要 push，不要做 3D product showcase 或其他專案。
 
@@ -12,7 +12,7 @@
 
 見 `設計/美術/V16_PROGRESS.md`（最後更新 2026-11-12 22:05，約 55%，`index.html` mtime 約 21:47）：
 
-- `原型/v1.6/` 已建。頁面標題已是「底色·戏城 v1.6 美术接入」。
+- `原型/v1.6/` 已建。頁面標題已是「戏城 v1.6 美术接入」。
 - 正式美術庫 `原型/assets/` 已就緒：162 張（cards 69、crowd 40、deco 12、relics 14、ui 12、fx 5、night 4、draft 6）。風格小樣不進正式庫。
 - 已加載圖模組 `artLoad()`：`ART_DIR='../assets/'`，打包單檔可走 `window.__ART`；載入失敗或 `file://` 被擋時退回 v1.5 程式繪製。
 - 卡面已接入：`drawStageFace`／`drawHomeFace`／`drawGiftFace`／`drawBack`（文字仍由程式寫）。

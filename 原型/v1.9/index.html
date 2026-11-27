@@ -1,6 +1,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>底色·戏城 v1.9</title>
+<title>戏城 v1.9</title>
+<meta name="application-name" content="戏城">
+<meta name="apple-mobile-web-app-title" content="戏城">
+<meta name="description" content="《戏城》：一款在戏台与家之间取舍的单人策略卡牌游戏。">
+<meta property="og:title" content="戏城 v1.9">
+<meta property="og:description" content="十天，三幕。白天把牌排上戏台，傍晚把它翻过来，推给对面的阿檀。">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -608,7 +613,7 @@ html.a-night .watch { background: radial-gradient(circle at 80% 16%, rgba(236, 2
 .hud .hand.fit .hc { width: var(--hw); height: var(--hh); margin: 0 var(--hm); }
 .hud .hand.fit .hc .stain { width: calc(var(--hw) * .33); height: calc(var(--hw) * .33); }
 /* 疊得緊時，「家」和染角挪到每張露出來的那一條上；最右（最上面）那張、滑鼠指著抬起來的那張照舊 */
-.hud .hand.fit .hc:not(:last-child):not(.play:hover) .wtag { left: min(50%, calc(var(--hv) / 2)); }
+.hud .hand.fit .hc:not(:last-child):not(.play:hover) .wtag { left: min(50%, calc(var(--hv) / 2)); top: -24px; }
 .hud .hand.fit .hc:not(:last-child):not(.play:hover) .stain { right: auto; left: calc(var(--hv) - var(--hw) * .33); border-top-right-radius: 0; }
 /* 窄到每張露不到三成（正常尺寸碰不到）：改成從最左一張排起、可以橫捲，捲軸看得見 */
 .hud .hand.scroll { overflow-x: auto; overflow-y: hidden; justify-content: flex-start; padding-bottom: 18px; scrollbar-width: thin; scrollbar-color: rgba(242, 212, 138, .6) transparent; }
@@ -799,6 +804,12 @@ li.run > .tk, li.todo > .tk { color: #8d8487; }
 .relics { margin-top: 10px; gap: 5px; max-width: 250px; }
 /* 攤開後台、圖鑑、規矩時，右上只留水牌，任務清單和物件先收起（後台裡有自己的「已有」），紙才夠高、不用捲 */
 .hud[data-p="shop"] .goals, .hud[data-p="shop"] .relics, .hud[data-p="book"] .goals, .hud[data-p="book"] .relics, .hud[data-p="rules"] .goals, .hud[data-p="rules"] .relics { display: none; }
+.hud[data-p="shop"] .leftcol, .hud[data-yuan="1"] .leftcol { display: none; }
+.yuan { max-height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.panel.shopp { overscroll-behavior: contain; scrollbar-gutter: stable; }
+@media (min-width: 761px) {
+  .hud[data-yuan="1"] .yuan { width: min(620px, calc(100% - 320px)); }
+}
 #lampfb .row.sm { font-size: 13px; color: var(--wash); margin-top: -4px; }
 
 .relics .rel { width: 36px; height: 36px; padding: 0; justify-content: center; }
@@ -3780,6 +3791,7 @@ function refresh() {
   document.querySelector('.talk').hidden = !!panel;
   $('#hud').dataset.v = view;
   $('#hud').dataset.p = panel || '';
+  $('#hud').dataset.yuan = view === 'morning' && S.day === R.days && !S.choice && !panel ? '1' : '0';
   const mb = $('#musicBtn'); mb.setAttribute('aria-pressed', String(musicOn)); mb.innerHTML = musicOn ? ICON.music : ICON.musicOff; mb.setAttribute('aria-label', musicOn ? '背景音乐：开着（点一下关）' : '背景音乐：关着（点一下开）'); mb.dataset.tip = musicOn ? '背景音乐|开着。点一下关。' : '背景音乐|关着。点一下开。';
   renderPlate(); renderBoardChip(); renderTop(); renderLeft(); renderMid(); renderEvent(); renderChoices(); renderHand(); fitSpread(); peekSync(); renderSmear();
   if (bookPopAt && !bookPopAt.isConnected) { const k = bookPopAt.dataset.bk, el = $(`#mid .bc[data-bk="${k}"]`); if (el) bookPopShow(el); else bookPopHide(); }
@@ -3790,7 +3802,7 @@ function refresh() {
 }
 function renderTitle() {
   $('#title').innerHTML = `<div class="title-in">
-    <div class="vb"><div class="t">底色</div><div class="s">戏城 · 三幕</div></div>
+    <div class="vb"><div class="t">戏城</div><div class="s">十天 · 三幕</div></div>
     <div>
       <p class="intro">你坐在戏班的桌前。十天，三幕。白天把牌排上戏台，傍晚把它翻过来，推给对面的阿檀。</p>
       <p class="lede">每打一张，脸上多一层油彩。没卸掉的油彩，会染上你推给她的牌，灯上就留一道痕。她每晚有一个需要，推不够，灯就熄一截。听台下的闲话、听她说往后几天的事，照着装匣。去后台买东西，花的就是卖座，名次会掉。灯熄满五回，她就走了；幕末考核垫底，牌子就被摘了——两样都会让这一季提前结束。</p>

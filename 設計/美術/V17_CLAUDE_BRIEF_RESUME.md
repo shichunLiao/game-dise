@@ -1,6 +1,6 @@
-# 底色 v1.7 — 接著做完（不要重拷 v1.6）
+# 戏城 v1.7 — 接著做完（不要重拷 v1.6）
 
-2026-11-14。模型：claude-opus-5-5，effort medium。專案：`/Users/tsun/Projects/game-dise`。開全新 session，不要 resume 任何舊對話（尤其不要碰桌面 Claude.app，resume=b581bdb8；也不要 resume session afb0205a）。
+2026-11-14。模型：claude-opus-5-5，effort medium。專案：`/Users/tsun/Projects/game-xicheng`。開全新 session，不要 resume 任何舊對話（尤其不要碰桌面 Claude.app，resume=b581bdb8；也不要 resume session afb0205a）。
 
 上一輪（session afb0205a，effort medium）做到一半因 5 小時用量上限在 2026-11-13 22:45（Asia/Shanghai）中斷。`原型/v1.7/` 已從乾淨 v1.6 拷出並改過，**不要再從 v1.6 覆蓋**，在現有檔上把剩下的做完。
 
