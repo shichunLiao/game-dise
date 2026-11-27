@@ -41,7 +41,7 @@
 
 ## 自检与交付
 
-主文件仍是 `原型/v1.7/index.html`，改完重打 `原型/v1.7/index.packed.html`。标题保持「底色·戏城 v1.7」。
+主文件仍是 `原型/v1.7/index.html`，改完重打 `原型/v1.7/index.packed.html`。标题保持「戏城 v1.7」。
 
 截图放到 `設計/美術/feedback_v17/qa_mobile_door/`（新建目录，不要覆盖 `qa_mobile/` 里早晨那批）：
 

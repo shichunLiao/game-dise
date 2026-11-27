@@ -1,6 +1,6 @@
-# 《底色·戲城》三張臉美術任務（給 Codex · gpt-6.1-sol，reasoning medium）
+# 《戏城》三張臉美術任務（給 Codex · gpt-6.1-sol，reasoning medium）
 
-工作目錄：/Users/tsun/Projects/game-dise
+工作目錄：/Users/tsun/Projects/game-xicheng
 
 ## 目標
 為三個至今仍是程式畫法的角色生成美術：

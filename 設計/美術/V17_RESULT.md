@@ -1,6 +1,6 @@
-# 底色 v1.7 結果
+# 戏城 v1.7 結果
 
-主檔 `原型/v1.7/index.html`（標題「底色·戏城 v1.7」），單檔版 `原型/v1.7/index.packed.html`（雙擊即玩，162 張圖內嵌）。
+主檔 `原型/v1.7/index.html`（標題「戏城 v1.7」），單檔版 `原型/v1.7/index.packed.html`（雙擊即玩，162 張圖內嵌）。
 驗證：`node 原型/v1.7/check_engine.js` 全部通過；`node 原型/v1.7/pack.js` 成功。瀏覽器 QA 用 Playwright + Chrome，尺寸 1440×900、1280×600（矮）、820×900（窄）、390×844（手機直）、844×390（手機橫）、360×640（小手機），觸控用 hasTouch。截圖在 `設計/美術/feedback_v17/qa/`。
 
 ## 十項

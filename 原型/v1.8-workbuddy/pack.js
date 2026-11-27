@@ -52,7 +52,7 @@ if (!html.startsWith(charset)) throw new Error('index.html 第一行不是 <meta
 const note = '<!-- 這個檔案由 原型/v1.8-workbuddy/pack.js 從 index.html 產生，圖已內嵌，可以直接雙擊打開。要改請改 index.html 再重跑 pack.js。 -->\n';
 const packed = html
   .replace(charset, charset + note)
-  .replace('<title>底色·戏城 v1.7</title>', '<title>底色·戏城 v1.7（单文件）</title>')
+  .replace('<title>戏城 v1.7</title>', '<title>戏城 v1.7（单文件）</title>')
   .replace(anchor, inject + anchor);
 
 fs.writeFileSync(out, packed);

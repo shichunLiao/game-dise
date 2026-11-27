@@ -4,7 +4,7 @@ from mathutils import Vector
 from pathlib import Path
 OUT=Path(__file__).resolve().parents[2]/'artifacts/blender'
 OUT.mkdir(parents=True,exist_ok=True)
-s=bpy.data.scenes.new('底色 · 戲曲角色工作室')
+s=bpy.data.scenes.new('戏城 · 戲曲角色工作室')
 bpy.context.window.scene=s
 col=bpy.data.collections.new('主角 · 戲服初稿');s.collection.children.link(col)
 def link(o):

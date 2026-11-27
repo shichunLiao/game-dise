@@ -1,6 +1,6 @@
-# 《底色·戲城》人物改成紙片立牌 · 接線任務（給 Claude Code）
+# 《戏城》人物改成紙片立牌 · 接線任務（給 Claude Code）
 
-工作目錄：/Users/tsun/Projects/game-dise
+工作目錄：/Users/tsun/Projects/game-xicheng
 前置：等 士淳 看過並選定 `原型/assets_codex_faces_20261115/` 的新圖後才開工；以當時定下的主線版本為底（預計 v1.8），另開新資料夾，不覆蓋舊版。
 
 ## 方案（士淳 2026-11-15 選定 B：整張紙片立牌）

@@ -1,6 +1,6 @@
-# 《底色·戏城》v1.0 美術生圖任務 v2（給 Codex · gpt-6.1-sol）
+# 《戏城》v1.0 美術生圖任務 v2（給 Codex · gpt-6.1-sol）
 
-工作目錄：`/Users/tsun/Projects/game-dise`  
+工作目錄：`/Users/tsun/Projects/game-xicheng`
 目前 git：`main` @ `120f0ba`（已與 `origin/main` 同步，v1.0 平衡版）
 
 ## 目標
@@ -18,7 +18,7 @@
 3. **不要再畫**：桌面、牆、地板、幕布、戲台、燈、木匣、鏡框這些場景和道具的寫實貼圖。原型裡的 3D 場景保留不動。上一輪的 `scene/` 寫實貼圖已刪，不要重做。
 4. 不要生成角色（阿檀、台上的主角、鏡中的臉）、標題畫、結局牌（對應規劃裡的 H1–H7、H9）。C10 同門木刻像草稿可以按 v2 需求生成（插畫師會修）。
 5. 不要動 `game-Loop-Town`，不要打擾本機其他 Codex／Claude 會話或 Claude.app 的 GUI。
-6. 不要刪改 `原型/v0.7_本地未提交_20261110-2100/` 與 `/Users/tsun/Projects/game-dise_本地v0.7備份_20261110-2100`。
+6. 不要刪改 `原型/v0.7_本地未提交_20261110-2100/` 與 `/Users/tsun/Projects/game-xicheng_本地v0.7備份_20261110-2100`。
 7. 不要刪改 `原型/assets_compare/before/`（這是上一輪已匯出的 1.0 現有美術，可直接當「改前」使用；缺的再補，不要整批重做）。
 8. 新圖不要寫進會覆蓋現有資源的路徑。v2 需求寫的輸出是 `原型/assets/`，但為避免被誤當作已替換，本次仍放到上一輪的同一路徑：
    - 新圖：`原型/assets_codex_20261110/`（目錄結構按 v2：`draft/`、`cards/`、`crowd/`、`deco/`、`relics/`、`ui/`、`fx/`、`night/`，每個子目錄附 `README.md`）

@@ -1,6 +1,6 @@
 # v1.7 手机直屏「门口卸妆」镜子被挡 · 结果
 
-只改了 `原型/v1.7/index.html`，并重打了 `原型/v1.7/index.packed.html`。没有改玩法、音乐、音效、美术，也没动 `lastwipe`（`#wipe`）。标题仍是「底色·戏城 v1.7」。没有 commit，也没有 push。
+只改了 `原型/v1.7/index.html`，并重打了 `原型/v1.7/index.packed.html`。没有改玩法、音乐、音效、美术，也没动 `lastwipe`（`#wipe`）。标题仍是「戏城 v1.7」。没有 commit，也没有 push。
 
 ## 根因（已验证，与 brief 一致）
 门口走 `focus('door')`，用的是 `VIEWS.door`。直屏时 `fit = 1.72` 把镜头拉远，但直屏手机的水平视角只有约 21°，镜子（x=1.32）被挤出右边，只剩一圈金框。`camBand()` 只做垂直平移，帮不上忙。夜里 `VIEWS.night` 略微偏右，所以镜子露出一半。

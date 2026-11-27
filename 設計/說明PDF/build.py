@@ -1,4 +1,4 @@
-"""產生《底色》說明 PDF：把插圖（SVG）填進 template.html，再用 Chrome 無頭模式列印成 PDF。
+"""產生《戏城》說明 PDF：把插圖（SVG）填進 template.html，再用 Chrome 無頭模式列印成 PDF。
 
 用法：python3 設計/說明PDF/build.py
 """
@@ -8,8 +8,8 @@ import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OUT_HTML = HERE / '底色說明.html'
-OUT_PDF = HERE.parent / '底色_遊戲概念說明.pdf'
+OUT_HTML = HERE / '戏城說明.html'
+OUT_PDF = HERE.parent / '戏城_遊戲概念說明.pdf'
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 FONT_WB = ('file:///System/Library/AssetsV2/com_apple_MobileAsset_Font8/'
            'c4f5f063cf47a2009786f645b423c09ea75666b8.asset/AssetData/WeibeiTC-Bold.otf')
